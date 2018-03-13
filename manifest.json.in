@@ -11,6 +11,6 @@
     "maintainer": "Emanuele Sorce <emanuele.sorce@hotmail.com>",
     "name": "sturmreader.emanuelesorce",
     "title": "Sturm Reader",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "architecture": "armhf"
 }
