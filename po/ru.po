@@ -1,0 +1,296 @@
+# Russian translation for beru
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the beru package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: beru\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-04-12 22:26-0400\n"
+"PO-Revision-Date: 2015-04-13 05:21+0000\n"
+"Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2015-09-07 22:20+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
+
+#: ui/Reader.qml:32
+msgid ""
+"Could not determine file type.\n"
+"\n"
+"Remember, Beru can only open EPUB, PDF, and CBZ files without DRM."
+msgstr ""
+"Не удалось определить тип файла.\n"
+"\n"
+"Не забывайте, что Beru может открывать только файлы EPUB, PDF и CBZ без DRM."
+
+#: ui/Reader.qml:35
+msgid ""
+"Could not parse file.\n"
+"\n"
+"Although it appears to be a %1 file, it could not be parsed by Beru."
+msgstr ""
+"Не удалось обработать файл.\n"
+"\n"
+"Хотя файл, похоже, является %1, Beru не может его обработать."
+
+#: ui/LocalBooks.qml:19
+msgid "Library"
+msgstr "Библиотека"
+
+#: ui/LocalBooks.qml:27
+msgid "Books"
+msgstr "Книги"
+
+#: ui/LocalBooks.qml:45 ui/LocalBooks.qml:682
+msgid "Welcome to Beru"
+msgstr "Добро пожаловать в Beru!"
+
+#: ui/LocalBooks.qml:127
+msgid "Back"
+msgstr "Назад"
+
+#: ui/LocalBooks.qml:182
+msgid "Could not open this book."
+msgstr "Не получается открыть книгу"
+
+#: ui/LocalBooks.qml:326
+msgid "Recently Read"
+msgstr "Недавно прочитано"
+
+#: ui/LocalBooks.qml:326
+msgid "Title"
+msgstr "Название"
+
+#: ui/LocalBooks.qml:326
+msgid "Author"
+msgstr "Автор"
+
+#: ui/LocalBooks.qml:499
+msgid "Unknown Author"
+msgstr "Неизвестный автор"
+
+#. / Argument will be at least 2. /
+#: ui/LocalBooks.qml:501
+msgid "%1 Book"
+msgid_plural "%1 Books"
+msgstr[0] "%1 книга"
+msgstr[1] "%1 книги"
+msgstr[2] "%1 книг"
+
+#: ui/LocalBooks.qml:631
+msgid "No Books in Library"
+msgstr "В библиотеке нет книг"
+
+#. / A path on the file system. /
+#: ui/LocalBooks.qml:639
+msgid ""
+"Beru could not find any books for your library.  Beru will automatically "
+"find all epub files in <i>%1</i>.  Additionally, any book opened with Beru "
+"will be added to the library."
+msgstr ""
+"Beru не нашла книги в вашей библиотеке. Beru автоматически найдет все файлы "
+"epub в <i>%1</i>. Кроме того, любая книга, открытая с помощью Beru, будет "
+"автоматиески добавлена в библиотеку."
+
+#: ui/LocalBooks.qml:648
+msgid "Download Books"
+msgstr "Загрузить книги"
+
+#: ui/LocalBooks.qml:654
+msgid "Search Again"
+msgstr "Повторить поиск"
+
+#: ui/LocalBooks.qml:664 ui/BookSources.qml:13
+msgid "Get Books"
+msgstr "Получить книги"
+
+#: ui/LocalBooks.qml:670
+msgid "Settings"
+msgstr "Настройки"
+
+#: ui/LocalBooks.qml:682 ui/LocalBooks.qml:759
+msgid "Default Book Location"
+msgstr "Расположение книг по умолчанию"
+
+#. / Text precedes an entry for a file path. /
+#: ui/LocalBooks.qml:684
+msgid ""
+"Enter the folder in your home directory where your ebooks are or should be "
+"stored.\n"
+"\n"
+"Changing this value will not affect existing books in your library."
+msgstr ""
+"Введите имя папки в вашем домашнем каталоге, где будут располагаться (или "
+"уже располагаются) ваши электронные книги.\n"
+"\n"
+"Изменение этого параметра не повлияет на уже имеющиеся в вашей библиотеке "
+"книги."
+
+#. / Create a new directory from path given. /
+#: ui/LocalBooks.qml:700
+msgid "Create Directory"
+msgstr "Создать каталог"
+
+#. / File exists with path given. /
+#: ui/LocalBooks.qml:704
+msgid "File Exists"
+msgstr "Файл существует"
+
+#. / Read the books in the given directory again. /
+#: ui/LocalBooks.qml:709 ui/LocalBooks.qml:779
+msgid "Reload Directory"
+msgstr "Перезагрузить каталог"
+
+#. / Use directory specified to store books. /
+#: ui/LocalBooks.qml:712
+msgid "Use Directory"
+msgstr "Использовать каталог"
+
+#: ui/LocalBooks.qml:727
+msgid "Please wait..."
+msgstr "Подождите…"
+
+#: ui/LocalBooks.qml:746
+msgid "Cancel"
+msgstr "Отменить"
+
+#. / A path on the file system. /
+#: ui/LocalBooks.qml:761
+msgid ""
+"Beru seems to be operating under AppArmor restrictions that prevent it from "
+"accessing most of your home directory.  Ebooks should be put in <i>%1</i> "
+"for Beru to read them."
+msgstr ""
+"Судя по всему, работа Beru ограничивается правилами AppArmor, которые не "
+"позволяют ей получить доступ к болшей части вашего домашнего каталога.  Для "
+"того, чтобы Beru смогла прочитать их, электронные книги должны быть помещены "
+"в <i>%1</i>."
+
+#. / Hyperlinked URL follows. /
+#: ui/LocalBooks.qml:767
+msgid "For more information:"
+msgstr "Для дополнительной информации:"
+
+#: ui/LocalBooks.qml:790 ui/LocalBooks.qml:892 ui/BookPage.qml:526
+msgid "Close"
+msgstr "Закрыть"
+
+#. / A control can be dragged to delete a file.  The deletion occurs /
+#. / when the user releases the control. /
+#: ui/LocalBooks.qml:881
+msgid "Release to Delete"
+msgstr "Отпустите, чтобы удалить."
+
+#. / A control can be dragged to delete a file. /
+#: ui/LocalBooks.qml:883
+msgid "Swipe to Delete"
+msgstr "Смахните, чтобы удалить."
+
+#: ui/main.qml:66
+msgid "Error Opening File"
+msgstr "Ошибка при открытии файла"
+
+#: ui/main.qml:69
+msgid "OK"
+msgstr "ОК"
+
+#: ui/Importer.qml:121
+msgid "Importing books..."
+msgstr "Импорт книг..."
+
+#: ui/Importer.qml:142
+msgid "Waiting"
+msgstr "Ожидание"
+
+#: ui/Importer.qml:144
+msgid "Processing"
+msgstr "Обработка"
+
+#: ui/Importer.qml:146
+msgid "Imported to %1"
+msgstr "Импортировано в %1"
+
+#: ui/Importer.qml:148
+msgid "Already in library: %1"
+msgstr "Уже в библиотеке: %1"
+
+#: ui/Importer.qml:150
+msgid "Error: %1"
+msgstr "Ошибка: %1"
+
+#: ui/Importer.qml:171
+msgid "Import books from"
+msgstr "Импорт книг из"
+
+#: ui/BookPage.qml:101
+msgid "Pages read today: %1"
+msgstr "Сегодня прочитано страниц: %1"
+
+#: ui/BookPage.qml:102
+msgid "No pages read today"
+msgstr "Сегодня прочитано ноль страниц"
+
+#: ui/BookPage.qml:178
+msgid "Page"
+msgstr "Стр."
+
+#: ui/BookPage.qml:201
+msgid "Contents"
+msgstr "Содержание"
+
+#: ui/BookPage.qml:422
+msgid "Default Font"
+msgstr "Шрифт по умолчанию"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:434
+msgid "Font Scaling"
+msgstr "Масштаб шрифта"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:458
+msgid "Line Height"
+msgstr "Высота строки"
+
+#. / Indicates the default line height will be used, as opposed to a /
+#. / user-set value.  There is only space for about 5 characters; if /
+#. / the translated string will not fit, please translate this as an /
+#. / em-dash (—). /
+#: ui/BookPage.qml:481
+msgid "Auto"
+msgstr "Автоматически"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:508
+msgid "Margins"
+msgstr "Поля"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:536
+msgid "Make Default"
+msgstr "Установить по умолчанию"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:550
+msgid "Load Defaults"
+msgstr "Загрузить значения по умолчанию"
+
+#: ui/BookSources.qml:21
+msgid "Import from Content Hub"
+msgstr "Импорт из Content Hub"
+
+#. / The application name is both an acronym and an homage to Star Wars. /
+#: beru.desktop.tr:4
+msgid "Beru"
+msgstr "Beru"
+
+#. / "Basic" is used in the sense of "simple" or "uncomplicated". /
+#: beru.desktop.tr:6
+msgid "The Basic Epub Reader for Ubuntu"
+msgstr "Простая читалка Epub для Ubuntu"

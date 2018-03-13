@@ -1,0 +1,5 @@
+{
+    "policy_groups": ["networking", "webview", "content_exchange", "usermetrics"],
+    "policy_version": 1.3,
+    "read_path": ["@{HOME}/"]
+}

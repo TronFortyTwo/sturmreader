@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=@DESKTOP_NAME@
+Comment=@DESKTOP_COMMENT@
+Exec=@EXEC@
+Icon=@ICON@
+Terminal=false
+Type=Application
+MimeType=application/epub+zip
+X-Ubuntu-Touch=true
+X-Ubuntu-Gettext-Domain=sturmreader.emanuelesorce
+X-Ubuntu-Splash-Show-Header=true
+X-Ubuntu-Splash-Title=Library

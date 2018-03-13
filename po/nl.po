@@ -1,0 +1,294 @@
+# Dutch translation for beru
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the beru package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: beru\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-04-12 22:26-0400\n"
+"PO-Revision-Date: 2015-06-14 10:01+0000\n"
+"Last-Translator: Hannie Dumoleyn <Unknown>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2015-09-07 22:20+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
+
+#: ui/Reader.qml:32
+msgid ""
+"Could not determine file type.\n"
+"\n"
+"Remember, Beru can only open EPUB, PDF, and CBZ files without DRM."
+msgstr ""
+"Bestandstype kon niet worden vastgesteld.\n"
+"\n"
+"Onthoud dat Beru alleen EPUB-, PDF- en CBZ-bestanden kan openen zonder DRM."
+
+#: ui/Reader.qml:35
+msgid ""
+"Could not parse file.\n"
+"\n"
+"Although it appears to be a %1 file, it could not be parsed by Beru."
+msgstr ""
+"Bestand kon niet worden ontleed.\n"
+"\n"
+"Alhoewel het een %1 bestand lijkt te zijn, kon het niet door Beru worden "
+"ontleed."
+
+#: ui/LocalBooks.qml:19
+msgid "Library"
+msgstr "Bibliotheek"
+
+#: ui/LocalBooks.qml:27
+msgid "Books"
+msgstr "Boeken"
+
+#: ui/LocalBooks.qml:45 ui/LocalBooks.qml:682
+msgid "Welcome to Beru"
+msgstr "Welkom bij Beru"
+
+#: ui/LocalBooks.qml:127
+msgid "Back"
+msgstr "Vorige"
+
+#: ui/LocalBooks.qml:182
+msgid "Could not open this book."
+msgstr "Kon dit boek niet openen."
+
+#: ui/LocalBooks.qml:326
+msgid "Recently Read"
+msgstr "Recent gelezen"
+
+#: ui/LocalBooks.qml:326
+msgid "Title"
+msgstr "Titel"
+
+#: ui/LocalBooks.qml:326
+msgid "Author"
+msgstr "Schrijver"
+
+#: ui/LocalBooks.qml:499
+msgid "Unknown Author"
+msgstr "Onbekende schrijver"
+
+#. / Argument will be at least 2. /
+#: ui/LocalBooks.qml:501
+msgid "%1 Book"
+msgid_plural "%1 Books"
+msgstr[0] "%1 boek"
+msgstr[1] "%1 boeken"
+
+#: ui/LocalBooks.qml:631
+msgid "No Books in Library"
+msgstr "Geen boeken in bibliotheek"
+
+#. / A path on the file system. /
+#: ui/LocalBooks.qml:639
+msgid ""
+"Beru could not find any books for your library.  Beru will automatically "
+"find all epub files in <i>%1</i>.  Additionally, any book opened with Beru "
+"will be added to the library."
+msgstr ""
+"Beru kon geen boeken vinden voor uw bibliotheek. Beru zal automatisch alle "
+"Epub-bestanden vinden in <i>%1</i>. Beru zal tevens elk boek dat geopend is "
+"door Beru toevoegen aan de bibliotheek."
+
+#: ui/LocalBooks.qml:648
+msgid "Download Books"
+msgstr "Boeken downloaden"
+
+#: ui/LocalBooks.qml:654
+msgid "Search Again"
+msgstr "Opnieuw zoeken"
+
+#: ui/LocalBooks.qml:664 ui/BookSources.qml:13
+msgid "Get Books"
+msgstr "Boeken verkrijgen"
+
+#: ui/LocalBooks.qml:670
+msgid "Settings"
+msgstr "Instellingen"
+
+#: ui/LocalBooks.qml:682 ui/LocalBooks.qml:759
+msgid "Default Book Location"
+msgstr "Standaardboeklocatie"
+
+#. / Text precedes an entry for a file path. /
+#: ui/LocalBooks.qml:684
+msgid ""
+"Enter the folder in your home directory where your ebooks are or should be "
+"stored.\n"
+"\n"
+"Changing this value will not affect existing books in your library."
+msgstr ""
+"Voer de map in waar uw e-boeken worden opgeslagen of dienen te worden "
+"opgeslagen.\n"
+"\n"
+"Het wijzigen van deze waarde zal geen effect op bestaande boeken in uw "
+"bibliotheek."
+
+#. / Create a new directory from path given. /
+#: ui/LocalBooks.qml:700
+msgid "Create Directory"
+msgstr "Map aanmaken"
+
+#. / File exists with path given. /
+#: ui/LocalBooks.qml:704
+msgid "File Exists"
+msgstr "Bestand bestaat al"
+
+#. / Read the books in the given directory again. /
+#: ui/LocalBooks.qml:709 ui/LocalBooks.qml:779
+msgid "Reload Directory"
+msgstr "Map opnieuw laden"
+
+#. / Use directory specified to store books. /
+#: ui/LocalBooks.qml:712
+msgid "Use Directory"
+msgstr "Map gebruiken"
+
+#: ui/LocalBooks.qml:727
+msgid "Please wait..."
+msgstr "Even geduld a.u.b.…"
+
+#: ui/LocalBooks.qml:746
+msgid "Cancel"
+msgstr "Annuleren"
+
+#. / A path on the file system. /
+#: ui/LocalBooks.qml:761
+msgid ""
+"Beru seems to be operating under AppArmor restrictions that prevent it from "
+"accessing most of your home directory.  Ebooks should be put in <i>%1</i> "
+"for Beru to read them."
+msgstr ""
+"Het lijkt erop dat Beru geen toegang heeft tot het grootste gedeelte van uw "
+"persoonlijke map door beperkingen opgelegd door AppArmor. E-boeken dienen "
+"opgeslagen te worden in <i>%1</i> zodat Beru ze kan lezen."
+
+#. / Hyperlinked URL follows. /
+#: ui/LocalBooks.qml:767
+msgid "For more information:"
+msgstr "Voor meer informatie, zie:"
+
+#: ui/LocalBooks.qml:790 ui/LocalBooks.qml:892 ui/BookPage.qml:526
+msgid "Close"
+msgstr "Sluiten"
+
+#. / A control can be dragged to delete a file.  The deletion occurs /
+#. / when the user releases the control. /
+#: ui/LocalBooks.qml:881
+msgid "Release to Delete"
+msgstr "Loslaten om te wissen"
+
+#. / A control can be dragged to delete a file. /
+#: ui/LocalBooks.qml:883
+msgid "Swipe to Delete"
+msgstr "Vegen om te wissen"
+
+#: ui/main.qml:66
+msgid "Error Opening File"
+msgstr "Fout bij openen van bestand"
+
+#: ui/main.qml:69
+msgid "OK"
+msgstr "Ok"
+
+#: ui/Importer.qml:121
+msgid "Importing books..."
+msgstr "Boeken importeren…"
+
+#: ui/Importer.qml:142
+msgid "Waiting"
+msgstr "Wachten"
+
+#: ui/Importer.qml:144
+msgid "Processing"
+msgstr "Aan het verwerken"
+
+#: ui/Importer.qml:146
+msgid "Imported to %1"
+msgstr "Geïmporteerd naar %1"
+
+#: ui/Importer.qml:148
+msgid "Already in library: %1"
+msgstr "Reeds in bibliotheek: %1"
+
+#: ui/Importer.qml:150
+msgid "Error: %1"
+msgstr "Fout: %1"
+
+#: ui/Importer.qml:171
+msgid "Import books from"
+msgstr "Boeken importeren uit"
+
+#: ui/BookPage.qml:101
+msgid "Pages read today: %1"
+msgstr "Vandaag gelezen pagina's: %1"
+
+#: ui/BookPage.qml:102
+msgid "No pages read today"
+msgstr "Vandaag geen pagina's gelezen"
+
+#: ui/BookPage.qml:178
+msgid "Page"
+msgstr "Pagina"
+
+#: ui/BookPage.qml:201
+msgid "Contents"
+msgstr "Inhoudsopgave"
+
+#: ui/BookPage.qml:422
+msgid "Default Font"
+msgstr "Standaardlettertype"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:434
+msgid "Font Scaling"
+msgstr "Lettertypegrootte"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:458
+msgid "Line Height"
+msgstr "Regelhoogte"
+
+#. / Indicates the default line height will be used, as opposed to a /
+#. / user-set value.  There is only space for about 5 characters; if /
+#. / the translated string will not fit, please translate this as an /
+#. / em-dash (—). /
+#: ui/BookPage.qml:481
+msgid "Auto"
+msgstr "Autom."
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:508
+msgid "Margins"
+msgstr "Marges"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:536
+msgid "Make Default"
+msgstr "Standaard maken"
+
+#. / Prefer string of < 16 characters /
+#: ui/BookPage.qml:550
+msgid "Load Defaults"
+msgstr "Standaard laden"
+
+#: ui/BookSources.qml:21
+msgid "Import from Content Hub"
+msgstr "Importeren uit Content Hub"
+
+#. / The application name is both an acronym and an homage to Star Wars. /
+#: beru.desktop.tr:4
+msgid "Beru"
+msgstr "Beru"
+
+#. / "Basic" is used in the sense of "simple" or "uncomplicated". /
+#: beru.desktop.tr:6
+msgid "The Basic Epub Reader for Ubuntu"
+msgstr "Een eenvoudige Epub-lezer voor Ubuntu"

@@ -1,0 +1,11 @@
+*.user
+*.so
+Makefile
+tmp
+click
+*.click
+*.tar.gz
+ui/Textures.qml
+.excludes
+*~
+build
