@@ -1,6 +1,6 @@
 Ebook Reader for Ubuntu
 =======================
-Sturm readdr is an ebook reader for Ubuntu.  It's built on the the new Ubuntu
+Sturm reader is an ebook reader for Ubuntu.  It's built on the the new Ubuntu
 Toolkit, so it works best on touch devices.  It behaves resonably on the
 desktop, as well. It features full support for Epub files and
 preliminary support for CBZ and PDF files.
