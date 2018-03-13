@@ -943,7 +943,7 @@ Page {
 
             Label {
                 text: i18n.tr("Source Code:") +
-                      "<br><a href='http://github.com/tronfortytwo/beru'>" +
+                      "<br><a href='http://github.com/tronfortytwo/sturmreader'>" +
                       "Github Repository</a>"
                 linkColor: UbuntuColors.green
                 onLinkActivated: Qt.openUrlExternally(link)
@@ -954,7 +954,7 @@ Page {
 
             Label {
                 text: i18n.tr("Report a bug or make a suggestion:") +
-                      "<br><a href='http://github.com/tronfortytwo/beru/issues'>" +
+                      "<br><a href='http://github.com/tronfortytwo/sturmreader/issues'>" +
                       "Github bug tracker</a>"
                 linkColor: UbuntuColors.green
                 onLinkActivated: Qt.openUrlExternally(link)
