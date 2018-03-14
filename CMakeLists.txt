@@ -1,5 +1,7 @@
-project(sturmreader)
-cmake_minimum_required(VERSION 2.8.9)
+project(sturmreader C CXX)
+cmake_minimum_required(VERSION 3.0.0)
+
+set(PROJECT_NAME sturmreader.emanuelesorce)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra -fPIC")
