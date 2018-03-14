@@ -3,13 +3,13 @@
     "framework": "ubuntu-sdk-15.04",
     "hooks": {
         "beru": {
-            "apparmor": "apparmor/sturmreader.access.json",
+            "apparmor": "apparmor/sturmreader.json",
             "desktop": "sturmreader.desktop",
             "content-hub": "contenthub.json"
         }
     },
     "maintainer": "Emanuele Sorce <emanuele.sorce@hotmail.com>",
-    "name": "sturmreader.access.emanuelesorce",
+    "name": "sturmreader.emanuelesorce",
     "title": "Sturm Reader",
     "version": "2.0.3",
     "architecture": "armhf"
