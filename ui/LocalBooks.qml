@@ -902,7 +902,7 @@ Page {
                 text: i18n.tr("For more information:") +
                       "<br><a href='http://rschroll.github.io/beru/confinement.html'>" +
                       "rschroll.github.io/beru/confinement.html</a>"
-                linkColor: "#a4a4ff"
+                linkColor: UbuntuColors.green
                 onLinkActivated: Qt.openUrlExternally(link)
                 horizontalAlignment: Text.AlignHCenter
                 fontSize: "medium"
