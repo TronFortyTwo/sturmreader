@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: sturmreader\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
 "POT-Creation-Date: 2018-03-13 18:51+0000\n"
-"PO-Revision-Date: 2018-03-13 22:05+0100\n"
+"PO-Revision-Date: 2018-03-15 10:05+0100\n"
 "Last-Translator: advocatux <advocatux@airpost.net>\n"
 "Language-Team: UBports Spanish Team\n"
 "Language: es\n"
@@ -118,7 +118,7 @@ msgstr "Libros"
 
 #: ui/LocalBooks.qml:48 ui/LocalBooks.qml:817
 msgid "Welcome to Sturm Reader!"
-msgstr "¡Bienvenido al lector Tormenta!"
+msgstr "¡Bienvenido/a a Sturm Reader!"
 
 #: ui/LocalBooks.qml:130
 msgid "Back"
@@ -174,7 +174,7 @@ msgid ""
 "automatically find all epub files in <i>%1</i>.  Additionally, any book "
 "opened will be added to the library."
 msgstr ""
-"El lector Tormenta no pudo encontrar ningún libro para su biblioteca y encontrará "
+"Sturm Reader no pudo encontrar ningún libro para su biblioteca y encontrará "
 "automáticamente todos los archivos epub en <i>%1</i>. Adicionalmente cualquier "
 "libro que abra se añadirá a su biblioteca."
 
@@ -245,9 +245,9 @@ msgid ""
 "it from accessing most of your home directory.  Ebooks should be put in <i>"
 "%1</i> for Sturm Reader to read them."
 msgstr ""
-"El lector Tormenta parece estar funcionando bajo restricciones de AppArmor que le impiden "
+"Sturm Reader parece estar funcionando bajo restricciones de AppArmor que le impiden "
 "acceder a la mayoría de su carpeta personal. Los libros deberían ponerse en "
-"<i>%1</i> para que el lector Tormenta los lea."
+"<i>%1</i> para que Sturm Reader los lea."
 
 #. / Hyperlinked URL follows. /
 #: ui/LocalBooks.qml:902
@@ -256,7 +256,7 @@ msgstr "Para más información:"
 
 #: ui/LocalBooks.qml:936 sturmreader.desktop.tr:3
 msgid "Sturm Reader"
-msgstr "Lector Tormenta"
+msgstr "Sturm Reader"
 
 #: ui/LocalBooks.qml:939
 msgid ""
@@ -266,7 +266,7 @@ msgid ""
 "a fork of the Beru app by Rshcroll, Thanks!<br>This app uses code of other "
 "Open Source projects, see source code for licensing details"
 msgstr ""
-"El lector Tormenta (e ímpetu) es un lector de libros electrónicos de código abierto "
+"Sturm (und Drang) Reader (tormenta e ímpetu) es un lector de libros electrónicos de código abierto "
 "según la licencia GNU GPLv3, copyright 2018 Emanuele Sorce.<br>Solicitudes de extracción "
 "(pull requests), traducciones, comentarios y donaciones son muy apreciadas :)<br>Esta "
 "aplicación es un clon de Beru de Rshcroll, ¡gracias!<br>Esta aplicación usa código "
@@ -292,7 +292,7 @@ msgid ""
 msgstr ""
 "No se pudo determinar el tipo de archivo.\n"
 "\n"
-"Recuerde, el lector Tormenta solo puede abrir archivos EPUB, PDF y CBZ sin DRM."
+"Recuerde, Sturm Reader solo puede abrir archivos EPUB, PDF y CBZ sin DRM."
 
 #: ui/Reader.qml:35
 msgid ""
@@ -302,7 +302,7 @@ msgid ""
 msgstr ""
 "No se pudo analizar el archivo.\n"
 "\n"
-"Aunque parece ser un archivo %1, no pudo ser analizado por el lector Tormenta."
+"Aunque parece ser un archivo %1, no pudo ser analizado por Sturm Reader."
 
 #: ui/main.qml:64
 msgid "Error Opening File"
