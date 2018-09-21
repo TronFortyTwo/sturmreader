@@ -1,16 +1,16 @@
 {
     "description": "Ebook Reader for Ubuntu Touch",
-    "framework": "ubuntu-sdk-15.04",
+    "framework": "ubuntu-sdk-16.04",
     "hooks": {
         "beru": {
-            "apparmor": "apparmor/sturmreader.json",
+            "apparmor": "apparmor/sturmreader.access.json",
             "desktop": "sturmreader.desktop",
             "content-hub": "contenthub.json"
         }
     },
     "maintainer": "Emanuele Sorce <emanuele.sorce@hotmail.com>",
-    "name": "sturmreader.emanuelesorce",
-    "title": "Sturm Reader",
-    "version": "2.0.5",
+    "name": "sturmreader.plus.emanuelesorce",
+    "title": "Sturm Reader +",
+    "version": "2.0.6",
     "architecture": "armhf"
 }

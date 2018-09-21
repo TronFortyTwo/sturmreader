@@ -20,7 +20,7 @@ MainView {
     objectName: "mainView"
     id: mainView
     
-    applicationName: "sturmreader.emanuelesorce"
+    applicationName: "sturmreader.plus.emanuelesorce"
     
     /* 
      This property enables the application to change orientation 

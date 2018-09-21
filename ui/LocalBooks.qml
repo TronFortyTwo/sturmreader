@@ -695,7 +695,7 @@ Page {
             StyledButton {
                 text: i18n.tr("Get Books")
                 width: parent.width
-                onClicked: mainView.pageStack.push(bookSources)
+                onClicked: pageStack.push(bookSources)
             }
 
             StyledButton {

@@ -1,7 +1,7 @@
 project(sturmreader C CXX)
 cmake_minimum_required(VERSION 3.0.0)
 
-set(PROJECT_NAME sturmreader.emanuelesorce)
+set(PROJECT_NAME sturmreader.plus.emanuelesorce)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra -fPIC")
@@ -22,7 +22,7 @@ option(FS_ACCESS "Gets filesystem access through apparmor" off)
 set(SUFFIX "")
 
 set(DESKTOP_FILE "sturmreader.desktop")
-set(DESKTOP_NAME "Sturm Reader")
+set(DESKTOP_NAME "Sturm Reader +")
 set(DESKTOP_COMMENT "E-Book Reader for Ubuntu")
 set(APP_HARDCODE sturmreader)
 set(ICON_FILE sturmreader.png)
