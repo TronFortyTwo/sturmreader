@@ -1,4 +1,4 @@
 {
     "policy_groups": ["networking", "webview", "content_exchange", "usermetrics"],
-    "policy_version": 1.3
+    "policy_version": 16.04
 }
