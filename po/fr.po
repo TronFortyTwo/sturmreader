@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Impossible de déterminer le type de fichier.\n"
 "\n"
-"Important : Beru ne peut ouvrir que les fichiers au format EPUB, PDF et CBZ "
+"Important : Sturm Reader ne peut ouvrir que les fichiers au format EPUB, PDF et CBZ "
 "sans DRM."
 
 #: ui/Reader.qml:35
@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Le fichier ne peut pas être analysé.\n"
 "\n"
-"Le fichier est un %1, Beru ne peut pas l'analyser."
+"Le fichier est un %1, Sturm Reader ne peut pas l'analyser."
 
 #: ui/LocalBooks.qml:19
 msgid "Library"
@@ -49,7 +49,7 @@ msgstr "Livres"
 
 #: ui/LocalBooks.qml:45 ui/LocalBooks.qml:682
 msgid "Welcome to Beru"
-msgstr "Bienvenue dans Beru"
+msgstr "Bienvenue dans Sturm Reader"
 
 #: ui/LocalBooks.qml:127
 msgid "Back"
@@ -93,6 +93,9 @@ msgid ""
 "find all epub files in <i>%1</i>.  Additionally, any book opened with Beru "
 "will be added to the library."
 msgstr ""
+"Sturm Reader n'a pas trouvé de livre dans votre bibliothèque.  Sturm Reader ira chercher "
+"automatiquement tous les fichiers EPUB sous <i>%1</i>. De plus, tous les livres ouverts avec Sturm "
+"Reader seront ajoutés à la bibliothèque."
 
 #: ui/LocalBooks.qml:648
 msgid "Download Books"
@@ -122,6 +125,10 @@ msgid ""
 "\n"
 "Changing this value will not affect existing books in your library."
 msgstr ""
+"Saisissez le nom du dossier dans votre dossier personnel où vos livres numériques sont ou devraient être "
+"stockés.\n"
+"\n"
+"Changer cette valeur n'affectera pas les livres déjà présents dans votre bibliothèque."
 
 #. / Create a new directory from path given. /
 #: ui/LocalBooks.qml:700
@@ -136,7 +143,7 @@ msgstr "Le fichier existe déjà"
 #. / Read the books in the given directory again. /
 #: ui/LocalBooks.qml:709 ui/LocalBooks.qml:779
 msgid "Reload Directory"
-msgstr "Rafraîchir le répertoire"
+msgstr "Actualiser le répertoire"
 
 #. / Use directory specified to store books. /
 #: ui/LocalBooks.qml:712
@@ -158,6 +165,9 @@ msgid ""
 "accessing most of your home directory.  Ebooks should be put in <i>%1</i> "
 "for Beru to read them."
 msgstr ""
+"Sturm Reader semble fonctionner selon des restrictions AppArmor qui l'empêchent d'accéder "
+"à la majorité de votre répertoire personnel. Les livres numériques doivent être stockés sous <i>%1</i> "
+"pour que Sturm Reader puisse les lire."
 
 #. / Hyperlinked URL follows. /
 #: ui/LocalBooks.qml:767
@@ -243,7 +253,7 @@ msgstr "Taille de la police"
 #. / Prefer string of < 16 characters /
 #: ui/BookPage.qml:458
 msgid "Line Height"
-msgstr "Hauteur de ligne"
+msgstr "Hauteur des lignes"
 
 #. / Indicates the default line height will be used, as opposed to a /
 #. / user-set value.  There is only space for about 5 characters; if /
@@ -270,14 +280,14 @@ msgstr "Charger les paramêtres par défauts"
 
 #: ui/BookSources.qml:21
 msgid "Import from Content Hub"
-msgstr ""
+msgstr "Importer depuis la plateforme de contenus"
 
 #. / The application name is both an acronym and an homage to Star Wars. /
 #: beru.desktop.tr:4
 msgid "Beru"
-msgstr "Beru"
+msgstr "Sturm Reader"
 
 #. / "Basic" is used in the sense of "simple" or "uncomplicated". /
 #: beru.desktop.tr:6
 msgid "The Basic Epub Reader for Ubuntu"
-msgstr "Le lecteur de publications électroniques pour Ubuntu"
+msgstr "La liseuse simple de livres électroniques pour Ubuntu"
