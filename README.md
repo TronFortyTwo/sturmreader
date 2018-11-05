@@ -42,26 +42,6 @@ and reload your files.  The database is one of the ones in
 `~/.local/share/sturmreader.emanuelesorce/Databases`;
 read the `.ini` files to find the one with `Name=BeruLocalBooks`.
 
-Click Packages
---------------
-The install option target can be used to help build click packages.
-First, run cmake with the `-DCLICK_MODE=ON` option.  Then run from the
-build directory
-```
-make DESTDIR=<directory> install
-```
-This will fill the directory with the contents for the click package,
-which may be assembed with
-```
-click build <directory>
-```
-To build clicks from within Qt Creator, add `-DCLICK_MODE=ON` to the
-CMake arguments of the build settings.
-
-Note that the click package contains .so files, and is therefore
-limited to the architecture on which it was produced.  To produce
-click packages for other architectures, you'll need to [cross
-compile][2].
 
 Known Problems
 --------------
