@@ -41,7 +41,7 @@ Page {
             murl: "http://m.gutenberg.org"
         }
         ListElement {
-            name: "Jehova's Witnesses Official Site"
+            name: "Jehovah's Witnesses Official Site"
             url: "https://www.jw.org/en/publications"
         }
 

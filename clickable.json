@@ -1,6 +1,6 @@
 {
 	"template": "cmake",
-	"dependencies": [
+	"dependencies_build": [
 		"intltool-dev",
 		"libpoppler-qt5-dev",
 		"gettext",
