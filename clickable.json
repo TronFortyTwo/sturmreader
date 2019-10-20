@@ -1,20 +1,15 @@
 {
 	"template": "cmake",
-	"dependencies_build": [
-		"intltool"
-	],
 	"dependencies_target": [
-		"libpoppler-qt5-dev",
+		"intltool",
 		"gettext",
-		"qtdeclarative5-dev",
-		"qtdeclarative5-u1db1.0",
-		"qml-module-ubuntu-components",
-		"qml-module-qtquick-localstorage",
-		"qtdeclarative5-usermetrics0.1"
+		"libpoppler-qt5-dev",
+		"gettext"
 	],
+	"make_jobs": 1,
+	"build_args": "-DCLICK_MODE=ON",
+	"make_args": "",
 	"scripts": {
-		"c": "rm -rf build",
-		"b": "mkdir build && cd build && cmake .. -DCLICK_MODE=ON && make -j1",
 		"p": "cd build && make DESTDIR=click-build-dir install && click build click-build-dir"
 	}
 }
