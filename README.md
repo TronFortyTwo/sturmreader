@@ -19,7 +19,9 @@ $ make
 
 To build the click for an Ubuntu Touch device and create a .click package, you can just use clickable
 ```
-clickable clean build click-build
+$ clickable
+# Or to build the plus version:
+$ CLICKABLE_BUILD_ARGS="-DPLUS_VERSION=on" clickable
 ```
 
 Running

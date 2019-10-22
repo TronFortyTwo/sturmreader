@@ -8,6 +8,5 @@
 		"gettext"
 	],
 	"make_jobs": 2,
-	"build_args": "-DCLICK_MODE=ON",
 	"default": "build install launch logs --dirty"
 }

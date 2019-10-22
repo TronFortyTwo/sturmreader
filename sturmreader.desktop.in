@@ -7,6 +7,6 @@ Terminal=false
 Type=Application
 MimeType=application/epub+zip
 X-Ubuntu-Touch=true
-X-Ubuntu-Gettext-Domain=sturmreader.emanuelesorce
+X-Ubuntu-Gettext-Domain=@PROJECT_NAME@
 X-Ubuntu-Splash-Show-Header=true
 X-Ubuntu-Splash-Title=Library

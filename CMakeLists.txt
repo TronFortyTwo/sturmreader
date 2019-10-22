@@ -1,7 +1,20 @@
 project(sturmreader C CXX)
 cmake_minimum_required(VERSION 3.0.0)
 
-set(PROJECT_NAME sturmreader.emanuelesorce)
+# ------------------------------------
+# Set this one to on to build the + version
+# ------------------------------------
+option(PLUS_VERSION "Package the Plus version" off)
+
+if(PLUS_VERSION)
+	set(PROJECT_NAME sturmreader.plus.emanuelesorce)
+	set(APPARMOR_FILE apparmor/sturmreader.access.json)
+	set(DESKTOP_NAME "Sturm Reader +")
+elseif(PLUS_VERSION)
+	set(PROJECT_NAME sturmreader.emanuelesorce)
+	set(APPARMOR_FILE apparmor/sturmreader.json)
+	set(DESKTOP_NAME "Sturm Reader")
+endif(PLUS_VERSION)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra -fPIC")
@@ -16,14 +29,13 @@ set(UBUNTU_MANIFEST_PATH "manifest.json.in" CACHE INTERNAL "Tells QtCreator loca
 include(GNUInstallDirs)
 include(FindPkgConfig)
 
-option(CLICK_MODE "Installs to a contained locaton" off)
+option(CLICK_MODE "Installs to a contained locaton" on)
 option(FS_ACCESS "Gets filesystem access through apparmor" off)
 
 set(SUFFIX "")
 
 set(DESKTOP_FILE "sturmreader.desktop")
-set(DESKTOP_NAME "Sturm Reader")
-set(DESKTOP_COMMENT "E-Book Reader for Ubuntu")
+set(DESKTOP_COMMENT "E-Book Reader for Ubuntu Touch")
 set(APP_HARDCODE sturmreader)
 set(ICON_FILE sturmreader.png)
 
