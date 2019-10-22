@@ -10,7 +10,7 @@ if(PLUS_VERSION)
 	set(PROJECT_NAME sturmreader.plus.emanuelesorce)
 	set(APPARMOR_FILE apparmor/sturmreader.access.json)
 	set(DESKTOP_NAME "Sturm Reader +")
-elseif(PLUS_VERSION)
+else(PLUS_VERSION)
 	set(PROJECT_NAME sturmreader.emanuelesorce)
 	set(APPARMOR_FILE apparmor/sturmreader.json)
 	set(DESKTOP_NAME "Sturm Reader")
@@ -50,7 +50,8 @@ find_package(Qt5Core REQUIRED Qt5Qml Qt5Quick Qt5Xml Qt5Gui Qt5Network)
 
 file(GLOB I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
-     ui/*.qml ${DESKTOP_FILE}.tr)
+     ui/*.qml )
+#${DESKTOP_FILE}.tr)
 # DefaultCover.qml doesn't have any translatable strings, but it does confuse xgettext.
 list(REMOVE_ITEM I18N_SRC_FILES ui/DefaultCover.qml)
 
@@ -85,7 +86,7 @@ endif(CLICK_MODE)
 #Copies specific individual files into the build directory
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sturmreader ${CMAKE_CURRENT_BINARY_DIR}/sturmreader @ONLY)
 configure_file(${DESKTOP_FILE}.in ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE})
-configure_file(${DESKTOP_FILE}.tr ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE}.tr)
+#configure_file(${DESKTOP_FILE}.tr ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE}.tr)
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/sturmreader DESTINATION ${DATA_DIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_DIR})
 install(FILES ${ICON_FILE} DESTINATION ${DATA_DIR})
@@ -97,5 +98,4 @@ add_subdirectory(fontlister)
 add_subdirectory(html)
 add_subdirectory(qhttpserver)
 add_subdirectory(ui)
-
 add_subdirectory(po)

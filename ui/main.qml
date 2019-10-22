@@ -9,6 +9,7 @@ import QtQuick.LocalStorage 2.0
 import QtQuick.Window 2.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
+import U1db 1.0 as U1db
 import File 1.0
 
 import "components"
