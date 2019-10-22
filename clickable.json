@@ -2,14 +2,12 @@
 	"template": "cmake",
 	"dependencies_target": [
 		"intltool",
-		"gettext",
-		"libpoppler-qt5-dev",
+		"libpoppler-qt5-dev"
+	],
+	"dependencies_build": [
 		"gettext"
 	],
-	"make_jobs": 1,
+	"make_jobs": 2,
 	"build_args": "-DCLICK_MODE=ON",
-	"make_args": "",
-	"scripts": {
-		"p": "cd build && make DESTDIR=click-build-dir install && click build click-build-dir"
-	}
+	"default": "build install launch logs --dirty"
 }

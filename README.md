@@ -9,7 +9,7 @@ It's a fork of Beru from Rschroll (http://rschroll.github.io/beru), thanks!
 
 Building
 --------
-To build for the systen you are working on, do
+To build for the system you are working on, do
 ```
 $ mkdir <build directory>
 $ cd <build directory>
@@ -17,13 +17,9 @@ $ cmake <path to source>
 $ make
 ```
 
-To build the click for an Ubuntu Touch device and create a .click package, you can use clickable:
+To build the click for an Ubuntu Touch device and create a .click package, you can just use clickable
 ```
-$ clickable b p
-```
-Or inside an OnTheRoad container
-```
-$ clickable b p --container-mode
+clickable clean build click-build
 ```
 
 Running
