@@ -1,4 +1,0 @@
-This file contains entries identical to those in the .desktop file,
-but in a format that xgettext can parse.
-tr("@DESKTOP_NAME@")
-tr("@DESKTOP_COMMENT@")
