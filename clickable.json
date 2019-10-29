@@ -5,11 +5,13 @@
 		"qtdeclarative5-u1db1.0",
 		"qtdeclarative5-usermetrics0.1",
 		"qtdeclarative5-ubuntu-content1",
-		"libpoppler-qt5-dev"
+		"libpoppler-qt5-dev",
+		"calibre"
 	],
 	"dependencies_build": [
 		"gettext"
 	],
-	"make_jobs": 2,
-	"default": "build install launch logs --dirty"
+	"make_jobs": 4,
+	"default": "build install launch logs --dirty",
+	"postbuild": "cd $ROOT && ./installcalibre.sh"
 }
