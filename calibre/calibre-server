@@ -7,13 +7,14 @@ Do not modify it unless you know what you are doing.
 
 import sys, os
 
-path = os.environ.get('CALIBRE_PYTHON_PATH', '/usr/lib/calibre')
+#path = os.environ.get('CALIBRE_PYTHON_PATH', '/usr/lib/calibre')
+path= os.environ.get('CALIBRE_PYTHON_PATH', '../PYTHON')
 if path not in sys.path:
     sys.path.insert(0, path)
 
-sys.resources_location = os.environ.get('CALIBRE_RESOURCES_PATH', '/usr/share/calibre')
-sys.extensions_location = os.environ.get('CALIBRE_EXTENSIONS_PATH', '/usr/lib/calibre/calibre/plugins')
-sys.executables_location = os.environ.get('CALIBRE_EXECUTABLES_PATH', '/usr/bin')
+sys.resources_location = os.environ.get('CALIBRE_RESOURCES_PATH', '../RESOURCES') #'/usr/share/calibre')
+sys.extensions_location = os.environ.get('CALIBRE_EXTENSIONS_PATH', '../PYTHON/calibre/plugins') #'/usr/lib/calibre/calibre/plugins')
+sys.executables_location = os.environ.get('CALIBRE_EXECUTABLES_PATH', '.' ) #'/usr/bin')
 
 
 from calibre.library.server.main import main
