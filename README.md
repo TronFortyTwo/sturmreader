@@ -23,6 +23,7 @@ $ clickable
 # Or to build the plus version:
 $ CLICKABLE_BUILD_ARGS="-DPLUS_VERSION=on" clickable
 ```
+To enable DRM support in the calibre backend, install the included dedrm plugin in the container calibre installation
 
 Running
 -------

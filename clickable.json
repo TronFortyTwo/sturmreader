@@ -6,10 +6,14 @@
 		"qtdeclarative5-usermetrics0.1",
 		"qtdeclarative5-ubuntu-content1",
 		"libpoppler-qt5-dev",
-		"calibre"
+		"calibre",
+		"python-apsw"
 	],
 	"dependencies_build": [
 		"gettext"
+	],
+	"install_lib": [
+		"/usr/lib/python2.7/dist-packages/apsw.$ARCH_TRIPLET.so"
 	],
 	"make_jobs": 4,
 	"default": "build install launch logs --dirty",
