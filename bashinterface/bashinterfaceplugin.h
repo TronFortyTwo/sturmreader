@@ -4,8 +4,8 @@
  * the GPL. See the file COPYING for full details.
  */
 
-#ifndef FONTLISTERPLUGIN_H
-#define FONTLISTERPLUGIN_H
+#ifndef BASHINTERFACEPLUGIN_H
+#define BASHINTERFACEPLUGIN_H
 
 #include <QQmlExtensionPlugin>
 
@@ -18,4 +18,4 @@ public:
     void registerTypes(const char *uri);
 };
 
-#endif // FONTLISTERPLUGIN_H
+#endif

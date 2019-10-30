@@ -11,6 +11,7 @@ import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Content 1.3
 
 import "components"
+import Bashinterface 1.0
 
 Item {
     id: importer
@@ -43,15 +44,22 @@ Item {
     function doImport(filename, item) {
         return function () {
             var components = filename.split("/").pop().split(".")
+            // extension of the file es. 'epub'
             var ext = components.pop()
+            console.log('importing file of type: ' + ext)
+            // where books are stored
             var dir = filesystem.getDataDir(localBooks.defaultdirname)
-            var basename =components.join(".")
+            console.log('dir: ' + dir)
+            var basename = components.join(".")
+            console.log('basename: ' + basename)
             var newfilename = basename + "." + ext
+            // add a number if file with that name exists already
             var i = 0
             while (filesystem.exists(dir + "/" + newfilename)) {
                 i += 1
                 newfilename = basename + "(" + i + ")." + ext
             }
+            Bashinterface.exec('date')
             item.item.move(dir, newfilename)
             item.importName = dir + "/" + newfilename
             localBooks.addFile(item.importName, true)

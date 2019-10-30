@@ -4,11 +4,12 @@
  * the GPLv3. See the file COPYING for full details.
  */
 
-#ifndef FONTlISTER_H
-#define FONTLISTER_H
+#ifndef BASHINTERFACE_H
+#define BASHINTERFACE_H
 
 #include <QObject>
 #include <QString>
+#include <QProcess>
 
 class Bashinterface : public QObject
 {
@@ -19,4 +20,4 @@ public:
     Q_INVOKABLE bool execb(const QString& cmd) const;
 };
 
-#endif // FONTLISTER_H
+#endif

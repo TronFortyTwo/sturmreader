@@ -9,7 +9,7 @@
 #include <QString>
 #include <QDebug>
 
-bool Bashinterface::execb(const QString& cmd)
+bool Bashinterface::execb(const QString& cmd) const
 {
 	int r = exec(cmd);
 
@@ -17,7 +17,7 @@ bool Bashinterface::execb(const QString& cmd)
 	return true;
 }
 
-int Bashinterface::exec(const QString& cmd)
+int Bashinterface::exec(const QString& cmd) const
 {
 	qDebug() << "bash exec: " << cmd;
 
