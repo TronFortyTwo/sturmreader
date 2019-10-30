@@ -38,7 +38,6 @@ set(DESKTOP_FILE "sturmreader.desktop")
 set(DESKTOP_COMMENT "E-Book Reader for Ubuntu Touch")
 set(APP_HARDCODE sturmreader)
 set(ICON_FILE sturmreader.png)
-
 # Check if build is out of source tree and sets boolean value
 set(OUT_OF_TREE_BUILD true)
 if(${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR})
@@ -51,7 +50,7 @@ find_package(Qt5Core REQUIRED Qt5Qml Qt5Quick Qt5Xml Qt5Gui Qt5Network)
 file(GLOB I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
      ui/*.qml )
-#${DESKTOP_FILE}.tr)
+
 # DefaultCover.qml doesn't have any translatable strings, but it does confuse xgettext.
 list(REMOVE_ITEM I18N_SRC_FILES ui/DefaultCover.qml)
 
@@ -86,7 +85,6 @@ endif(CLICK_MODE)
 #Copies specific individual files into the build directory
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sturmreader ${CMAKE_CURRENT_BINARY_DIR}/sturmreader @ONLY)
 configure_file(${DESKTOP_FILE}.in ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE})
-#configure_file(${DESKTOP_FILE}.tr ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE}.tr)
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/sturmreader DESTINATION ${DATA_DIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_DIR})
 install(FILES ${ICON_FILE} DESTINATION ${DATA_DIR})
@@ -95,6 +93,7 @@ install(FILES ${ICON_FILE} DESTINATION ${DATA_DIR})
 add_subdirectory(epubreader)
 add_subdirectory(filesystem)
 add_subdirectory(fontlister)
+add_subdirectory(bashinterface)
 add_subdirectory(html)
 add_subdirectory(qhttpserver)
 add_subdirectory(ui)
