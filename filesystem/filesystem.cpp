@@ -35,6 +35,7 @@ unsigned int FileSystem::exec(const QString& cmd) const
         {
                 QString program = args.takeFirst();
                 result = QProcess::execute(program, args);
+		exit_code = QProcess::exitCode();
         }
 	else
 		return EXIT_SUCCESS;
@@ -45,10 +46,9 @@ unsigned int FileSystem::exec(const QString& cmd) const
 		qDebug() << "-> process crashed";
 	else
 	{
-        	qDebug() << "-> exit code: " << result;
-		exit_code = static_cast<unsigned int>(result);
+        	qDebug() << "-> exit code: " << exit_code;
+		qDebug() << "-> exit code: (u)" << static_cast<unsigned int>(exit_code);
 	}
-
         return exit_code;
 }
 
