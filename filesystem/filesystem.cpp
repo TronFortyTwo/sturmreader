@@ -1,4 +1,5 @@
 /* Copyright 2013-2015 Robert Schroll
+ * Copyright 2019 Emanuele Sorce
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
@@ -10,6 +11,46 @@
 #include <QDirIterator>
 #include <QStandardPaths>
 #include <QTemporaryFile>
+#include <QDebug>
+
+bool FileSystem::execb(const QString& cmd) const
+{
+        unsigned int r = exec(cmd);
+
+        if(r==0)
+		return false;
+        return true;
+}
+
+unsigned int FileSystem::exec(const QString& cmd) const
+{
+        qDebug() << "bash exec: " << cmd;
+
+        int result;
+	unsigned int exit_code = EXIT_FAILURE;
+
+        QStringList args = cmd.split(" ");
+
+        if(args.count() > 0)
+        {
+                QString program = args.takeFirst();
+                result = QProcess::execute(program, args);
+        }
+	else
+		return EXIT_SUCCESS;
+
+	if(result == -2)
+		qDebug() << "-> process cannot be started";
+	else if(result == -1)
+		qDebug() << "-> process crashed";
+	else
+	{
+        	qDebug() << "-> exit code: " << result;
+		exit_code = static_cast<unsigned int>(result);
+	}
+
+        return exit_code;
+}
 
 /*
  * Return 0 if file does not exist, 2 if file is directory, 1 otherwise.

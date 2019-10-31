@@ -11,7 +11,7 @@ import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Content 1.3
 
 import "components"
-import Bashinterface 1.0
+import File 1.0
 
 Item {
     id: importer
@@ -59,7 +59,7 @@ Item {
                 i += 1
                 newfilename = basename + "(" + i + ")." + ext
             }
-            Bashinterface.exec('date')
+            filesystem.exec('echo `pwd`')
             item.item.move(dir, newfilename)
             item.importName = dir + "/" + newfilename
             localBooks.addFile(item.importName, true)
