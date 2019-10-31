@@ -30,8 +30,8 @@ public:
     Q_INVOKABLE bool remove(const QString &filename);
 
    // Bash interface
-   Q_INVOKABLE unsigned int exec(const QString& cmd) const;
-   Q_INVOKABLE bool execb(const QString& cmd) const;
+   Q_INVOKABLE unsigned int exec(const QString& cmd);
+   Q_INVOKABLE bool execb(const QString& cmd);
 };
 
 #endif // FILESYSTEM_H

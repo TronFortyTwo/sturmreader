@@ -59,7 +59,7 @@ Item {
                 i += 1
                 newfilename = basename + "(" + i + ")." + ext
             }
-            filesystem.exec('echo `pwd`')
+            filesystem.exec('echo ciao')
             item.item.move(dir, newfilename)
             item.importName = dir + "/" + newfilename
             localBooks.addFile(item.importName, true)

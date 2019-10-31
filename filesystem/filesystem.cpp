@@ -13,7 +13,7 @@
 #include <QTemporaryFile>
 #include <QDebug>
 
-bool FileSystem::execb(const QString& cmd) const
+bool FileSystem::execb(const QString& cmd)
 {
         unsigned int r = exec(cmd);
 
@@ -22,7 +22,7 @@ bool FileSystem::execb(const QString& cmd) const
         return true;
 }
 
-unsigned int FileSystem::exec(const QString& cmd) const
+unsigned int FileSystem::exec(const QString& cmd)
 {
         qDebug() << "bash exec: " << cmd;
 
@@ -34,8 +34,8 @@ unsigned int FileSystem::exec(const QString& cmd) const
         if(args.count() > 0)
         {
                 QString program = args.takeFirst();
-                result = QProcess::execute(program, args);
-		exit_code = QProcess::exitCode();
+		result = QProcess::execute(program, args);
+                exit_code = static_cast<unsigned int>(result);
         }
 	else
 		return EXIT_SUCCESS;
