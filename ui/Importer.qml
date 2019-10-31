@@ -59,7 +59,7 @@ Item {
                 i += 1
                 newfilename = basename + "(" + i + ")." + ext
             }
-            filesystem.exec('echo ciao')
+            filesystem.exec('cd /opt/click.ubuntu.com/sturmreader.emanuelesorce/current/calibre/EXECUTABLES/ && ./python2.7 ./calibredb')
             item.item.move(dir, newfilename)
             item.importName = dir + "/" + newfilename
             localBooks.addFile(item.importName, true)

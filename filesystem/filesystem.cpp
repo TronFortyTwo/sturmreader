@@ -12,6 +12,7 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QDebug>
+#include <stdlib.h>
 
 bool FileSystem::execb(const QString& cmd)
 {
@@ -27,18 +28,12 @@ unsigned int FileSystem::exec(const QString& cmd)
         qDebug() << "bash exec: " << cmd;
 
         int result;
-	unsigned int exit_code = EXIT_FAILURE;
+	unsigned int exit_code;
 
-        QStringList args = cmd.split(" ");
-
-        if(args.count() > 0)
-        {
-                QString program = args.takeFirst();
-		result = QProcess::execute(program, args);
-                exit_code = static_cast<unsigned int>(result);
-        }
-	else
-		return EXIT_SUCCESS;
+	/* QProcess implementation
+	 *
+	result = QProcess::execute(cmd);
+        exit_code = static_cast<unsigned int>(result);
 
 	if(result == -2)
 		qDebug() << "-> process cannot be started";
@@ -46,9 +41,21 @@ unsigned int FileSystem::exec(const QString& cmd)
 		qDebug() << "-> process crashed";
 	else
 	{
-        	qDebug() << "-> exit code: " << exit_code;
+      		qDebug() << "-> exit code: " << exit_code;
 		qDebug() << "-> exit code: (u)" << static_cast<unsigned int>(exit_code);
 	}
+	*/
+
+	// Stdlib implementation
+	QByteArray ba = cmd.toLocal8Bit();
+	const char *c_cmd = ba.data();
+
+	result = system(c_cmd);
+	exit_code = static_cast<unsigned int>(result);
+
+	qDebug() << "-> exit code: " << exit_code;
+	//qDebug() << "-> exit code (u): " << exit_code;
+
         return exit_code;
 }
 
