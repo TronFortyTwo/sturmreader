@@ -89,6 +89,15 @@ install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/sturmreader DESTINATION ${DATA_DIR}
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_DIR})
 install(FILES ${ICON_FILE} DESTINATION ${DATA_DIR})
 
+# Calibre
+file(GLOB CALIBRE_FILES
+	"calibre/*"
+)
+#install(FILES ${GLOB_CALIBRE_FILES} DESTINATION ${DATA_DIR}/lib/${arch_triplet}/bin
+#                    PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
+#                    GROUP_EXECUTE GROUP_READ)
+
+
 # Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory
 add_subdirectory(epubreader)
 add_subdirectory(filesystem)
