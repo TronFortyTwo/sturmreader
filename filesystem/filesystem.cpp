@@ -30,8 +30,8 @@ unsigned int FileSystem::exec(const QString& cmd)
         int result;
 	unsigned int exit_code;
 
-	/* QProcess implementation
-	 *
+	// QProcess implementation
+
 	result = QProcess::execute(cmd);
         exit_code = static_cast<unsigned int>(result);
 
@@ -44,10 +44,10 @@ unsigned int FileSystem::exec(const QString& cmd)
       		qDebug() << "-> exit code: " << exit_code;
 		qDebug() << "-> exit code: (u)" << static_cast<unsigned int>(exit_code);
 	}
-	*/
+	//
 
 	// Stdlib implementation
-
+	/*
 	// test
 	if (system(NULL))
 		qDebug() << "Command processor exists";
@@ -62,7 +62,7 @@ unsigned int FileSystem::exec(const QString& cmd)
 
 	qDebug() << "-> exit code: " << exit_code;
 	//qDebug() << "-> exit code (u): " << exit_code;
-
+	*/
         return exit_code;
 }
 

@@ -90,9 +90,9 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_
 install(FILES ${ICON_FILE} DESTINATION ${DATA_DIR})
 
 # Calibre
-file(GLOB CALIBRE_FILES
-	"calibre/*"
-)
+#file(GLOB CALIBRE_FILES
+#	"calibre/*"
+#)
 #install(FILES ${GLOB_CALIBRE_FILES} DESTINATION ${DATA_DIR}/lib/${arch_triplet}/bin
 #                    PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
 #                    GROUP_EXECUTE GROUP_READ)
