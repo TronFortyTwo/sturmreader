@@ -10,3 +10,4 @@ ui/Textures.qml
 *~
 build
 .clickable/
+*.save
