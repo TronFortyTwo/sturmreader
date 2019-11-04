@@ -40,29 +40,8 @@ unsigned int FileSystem::exec(const QString& cmd)
 	else if(result == -1)
 		qDebug() << "-> process crashed";
 	else
-	{
       		qDebug() << "-> exit code: " << exit_code;
-		qDebug() << "-> exit code: (u)" << static_cast<unsigned int>(exit_code);
-	}
-	//
 
-	// Stdlib implementation
-	/*
-	// test
-	if (system(NULL))
-		qDebug() << "Command processor exists";
-	else
-		qDebug() << "Command processor doesn't exists";
-
-	QByteArray ba = cmd.toLocal8Bit();
-	const char *c_cmd = ba.data();
-
-	result = system(c_cmd);
-	exit_code = static_cast<unsigned int>(result);
-
-	qDebug() << "-> exit code: " << exit_code;
-	//qDebug() << "-> exit code (u): " << exit_code;
-	*/
         return exit_code;
 }
 

@@ -15,6 +15,12 @@
 	"install_lib": [
 		"/usr/lib/python2.7/dist-packages/apsw.$ARCH_TRIPLET.so"
 	],
+	"install_bin": [
+		"/bin/cp",
+		"/bin/mkdir",
+		"$ROOT/calibre/setupcalibre",
+		"/usr/bin/python2.7"
+	],
 	"make_jobs": 4,
 	"default": "build install launch logs --dirty",
 	"postbuild": "cd $ROOT && ./installcalibre.sh"
