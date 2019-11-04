@@ -5,8 +5,8 @@ mkdir -p "$INSTALL_DIR"/calibre/PYTHON
 mkdir -p "$INSTALL_DIR"/calibre/RESOURCES
 
 cp -r -p /usr/lib/calibre/* "$INSTALL_DIR"/calibre/PYTHON
-# Do resources really are needed?
-#cp -r -p /usr/share/calibre/* "$INSTALL_DIR"/calibre/RESOURCES
+# Do resources really are needed? yes, at least the .py files
+cp -r -p /usr/share/calibre/* "$INSTALL_DIR"/calibre/RESOURCES
 cp -r -p /usr/bin/python2.7 "$INSTALL_DIR"/lib/${ARCH_TRIPLET}/bin
 cp -r -p calibre/setupcalibre "$INSTALL_DIR"/lib/${ARCH_TRIPLET}/bin
 cp -r -p /bin/cp "$INSTALL_DIR"/lib/${ARCH_TRIPLET}/bin
