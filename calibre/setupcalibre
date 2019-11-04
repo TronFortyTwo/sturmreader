@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# set up Calibre
+if [ ! -d "/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/" ]; then
+        echo "Calibre not set up - installing"
+        mkdir -p '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre'
+        cp -r -v /opt/click.ubuntu.com/sturmreader.emanuelesorce/current/calibre/* '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/'
+else
+        echo "Calibre already installed"
+fi

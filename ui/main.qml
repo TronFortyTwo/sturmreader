@@ -183,6 +183,12 @@ MainView {
     }
 
     Component.onCompleted: {
+
+        // install Calibre
+        // TODO: handle case installation fails (no space?)
+        // TODO: handle updating calibre
+        filesystem.exec('setupcalibre')
+
         var db = openSettingsDatabase()
         db.transaction(function (tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS Settings(key TEXT UNIQUE, value TEXT)")
