@@ -59,7 +59,7 @@ Item {
                 i += 1
                 newfilename = basename + "(" + i + ")." + ext
             }
-            filesystem.exec('python2.7 /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/calibredb')
+            filesystem.exec('pythonlaunch /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/calibredb')
             item.item.move(dir, newfilename)
             item.importName = dir + "/" + newfilename
             localBooks.addFile(item.importName, true)

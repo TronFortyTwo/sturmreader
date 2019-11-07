@@ -19,6 +19,7 @@
 		"/bin/cp",
 		"/bin/mkdir",
 		"$ROOT/calibre/setupcalibre",
+		"$ROOT/calibre/pythonlaunch",
 		"/usr/bin/python2.7"
 	],
 	"make_jobs": 4,

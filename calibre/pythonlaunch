@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# launch python 2.7 in the custom python installation
+
+export PYTHONHOME=/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/
+
+python2.7 "$@"
