@@ -4,16 +4,17 @@
 This is the standard runscript for all of calibre's tools.
 Do not modify it unless you know what you are doing.
 	I know what I am doing - Emanuele Sorce, 4-11-2019
+	Kind of - Emanuele Sorce, 7-11-2019
 """
 
 import sys, os
 
 #path = os.environ.get('CALIBRE_PYTHON_PATH', '/usr/lib/calibre')
-path = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/calibre/'
-path2 = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON'
+path = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/calibre/'
+path2 = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/python2.7/'
 #if path not in sys.path:
 #    sys.path.insert(0, path)
-sys.path = [path, path2]
+sys.path = [path2, path]
 
 #sys.resources_location = os.environ.get('CALIBRE_RESOURCES_PATH', '/opt/click.ubuntu.com/sturmreader.emanuelesorce/current/lib/arm-linux-gnueabihf/bin/RESOURCES') #'/usr/share/calibre')
 sys.resources_location = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/RESOURCES/'

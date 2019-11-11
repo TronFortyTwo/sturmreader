@@ -2,6 +2,9 @@
 
 # launch python 2.7 in the custom python installation
 
-export PYTHONHOME=/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/
+#python2.7 -c "import sys; print 'prefix: ' + sys.prefix; print 'exec prefix: ' + sys.exec_prefix"
+# > both are /usr
+
+export PYTHONHOME="/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/"
 
 python2.7 "$@"
