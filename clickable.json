@@ -12,9 +12,6 @@
 	"dependencies_build": [
 		"gettext"
 	],
-	"install_lib": [
-		"/usr/lib/python2.7/dist-packages/apsw.$ARCH_TRIPLET.so"
-	],
 	"install_bin": [
 		"/bin/cp",
 		"/bin/mkdir",

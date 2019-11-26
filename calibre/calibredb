@@ -11,10 +11,15 @@ import sys, os
 
 #path = os.environ.get('CALIBRE_PYTHON_PATH', '/usr/lib/calibre')
 path = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/calibre/'
-#path2 = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/python2.7/'
-if path not in sys.path:
-  sys.path.insert(0, path)
-#sys.path = [path2, path]
+path2 = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/python2.7/'
+
+#if path not in sys.path:
+sys.path = [path, path2]
+sys.path.insert(2, path2 + 'plat-arm-linux-gnueabihf')
+sys.path.insert(3, path2 + 'lib-tk')
+sys.path.insert(4, path2 + 'lib-old')
+sys.path.insert(5, path2 + 'lib-dynload')
+sys.path.insert(6, path2 + 'dist-packages')
 
 #sys.resources_location = os.environ.get('CALIBRE_RESOURCES_PATH', '/opt/click.ubuntu.com/sturmreader.emanuelesorce/current/lib/arm-linux-gnueabihf/bin/RESOURCES') #'/usr/share/calibre')
 sys.resources_location = '/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/RESOURCES/'
