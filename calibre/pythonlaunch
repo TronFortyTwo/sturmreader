@@ -6,5 +6,8 @@
 # > both are /usr
 
 export PYTHONHOME="/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/"
+export PYTHONPATH="/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/python2.7/"
 
-python2.7 "$@"
+#source /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/bin/activate
+
+python2.7 -v -B "$@"

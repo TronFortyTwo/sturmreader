@@ -11,6 +11,6 @@
     "maintainer": "Emanuele Sorce <emanuele.sorce@hotmail.com>",
     "name": "@PROJECT_NAME@",
     "title": "@DESKTOP_NAME@",
-    "version": "2.0.7",
+    "version": "3.0.0",
     "architecture": "armhf"
 }
