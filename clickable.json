@@ -7,7 +7,8 @@
 		"qtdeclarative5-ubuntu-content1",
 		"libpoppler-qt5-dev",
 		"calibre",
-		"python-apsw"
+		"python-apsw",
+		"libmagickwand-6.q16-2"
 	],
 	"dependencies_build": [
 		"gettext"
@@ -20,7 +21,10 @@
 		"$ROOT/calibre/pythonlaunch",
 		"/usr/bin/python2.7"
 	],
+	"install_lib": [
+		"/usr/lib/$ARCH_TRIPLET/libMagickWand-6.Q16.so.*"
+	],
 	"make_jobs": 4,
-	"default": "build install launch logs --dirty",
+	"default": "build install launch logs",
 	"postbuild": "cd $ROOT && ./installcalibre.sh"
 }
