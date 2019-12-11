@@ -6,6 +6,13 @@
 # > both are /usr
 
 export PYTHONHOME="/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/"
+export CALIBRE_CONFIG_DIRECTORY='/home/phablet/.config/sturmreader.emanuelesorce/calibre/'
+export CALIBRE_CACHE_DIRECTORY='/home/phablet/.cache/sturmreader.emanuelesorce/calibre/'
+export CALIBRE_EXECUTABLES_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/'
+export CALIBRE_EXTENSIONS_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/calibre/calibre/plugins'
+export CALIBRE_RESOURCES_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/RESOURCES/'
+export CALIBRE_PYTHON_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/calibre/'
+
 #export PYTHONPATH="/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/python2.7/"
 
 #source /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/bin/activate

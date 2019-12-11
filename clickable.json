@@ -22,7 +22,7 @@
 		"/usr/bin/python2.7"
 	],
 	"install_lib": [
-		"/usr/lib/$ARCH_TRIPLET/libMagickWand-6.Q16.so.*"
+		"/usr/lib/libMagicWand*"
 	],
 	"make_jobs": 4,
 	"default": "build install launch logs",
