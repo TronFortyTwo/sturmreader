@@ -21,9 +21,6 @@
 		"$ROOT/calibre/pythonlaunch",
 		"/usr/bin/python2.7"
 	],
-	"install_lib": [
-		"/usr/lib/libMagicWand*"
-	],
 	"make_jobs": 4,
 	"default": "build install launch logs",
 	"postbuild": "cd $ROOT && ./installcalibre.sh"

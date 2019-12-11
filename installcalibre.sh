@@ -14,6 +14,10 @@ cp -r -p /usr/bin/calibredb "$INSTALL_DIR"/calibre/
 cp -r -p /usr/bin/calibre-customize "$INSTALL_DIR"/calibre/
 cp -r -p /usr/bin/ebook-convert "$INSTALL_DIR"/calibre/
 
+# plugin we wabt to install
+cp DeDRM_plugin.zip "$INSTALL_DIR"/calibre/
+cp obok_plugin.zip "$INSTALL_DIR"/calibre/
+
 # fix OSERR 13 error on pthread import
 sed -i "s/libpthread_path = ctypes.util.find_library/libpthread_path = False #/g"  "$INSTALL_DIR"/calibre/PYTHON/lib/calibre/calibre/startup.py
 

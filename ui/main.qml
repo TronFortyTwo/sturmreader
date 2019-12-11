@@ -187,7 +187,9 @@ MainView {
         // install Calibre
         // TODO: handle case installation fails (no space?)
         // TODO: handle updating calibre
-        filesystem.exec('setupcalibre')
+        filesystem.exec('setupcalibre');
+        filesystem.exec('pythonlaunch /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/calibre-customize -a /opt/click.ubuntu.com/sturmreader.emanuelesorce/current/calibre/DeDRM_plugin.zip');
+	filesystem.exec('pythonlaunch /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/calibre-customize -a /opt/click.ubuntu.com/sturmreader.emanuelesorce/current/calibre/obok_plugin.zip');
 
         var db = openSettingsDatabase()
         db.transaction(function (tx) {
