@@ -17,4 +17,4 @@ export CALIBRE_PYTHON_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce
 
 #source /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/bin/activate
 
-python2.7 -v -B "$@"
+python2.7 -B "$@"
