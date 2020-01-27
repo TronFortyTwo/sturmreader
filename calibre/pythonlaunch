@@ -1,9 +1,7 @@
 #!/bin/bash
 
 # launch python 2.7 in the custom python installation
-
-#python2.7 -c "import sys; print 'prefix: ' + sys.prefix; print 'exec prefix: ' + sys.exec_prefix"
-# > both are /usr
+# and sandbox calibre
 
 export PYTHONHOME="/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/"
 export CALIBRE_CONFIG_DIRECTORY='/home/phablet/.config/sturmreader.emanuelesorce/calibre/'
@@ -12,6 +10,8 @@ export CALIBRE_EXECUTABLES_PATH='/home/phablet/.local/share/sturmreader.emanuele
 export CALIBRE_EXTENSIONS_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/calibre/calibre/plugins'
 export CALIBRE_RESOURCES_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/RESOURCES/'
 export CALIBRE_PYTHON_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/calibre/'
+
+export LC_ALL="en_US.ANSI_X3.4-1968"
 
 #export PYTHONPATH="/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/python2.7/"
 

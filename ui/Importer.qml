@@ -45,24 +45,26 @@ Item {
         return function () {
             var components = filename.split("/").pop().split(".")
             // extension of the file es. 'epub'
-            var ext = components.pop()
+            var ext = components.pop().toLowerCase()
             console.log('importing file of type: ' + ext)
             // where books are stored
             var dir = filesystem.getDataDir(localBooks.defaultdirname)
-            console.log('dir: ' + dir)
+            console.log('Saving ebook in: ' + dir)
             var basename = components.join(".")
-            console.log('basename: ' + basename)
-            var newfilename = basename + "." + ext
-            // add a number if file with that name exists already
+            var newfilename = basename + ".tmp." + ext
             var i = 0
             while (filesystem.exists(dir + "/" + newfilename)) {
                 i += 1
-                newfilename = basename + "(" + i + ")." + ext
+                newfilename = basename + "(" + i + ").tmp." + ext
             }
-            filesystem.exec('pythonlaunch /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/calibredb')
+            // move the file 
             item.item.move(dir, newfilename)
-            item.importName = dir + "/" + newfilename
+            // convert the file free DRM
+            filesystem.exec('pythonlaunch /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/ebook-convert ' + dir + "/" + newfilename + ' ' + dir + "/" + basename + ".epub" + " -v -v")
+            item.importName = dir + "/" + basename + ".epub"
             localBooks.addFile(item.importName, true)
+            // delete old file
+            filesystem.exec('rm -rf ' + dir + "/" + newfilename)
             item.state = importState.imported
         }
     }

@@ -16,6 +16,7 @@
 	"install_bin": [
 		"/bin/cp",
 		"/bin/mkdir",
+		"/bin/rm",
 		"/usr/bin/basename",
 		"$ROOT/calibre/setupcalibre",
 		"$ROOT/calibre/pythonlaunch",
