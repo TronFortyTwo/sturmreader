@@ -1,3 +1,5 @@
+[![Donate](https://img.shields.io/badge/PayPal-Donate%20to%20Author-blue.svg)](https://www.paypal.me/emanuele42)
+
 Ebook Reader for Ubuntu
 =======================
 Sturm reader is an ebook reader for Ubuntu.  It's built on the the new Ubuntu
