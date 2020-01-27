@@ -8,7 +8,8 @@
 		"libpoppler-qt5-dev",
 		"calibre",
 		"python-apsw",
-		"libmagickwand-6.q16-2"
+		"libmagickwand-6.q16-2",
+		"liblqr-1-0"
 	],
 	"dependencies_build": [
 		"gettext"
@@ -21,6 +22,11 @@
 		"$ROOT/calibre/setupcalibre",
 		"$ROOT/calibre/pythonlaunch",
 		"/usr/bin/python2.7"
+	],
+	"install_lib": [
+		"/usr/lib/arm-linux-gnueabihf/libMagickWand-6.Q16.so.*",
+		"/usr/lib/arm-linux-gnueabihf/libMagickCore-6.Q16.so.*",
+		"/usr/lib/arm-linux-gnueabihf/liblqr-1.so.*"
 	],
 	"make_jobs": 4,
 	"default": "build install launch logs",
