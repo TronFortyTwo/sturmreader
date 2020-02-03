@@ -20,8 +20,9 @@
 		"/bin/rm",
 		"/usr/bin/basename",
 		"$ROOT/calibre/setupcalibre",
-		"$ROOT/calibre/pythonlaunch",
-		"/usr/bin/python2.7"
+		"$ROOT/calibre/pl",
+		"/usr/bin/python2.7",
+		"/usr/bin/pdftohtml"
 	],
 	"install_lib": [
 		"/usr/lib/arm-linux-gnueabihf/libMagickWand-6.Q16.so.*",

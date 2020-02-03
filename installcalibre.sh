@@ -10,6 +10,7 @@ cp -r -p /usr/share/calibre/* "$INSTALL_DIR"/calibre/RESOURCES
 cp -r -p /usr/lib/python2.7/ "$INSTALL_DIR"/calibre/PYTHON/lib/
 
 # we copy only the calibre commands we use
+cp -r -p /usr/bin/calibredb "$INSTALL_DIR"/calibre/
 cp -r -p /usr/bin/calibre-customize "$INSTALL_DIR"/calibre/
 cp -r -p /usr/bin/ebook-convert "$INSTALL_DIR"/calibre/
 
@@ -21,6 +22,8 @@ cp obok_plugin.zip "$INSTALL_DIR"/calibre/
 sed -i "s/libpthread_path = ctypes.util.find_library/libpthread_path = False #/g" "$INSTALL_DIR"/calibre/PYTHON/lib/calibre/calibre/startup.py
 
 # we delete resources we don't use
+rm -rf "$INSTALL_DIR"/calibre/PYTHON/lib/calibre/calibre/devices
+
 find "$INSTALL_DIR"/calibre/RESOURCES -type f \( -name "*.ico" -o -name "*.zip" -o -name "*.png" -o -name ".svg" -o -name "*.jpg" -o -name "*.gif" \) -delete
 find "$INSTALL_DIR"/calibre/RESOURCES -empty -type d -delete
 

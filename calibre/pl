@@ -11,10 +11,7 @@ export CALIBRE_EXTENSIONS_PATH='/home/phablet/.local/share/sturmreader.emanueles
 export CALIBRE_RESOURCES_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/RESOURCES/'
 export CALIBRE_PYTHON_PATH='/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/calibre/'
 
-export LC_ALL="en_US.ANSI_X3.4-1968"
-
-#export PYTHONPATH="/home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/lib/python2.7/"
-
-#source /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/PYTHON/bin/activate
+unset LC_ALL
+export LC_ALL="en_US.UTF-8"
 
 python2.7 -B "$@"

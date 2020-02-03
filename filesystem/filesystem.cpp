@@ -30,8 +30,6 @@ unsigned int FileSystem::exec(const QString& cmd)
         int result;
 	unsigned int exit_code;
 
-	// QProcess implementation
-
 	result = QProcess::execute(cmd);
         exit_code = static_cast<unsigned int>(result);
 

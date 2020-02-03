@@ -1,7 +1,10 @@
 /* Copyright 2015 Robert Schroll
+ * Copyright 2020 Emanuele Sorce
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
+ * This file is part of Sturm Reader and is distribuited under the terms of
+ * the GPLv3. See the file COPYING for full details.
  */
 
 import QtQuick 2.4
@@ -60,8 +63,10 @@ Item {
             // move the file 
             item.item.move(dir, newfilename)
             // convert the file free DRM
-            filesystem.exec('pythonlaunch /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/ebook-convert ' + dir + "/" + newfilename + ' ' + dir + "/" + basename + ".epub" + " -v -v")
+            filesystem.exec('pl /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/ebook-convert ' + dir + "/" + newfilename + ' ' + dir + "/" + basename + ".epub" + " -v -v")
+            //filesystem.exec('pl /home/phablet/.local/share/sturmreader.emanuelesorce/calibre/calibredb add ' + dir + '/' + newfilename + ' --with-library=' + dir)
             item.importName = dir + "/" + basename + ".epub"
+            //item.importName = dir + '/' + newfilename
             localBooks.addFile(item.importName, true)
             // delete old file
             filesystem.exec('rm -rf ' + dir + "/" + newfilename)
