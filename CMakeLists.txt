@@ -24,7 +24,7 @@ set(SUFFIX "")
 
 set(DESKTOP_FILE "sturmreader.desktop")
 set(APP_HARDCODE sturmreader)
-set(ICON_FILE sturmreader.png)
+set(ICON_FILE sturmreader.svg)
 
 # Check if build is out of source tree and sets boolean value
 set(OUT_OF_TREE_BUILD true)
