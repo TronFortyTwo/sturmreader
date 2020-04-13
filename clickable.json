@@ -7,9 +7,8 @@
 		"qtdeclarative5-ubuntu-content1",
 		"libpoppler-qt5-dev"
 	],
-	"dependencies_build": [
+	"dependencies_host": [
 		"gettext"
 	],
-	"make_jobs": 2,
 	"default": "build install launch logs --dirty"
 }

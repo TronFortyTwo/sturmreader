@@ -1,20 +1,9 @@
 project(sturmreader C CXX)
 cmake_minimum_required(VERSION 3.0.0)
 
-# ------------------------------------
-# Set this one to on to build the + version
-# ------------------------------------
-option(PLUS_VERSION "Package the Plus version" off)
-
-if(PLUS_VERSION)
-	set(PROJECT_NAME sturmreader.plus.emanuelesorce)
-	set(APPARMOR_FILE apparmor/sturmreader.access.json)
-	set(DESKTOP_NAME "Sturm Reader +")
-else(PLUS_VERSION)
-	set(PROJECT_NAME sturmreader.emanuelesorce)
-	set(APPARMOR_FILE apparmor/sturmreader.json)
-	set(DESKTOP_NAME "Sturm Reader")
-endif(PLUS_VERSION)
+set(PROJECT_NAME sturmreader.emanuelesorce)
+set(APPARMOR_FILE apparmor/sturmreader.json)
+set(DESKTOP_NAME "Sturm Reader")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra -fPIC")
@@ -35,7 +24,6 @@ option(FS_ACCESS "Gets filesystem access through apparmor" off)
 set(SUFFIX "")
 
 set(DESKTOP_FILE "sturmreader.desktop")
-set(DESKTOP_COMMENT "E-Book Reader for Ubuntu Touch")
 set(APP_HARDCODE sturmreader)
 set(ICON_FILE sturmreader.png)
 
@@ -69,10 +57,9 @@ if(CLICK_MODE)
     set(DESKTOP_DIR ${DATA_DIR})
     set(ICON ${ICON_FILE})
     set(EXEC "qmlscene -I ./ ui/main.qml --appargs=\"%f\"")
-    configure_file(manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/manifest.json)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.json DESTINATION ${DATA_DIR})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/contenthub.json DESTINATION ${DATA_DIR})
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/apparmor DESTINATION ${DATA_DIR})
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/sturmreader.json DESTINATION ${DATA_DIR})
 else(CLICK_MODE)
     set(DATA_DIR ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
     set(DESKTOP_DIR ${CMAKE_INSTALL_DATADIR}/applications)
