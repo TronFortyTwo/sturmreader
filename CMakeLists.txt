@@ -12,7 +12,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wa
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(UBUNTU_PROJECT_TYPE "ClickApp" CACHE INTERNAL "Tells QtCreator this is a Click application project")
-set(UBUNTU_MANIFEST_PATH "manifest.json.in" CACHE INTERNAL "Tells QtCreator location and name of the manifest file")
 
 # Standard install paths
 include(GNUInstallDirs)
@@ -57,7 +56,7 @@ if(CLICK_MODE)
     set(DESKTOP_DIR ${DATA_DIR})
     set(ICON ${ICON_FILE})
     set(EXEC "qmlscene -I ./ ui/main.qml --appargs=\"%f\"")
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.json DESTINATION ${DATA_DIR})
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/manifest.json DESTINATION ${DATA_DIR})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/contenthub.json DESTINATION ${DATA_DIR})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/sturmreader.json DESTINATION ${DATA_DIR})
 else(CLICK_MODE)
