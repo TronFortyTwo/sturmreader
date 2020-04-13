@@ -1,4 +1,5 @@
 [![Donate](https://img.shields.io/badge/PayPal-Donate%20to%20Author-blue.svg)](https://www.paypal.me/emanuele42)
+[![OpenStore](https://img.shields.io/badge/Install%20from-OpenStore-000000.svg)](https://open-store.io/app/sturmreader.emanuelesorce)
 
 Ebook Reader for Ubuntu
 =======================
