@@ -303,7 +303,7 @@ msgid ""
 msgstr ""
 "Non si è riuscito a decodificare il file.\n"
 "\n"
-"Anche se pare essere un file %1, non Sturm Reader ha fallito nella sua "
+"Anche se pare essere un file %1, Sturm Reader ha fallito nella sua "
 "decodifica."
 
 #: ui/main.qml:64
