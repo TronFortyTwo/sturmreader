@@ -8,7 +8,8 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Components.Popups 1.3
-import com.canonical.Oxide 1.0
+//import com.canonical.Oxide 1.0
+import QtWebEngine 1.7
 import UserMetrics 0.1
 import FontList 1.0
 
@@ -72,6 +73,30 @@ PageWithBottomEdge {
         running: opacity != 0
     }
     
+    WebEngineView {
+		id: bookWebView
+		anchors.fill: parent
+		opacity: 0
+		focus: false
+		//context: bookWebContext
+		url: filesystem.getDataDir("")
+		
+		onTitleChanged: Messaging.handleMessage(title)
+		onActiveFocusChanged: {
+			if(activeFocus)
+				closeBottomEdge()
+			// reject attempts to give WebView focus
+			focus = false;
+		}
+		
+		userScripts: [
+			WebEngineScript {
+				//context: Messaging.context
+				sourceUrl: Qt.resolvedUrl("qmlmessaging-userscript.js")
+			}
+		]
+	}
+    /*
     WebView {
         id: bookWebView
         anchors.fill: parent
@@ -98,6 +123,7 @@ PageWithBottomEdge {
             }
         ]
     }
+    */
 
     Metric {
         id: pageMetric
