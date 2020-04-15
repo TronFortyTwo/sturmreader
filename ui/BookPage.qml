@@ -38,12 +38,14 @@ PageWithBottomEdge {
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
                 || event.key == Qt.Key_Period) {
-            Messaging.sendMessage("ChangePage", 1)
+			//Messaging.sendMessage("ChangePage", 1)
+			bookWebView.runJavaScript("ChangePage(1)");
             event.accepted = true
         } else if (event.key == Qt.Key_Left || event.key == Qt.Key_Up
                    || event.key == Qt.Key_Backspace || event.key == Qt.Key_Comma) {
-            Messaging.sendMessage("ChangePage", -1)
-            event.accepted = true
+            //Messaging.sendMessage("ChangePage", -1)
+			bookWebView.runJavaScript("ChangePage(-1)");
+			event.accepted = true
         }
     }
 
@@ -88,13 +90,14 @@ PageWithBottomEdge {
 			// reject attempts to give WebView focus
 			focus = false;
 		}
-		
+		/*
 		userScripts: [
 			WebEngineScript {
 				//context: Messaging.context
 				sourceUrl: Qt.resolvedUrl("qmlmessaging-userscript.js")
 			}
 		]
+		*/
 	}
     /*
     WebView {
@@ -163,8 +166,9 @@ PageWithBottomEdge {
                     onTriggered: {
                         var locus = history.goBackward()
                         if (locus !== null) {
-                            navjump = true
-                            Messaging.sendMessage("GotoLocus", locus)
+                            navjump = true;
+                            //Messaging.sendMessage("GotoLocus", locus)
+                            bookWebView.runJavaScript("GotoLocus(" + JSON.stringify(locus) + ")");
                         }
                     }
                 },
@@ -174,8 +178,9 @@ PageWithBottomEdge {
                     onTriggered: {
                         var locus = history.goForward()
                         if (locus !== null) {
-                            navjump = true
-                            Messaging.sendMessage("GotoLocus", locus)
+							navjump = true;
+							//Messaging.sendMessage("GotoLocus", locus)
+							bookWebView.runJavaScript("GotoLocus(" + JSON.stringify(locus) + ")");
                         }
                     }
                 }
@@ -207,10 +212,11 @@ PageWithBottomEdge {
                 text: (new Array(model.level + 1)).join("    ") +
                       model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
                 selected: bookPage.currentChapter == model.src
-                onClicked: {
-                    Messaging.sendMessage("NavigateChapter", model.src)
-                    closeBottomEdge()
-                }
+				onClicked: {
+					//Messaging.sendMessage("NavigateChapter", model.src)
+					bookWebView.runJavaScript("NavigateChapter(" + JSON.stringify(model.src) + ")");
+					closeBottomEdge()
+				}
             }
 
             Connections {
@@ -297,9 +303,10 @@ PageWithBottomEdge {
             if (loading)
                 return
 
-            Messaging.sendMessage("Styles", asObject())
-            setBookSetting("styles", asObject())
-            atdefault = (JSON.stringify(asObject()) == JSON.stringify(defaults))
+            //Messaging.sendMessage("Styles", asObject())
+            bookWebView.runJavaScript("Styles(" + JSON.stringify(asObject()) + ")");
+            setBookSetting("styles", asObject());
+            atdefault = (JSON.stringify(asObject()) == JSON.stringify(defaults));
         }
 
         function resetToDefaults() {
@@ -662,7 +669,8 @@ PageWithBottomEdge {
     }
 
     function windowSizeChanged() {
-        Messaging.sendMessage("WindowSizeChanged")
+        //Messaging.sendMessage("WindowSizeChanged")
+		bookWebView.runJavaScript("WindowSizeChanged()");
     }
 
     Component.onCompleted: {
