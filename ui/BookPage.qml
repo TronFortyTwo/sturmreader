@@ -451,25 +451,25 @@ PageWithBottomEdge {
             ListModel {
                 id: colorModel
                 ListElement {
-                    name: "Black on White"
+					name: i18n.tr("Black on White")
                     pictureName: "White"
                     foreground: "black"
                     background: "white"
                 }
                 ListElement {
-                    name: "Dark on Texture"
+					name: i18n.tr("Dark on Texture")
                     pictureName: "Light Texture"
                     foreground: "#222"
                     background: "url(.background_paper@30.png)"
                 }
                 ListElement {
-                    name: "Light on Texture"
+					name: i18n.tr("Light on Texture")
                     pictureName: "Dark Texture"
                     foreground: "#999"
                     background: "url(.background_paper_invert@30.png)"
                 }
                 ListElement {
-                    name: "White on Black"
+					name: i18n.tr("White on Black")
                     pictureName: "Black"
                     foreground: "white"
                     background: "black"
