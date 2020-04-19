@@ -1,4 +1,5 @@
 /* Copyright 2013-2015 Robert Schroll
+ * Copyright 2020 Emanuele Sorce - emanuele.sorce@hotmail.com
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
@@ -15,7 +16,7 @@ import FontList 1.0
 
 import "components"
 
-import "qmlmessaging.js" as Messaging
+//import "qmlmessaging.js" as Messaging
 import "historystack.js" as History
 
 
@@ -75,29 +76,47 @@ PageWithBottomEdge {
         running: opacity != 0
     }
     
-    WebEngineView {
+    
+	WebEngineView {
 		id: bookWebView
 		anchors.fill: parent
 		opacity: 0
 		focus: false
-		//context: bookWebContext
-		url: filesystem.getDataDir("")
+		onJavaScriptConsoleMessage: function(level, msg, linen, sourceID) {
+			console.log("bookWebView: " + msg);
+		}
+		onJavaScriptDialogRequested: function(request) {
+			console.log("got alert message: " + request.message );
+			var msg = request.message.split(" ");
+			
+			if(msg[0] == "ExternalLink") {
+				bookPage.onExternalLink(msg[1]);
+			}
+			else if(msg[0] == "Jumping") {
+				bookPage.onJumping([msg[1], msg[2]]);
+			}
+			else if(msg[0] == "PageChange") {
+				bookPage.onPageChange(JSON.parse(msg[1]));
+			}
+			else if(msg[0] == "Ready") {
+				bookPage.onReady();
+			}
+			else
+				console.log("error: unrecognized request message: " + request.message );
+			request.accepted = true;
+			request.dialogAccept();
+		}
+		//url: filesystem.getDataDir("")
+		onTitleChanged: function() {
+			console.log('title changed: ' + title);
+		}
 		
-		onTitleChanged: Messaging.handleMessage(title)
 		onActiveFocusChanged: {
 			if(activeFocus)
 				closeBottomEdge()
 			// reject attempts to give WebView focus
 			focus = false;
 		}
-		/*
-		userScripts: [
-			WebEngineScript {
-				//context: Messaging.context
-				sourceUrl: Qt.resolvedUrl("qmlmessaging-userscript.js")
-			}
-		]
-		*/
 	}
     /*
     WebView {
@@ -115,7 +134,6 @@ PageWithBottomEdge {
             focus = false
         }
     }
-
     WebContext {
         id: bookWebContext
         dataPath: filesystem.getDataDir("")
@@ -168,7 +186,7 @@ PageWithBottomEdge {
                         if (locus !== null) {
                             navjump = true;
                             //Messaging.sendMessage("GotoLocus", locus)
-                            bookWebView.runJavaScript("GotoLocus(" + JSON.stringify(locus) + ")");
+                            bookWebView.runJavaScript("GotoLocus(" + locus + ")");
                         }
                     }
                 },
@@ -180,7 +198,7 @@ PageWithBottomEdge {
                         if (locus !== null) {
 							navjump = true;
 							//Messaging.sendMessage("GotoLocus", locus)
-							bookWebView.runJavaScript("GotoLocus(" + JSON.stringify(locus) + ")");
+							bookWebView.runJavaScript("GotoLocus(" + locus + ")");
                         }
                     }
                 }
@@ -214,7 +232,7 @@ PageWithBottomEdge {
                 selected: bookPage.currentChapter == model.src
 				onClicked: {
 					//Messaging.sendMessage("NavigateChapter", model.src)
-					bookWebView.runJavaScript("NavigateChapter(" + JSON.stringify(model.src) + ")");
+					bookWebView.runJavaScript("NavigateChapter(" + JSON.stringify(model.src) + ");");
 					closeBottomEdge()
 				}
             }
@@ -304,9 +322,10 @@ PageWithBottomEdge {
                 return
 
             //Messaging.sendMessage("Styles", asObject())
-            bookWebView.runJavaScript("Styles(" + JSON.stringify(asObject()) + ")");
-            setBookSetting("styles", asObject());
-            atdefault = (JSON.stringify(asObject()) == JSON.stringify(defaults));
+			bookWebView.runJavaScript("Styles(" + JSON.stringify(asObject()) + ")");
+			//bookStyles.load();
+			setBookSetting("styles", asObject());
+			atdefault = (JSON.stringify(asObject()) == JSON.stringify(defaults));
         }
 
         function resetToDefaults() {
@@ -663,9 +682,9 @@ PageWithBottomEdge {
     }
 
     function onReady() {
-        bookWebView.opacity = 1
-        loadingIndicator.opacity = 0
-        previewControls()
+        bookWebView.opacity = 1;
+        loadingIndicator.opacity = 0;
+        previewControls();
     }
 
     function windowSizeChanged() {
@@ -674,11 +693,11 @@ PageWithBottomEdge {
     }
 
     Component.onCompleted: {
-        Messaging.registerHandler("ExternalLink", onExternalLink)
-        Messaging.registerHandler("Jumping", onJumping)
-        Messaging.registerHandler("PageChange", onPageChange)
-        Messaging.registerHandler("Styles", bookStyles.load)
-        Messaging.registerHandler("Ready", onReady)
+        //Messaging.registerHandler("ExternalLink", onExternalLink)
+        //Messaging.registerHandler("Jumping", onJumping)
+        //Messaging.registerHandler("PageChange", onPageChange)
+        //Messaging.registerHandler("Styles", bookStyles.load)
+        //Messaging.registerHandler("Ready", onReady)
         server.reader.contentsReady.connect(parseContents)
         onWidthChanged.connect(windowSizeChanged)
         onHeightChanged.connect(windowSizeChanged)

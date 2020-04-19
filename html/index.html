@@ -14,25 +14,30 @@ the GPL. See the file COPYING for full details.
 <script src=".monocle/scripts/monoctrl.js"></script>
 <script src=".instantslider.js"></script>
 <script src=".bookdata.js"></script>
-<script src=".messaging.js"></script>
+<!-- <script src=".messaging.js"></script> -->
 <script src=".defaults.js"></script>
 <script src=".styling.js"></script>
 <script>
 var reader = null;
 
 function NavigateChapter(src) {
+	console.log("navigating to chapter: " + src);
 	reader.skipToChapter(src);
 }
 function GotoLocus(locus) {
+	console.log("GotoLocus");
 	reader.moveTo(locus);
 }
 function Styles() {
+	console.log("Styles");
 	styleManager.updateStyles();
 }
 function WindowSizeChanged() {
+	console.log("WindowSizeChanged");
 	reader.resized();
 }
 function ChangePage(dir) {
+	console.log("changing page: " + dir);
 	reader.moveTo({direction: dir});
 }
 
@@ -46,7 +51,8 @@ function createReader(bookData) {
             reader.addControl(stencil);
             styleManager.reader = reader;
             Monocle.Browser.env.supportsTransform3d = false;  // Fix for paging backwards
-            Messaging.sendMessage("Ready");
+            //Messaging.sendMessage("Ready");
+            alert("Ready");
         }
     );
     /*
@@ -65,17 +71,22 @@ function createReader(bookData) {
     });
     */
     reader.listen("monocle:link:external", function(event) {
-        Messaging.sendMessage("ExternalLink", event.m.href.external);
+		alert("ExternalLink " + event.m.href.external);
+		//Messaging.sendMessage("ExternalLink", event.m.href.external);
         event.preventDefault();
     });
     reader.listen("monocle:jumping", function(event) {
-        Messaging.sendMessage("Jumping", [reader.getPlace().getLocus(), event.m.locus]);
+        //Messaging.sendMessage("Jumping", [reader.getPlace().getLocus(), event.m.locus]);
+        console.log('Jumping');
+        alert("Jumping " + reader.getPlace().getLocus() + " " + event.m.locus);
     });
     reader.listen("monocle:pagechange", function(event) {
         var place = reader.getPlace();
-        Messaging.sendMessage("PageChange", { chapterSrc: place.chapterSrc(),
-                                              componentId: place.componentId(),
-                                              percent: place.percentageThrough() });
+        console.log('PageChange');
+        alert("PageChange " + JSON.stringfy({chapterSrc: place.chapterSrc(), componentId: place.componentId(), percent: place.percentageThrough() }));
+        //Messaging.sendMessage("PageChange", { chapterSrc: place.chapterSrc(),
+        //                                      componentId: place.componentId(),
+        //                                      percent: place.percentageThrough() });
     });
 }
 
