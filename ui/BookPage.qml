@@ -40,12 +40,12 @@ PageWithBottomEdge {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
                 || event.key == Qt.Key_Period) {
 			//Messaging.sendMessage("ChangePage", 1)
-			bookWebView.runJavaScript("ChangePage(1)");
+			bookWebView.runJavaScript("reader.moveTo({direction: '1'});");
             event.accepted = true
         } else if (event.key == Qt.Key_Left || event.key == Qt.Key_Up
                    || event.key == Qt.Key_Backspace || event.key == Qt.Key_Comma) {
             //Messaging.sendMessage("ChangePage", -1)
-			bookWebView.runJavaScript("ChangePage(-1)");
+			bookWebView.runJavaScript("reader.moveTo({direction: '-1'});");
 			event.accepted = true
         }
     }
@@ -186,7 +186,7 @@ PageWithBottomEdge {
                         if (locus !== null) {
                             navjump = true;
                             //Messaging.sendMessage("GotoLocus", locus)
-                            bookWebView.runJavaScript("GotoLocus(" + locus + ")");
+							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
                         }
                     }
                 },
@@ -198,7 +198,7 @@ PageWithBottomEdge {
                         if (locus !== null) {
 							navjump = true;
 							//Messaging.sendMessage("GotoLocus", locus)
-							bookWebView.runJavaScript("GotoLocus(" + locus + ")");
+							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
                         }
                     }
                 }
@@ -232,7 +232,7 @@ PageWithBottomEdge {
                 selected: bookPage.currentChapter == model.src
 				onClicked: {
 					//Messaging.sendMessage("NavigateChapter", model.src)
-					bookWebView.runJavaScript("NavigateChapter(" + JSON.stringify(model.src) + ");");
+					bookWebView.runJavaScript("reader.skipToChapter(" + JSON.stringify(model.src) + ");");
 					closeBottomEdge()
 				}
             }
@@ -322,8 +322,17 @@ PageWithBottomEdge {
                 return
 
             //Messaging.sendMessage("Styles", asObject())
-			bookWebView.runJavaScript("Styles(" + JSON.stringify(asObject()) + ")");
-			//bookStyles.load();
+            // this one below should be improved
+			bookWebView.runJavaScript("styleManager.updateStyles({" +
+				"'textColor':'" + textColor +
+				"','fontFamily':'" + fontFamily +
+				"','lineHeight':'" + lineHeight +
+				"','fontScale':'" + fontScale +
+				"','background':'" + background +
+				"','margin':'" + margin +
+				"','marginv':'" + marginv +
+				"','bumper':'" + bumper +
+			"'});");
 			setBookSetting("styles", asObject());
 			atdefault = (JSON.stringify(asObject()) == JSON.stringify(defaults));
         }
@@ -689,7 +698,7 @@ PageWithBottomEdge {
 
     function windowSizeChanged() {
         //Messaging.sendMessage("WindowSizeChanged")
-		bookWebView.runJavaScript("WindowSizeChanged()");
+		bookWebView.runJavaScript("reader.resized();");
     }
 
     Component.onCompleted: {
