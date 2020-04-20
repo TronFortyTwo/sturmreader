@@ -83,7 +83,7 @@ PageWithBottomEdge {
 		opacity: 0
 		focus: false
 		onJavaScriptConsoleMessage: function(level, msg, linen, sourceID) {
-			console.log("bookWebView: " + msg);
+			console.log("WEB: " + msg + " | level: " + level + " | line: " + linen + " | source: " + sourceID);
 		}
 		onJavaScriptDialogRequested: function(request) {
 			console.log("got alert message: " + request.message );
@@ -421,7 +421,7 @@ PageWithBottomEdge {
                 model: colorModel
 
                 delegate: StylableOptionSelectorDelegate {
-                    text: server.reader.pictureBook ? pictureName : name
+					text: server.reader.pictureBook ? pictureName : i18n.tr(name)
                     Component.onCompleted: {
                         textLabel.color = foreground
                         if (background.slice(0, 5) == "url(.") {
@@ -451,25 +451,25 @@ PageWithBottomEdge {
             ListModel {
                 id: colorModel
                 ListElement {
-					name: i18n.tr("Black on White")
+					name: "Black on White"
                     pictureName: "White"
                     foreground: "black"
                     background: "white"
                 }
                 ListElement {
-					name: i18n.tr("Dark on Texture")
+					name: "Dark on Texture"
                     pictureName: "Light Texture"
                     foreground: "#222"
                     background: "url(.background_paper@30.png)"
                 }
                 ListElement {
-					name: i18n.tr("Light on Texture")
+					name: "Light on Texture"
                     pictureName: "Dark Texture"
                     foreground: "#999"
                     background: "url(.background_paper_invert@30.png)"
                 }
                 ListElement {
-					name: i18n.tr("White on Black")
+					name: "White on Black"
                     pictureName: "Black"
                     foreground: "white"
                     background: "black"

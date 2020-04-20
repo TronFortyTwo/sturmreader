@@ -22,7 +22,7 @@ var reader = null;
 
 function createReader(bookData) {
     var styleInfo = styleManager.init(bookData.getMetaData("title"));
-    reader = Monocle.Reader("reader", bookData,
+	reader = Monocle.Reader("reader", bookData,
         { panels: Monocle.Panels.TwoPane, flipper: Monocle.Flippers.InstantSlider, place: SAVED_PLACE,
           stylesheet: styleInfo.stylesheet, fontScale: styleInfo.fontScale},
         function (reader) {
@@ -56,12 +56,10 @@ function createReader(bookData) {
     });
     reader.listen("monocle:jumping", function(event) {
         //Messaging.sendMessage("Jumping", [reader.getPlace().getLocus(), event.m.locus]);
-        console.log('Jumping');
         alert("Jumping " + reader.getPlace().getLocus() + " " + event.m.locus);
     });
     reader.listen("monocle:pagechange", function(event) {
         var place = reader.getPlace();
-        console.log('PageChange');
         alert("PageChange " + JSON.stringfy({chapterSrc: place.chapterSrc(), componentId: place.componentId(), percent: place.percentageThrough() }));
         //Messaging.sendMessage("PageChange", { chapterSrc: place.chapterSrc(),
         //                                      componentId: place.componentId(),
