@@ -201,13 +201,6 @@ Monocle.Env = function () {
   }
 
 
-  function columnedWidth(fr) {
-    var bd = fr.contentDocument.body;
-    var de = fr.contentDocument.documentElement;
-    return Math.max(bd.scrollWidth, de.scrollWidth);
-  }
-
-
   var envTests = [
 
     // TEST FOR REQUIRED CAPABILITIES
@@ -246,17 +239,31 @@ Monocle.Env = function () {
     // Can we do 3d transforms?
     //
     ["supportsTransform3d", function () {
-      result(
-        css.supportsMediaQueryProperty('transform-3d') &&
-        css.supportsProperty([
-          'perspectiveProperty',
-          'WebkitPerspective',
-          'MozPerspective',
-          'OPerspective',
-          'msPerspective'
-        ]) &&
-        !Monocle.Browser.renders.slow // Some older browsers can't be trusted.
-      );
+      // Some older browsers can't be trusted.
+      if (Monocle.Browser.renders.slow) { return result(false); }
+      // Try it out in a test frame:
+      loadTestFrame(function (fr) {
+        var doc = fr.contentDocument;
+        var elem = doc.createElement('p');
+        var has3d;
+        var sty;
+        var transforms = {
+          'webkitTransform':'-webkit-transform',
+          'OTransform':'-o-transform',
+          'msTransform':'-ms-transform',
+          'MozTransform':'-moz-transform',
+          'transform':'transform'
+        };
+        doc.body.insertBefore(elem, null);
+        for (var t in transforms) {
+          if (elem.style[t] !== undefined) {
+            elem.style[t] = 'translate3d(1px,1px,1px)';
+            sty = fr.contentWindow.getComputedStyle(elem);
+            has3d = sty.getPropertyValue(transforms[t]);
+          }
+        }
+        result(has3d !== undefined && has3d.length > 0 && has3d !== 'none');
+      });
     }],
 
 
@@ -268,10 +275,14 @@ Monocle.Env = function () {
     ["supportsLocalStorage", function () {
       // NB: Some duplicitous early Android browsers claim to have
       // localStorage, but calls to getItem() fail.
-      result(
-        typeof window.localStorage != "undefined" &&
-        typeof window.localStorage.getItem == "function"
-      )
+      try {
+        result(
+          typeof window.localStorage != "undefined" &&
+          typeof window.localStorage.getItem == "function"
+        )
+      } catch (e) {
+        result(false);
+      }
     }],
 
 
@@ -310,6 +321,7 @@ Monocle.Env = function () {
       return result(match[1] < "534.30");
     }],
 
+
     // The latest engines all agree that if a body is translated leftwards,
     // its scrollWidth is shortened. But some older WebKits (notably iOS4)
     // do not subtract translateX values from scrollWidth. In this case,
@@ -317,17 +329,20 @@ Monocle.Env = function () {
     //
     ["widthsIgnoreTranslate", function () {
       loadTestFrame(function (fr) {
-        var firstWidth = columnedWidth(fr);
-        var s = fr.contentDocument.body.style;
-        var props = css.toDOMProps("transform");
+        var doc = fr.contentDocument;
+        var div = doc.querySelector('div');
+        var rng = doc.createRange();
+        rng.selectNodeContents(div);
+        var firstLeft = rng.getClientRects()[0].left;
+        var props = css.toCSSProps('transform');
         for (var i = 0, ii = props.length; i < ii; ++i) {
-          s[props[i]] = "translateX(-600px)";
+          doc.body.style.setProperty(props[i], 'translateX(-600px)');
         }
-        var secondWidth = columnedWidth(fr);
+        var secondLeft = rng.getClientRects()[0].left;
         for (i = 0, ii = props.length; i < ii; ++i) {
-          s[props[i]] = "none";
+          doc.body.style.removeProperty(props[i]);
         }
-        result(secondWidth == firstWidth);
+        result(secondLeft == firstLeft);
       });
     }],
 
@@ -427,16 +442,6 @@ Monocle.Env = function () {
     }],
 
 
-    // Chrome and Firefox incorrectly clip text when the dimensions of
-    // a page are not an integer. IE10 clips text when the page dimensions
-    // are rounded.
-    //
-    ['roundPageDimensions', function () {
-      result(!Monocle.Browser.is.IE);
-    }],
-
-
-
     // In IE10, the <html> element of the iframe's document has scrollbars,
     // unless you set its style.overflow to 'hidden'.
     //
@@ -457,7 +462,11 @@ Monocle.Env = function () {
     // javascript: URLs. With the latter, it tends to put cruft in history,
     // and gets confused by <base>.
     ['loadHTMLWithDocWrite', function () {
-      result(Monocle.Browser.is.Gecko || Monocle.Browser.is.Opera);
+      result(
+        Monocle.Browser.is.Gecko ||
+        Monocle.Browser.is.Opera ||
+        Monocle.Browser.uaMatch('Chrome/4')
+      );
     }]
   ];
 
@@ -689,10 +698,14 @@ Monocle.Browser.uaMatch = function (test) {
 // Detect the browser engine and set boolean flags for reference.
 //
 Monocle.Browser.is = {
-  IE: !!(window.attachEvent && !Monocle.Browser.uaMatch('Opera')),
+  IE: !!(
+    (window.attachEvent && !Monocle.Browser.uaMatch('Opera')) ||
+    // IE 11
+    (window.navigator.appName == 'Netscape' && Monocle.Browser.uaMatch('Trident'))
+  ),
   Opera: Monocle.Browser.uaMatch('Opera'),
   WebKit: Monocle.Browser.uaMatch(/Apple\s?WebKit/),
-  Gecko: Monocle.Browser.uaMatch('Gecko') && !Monocle.Browser.uaMatch('KHTML'),
+  Gecko: Monocle.Browser.uaMatch(/Gecko\//),
   MobileSafari: Monocle.Browser.uaMatch(/OS \d_.*AppleWebKit.*Mobile/)
 }
 
@@ -755,6 +768,14 @@ Monocle.Browser.iOSVersionBelow = function (strOrNum) {
 }
 
 
+if (Monocle.Browser.is.IE) {
+  (function () {
+    var version = navigator.userAgent.match(/(rv:|MSIE )(\d*\.\d*)/)[2];
+    Monocle.Browser.ieVersion = Number(version);
+  })();
+}
+
+
 // Some browser environments are too slow or too problematic for
 // special animation effects.
 //
@@ -774,12 +795,6 @@ Monocle.Browser.renders = (function () {
 })();
 
 
-// A helper class for sniffing CSS features and creating CSS rules
-// appropriate to the current rendering engine.
-//
-Monocle.Browser.css = new Monocle.CSS();
-
-
 // During Reader initialization, this method is called to create the
 // "environment", which tests for the existence of various browser
 // features and bugs, then invokes the callback to continue initialization.
@@ -789,6 +804,7 @@ Monocle.Browser.css = new Monocle.CSS();
 //
 Monocle.Browser.survey = function (callback) {
   if (!Monocle.Browser.env) {
+    Monocle.Browser.css = new Monocle.CSS();
     Monocle.Browser.env = new Monocle.Env();
     Monocle.Browser.env.survey(callback);
   } else if (typeof callback == "function") {
@@ -1006,7 +1022,7 @@ Gala.onContact = function (elem, fns, useCapture, initCallback) {
   elem = Gala.$(elem);
 
   var isLeftClick = function (evt) {
-    return evt[evt.which == 'undefined' ? 'button' : 'which'] < 2;
+    return evt[typeof evt.which == 'undefined' ? 'button' : 'which'] < 2;
   }
 
   var isSingleTouch = function (evt) {
@@ -1056,7 +1072,9 @@ Gala.Pointers = {
   pointers: {},
 
 
-  enabled: function () { return Gala.Pointers.ENV.pointer },
+  enabled: function () {
+    return Gala.Pointers.ENV.pointer || Gala.Pointers.ENV.msPointer;
+  },
 
   // Track pointer events
   //
@@ -1105,9 +1123,10 @@ Gala.Pointers.ENV = {
   // Not sure how I feel about this spec but it makes sense to unify
   // the events into a single interface to be used as needed. - DS
   //
-  pointer: (function () {
-    return !!(navigator.pointerEnabled || navigator.msPointerEnabled)
-  })(),
+  msPointer: (function () { return !!navigator.msPointerEnabled })(),
+
+
+  pointer: (function () { return !!navigator.pointerEnabled })(),
 
 
   // Does the system support a mouse
@@ -1134,14 +1153,19 @@ Gala.Pointers.ENV = {
 Gala.getEventTypes = function () {
   var types;
 
-  if (Gala.Pointers.enabled()) {
-    // Microsoft screwing stuff up with pointers
-    // http://www.w3.org/TR/pointerevents/
+  if (Gala.Pointers.ENV.pointer) {
     types = [
-      'pointerdown MSPointerDown',
-      'pointermove MSPointerMove',
-      'pointerup MSPointerUp',
-      'pointercancel MSPointerCancel'
+      'pointerdown',
+      'pointermove',
+      'pointerup',
+      'pointercancel'
+    ];
+  } else if (Gala.Pointers.ENV.msPointer) {
+    types = [
+      'MSPointerDown',
+      'MSPointerMove',
+      'MSPointerUp',
+      'MSPointerCancel'
     ];
   } else if (Gala.Pointers.ENV.noMouse) {
     types = [
@@ -1619,7 +1643,7 @@ Monocle.Styles = {
     var val = Monocle.Browser.env.supportsTransform3d ?
       'translate3d('+x+', 0, 0)' :
       'translateX('+x+')';
-    val = (x == '0px') ? 'none' : val;
+    //val = (x == '0px') ? 'none' : val;
     s.webkitTransform = s.MozTransform = s.OTransform = s.transform = val;
     return x;
   },
@@ -1639,13 +1663,17 @@ Monocle.Styles = {
 
   getX: function (elem) {
     var currStyle = document.defaultView.getComputedStyle(elem, null);
-    var re = /matrix\([^,]+,[^,]+,[^,]+,[^,]+,\s*([^,]+),[^\)]+\)/;
+    var re2d = /matrix\([^,]+,[^,]+,[^,]+,[^,]+,\s*([^,]+)/;
+    var re3d = /matrix3d\(.*,\s*([^,]+),[^,]+,[^,]+,[^\)]+\)/
     var props = Monocle.Browser.css.toDOMProps('transform');
     var matrix = null;
     while (props.length && !matrix) {
       matrix = currStyle[props.shift()];
     }
-    return parseInt(matrix.match(re)[1], 10);
+    var match = matrix.match(re2d) || matrix.match(re3d);
+    if (match) {
+      return parseInt(match[1], 10);
+    }
   },
 
 
@@ -1762,9 +1790,9 @@ Monocle.Formatting = function (reader, optStyles, optScale) {
     if (Monocle.Browser.env.floatsIgnoreColumns) {
       defCSS.push("html#RS\\:monocle * { float: none !important; }");
     }
-    p.defaultStyles = addPageStyles(defCSS, false);
+    p.defaultStyles = addPageStyles(defCSS);
     if (implStyles) {
-      p.initialStyles = addPageStyles(implStyles, false);
+      p.initialStyles = addPageStyles(implStyles);
     }
   }
 
@@ -1857,17 +1885,19 @@ Monocle.Formatting = function (reader, optStyles, optScale) {
   function changingStylesheet(callback) {
     dispatchChanging();
     var result = callback();
-    p.reader.recalculateDimensions(true, dispatchChange);
+    p.reader.recalculateDimensions();
     return result;
   }
 
 
   function dispatchChanging() {
+    p.reader.listen('monocle:recalculated', dispatchChange);
     p.reader.dispatchEvent("monocle:stylesheetchanging", {});
   }
 
 
   function dispatchChange() {
+    p.reader.deafen('monocle:recalculated', dispatchChange);
     p.reader.dispatchEvent("monocle:stylesheetchange", {});
   }
 
@@ -1920,65 +1950,85 @@ Monocle.Formatting = function (reader, optStyles, optScale) {
     while (cmpt = p.reader.dom.find('component', i++)) {
       adjustFontScaleForDoc(cmpt.contentDocument, scale);
     }
-    p.reader.recalculateDimensions(true, dispatchChange);
+    p.reader.recalculateDimensions();
   }
 
 
   function adjustFontScaleForDoc(doc, scale) {
-    var j, jj;
-    var elems = doc.getElementsByTagName('*');
     if (scale) {
-      scale = parseFloat(scale);
       if (!doc.body.pfsSwept) {
-        sweepElements(doc, elems);
+        sweepElements(doc);
       }
+      var evtData = { document: doc, scale: parseFloat(scale) };
+      p.reader.dispatchEvent('monocle:fontscaling', evtData);
+      scale = evtData.scale;
 
       // Iterate over each element, applying scale to the original
       // font-size. If a proportional font sizing is already applied to
       // the element, update existing cssText, otherwise append new cssText.
-      //
-      for (j = 0, jj = elems.length; j < jj; ++j) {
-        var newFs = fsProperty(elems[j].pfsOriginal, scale);
-        if (elems[j].pfsApplied) {
-          replaceFontSizeInStyle(elems[j], newFs);
+      walkTree(doc.body, function (elem) {
+        if (typeof elem.pfsOriginal == 'undefined') { return; }
+        var newFs = fsProperty(Math.round(elem.pfsOriginal*scale));
+        if (elem.pfsApplied) {
+          replaceFontSizeInStyle(elem, newFs);
         } else {
-          elems[j].style.cssText += newFs;
+          elem.style.cssText += newFs;
         }
-        elems[j].pfsApplied = scale;
-      }
-    } else if (doc.body.pfsSwept) {
+        elem.pfsApplied = scale;
+      });
+
+      p.reader.dispatchEvent('monocle:fontscale', evtData);
+    } else if (doc.body.pfsApplied) {
+      var evtData = { document: doc, scale: null };
+      p.reader.dispatchEvent('monocle:fontscaling', evtData);
+
       // Iterate over each element, removing proportional font-sizing flag
       // and property from cssText.
-      for (j = 0, jj = elems.length; j < jj; ++j) {
-        if (elems[j].pfsApplied) {
-          var oprop = elems[j].pfsOriginalProp;
+      walkTree(doc.body, function (elem) {
+        if (typeof elem.pfsOriginal == 'undefined') { return; }
+        if (elem.pfsApplied) {
+          var oprop = elem.pfsOriginalProp;
           var opropDec = oprop ? 'font-size: '+oprop+' ! important;' : '';
-          replaceFontSizeInStyle(elems[j], opropDec);
-          elems[j].pfsApplied = null;
+          replaceFontSizeInStyle(elem, opropDec);
+          elem.pfsApplied = null;
         }
-      }
+      });
 
       // Establish new baselines in case classes have changed.
-      sweepElements(doc, elems);
+      sweepElements(doc);
+
+      p.reader.dispatchEvent('monocle:fontscale', evtData);
     }
   }
 
 
-  function sweepElements(doc, elems) {
+  function sweepElements(doc) {
     // Iterate over each element, looking at its font size and storing
     // the original value against the element.
-    for (var i = 0, ii = elems.length; i < ii; ++i) {
-      var currStyle = doc.defaultView.getComputedStyle(elems[i], null);
+    walkTree(doc.body, function (elem) {
+      if (elem.getCTM) { return; } // Ignore SVG elements
+      var currStyle = doc.defaultView.getComputedStyle(elem, null);
       var fs = parseFloat(currStyle.getPropertyValue('font-size'));
-      elems[i].pfsOriginal = fs;
-      elems[i].pfsOriginalProp = elems[i].style.fontSize;
-    }
+      elem.pfsOriginal = fs;
+      elem.pfsOriginalProp = elem.style.fontSize;
+    });
     doc.body.pfsSwept = true;
   }
 
 
-  function fsProperty(orig, scale) {
-    return 'font-size: '+(orig*scale)+'px ! important;';
+  function walkTree(node, fn) {
+    if (node.nodeType != 1) { return; }
+    fn(node);
+    node = node.firstChild;
+    while (node) {
+      walkTree(node, fn);
+      node = node.nextSibling;
+    }
+  }
+
+
+  function fsProperty(fsInPixels) {
+    return 'font-size: '+fsInPixels+'px ! important;';
   }
 
 
@@ -2005,28 +2055,16 @@ Monocle.Formatting.DEFAULT_STYLE_RULES = [
     "-webkit-font-smoothing: subpixel-antialiased;" +
     "text-rendering: auto !important;" +
     "word-wrap: break-word !important;" +
-    "overflow: visible !important;" +
   "}",
   "html#RS\\:monocle body {" +
-    "margin: 0 !important;"+
-    "border: none !important;" +
-    "padding: 0 !important;" +
-    "width: 100% !important;" +
-    "position: absolute !important;" +
     "-webkit-text-size-adjust: none;" +
     "-ms-touch-action: none;" +
+    "touch-action: none;" +
     "-ms-content-zooming: none;" +
     "-ms-content-zoom-chaining: chained;" +
     "-ms-content-zoom-limit-min: 100%;" +
     "-ms-content-zoom-limit-max: 100%;" +
     "-ms-touch-select: none;" +
-  "}",
-  "html#RS\\:monocle body * {" +
-    "max-width: 100% !important;" +
-  "}",
-  "html#RS\\:monocle img, html#RS\\:monocle video, html#RS\\:monocle object, html#RS\\:monocle svg {" +
-    "max-height: 95% !important;" +
-    "height: auto !important;" +
   "}",
   "a:not([href]) { color: inherit; }"
 ]
@@ -2097,7 +2135,13 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
 
     // After the reader has been resized, this resettable timer must expire
     // the place is restored.
-    resizeTimer: null
+    resizeTimer: null,
+
+    // When we are measuring the length of components to recalculate
+    // pages, recalcPhase will be 1 or 2. If it is 1 or 2 and we get
+    // another recalculation request, recalcQueued will be set to true.
+    recalcPhase: 0,
+    recalcQueued: false
   }
 
   var dom;
@@ -2257,18 +2301,19 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
 
 
   function lockingFrameWidths() {
-    if (!Monocle.Browser.env.relativeIframeExpands) { return; }
-    for (var i = 0, cmpt; cmpt = dom.find('component', i); ++i) {
-      cmpt.style.display = "none";
+    if (Monocle.Browser.env.relativeIframeExpands) {
+      for (var i = 0, cmpt; cmpt = dom.find('component', i); ++i) {
+        cmpt.style.display = 'none';
+      }
     }
   }
 
 
   function lockFrameWidths() {
-    if (!Monocle.Browser.env.relativeIframeExpands) { return; }
-    for (var i = 0, cmpt; cmpt = dom.find('component', i); ++i) {
-      cmpt.style.width = cmpt.parentNode.offsetWidth+"px";
-      cmpt.style.display = "block";
+    if (Monocle.Browser.env.relativeIframeExpands) {
+      for (var i = 0, cmpt; cmpt = dom.find('component', i); ++i) {
+        cmpt.style.display = 'block';
+      }
     }
   }
 
@@ -2335,52 +2380,78 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
 
   function performResize() {
     lockFrameWidths();
-    recalculateDimensions(true, afterResized);
+    listen('monocle:recalculated', afterResize);
+    recalculateDimensions();
   }
 
 
-  function afterResized() {
+  function afterResize() {
+    deafen('monocle:recalculated', afterResize);
     dispatchEvent('monocle:resize');
   }
 
 
+  // A recalculation should be made for any event that may change the
+  // dimensions of the content in the visible pages -- such as a window
+  // resize, or font scaling, or a stylesheet change.
+  //
+  // If another recalculation is requested while a recalculation is in
+  // progress, it will be queued up. The 'monocle:recalculated' event will
+  // be deferred until all queued recalculations have been made.
+  //
   function recalculateDimensions(andRestorePlace, callback) {
+    // FIXME: DEPRECATION!
+    if (typeof andRestorePlace != 'undefined') {
+      console.warn('NOTE: recalculateDimensions no longer takes arguments.');
+      if (typeof callback == 'function') {
+        var deprec = function () {
+          deafen('monocle:recalculated', deprec);
+          callback();
+        }
+        listen('monocle:recalculated', deprec);
+      }
+    }
+
     if (!p.book) { return; }
-    if (p.onRecalculate) {
-      var oldFn = p.onRecalculate;
-      p.onRecalculate = function () {
-        oldFn();
-        if (typeof callback == 'function') { callback(); }
-      }
-      return;
+    if (p.recalcPhase > 0) {
+      p.recalcQueued = true;
+    } else {
+      p.recalcPhase = 1;
+      p.recalcQueued = false;
+      dispatchEvent("monocle:recalculating");
+      forEachPage(function (pageDiv) {
+        pageDiv.m.activeFrame.m.component.updateDimensions(pageDiv);
+      });
+      Monocle.defer(onRecalculationPhase);
     }
+  }
 
-    dispatchEvent("monocle:recalculating");
-    p.onRecalculate = function () {
-      if (typeof callback == 'function') { callback(); }
-      p.onRecalculate = null;
-      dispatchEvent("monocle:recalculated");
+
+  // Phase 0 means no recalculation is in progress.
+  // Phase 1 means we are re-measuring the components.
+  // Phase 2 means we are returning to the correct page.
+  //
+  function onRecalculationPhase() {
+    if (p.recalcQueued) {
+      p.recalcPhase = 0;
+      recalculateDimensions();
+    } else if (p.recalcPhase == 1 && p.lastLocus) {
+      p.recalcPhase = 2;
+      p.flipper.moveTo(p.lastLocus, onRecalculationPhase, false);
+    } else {
+      Monocle.defer(afterRecalculate);
     }
+  }
 
-    var onComplete = function () { Monocle.defer(p.onRecalculate); }
-    var onInitiate = onComplete;
-    if (andRestorePlace !== false && p.lastLocus) {
-      onInitiate = function () {
-        p.flipper.moveTo(p.lastLocus, onComplete, false);
-      }
-    }
 
-    forEachPage(function (pageDiv) {
-      pageDiv.m.activeFrame.m.component.updateDimensions(pageDiv);
-    });
-
-    Monocle.defer(onInitiate);
+  function afterRecalculate() {
+    p.recalcPhase = 0;
+    dispatchEvent('monocle:recalculated');
   }
 
 
   function onPageTurn(evt) {
-    if (p.onRecalculate) {
-    } else {
+    if (p.recalcPhase == 0) {
       var place = getPlace();
       p.lastLocus = {
         componentId: place.componentId(),
@@ -2648,26 +2719,6 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
   }
 
 
-  /* The Reader PageStyles API is deprecated - it has moved to Formatting */
-
-  function addPageStyles(styleRules, restorePlace) {
-    console.deprecation("Use reader.formatting.addPageStyles instead.");
-    return API.formatting.addPageStyles(styleRules, restorePlace);
-  }
-
-
-  function updatePageStyles(sheetIndex, styleRules, restorePlace) {
-    console.deprecation("Use reader.formatting.updatePageStyles instead.");
-    return API.formatting.updatePageStyles(sheetIndex, styleRules, restorePlace);
-  }
-
-
-  function removePageStyles(sheetIndex, restorePlace) {
-    console.deprecation("Use reader.formatting.removePageStyles instead.");
-    return API.formatting.removePageStyles(sheetIndex, restorePlace);
-  }
-
-
   function fatalSystemMessage(msg) {
     var info = dom.make('div', 'book_fatality', { html: msg });
     var box = dom.find('box');
@@ -2691,11 +2742,6 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
   API.deafen = deafen;
   API.visiblePages = visiblePages;
 
-  // Deprecated!
-  API.addPageStyles = addPageStyles;
-  API.updatePageStyles = updatePageStyles;
-  API.removePageStyles = removePageStyles;
-
   initialize();
 
   return API;
@@ -2705,7 +2751,6 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
 Monocle.Reader.RESIZE_DELAY = Monocle.Browser.renders.slow ? 500 : 100;
 Monocle.Reader.DEFAULT_SYSTEM_ID = 'RS:monocle'
 Monocle.Reader.DEFAULT_CLASS_PREFIX = 'monelem_'
-Monocle.Reader.DEFAULT_STYLE_RULES = Monocle.Formatting.DEFAULT_STYLE_RULES;
 Monocle.Reader.COMPATIBILITY_INFO =
   "<h1>Incompatible browser</h1>"+
   "<p>Unfortunately, your browser isn't able to display this book. "+
@@ -3835,6 +3880,7 @@ Monocle.Selection = function (reader) {
 
   function pollSelectionOnWindow(win, index) {
     var sel = win.getSelection();
+    if (!sel) { return; }
     var lm = p.lastSelection[index] || {};
     var nm = p.lastSelection[index] = {
       selected: anythingSelected(win),
@@ -3949,7 +3995,8 @@ Monocle.Selection = function (reader) {
 
 
   function anythingSelected(win) {
-    return !win.getSelection().isCollapsed;
+    var sel = win.getSelection();
+    return sel && !sel.isCollapsed;
   }
 
 
@@ -4827,6 +4874,7 @@ Monocle.Panels.Magic = function (flipper, evtCallbacks) {
   function invoke(evtType, evt) {
     if (p.evtCallbacks[evtType]) {
       p.evtCallbacks[evtType](p.action.dir, evt.m.readerX, evt.m.readerY, API);
+      Gala.stop(evt);
     }
   }
 
@@ -4879,34 +4927,57 @@ Monocle.Dimensions.Columns = function (pageDiv) {
 
     p.width = pdims.width;
 
-    var rules = Monocle.Styles.rulesToString(k.STYLE["columned"]);
-    rules += Monocle.Browser.css.toCSSDeclaration('column-width', pdims.col+'px');
-    rules += Monocle.Browser.css.toCSSDeclaration('column-gap', k.GAP+'px');
-    rules += Monocle.Browser.css.toCSSDeclaration('column-fill', 'auto');
-    rules += Monocle.Browser.css.toCSSDeclaration('transform', 'none');
+    var cer = Monocle.Styles.rulesToString(k.STYLE['columned']);
+    cer += 'width: '+pdims.col+'px !important;';
+    cer += Monocle.Browser.css.toCSSDeclaration('column-width', pdims.col+'px');
+    cer += Monocle.Browser.css.toCSSDeclaration('column-gap', k.GAP+'px');
+    cer += Monocle.Browser.css.toCSSDeclaration('column-fill', 'auto');
+    cer += Monocle.Browser.css.toCSSDeclaration('transform', 'none');
 
     if (Monocle.Browser.env.forceColumns && ce.scrollHeight > pdims.height) {
-      rules += Monocle.Styles.rulesToString(k.STYLE['column-force']);
+      cer += Monocle.Styles.rulesToString(k.STYLE['column-force']);
       if (Monocle.DEBUG) {
         console.warn("Force columns ("+ce.scrollHeight+" > "+pdims.height+")");
       }
     }
 
-    if (ce.style.cssText != rules) {
-      // Update offset because we're translating to zero.
-      p.page.m.offset = 0;
+    var rules = [
+      'html#RS\\:monocle * {',
+        'max-width: '+pdims.col+'px !important;',
+      '}',
+      'img, video, audio, object, svg {',
+        'max-height: '+pdims.height+'px !important;',
+      '}'
+    ]
 
-      // IE10 hack.
-      if (Monocle.Browser.env.documentElementHasScrollbars) {
-        ce.ownerDocument.documentElement.style.overflow = 'hidden';
-      }
+    // IE10 hack.
+    if (Monocle.Browser.env.documentElementHasScrollbars) {
+      rules.push('html { overflow: hidden !important; }');
+    }
 
-      // Apply body style changes.
-      ce.style.cssText = rules;
+    rules = rules.join('\n');
 
-      if (Monocle.Browser.env.scrollToApplyStyle) {
-        ce.scrollLeft = 0;
-      }
+    var doc = p.page.m.activeFrame.contentDocument;
+    var head = doc.querySelector('head');
+    var sty = head.querySelector('style#monocle_column_rules');
+    if (!sty) {
+      sty = doc.createElement('style');
+      sty.id = 'monocle_column_rules';
+      head.appendChild(sty);
+    }
+
+    // Update offset because we're translating to zero.
+    p.page.m.offset = 0;
+
+    // Make sure that the frame is exactly the same width as the column.
+    p.page.m.activeFrame.style.width = p.width+'px';
+
+    // Apply style changes to the contents of the component.
+    ce.style.cssText = cer;
+    sty.innerHTML = rules;
+
+    if (Monocle.Browser.env.scrollToApplyStyle) {
+      ce.scrollLeft = 0;
     }
   }
 
@@ -4928,9 +4999,6 @@ Monocle.Dimensions.Columns = function (pageDiv) {
 
     var w = Math.max(bd.scrollWidth, de.scrollWidth);
 
-    // Add one because the final column doesn't have right gutter.
-    // w += k.GAP;
-
     if (!Monocle.Browser.env.widthsIgnoreTranslate && p.page.m.offset) {
       w += p.page.m.offset;
     }
@@ -4940,20 +5008,25 @@ Monocle.Dimensions.Columns = function (pageDiv) {
 
   function pageDimensions() {
     var elem = p.page.m.sheafDiv;
-    var w = elem.clientWidth;
-    if (elem.getBoundingClientRect) { w = elem.getBoundingClientRect().width; }
-    if (Monocle.Browser.env.roundPageDimensions) { w = Math.round(w); }
+    var w;
+    if (elem.getBoundingClientRect) {
+      w = elem.getBoundingClientRect().width;
+    } else {
+      w = elem.clientWidth;
+    }
+    w = Math.floor(w); // ensure it is an integer
+    w -= w % 2; // ensure it is an even number
     return { col: w, width: w + k.GAP, height: elem.clientHeight }
   }
 
 
   function columnCount() {
-    return Math.ceil(columnedWidth() / pageDimensions().width)
+    return Math.ceil(columnedWidth() / p.width)
   }
 
 
   function locusToOffset(locus) {
-    return pageDimensions().width * (locus.page - 1);
+    return p.width * (locus.page - 1);
   }
 
 
@@ -4976,8 +5049,7 @@ Monocle.Dimensions.Columns = function (pageDiv) {
     if (transition) {
       Monocle.Styles.affix(ce, "transition", transition);
     }
-    // NB: can't use setX as it causes a flicker on iOS.
-    Monocle.Styles.affix(ce, "transform", "translateX(-"+offset+"px)");
+    Monocle.Styles.setX(ce, 0-offset);
   }
 
 
@@ -4996,7 +5068,6 @@ Monocle.Dimensions.Columns = function (pageDiv) {
         [win, win.scrollX, win.scrollY],
         [window, window.scrollX, window.scrollY]
       ];
-      //while (s != s.parent) { scrollers.push([s, s.scrollX]); s = s.parent; }
 
       var scroller, x;
       if (Monocle.Browser.env.sheafIsScroller) {
@@ -5029,9 +5100,6 @@ Monocle.Dimensions.Columns = function (pageDiv) {
     // Percent is the offset divided by the total width of the component.
     var percent = offset / (p.length * p.width);
 
-    // Page number would be offset divided by the width of a single page.
-    // var pageNum = Math.ceil(offset / pageDimensions().width);
-
     return percent;
   }
 
@@ -5047,18 +5115,17 @@ Monocle.Dimensions.Columns = function (pageDiv) {
 
 
 Monocle.Dimensions.Columns.STYLE = {
-  // Most of these are already applied to body, but they're repeated here
-  // in case columnedElement() is ever anything other than body.
-  "columned": {
-    "margin": "0",
-    "padding": "0",
-    "height": "100%",
-    "width": "100%",
-    "position": "absolute"
+  'columned': {
+    'border': 'none !important',
+    'margin': '0 !important',
+    'padding': '0 !important',
+    'height': '100% !important',
+    'position': 'absolute !important'
   },
-  "column-force": {
-    "min-width": "200%",
-    "overflow": "hidden"
+  'column-force': {
+    'width': '100% !important',
+    'min-width': '200% !important',
+    'overflow': 'hidden !important'
   }
 }
 ;
