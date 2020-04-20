@@ -1,12 +1,11 @@
 [![Donate](https://img.shields.io/badge/PayPal-Donate%20to%20Author-blue.svg)](https://www.paypal.me/emanuele42)
 [![OpenStore](https://img.shields.io/badge/Install%20from-OpenStore-000000.svg)](https://open-store.io/app/sturmreader.emanuelesorce)
 
-Ebook Reader for Ubuntu
+Ebook Reader for Linux
 =======================
-Sturm reader is an ebook reader for Ubuntu.  It's built on the the new Ubuntu
-Toolkit, so it works best on touch devices.  It behaves resonably on the
-desktop, as well. It features full support for Epub files and
-preliminary support for CBZ and PDF files.
+Sturm reader is an ebook reader for Linux.  It's built now for Ubuntu Touch.
+It has features to style the book.
+It features full support for Epub and CBZ files and preliminary support for PDF files.
 
 It's a fork of Beru from Rschroll (http://rschroll.github.io/beru), thanks!
 
@@ -23,8 +22,6 @@ $ make
 To build the click for an Ubuntu Touch device and create a .click package, you can just use clickable
 ```
 $ clickable
-# Or to build the plus version:
-$ CLICKABLE_BUILD_ARGS="-DPLUS_VERSION=on" clickable
 ```
 
 Running
@@ -46,9 +43,7 @@ read the `.ini` files to find the one with `Name=BeruLocalBooks`.
 
 Known Problems
 --------------
-Known bugs are listed on the [issue tracker][3].  If you don't see
+Known bugs are listed on the [issue tracker][1].  If you don't see
 your problem listed there, please add it!
 
-[1]: http://developer.ubuntu.com/start/ubuntu-sdk/installing-the-sdk/ "Ubuntu SDK"
-[2]: http://developer.ubuntu.com/apps/sdk/tutorials/building-cross-architecture-click-applications/ "Click tutorial"
-[3]: https://github.com/tronfortytwo/beru/issues "Bug tracker"
+[1]: https://github.com/tronfortytwo/sturmreader/issues "Bug tracker"
