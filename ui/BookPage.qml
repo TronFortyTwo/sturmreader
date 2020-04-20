@@ -96,7 +96,7 @@ PageWithBottomEdge {
 				bookPage.onJumping([msg[1], msg[2]]);
 			}
 			else if(msg[0] == "PageChange") {
-				bookPage.onPageChange(JSON.parse(msg[1]));
+				bookPage.onPageChange();
 			}
 			else if(msg[0] == "Ready") {
 				bookPage.onReady();
@@ -683,12 +683,14 @@ PageWithBottomEdge {
             history.add(locuses[0], locuses[1])
     }
 
-    function onPageChange(location) {
-        currentChapter = location.chapterSrc
-        setBookSetting("locus", { componentId: location.componentId,
-                                  percent: location.percent })
-        pageMetric.increment()
-    }
+	function onPageChange() {
+		currentChapter = bookWebView.runJavaScript("reader.getPlace().chapterSrc()");
+		setBookSetting("locus", {
+			componentId: bookWebView.runJavaScript("reader.getPlace().componentId()"),
+			percent: bookWebView.runJavaScript("reader.getPlace().percentageThrough()")
+		})
+		pageMetric.increment()
+	}
 
     function onReady() {
         bookWebView.opacity = 1;

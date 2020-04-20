@@ -2,8 +2,15 @@
  * Monocle - A silky, tactile browser-based ebook JavaScript library.
  *
  * Copyright 2012, Joseph Pearson
+ * Copyright 2020, Emanuele Sorce - emanuele.sorce@hotmail.com
  * Licensed under the MIT license.
  */
+
+//
+// Sturm Reader:
+// We hacked this piece of old code to work.
+// We can't rely on Monocle.Reader.signal API system, so we directly launch our signals here
+//
 
 
 Monocle = {
@@ -2507,6 +2514,8 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
     if (!locus.direction) {
       dispatchEvent('monocle:turning');
       dispatchEvent('monocle:jumping', { locus: locus });
+	  // Sturm Reader hack:
+	  alert("Jumping " + JSON.stringify(getPlace().getLocus()) + " " + JSON.stringify(locus) );
       fn = function () {
         dispatchEvent('monocle:jump', { locus: locus });
         if (callback) { callback(); }
@@ -2943,14 +2952,16 @@ Monocle.Book = function (dataSource, preloadWindow) {
         var component = p.components[p.componentIds.indexOf(locus.componentId)];
         pageDiv.m.place = pageDiv.m.place || new Monocle.Place();
         pageDiv.m.place.setPlace(component, locus.page);
-
-        evtData = {
+		
+		// Sturm Reader hack:
+		evtData = {
           page: pageDiv,
           locus: locus,
           pageNumber: pageDiv.m.place.pageNumber(),
           componentId: locus.componentId
         }
         pageDiv.m.reader.dispatchEvent("monocle:pagechange", evtData);
+		alert("PageChange");
       }
     }
     return locus;

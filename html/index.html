@@ -49,11 +49,15 @@ function createReader(bookData) {
         reader.moveTo({direction: dir});
     });
     */
+    /*
+		LOOKS LIKE monocle:link:external WAS NOT ALREADY THERE...
     reader.listen("monocle:link:external", function(event) {
 		alert("ExternalLink " + event.m.href.external);
 		//Messaging.sendMessage("ExternalLink", event.m.href.external);
         event.preventDefault();
     });
+    */
+    /*
     reader.listen("monocle:jumping", function(event) {
         //Messaging.sendMessage("Jumping", [reader.getPlace().getLocus(), event.m.locus]);
         alert("Jumping " + reader.getPlace().getLocus() + " " + event.m.locus);
@@ -65,6 +69,7 @@ function createReader(bookData) {
         //                                      componentId: place.componentId(),
         //                                      percent: place.percentageThrough() });
     });
+    */
 }
 
 window.onload = function () {
