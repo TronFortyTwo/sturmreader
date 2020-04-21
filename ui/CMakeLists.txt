@@ -7,8 +7,6 @@ set(UI_SRC_FILES
     Importer.qml
     LocalBooks.qml
     main.qml
-    qmlmessaging.js
-    qmlmessaging-userscript.js
     Reader.qml
     Server.qml
     components/FloatingButton.qml

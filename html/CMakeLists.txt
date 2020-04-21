@@ -1,7 +1,6 @@
 set(HTML_SRC_FILES
     index.html
     instantslider.js
-    messaging.js
     styling.js
     monocle/scripts/monocore.js
     monocle/scripts/monoctrl.js
