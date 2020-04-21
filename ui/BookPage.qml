@@ -53,6 +53,8 @@ PageWithBottomEdge {
         mainView.automaticOrientation = !visible
         if (visible == false) {
             // Reset things for the next time this page is opened
+			isBookReady = false
+			doPageChangeAsSoonAsReady = false
             if (history)
                 history.clear()
             url = ""
@@ -660,7 +662,7 @@ PageWithBottomEdge {
 		currentChapter = bookWebView.runJavaScript("reader.getPlace().chapterSrc()");
 		setBookSetting("locus", {
 			componentId: bookWebView.runJavaScript("reader.getPlace().componentId()"),
-			percent: bookWebView.runJavaScript("reader.getPlace().percentageThrough()")
+			percent: Number(bookWebView.runJavaScript("reader.getPlace().percentageThrough()"))
 		})
 		pageMetric.increment()
 	}
@@ -676,8 +678,6 @@ PageWithBottomEdge {
     }
 
     Component.onCompleted: {
-		isBookReady = false
-		doPageChangeAsSoonAsReady = false
         server.reader.contentsReady.connect(parseContents)
         onWidthChanged.connect(windowSizeChanged)
         onHeightChanged.connect(windowSizeChanged)
