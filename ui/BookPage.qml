@@ -9,14 +9,11 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Components.Popups 1.3
-//import com.canonical.Oxide 1.0
 import QtWebEngine 1.7
 import UserMetrics 0.1
 import FontList 1.0
 
 import "components"
-
-//import "qmlmessaging.js" as Messaging
 import "historystack.js" as History
 
 
@@ -30,6 +27,8 @@ PageWithBottomEdge {
     property bool navjump: false
     property bool canBack: false
     property bool canForward: false
+    property bool isBookReady: false
+    property bool doPageChangeAsSoonAsReady: false
 
     header: PageHeader {
         visible: false
@@ -89,17 +88,22 @@ PageWithBottomEdge {
 			console.log("got alert message: " + request.message );
 			var msg = request.message.split(" ");
 			
-			if(msg[0] == "ExternalLink") {
-				bookPage.onExternalLink(msg[1]);
-			}
-			else if(msg[0] == "Jumping") {
+			if(msg[0] == "Jumping") {
 				bookPage.onJumping([msg[1], msg[2]]);
 			}
 			else if(msg[0] == "PageChange") {
-				bookPage.onPageChange();
+				if(!isBookReady)
+					doPageChangeAsSoonAsReady = true;
+				else
+					bookPage.onPageChange();
 			}
 			else if(msg[0] == "Ready") {
 				bookPage.onReady();
+				isBookReady = true;
+				if(doPageChangeAsSoonAsReady) {
+					bookPage.onPageChange();
+					doPageChangeAsSoonAsReady = false;
+				}
 			}
 			else
 				console.log("error: unrecognized request message: " + request.message );
@@ -107,9 +111,9 @@ PageWithBottomEdge {
 			request.dialogAccept();
 		}
 		//url: filesystem.getDataDir("")
-		onTitleChanged: function() {
-			console.log('title changed: ' + title);
-		}
+		//onTitleChanged: function() {
+		//	console.log('title changed: ' + title);
+		//}
 		
 		onActiveFocusChanged: {
 			if(activeFocus)
@@ -118,33 +122,6 @@ PageWithBottomEdge {
 			focus = false;
 		}
 	}
-    /*
-    WebView {
-        id: bookWebView
-        anchors.fill: parent
-        opacity: 0
-        focus: false
-        context: bookWebContext
-
-        onTitleChanged: Messaging.handleMessage(title)
-        onActiveFocusChanged: {
-            if (activeFocus)
-                closeBottomEdge()
-            // Reject attempts to give WebView focus
-            focus = false
-        }
-    }
-    WebContext {
-        id: bookWebContext
-        dataPath: filesystem.getDataDir("")
-        userScripts: [
-            UserScript {
-                context: Messaging.context
-                url: Qt.resolvedUrl("qmlmessaging-userscript.js")
-            }
-        ]
-    }
-    */
 
     Metric {
         id: pageMetric
@@ -658,10 +635,6 @@ PageWithBottomEdge {
         canForward = forward
     }
 
-    function onExternalLink(href) {
-        Qt.openUrlExternally(href)
-    }
-
     function parseContents(contents, level) {
         if (level === undefined) {
             level = 0
@@ -699,16 +672,12 @@ PageWithBottomEdge {
     }
 
     function windowSizeChanged() {
-        //Messaging.sendMessage("WindowSizeChanged")
 		bookWebView.runJavaScript("reader.resized();");
     }
 
     Component.onCompleted: {
-        //Messaging.registerHandler("ExternalLink", onExternalLink)
-        //Messaging.registerHandler("Jumping", onJumping)
-        //Messaging.registerHandler("PageChange", onPageChange)
-        //Messaging.registerHandler("Styles", bookStyles.load)
-        //Messaging.registerHandler("Ready", onReady)
+		isBookReady = false
+		doPageChangeAsSoonAsReady = false
         server.reader.contentsReady.connect(parseContents)
         onWidthChanged.connect(windowSizeChanged)
         onHeightChanged.connect(windowSizeChanged)

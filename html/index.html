@@ -29,47 +29,9 @@ function createReader(bookData) {
             var stencil = new Monocle.Controls.Stencil(reader);
             reader.addControl(stencil);
             styleManager.reader = reader;
-            //Monocle.Browser.env.supportsTransform3d = false;  // Fix for paging backwards
-            //Messaging.sendMessage("Ready");
-            alert("Ready");
+			alert("Ready");
         }
     );
-    /*
-    Messaging.registerHandler("NavigateChapter", function (src) {
-        reader.skipToChapter(src);
-    });
-    Messaging.registerHandler("GotoLocus", function(locus) {
-        reader.moveTo(locus);
-    });
-    Messaging.registerHandler("Styles", styleManager.updateStyles);
-    Messaging.registerHandler("WindowSizeChanged", function () {
-        reader.resized();
-    });
-    Messaging.registerHandler("ChangePage", function(dir) {
-        reader.moveTo({direction: dir});
-    });
-    */
-    /*
-		LOOKS LIKE monocle:link:external WAS NOT ALREADY THERE...
-    reader.listen("monocle:link:external", function(event) {
-		alert("ExternalLink " + event.m.href.external);
-		//Messaging.sendMessage("ExternalLink", event.m.href.external);
-        event.preventDefault();
-    });
-    */
-    /*
-    reader.listen("monocle:jumping", function(event) {
-        //Messaging.sendMessage("Jumping", [reader.getPlace().getLocus(), event.m.locus]);
-        alert("Jumping " + reader.getPlace().getLocus() + " " + event.m.locus);
-    });
-    reader.listen("monocle:pagechange", function(event) {
-        var place = reader.getPlace();
-        alert("PageChange " + JSON.stringfy({chapterSrc: place.chapterSrc(), componentId: place.componentId(), percent: place.percentageThrough() }));
-        //Messaging.sendMessage("PageChange", { chapterSrc: place.chapterSrc(),
-        //                                      componentId: place.componentId(),
-        //                                      percent: place.percentageThrough() });
-    });
-    */
 }
 
 window.onload = function () {
