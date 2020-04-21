@@ -1,5 +1,5 @@
 /* Copyright 2013-2015 Robert Schroll
- * Copyright 2018 Emanuele Sorce
+ * Copyright 2018-2020 Emanuele Sorce
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
@@ -377,7 +377,7 @@ Page {
                 Action {
                     text: i18n.tr("About")
                     iconName: "info"
-                    onTriggered: PopupUtils.open(aboutComponent)
+					onTriggered: pageStack.push(about)
                 },
                 Action {
                     text: i18n.tr("Settings")
@@ -924,57 +924,6 @@ Page {
                 text: i18n.tr("Close")
                 primary: false
                 onClicked: PopupUtils.close(settingsDisabledDialog)
-            }
-        }
-    }
-
-    Component {
-        id: aboutComponent
-
-        Dialog {
-            id: aboutDialog
-            title: i18n.tr("Sturm Reader")
-
-            Label {
-                text: i18n.tr("Sturm (und Drang) Reader is an open source Ebook reader, licensed under the GNU GPLv3 license, copyright 2018 Emanuele Sorce.<br>Pull requests, translations, feedback and donations are very appreciated :)<br>This app Is a fork of the Beru app by Rshcroll, Thanks!<br>This app uses code of other Open Source projects, see source code for licensing details");
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-            }
-
-            Label {
-                text: i18n.tr("Source Code:") +
-                      "<br><a href='http://github.com/tronfortytwo/sturmreader'>" +
-                      "Github Repository</a>"
-                linkColor: UbuntuColors.green
-                onLinkActivated: Qt.openUrlExternally(link)
-                horizontalAlignment: Text.AlignHCenter
-                fontSize: "medium"
-                wrapMode: Text.WordWrap
-            }
-
-            Label {
-                text: i18n.tr("Report a bug or make a suggestion:") +
-                      "<br><a href='http://github.com/tronfortytwo/sturmreader/issues'>" +
-                      "Github bug tracker</a>"
-                linkColor: UbuntuColors.green
-                onLinkActivated: Qt.openUrlExternally(link)
-                horizontalAlignment: Text.AlignHCenter
-                fontSize: "medium"
-                wrapMode: Text.WordWrap
-            }
-
-            Label {
-                text: i18n.tr("Contact me :)") +
-                      "<br> email: emanuele.sorce@hotmail.com"
-                horizontalAlignment: Text.AlignHCenter
-                fontSize: "medium"
-                wrapMode: Text.WordWrap
-            }
-
-            StyledButton {
-                text: i18n.tr("Close")
-                primary: true
-                onClicked: PopupUtils.close(aboutDialog)
             }
         }
     }

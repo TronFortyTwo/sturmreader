@@ -38,9 +38,13 @@ MainView {
     PageStack {
         id: pageStack
         Component.onCompleted: push(localBooks)
-        onCurrentPageChanged: currentPage.forceActiveFocus()
-
-
+		onCurrentPageChanged: currentPage.forceActiveFocus()
+		
+		About {
+			id: about
+			visible: false
+		}
+		
         LocalBooks {
             id: localBooks
             visible: false

@@ -1,4 +1,5 @@
 set(UI_SRC_FILES
+	About.qml
     BookPage.qml
     BookSources.qml
     DefaultCover.qml
