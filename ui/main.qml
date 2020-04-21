@@ -50,11 +50,6 @@ MainView {
             visible: false
         }
 
-        BookSources {
-            id: bookSources
-            visible: false
-        }
-
         BookPage {
             id: bookPage
             visible: false

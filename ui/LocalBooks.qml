@@ -372,7 +372,7 @@ Page {
                 Action {
                     text: i18n.tr("Get Books")
                     iconName: "add"
-                    onTriggered: pageStack.push(bookSources)
+					onTriggered: pageStack.push(importer.pickerPage)
                 },
                 Action {
                     text: i18n.tr("About")
