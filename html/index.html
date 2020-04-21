@@ -29,7 +29,7 @@ function createReader(bookData) {
             var stencil = new Monocle.Controls.Stencil(reader);
             reader.addControl(stencil);
             styleManager.reader = reader;
-            Monocle.Browser.env.supportsTransform3d = false;  // Fix for paging backwards
+            //Monocle.Browser.env.supportsTransform3d = false;  // Fix for paging backwards
             //Messaging.sendMessage("Ready");
             alert("Ready");
         }

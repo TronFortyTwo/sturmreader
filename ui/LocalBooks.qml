@@ -897,23 +897,11 @@ Page {
                              "from accessing most of your home directory.  Ebooks should be put in " +
                              "<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
 
-            Label {
-                /*/ Hyperlinked URL follows. /*/
-                text: i18n.tr("For more information:") +
-                      "<br><a href='http://rschroll.github.io/beru/confinement.html'>" +
-                      "rschroll.github.io/beru/confinement.html</a>"
-                linkColor: UbuntuColors.green
-                onLinkActivated: Qt.openUrlExternally(link)
-                horizontalAlignment: Text.AlignHCenter
-                fontSize: "medium"
-                wrapMode: Text.WordWrap
-            }
-
             StyledButton {
                 text: i18n.tr("Reload Directory")
                 // We don't bother with the Timer trick here since we don't get this dialog on
                 // first launch, so we shouldn't have too many books added to the library when
-                // this button is clicked.
+                // this button is clicked.s
                 onClicked: {
                     PopupUtils.close(settingsDisabledDialog)
                     readBookDir()
