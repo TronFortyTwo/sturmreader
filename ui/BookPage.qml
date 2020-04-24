@@ -19,7 +19,6 @@ import "historystack.js" as History
 
 PageWithBottomEdge {
     id: bookPage
-    //flickable: null
 
     property alias url: bookWebView.url
     property var currentChapter: null
@@ -29,6 +28,8 @@ PageWithBottomEdge {
     property bool canForward: false
     property bool isBookReady: false
     property bool doPageChangeAsSoonAsReady: false
+    property string book_componentId;
+	property int book_percent;
 
     header: PageHeader {
         visible: false
@@ -87,6 +88,9 @@ PageWithBottomEdge {
 			console.log("WEB: " + msg + " | level: " + level + " | line: " + linen + " | source: " + sourceID);
 		}
 		onJavaScriptDialogRequested: function(request) {
+			request.accepted = true;
+			request.dialogAccept();
+			
 			console.log("got alert message: " + request.message );
 			var msg = request.message.split(" ");
 			
@@ -107,10 +111,20 @@ PageWithBottomEdge {
 					doPageChangeAsSoonAsReady = false;
 				}
 			}
+			else if(msg[0] == "chapter_requested") {
+				bookWebView.runJavaScript("findChapter()");
+			}
+			else if(msg[0] == "chapter") {
+				currentChapter = JSON.parse(msg[1]);
+			}
+			else if(msg[0] == "percent") {
+				book_percent = Number(msg[1]);
+			}
+			else if(msg[0] == "componentId") {
+				book_componentId = msg[1];
+			}
 			else
 				console.log("error: unrecognized request message: " + request.message );
-			request.accepted = true;
-			request.dialogAccept();
 		}
 		//url: filesystem.getDataDir("")
 		//onTitleChanged: function() {
@@ -164,7 +178,6 @@ PageWithBottomEdge {
                         var locus = history.goBackward()
                         if (locus !== null) {
                             navjump = true;
-                            //Messaging.sendMessage("GotoLocus", locus)
 							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
                         }
                     }
@@ -176,7 +189,7 @@ PageWithBottomEdge {
                         var locus = history.goForward()
                         if (locus !== null) {
 							navjump = true;
-							//Messaging.sendMessage("GotoLocus", locus)
+							//Messaging.sendMessage("GotoLocus", locus
 							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
                         }
                     }
@@ -659,10 +672,9 @@ PageWithBottomEdge {
     }
 
 	function onPageChange() {
-		currentChapter = bookWebView.runJavaScript("reader.getPlace().chapterSrc()");
 		setBookSetting("locus", {
-			componentId: bookWebView.runJavaScript("reader.getPlace().componentId()"),
-			percent: Number(bookWebView.runJavaScript("reader.getPlace().percentageThrough()"))
+			componentId: book_componentId,
+			percent: Number(book_percent)
 		})
 		pageMetric.increment()
 	}

@@ -2959,8 +2959,11 @@ Monocle.Book = function (dataSource, preloadWindow) {
           locus: locus,
           pageNumber: pageDiv.m.place.pageNumber(),
           componentId: locus.componentId
-        }
-        pageDiv.m.reader.dispatchEvent("monocle:pagechange", evtData);
+		}
+		alert("componentId " + locus.componentId);
+		alert("percent " + locus.percent)
+		alert("chapter_requested")
+		pageDiv.m.reader.dispatchEvent("monocle:pagechange", evtData);
 		alert("PageChange");
       }
     }
