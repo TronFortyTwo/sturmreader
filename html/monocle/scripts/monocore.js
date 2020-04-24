@@ -2961,8 +2961,7 @@ Monocle.Book = function (dataSource, preloadWindow) {
           componentId: locus.componentId
 		}
 		alert("componentId " + locus.componentId);
-		alert("percent " + locus.percent)
-		alert("chapter_requested")
+		alert("status_requested")
 		pageDiv.m.reader.dispatchEvent("monocle:pagechange", evtData);
 		alert("PageChange");
       }

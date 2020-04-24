@@ -29,7 +29,7 @@ PageWithBottomEdge {
     property bool isBookReady: false
     property bool doPageChangeAsSoonAsReady: false
     property string book_componentId;
-	property int book_percent;
+	property real book_percent;
 
     header: PageHeader {
         visible: false
@@ -111,8 +111,8 @@ PageWithBottomEdge {
 					doPageChangeAsSoonAsReady = false;
 				}
 			}
-			else if(msg[0] == "chapter_requested") {
-				bookWebView.runJavaScript("findChapter()");
+			else if(msg[0] == "status_requested") {
+				bookWebView.runJavaScript("statusUpdate()");
 			}
 			else if(msg[0] == "chapter") {
 				currentChapter = JSON.parse(msg[1]);
