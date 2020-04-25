@@ -39,13 +39,11 @@ PageWithBottomEdge {
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
                 || event.key == Qt.Key_Period) {
-			//Messaging.sendMessage("ChangePage", 1)
 			bookWebView.runJavaScript("reader.moveTo({direction: '1'});");
             event.accepted = true
         } else if (event.key == Qt.Key_Left || event.key == Qt.Key_Up
                    || event.key == Qt.Key_Backspace || event.key == Qt.Key_Comma) {
-            //Messaging.sendMessage("ChangePage", -1)
-			bookWebView.runJavaScript("reader.moveTo({direction: '-1'});");
+            bookWebView.runJavaScript("reader.moveTo({direction: '-1'});");
 			event.accepted = true
         }
     }
@@ -104,12 +102,14 @@ PageWithBottomEdge {
 					bookPage.onPageChange();
 			}
 			else if(msg[0] == "Ready") {
-				bookPage.onReady();
 				isBookReady = true;
 				if(doPageChangeAsSoonAsReady) {
 					bookPage.onPageChange();
 					doPageChangeAsSoonAsReady = false;
 				}
+				bookWebView.opacity = 1;
+				loadingIndicator.opacity = 0;
+				previewControls();
 			}
 			else if(msg[0] == "status_requested") {
 				bookWebView.runJavaScript("statusUpdate()");
@@ -126,10 +126,6 @@ PageWithBottomEdge {
 			else
 				console.log("error: unrecognized request message: " + request.message );
 		}
-		//url: filesystem.getDataDir("")
-		//onTitleChanged: function() {
-		//	console.log('title changed: ' + title);
-		//}
 		
 		onActiveFocusChanged: {
 			if(activeFocus)
@@ -223,7 +219,6 @@ PageWithBottomEdge {
                       model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
                 selected: bookPage.currentChapter == model.src
 				onClicked: {
-					//Messaging.sendMessage("NavigateChapter", model.src)
 					bookWebView.runJavaScript("reader.skipToChapter(" + JSON.stringify(model.src) + ");");
 					closeBottomEdge()
 				}
@@ -234,7 +229,7 @@ PageWithBottomEdge {
                 onBottomEdgePressed: {
                     for (var i=0; i<contentsListModel.count; i++) {
                         if (contentsListModel.get(i).src == bookPage.currentChapter)
-                            positionViewAtIndex(i, ListView.Center)
+							contentsListView.positionViewAtIndex(i, ListView.Center)
                     }
                 }
             }
@@ -678,12 +673,6 @@ PageWithBottomEdge {
 		})
 		pageMetric.increment()
 	}
-
-    function onReady() {
-        bookWebView.opacity = 1;
-        loadingIndicator.opacity = 0;
-        previewControls();
-    }
 
     function windowSizeChanged() {
 		bookWebView.runJavaScript("reader.resized();");
