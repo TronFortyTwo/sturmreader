@@ -4591,8 +4591,12 @@ Monocle.Panels.Marginal = function (flipper, evtCallbacks) {
     var sheaf = page.m.sheafDiv;
     var bw = sheaf.offsetLeft;
     var fw = page.offsetWidth - (sheaf.offsetLeft + sheaf.offsetWidth);
-    bw = Math.floor(((bw - 2) / page.offsetWidth) * 10000 / 100) + "%";
-    fw = Math.floor(((fw - 2) / page.offsetWidth) * 10000 / 100) + "%";
+	//bw = Math.floor(((bw - 2) / page.offsetWidth) * 10000 / 100) + "%";
+	//fw = Math.floor(((fw - 2) / page.offsetWidth) * 10000 / 100) + "%";
+	bw = Math.round(((bw - 2) / page.offsetWidth) * 10000 / 100 );
+	fw = Math.round(((fw - 2) / page.offsetWidth) * 10000 / 100 );
+	bw = Math.max(bw, 5) + "%";
+	fw = Math.max(fw, 5) + "%";
     p.panels.forwards.properties.div.style.width = fw;
     p.panels.backwards.properties.div.style.width = bw;
   }
