@@ -2963,7 +2963,6 @@ Monocle.Book = function (dataSource, preloadWindow) {
 		alert("componentId " + locus.componentId);
 		alert("status_requested")
 		pageDiv.m.reader.dispatchEvent("monocle:pagechange", evtData);
-		alert("PageChange");
       }
     }
     return locus;
