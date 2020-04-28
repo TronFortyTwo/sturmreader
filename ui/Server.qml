@@ -41,7 +41,7 @@ HttpServer {
         var locus = getBookSetting("locus")
         if (locus == undefined)
             locus = null
-		console.log(JSON.stringify(locus));
+		console.log("locus: " + JSON.stringify(locus));
         response.write("SAVED_PLACE = " + JSON.stringify(locus) + ";\n")
 
         response.end()
