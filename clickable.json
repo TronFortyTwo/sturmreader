@@ -1,5 +1,6 @@
 {
-	"template": "cmake",
+	"clickable_minimum_version": "6.12.2",
+	"builder": "cmake",
 	"dependencies_target": [
 		"intltool",
 		"qtdeclarative5-u1db1.0",
