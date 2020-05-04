@@ -607,7 +607,7 @@ PageWithBottomEdge {
                     }
                     primary: false
                     enabled: !bookStyles.atdefault
-                    onClicked: bookStyles.resetToDefaults()
+//                     onClicked: bookStyles.resetToDefaults()
                 }
             }
 

@@ -2,14 +2,19 @@
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
+ *
+ * Copyright 2020 Emanuele Sorce
+ * 
+ * This file is part of Sturm Reader and is distributed under the terms of
+ * the GNU GPLv3. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.LocalStorage 2.0
 import QtQuick.Window 2.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
-import U1db 1.0 as U1db
+import Qt.labs.settings 1.0
 import File 1.0
 
 import "components"
@@ -22,10 +27,6 @@ MainView {
     
     applicationName: "sturmreader.emanuelesorce"
     
-    /* 
-     This property enables the application to change orientation 
-     when the device is rotated. The default is false.
-    */
     automaticOrientation: true
     
     width: units.gu(200)
@@ -91,9 +92,9 @@ MainView {
         return false
     }
 
-    function openSettingsDatabase() {
-        return LocalStorage.openDatabaseSync("BeruSettings", "1", "Global settings for Beru", 10000)
-    }
+	function openSettingsDatabase() {
+		return LocalStorage.openDatabaseSync("BeruSettings", "1", "Global settings for Beru", 100000)
+	}
 
     function getSetting(key) {
         var db = openSettingsDatabase()
@@ -113,20 +114,20 @@ MainView {
         })
     }
 
-    function sizeChanged() {
-        setSetting("winsize", JSON.stringify([width, height]))
-    }
-
-    U1db.Database {
-        id: bookSettingsDatabase
-        path: "BeruBookSettings.db"
-    }
+	Settings {
+		id: appsettings
+		category: "appsettings"
+		property alias x: mainView.x
+		property alias y: mainView.y
+		property alias width: mainView.width
+		property alias height: mainView.height
+	}
 
     function getBookSetting(key) {
         if (server.reader.hash() == "")
             return undefined
 
-        var settings = bookSettingsDatabase.getDoc(server.reader.hash())
+		var settings = JSON.parse(mainView.getSetting("book_" + server.reader.hash()))
         if (settings == undefined)
             return undefined
         return settings[key]
@@ -162,11 +163,11 @@ MainView {
             if (hash == null)
                 return
 
-            var settings = bookSettingsDatabase.getDoc(hash)
+            var settings = JSON.parse(getSetting("book_" + server.reader.hash()))
             if (settings == undefined)
                 settings = {}
             settings[key] = value
-            bookSettingsDatabase.putDoc(settings, hash)
+            setSetting("book_" + server.reader.hash(), JSON.stringify(settings))
             hash = null
         }
     }
@@ -192,14 +193,15 @@ MainView {
             if (loadFile(filePath))
                 localBooks.addFile(filePath)
         }
-
+        
+		/*
         onWidthChanged.connect(sizeChanged)
         onHeightChanged.connect(sizeChanged)
         var size = JSON.parse(getSetting("winsize"))
         if (size != null) {
             width = size[0]
             height = size[1]
-        }
+        }*/
 
         localBooks.onMainCompleted()
     }

@@ -1,5 +1,5 @@
 {
-	"clickable_minimum_version": "6.12.2",
+	"clickable_minimum_required": "6.12.2",
 	"builder": "cmake",
 	"dependencies_target": [
 		"intltool",
