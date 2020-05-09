@@ -15,55 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
-    Example:
-
-    MainView {
-        objectName: "mainView"
-
-        applicationName: "com.ubuntu.developer.boiko.bottomedge"
-
-        width: units.gu(100)
-        height: units.gu(75)
-
-        Component {
-            id: pageComponent
-
-            PageWithBottomEdge {
-                id: mainPage
-                title: i18n.tr("Main Page")
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: "white"
-                }
-
-                bottomEdgePageComponent: Page {
-                    title: "Contents"
-                    anchors.fill: parent
-                    //anchors.topMargin: contentsPage.flickable.contentY
-
-                    ListView {
-                        anchors.fill: parent
-                        model: 50
-                        delegate: ListItems.Standard {
-                            text: "One Content Item: " + index
-                        }
-                    }
-                }
-                bottomEdgeTitle: i18n.tr("Bottom edge action")
-            }
-        }
-
-        PageStack {
-            id: stack
-            Component.onCompleted: stack.push(pageComponent)
-        }
-    }
-
-*/
-
-import QtQuick 2.4
+import QtQuick 2.9
 import Ubuntu.Components 1.3
 
 Page {

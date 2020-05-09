@@ -39,13 +39,12 @@ PageWithBottomEdge {
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
                 || event.key == Qt.Key_Period) {
-			bookWebView.runJavaScript("reader.moveTo({direction: '1'});");
-            event.accepted = true
+			bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: 1}))");
         } else if (event.key == Qt.Key_Left || event.key == Qt.Key_Up
                    || event.key == Qt.Key_Backspace || event.key == Qt.Key_Comma) {
-            bookWebView.runJavaScript("reader.moveTo({direction: '-1'});");
-			event.accepted = true
-        }
+			bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: -1}))");
+		}
+        event.accepted = true
     }
 
     onVisibleChanged: {
@@ -99,7 +98,11 @@ PageWithBottomEdge {
 				if(!isBookReady)
 					doPageChangeAsSoonAsReady = true;
 				else
+				{
+					loadingIndicator.opacity = 0;
+					bookWebView.opacity = 1;
 					bookPage.onPageChange();
+				}
 			}
 			else if(msg[0] == "Ready") {
 				isBookReady = true;
@@ -143,7 +146,11 @@ PageWithBottomEdge {
         domain: mainView.applicationName
     }
 
-    bottomEdgeControls: Item {
+    bottomEdgeControls: Rectangle {
+		
+		antialiasing: false
+		color: "#ffffff"
+		
         anchors.left: parent.left
         anchors.right: parent.right
         height: childrenRect.height
@@ -153,7 +160,7 @@ PageWithBottomEdge {
 
             buttons: [
                 Action {
-                    iconName: "back"
+                    iconName: "go-home"
 
                     onTriggered: {
                         pageStack.pop()
@@ -164,28 +171,54 @@ PageWithBottomEdge {
         }
 
         FloatingButton {
-            anchors.horizontalCenter: parent.horizontalCenter
+			anchors.left: parent.horizontalCenter
+			
+			buttons: [
+				Action {
+					iconName: "go-first"
+					onTriggered: {
+						bookWebView.opacity = 0;
+						loadingIndicator.opacity = 1;
+						bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: -10}))");
+					}
+				},
+				Action {
+					iconName: "go-last"
+					onTriggered: {
+						bookWebView.opacity = 0;
+						loadingIndicator.opacity = 1;
+						bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: 10}))");
+					}
+				}
+			]
+		}
+		
+		FloatingButton {
+			anchors.right: parent.horizontalCenter
 
             buttons: [
                 Action {
-                    iconName: "go-previous"
+                    iconName: "undo"
                     enabled: canBack
                     onTriggered: {
                         var locus = history.goBackward()
                         if (locus !== null) {
-                            navjump = true;
+							navjump = true;
+							bookWebView.opacity = 0;
+							loadingIndicator.opacity = 1;
 							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
                         }
                     }
                 },
                 Action {
-                    iconName: "go-next"
+                    iconName: "redo"
                     enabled: canForward
                     onTriggered: {
                         var locus = history.goForward()
                         if (locus !== null) {
 							navjump = true;
-							//Messaging.sendMessage("GotoLocus", locus
+							bookWebView.opacity = 0;
+							loadingIndicator.opacity = 1;
 							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
                         }
                     }
@@ -198,7 +231,7 @@ PageWithBottomEdge {
 
             buttons: [
                 Action {
-                    iconName: "settings"
+                    iconName: "image-quality"
                     onTriggered: {
                         PopupUtils.open(stylesComponent)
                         closeBottomEdge()

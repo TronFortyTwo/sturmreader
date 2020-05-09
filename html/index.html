@@ -27,6 +27,7 @@ function statusUpdate() {
 	alert("percent " + JSON.stringify( reader.getPlace().percentageThrough() ) )
 	alert("PageChange");
 }
+
 function createReader(bookData) {
     var styleInfo = styleManager.init(bookData.getMetaData("title"));
 	reader = Monocle.Reader("reader", bookData,
