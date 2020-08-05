@@ -9,6 +9,7 @@
 
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 2.2
 import Ubuntu.Components 1.3
 
 
@@ -17,8 +18,8 @@ Item {
 
     property int size: units.gu(6)
     property int margin: units.gu(1)
-    property color color: UbuntuColors.porcelain
-    property color borderColor: UbuntuColors.silk
+    property color color: "#F7F7F7" //UbuntuColors.porcelain
+    property color borderColor: "#CDCDCD" //UbuntuColors.silk
     property list<Action> buttons
 
     width: bubble.width + 2*margin
