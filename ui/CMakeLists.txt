@@ -9,9 +9,7 @@ set(UI_SRC_FILES
     Reader.qml
     Server.qml
     components/FloatingButton.qml
-    components/OptionSelector.qml
     components/PageWithBottomEdge.qml
-    components/StylableOptionSelectorDelegate.qml
     components/SwipeControl.qml
     images/error_cover.svg
     images/error_cover_full.svg

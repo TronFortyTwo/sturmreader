@@ -5,12 +5,15 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Components.Popups 1.3
 import QtWebEngine 1.7
 import UserMetrics 0.1
+
 import FontList 1.0
 
 import "components"
@@ -431,85 +434,82 @@ PageWithBottomEdge {
         Dialog {
             id: stylesDialog
             property real labelwidth: units.gu(11)
-
-            OptionSelector {
+            ComboBox {
                 id: colorSelector
-                onSelectedIndexChanged: {
-                    bookStyles.textColor = model.get(selectedIndex).foreground
-                    bookStyles.background = model.get(selectedIndex).background
+                displayText: styleModel.get(currentIndex).stext
+                model: ListModel {
+					id: styleModel
+					ListElement {
+						stext: "Black on White"
+						back: "white"
+						fore: "black"
+						comboboxback: "white"
+						comboboxfore: "black"
+					}
+					ListElement {
+						stext: "Dark on Texture"
+						back: "url(.background_paper@30.png)"
+						fore: "#222"
+						comboboxback: "#dddddd"
+						comboboxfore: "#222222"
+					}
+					ListElement {
+						stext: "Light on Texture"
+						back: "url(.background_paper_invert@30.png)"
+						fore: "#999"
+						comboboxback: "#222222"
+						comboboxfore: "#dddddd"
+					}
+					ListElement {
+						stext: "White on Black"
+						back: "black"
+						fore: "white"
+						comboboxback: "black"
+						comboboxfore: "white"
+					}
+				}
+				onCurrentIndexChanged: {
+					bookStyles.textColor = styleModel.get(currentIndex).fore
+					bookStyles.background = styleModel.get(currentIndex).back
                 }
-                model: colorModel
-
-                delegate: StylableOptionSelectorDelegate {
-					text: server.reader.pictureBook ? pictureName : i18n.tr(name)
-                    Component.onCompleted: {
-                        textLabel.color = foreground
-                        if (background.slice(0, 5) == "url(.") {
-                            var filename = Qt.resolvedUrl("../html/" + background.slice(5, -1))
-                            backgroundImage.source = filename
-                        } else {
-                            backgroundShape.color = background
-                        }
-                    }
-
-                    UbuntuShape {
-                        id: backgroundShape
-                        anchors {
-                            leftMargin: units.gu(0)
-                            rightMargin: units.gu(0)
-                            fill: parent
-                        }
-                        z: -1
-                        image: Image {
-                            id: backgroundImage
-                            fillMode: Image.Tile
-                        }
-                    }
-                }
-            }
-
-            ListModel {
-                id: colorModel
-                ListElement {
-					name: "Black on White"
-                    pictureName: "White"
-                    foreground: "black"
-                    background: "white"
-                }
-                ListElement {
-					name: "Dark on Texture"
-                    pictureName: "Light Texture"
-                    foreground: "#222"
-                    background: "url(.background_paper@30.png)"
-                }
-                ListElement {
-					name: "Light on Texture"
-                    pictureName: "Dark Texture"
-                    foreground: "#999"
-                    background: "url(.background_paper_invert@30.png)"
-                }
-                ListElement {
-					name: "White on Black"
-                    pictureName: "Black"
-                    foreground: "white"
-                    background: "black"
-                }
-            }
-
-            OptionSelector {
+				delegate: ItemDelegate {
+					highlighted: colorSelector.highlightedIndex === index
+					width: parent.width
+					contentItem: Text {
+						text: stext
+						color: comboboxfore
+					}
+					background: Rectangle {
+						color: comboboxback
+					}
+				}
+			}
+            ComboBox {
                 id: fontSelector
                 visible: !server.reader.pictureBook
-                onSelectedIndexChanged: bookStyles.fontFamily = model[selectedIndex]
-
+                onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
+                displayText: (model[currentIndex] == "Default") ? i18n.tr("Default Font") : model[currentIndex]
+                
                 model: fontLister.fontList
-
-                delegate: StylableOptionSelectorDelegate {
+                
+                delegate: ItemDelegate {
+					highlighted: fontSelector.highlightedIndex === index
+					width: parent.width
+					contentItem: Text {
+						text: (modelData == "Default") ? i18n.tr("Default Font") : modelData
+						font.family: modelData
+						color: theme.palette.normal.buttonText
+					}
+				}
+                /*
+                delegate: StylableComboBoxDelegate {
                     text: (modelData == "Default") ? i18n.tr("Default Font") : modelData
                     Component.onCompleted: {
                         if (modelData != "Default")
                             textLabel.font.family = modelData
                     }
                 }
+                */
             }
 
             Row {
@@ -644,13 +644,13 @@ PageWithBottomEdge {
             }
 
             function setValues() {
-                for (var i=0; i<colorModel.count; i++) {
-                    if (colorModel.get(i).foreground == bookStyles.textColor) {
-                        colorSelector.selectedIndex = i
+                for (var i=0; i<styleModel.count; i++) {
+                    if (styleModel.get(i).fore == bookStyles.textColor) {
+                        colorSelector.currentIndex = i
                         break
                     }
                 }
-                fontSelector.selectedIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
+                fontSelector.currentIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
                 fontScaleSlider.value = 4 + 4 * Math.LOG2E * Math.log(bookStyles.fontScale)
                 lineHeightSlider.value = (bookStyles.lineHeight == "Default") ? 0.8 : bookStyles.lineHeight
                 marginSlider.value = bookStyles.margin

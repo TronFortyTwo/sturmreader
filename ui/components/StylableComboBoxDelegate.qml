@@ -72,7 +72,7 @@ ListItem.Standard {
      */
     property url icon: iconSource
     onIconChanged: if (icon != iconSource) {
-                       console.warn("WARNING: OptionSelectorDelegate.icon is DEPRECATED. " +
+                       console.warn("WARNING: StrylableComboBoxDelegate.icon is DEPRECATED. " +
                                      "Use iconName and iconSource instead.")
                    }
 
