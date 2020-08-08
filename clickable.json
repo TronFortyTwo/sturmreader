@@ -12,5 +12,6 @@
 	"dependencies_host": [
 		"gettext"
 	],
+	"dirty": true,
 	"default": "build install launch logs"
 }
