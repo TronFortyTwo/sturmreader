@@ -607,15 +607,16 @@ PageWithBottomEdge {
                 }
             }
 
-            StyledButton {
+            Button {
                 text: i18n.tr("Close")
+                color: theme.palette.normal.positive
                 onClicked: PopupUtils.close(stylesDialog)
             }
 
             Item {
                 property bool horizontal: (setDefault.text.length < 16 && loadDefault.text.length < 16)
                 height: horizontal ? setDefault.height : 2 * setDefault.height + units.gu(2)
-                StyledButton {
+                Button {
                     id: setDefault
                     /*/ Prefer string of < 16 characters /*/
                     text: i18n.tr("Make Default")
@@ -625,11 +626,10 @@ PageWithBottomEdge {
                         top: parent.top
                         //width: parent.width / 2
                     }
-                    primary: false
                     enabled: !bookStyles.atdefault
                     onClicked: bookStyles.saveAsDefault()
                 }
-                StyledButton {
+                Button {
                     id: loadDefault
                     /*/ Prefer string of < 16 characters /*/
                     text: i18n.tr("Load Defaults")
@@ -638,9 +638,8 @@ PageWithBottomEdge {
                         right: parent.right
                         bottom: parent.bottom
                     }
-                    primary: false
                     enabled: !bookStyles.atdefault
-//                     onClicked: bookStyles.resetToDefaults()
+                    onClicked: bookStyles.resetToDefaults()
                 }
             }
 

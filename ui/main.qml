@@ -63,7 +63,7 @@ MainView {
             id: errorOpenDialog
             title: i18n.tr("Error Opening File")
             text: server.reader.error
-            StyledButton {
+            Button {
                 text: i18n.tr("OK")
                 onClicked: PopupUtils.close(errorOpenDialog)
             }

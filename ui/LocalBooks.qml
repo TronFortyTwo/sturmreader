@@ -692,13 +692,14 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            StyledButton {
+            Button {
                 text: i18n.tr("Get Books")
+                color: theme.palette.normal.positive
                 width: parent.width
                 onClicked: pageStack.push(bookSources)
             }
 
-            StyledButton {
+            Button {
                 text: i18n.tr("Search Again")
                 width: parent.width
                 onClicked: readBookDir()
@@ -802,7 +803,7 @@ Page {
                 }
             }
 
-            StyledButton {
+            Button {
                 text: i18n.tr("Close")
                 onClicked: PopupUtils.close(infoDialog)
             }
@@ -850,7 +851,7 @@ Page {
                 }
             }
 
-            StyledButton {
+            Button {
                 id: useButton
                 onClicked: {
                     var status = filesystem.exists(homepath + pathfield.text)
@@ -876,10 +877,9 @@ Page {
                 }
             }
 
-            StyledButton {
+            Button {
                 id: cancelButton
                 text: i18n.tr("Cancel")
-                primary: false
                 visible: !firststart
                 onClicked: PopupUtils.close(settingsDialog)
             }
@@ -897,7 +897,7 @@ Page {
                              "from accessing most of your home directory.  Ebooks should be put in " +
                              "<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
 
-            StyledButton {
+            Button {
                 text: i18n.tr("Reload Directory")
                 // We don't bother with the Timer trick here since we don't get this dialog on
                 // first launch, so we shouldn't have too many books added to the library when
@@ -908,9 +908,9 @@ Page {
                 }
             }
 
-            StyledButton {
+            Button {
+                color: theme.palette.normal.positive
                 text: i18n.tr("Close")
-                primary: false
                 onClicked: PopupUtils.close(settingsDisabledDialog)
             }
         }
