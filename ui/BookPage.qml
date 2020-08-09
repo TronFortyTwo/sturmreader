@@ -498,7 +498,7 @@ PageWithBottomEdge {
 					contentItem: Text {
 						text: (modelData == "Default") ? i18n.tr("Default Font") : modelData
 						font.family: modelData
-						color: theme.palette.normal.buttonText
+						color: theme.palette.normal.foregroundText
 					}
 				}
                 /*
