@@ -6,7 +6,7 @@
  */
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.2 as QQC2
 
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
@@ -434,7 +434,7 @@ PageWithBottomEdge {
         Dialog {
             id: stylesDialog
             property real labelwidth: units.gu(11)
-            ComboBox {
+            QQC2.ComboBox {
                 id: colorSelector
                 displayText: styleModel.get(currentIndex).stext
                 model: ListModel {
@@ -472,10 +472,10 @@ PageWithBottomEdge {
 					bookStyles.textColor = styleModel.get(currentIndex).fore
 					bookStyles.background = styleModel.get(currentIndex).back
                 }
-				delegate: ItemDelegate {
+				delegate: QQC2.ItemDelegate {
 					highlighted: colorSelector.highlightedIndex === index
 					width: parent.width
-					contentItem: Text {
+ 					contentItem: Text {
 						text: stext
 						color: comboboxfore
 					}
@@ -484,7 +484,7 @@ PageWithBottomEdge {
 					}
 				}
 			}
-            ComboBox {
+            QQC2.ComboBox {
                 id: fontSelector
                 visible: !server.reader.pictureBook
                 onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
@@ -492,7 +492,7 @@ PageWithBottomEdge {
                 
                 model: fontLister.fontList
                 
-                delegate: ItemDelegate {
+                delegate: QQC2.ItemDelegate {
 					highlighted: fontSelector.highlightedIndex === index
 					width: parent.width
 					contentItem: Text {
@@ -501,15 +501,6 @@ PageWithBottomEdge {
 						color: theme.palette.normal.foregroundText
 					}
 				}
-                /*
-                delegate: StylableComboBoxDelegate {
-                    text: (modelData == "Default") ? i18n.tr("Default Font") : modelData
-                    Component.onCompleted: {
-                        if (modelData != "Default")
-                            textLabel.font.family = modelData
-                    }
-                }
-                */
             }
 
             Row {
