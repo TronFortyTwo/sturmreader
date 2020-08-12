@@ -17,7 +17,7 @@ Rectangle {
     clip: true
 
     property double lineWidth: units.dp(1)
-    property double marginWidth: 25
+    property double marginWidth: units.dp(15)
     property double threshold: 0.5
     property string actionText: ""
     property string notificationText: ""
@@ -40,12 +40,12 @@ Rectangle {
 
         Behavior on opacity {
             NumberAnimation {
-                duration: 333 //UbuntuAnimation.BriskDuration
+                duration: 333
             }
         }
         Behavior on scale {
             NumberAnimation {
-                duration: 333 //UbuntuAnimation.BriskDuration
+                duration: 333
             }
         }
     }
@@ -63,7 +63,7 @@ Rectangle {
 
         Behavior on x {
             NumberAnimation {
-                duration: 100 //UbuntuAnimation.SnapDuration
+                duration: 100
             }
         }
 
