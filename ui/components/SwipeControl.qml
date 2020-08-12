@@ -7,6 +7,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtLocation 5.9
+import Units 1.0
 
 Rectangle {
     id: swipeControl
@@ -15,7 +16,7 @@ Rectangle {
     width: parent.width
     clip: true
 
-    property double lineWidth: 1 //units.dp(1)
+    property double lineWidth: units.dp(1)
     property double marginWidth: 25
     property double threshold: 0.5
     property string actionText: ""
