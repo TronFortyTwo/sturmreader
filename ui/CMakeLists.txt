@@ -14,7 +14,12 @@ set(UI_SRC_FILES
 	components/Action.qml
 	images/error_cover.svg
 	images/error_cover_full.svg
+	Icons/go-home.svg
 	Icons/go-next.svg
+	Icons/go-previous.svg
+	Icons/redo.svg
+	Icons/settings.svg
+	Icons/undo.svg
 	Icons/COPYING
 )
 

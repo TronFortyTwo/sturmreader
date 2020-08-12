@@ -16,9 +16,12 @@
  */
 
 import QtQuick 2.9
-import Ubuntu.Components 1.3
+import QtQuick.Controls 2.2
+import Ubuntu.Components 1.3 as UUITK
 
-Page {
+import Units 1.0
+
+UUITK.Page {
     id: page
 
     property alias bottomEdgePageComponent: edgeLoader.sourceComponent
@@ -122,7 +125,7 @@ Page {
             right: parent.right
             bottom: parent.bottom
         }
-        height: units.gu(1)
+        height: units.dp(8)
         z: 1
         opacity: 0.0
         gradient: Gradient {
@@ -179,7 +182,7 @@ Page {
         onMouseYChanged: {
             var yOffset = previousY - mouseY
             // skip if was a small move
-            if (Math.abs(yOffset) <= units.gu(2)) {
+            if (Math.abs(yOffset) <= units.dp(15)) {
                 return
             }
             previousY = mouseY
@@ -187,7 +190,7 @@ Page {
         }
     }
 
-    StyledItem {
+    UUITK.StyledItem {
         id: fakeHeader
 
         anchors {
@@ -204,16 +207,16 @@ Page {
         }
 
         Behavior on y {
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.SnapDuration
+            NumberAnimation {
+                duration: 100 //UbuntuAnimation.SnapDuration
             }
         }
 
         // PageHeadStyle uses these properties when styling the header.
         property string title: bottomEdgeTitle
         property color dividerColor: Qt.darker(Theme.palette.normal.background, 1.1)
-        property PageHeadConfiguration config: PageHeadConfiguration {
-            backAction: Action {
+        property UUITK.PageHeadConfiguration config: UUITK.PageHeadConfiguration {
+            backAction: UUITK.Action {
                 iconName: "back"
                 onTriggered: closeBottomEdge()
             }
@@ -232,7 +235,7 @@ Page {
         id: bottomEdge
         objectName: "bottomEdge"
 
-        readonly property int tipHeight: units.gu(3)
+        readonly property int tipHeight: units.dp(22)
         readonly property int pageStartY: fakeHeader.height
 
         z: 1
@@ -324,35 +327,35 @@ Page {
                         SmoothedAnimation {
                             target: bottomEdge
                             property: "y"
-                            duration: UbuntuAnimation.FastDuration
+                            duration: 300
                             easing.type: Easing.Linear
                         }
                         SmoothedAnimation {
                             target: fakeHeader
                             property: "y"
-                            duration: UbuntuAnimation.FastDuration
+                            duration: 300
                             easing.type: Easing.Linear
                         }
                         SmoothedAnimation {
                             target: controls
                             property: "y"
-                            duration: UbuntuAnimation.FastDuration
+                            duration: 300
                             easing.type: Easing.Linear
                         }
                     }
                     SmoothedAnimation {
                         target: edgeLoader
                         property: "anchors.topMargin"
-                        to: - units.gu(4)
-                        duration: UbuntuAnimation.FastDuration
+                        to: -units.dp(27)
+                        duration: 300
                         easing.type: Easing.Linear
                     }
                     SmoothedAnimation {
                         target: edgeLoader
                         property: "anchors.topMargin"
                         to: 0
-                        duration: UbuntuAnimation.FastDuration
-                        easing: UbuntuAnimation.StandardEasing
+                        duration: 300
+                        easing.type: Easing.Linear
                     }
                     ScriptAction {
                         script: page._pushPage()
@@ -376,12 +379,12 @@ Page {
                         SmoothedAnimation {
                             target: bottomEdge
                             property: "y"
-                            duration: UbuntuAnimation.SlowDuration
+                            duration: 512
                         }
                         SmoothedAnimation {
                             target: fakeHeader
                             property: "y"
-                            duration: UbuntuAnimation.SlowDuration
+                            duration: 512
                         }
                     }
                     ScriptAction {
@@ -406,17 +409,17 @@ Page {
                     SmoothedAnimation {
                         target: bottomEdge
                         property: "y"
-                        duration: UbuntuAnimation.FastDuration
+                        duration: 300
                     }
                     SmoothedAnimation {
                         target: fakeHeader
                         property: "y"
-                        duration: UbuntuAnimation.FastDuration
+                        duration: 300
                     }
                     SmoothedAnimation {
                         target: controls
                         property: "y"
-                        duration: UbuntuAnimation.FastDuration
+                        duration: 300
                     }
                 }
             },
@@ -427,7 +430,7 @@ Page {
                     SmoothedAnimation {
                         target: controls
                         property: "y"
-                        duration: UbuntuAnimation.FastDuration
+                        duration: 300
                     }
                     ScriptAction {
                         script: previewTimer.stop()

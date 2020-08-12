@@ -592,8 +592,9 @@ UUITK.Page {
         Behavior on x {
             id: widthAnimation
             NumberAnimation {
-                duration: UbuntuAnimation.BriskDuration
-                easing: UbuntuAnimation.StandardEasing
+                duration: 333 //UbuntuAnimation.BriskDuration
+                // TODO:
+                //easing: UbuntuAnimation.StandardEasing
 
                 onRunningChanged: {
                     if (!running && perAuthorModel.needsclear) {

@@ -178,7 +178,7 @@ PageWithBottomEdge {
 			
 			buttons: [
 				Action {
-					iconName: "go-first"
+					iconName: "go-previous"
 					onTriggered: {
 						bookWebView.opacity = 0;
 						loadingIndicator.opacity = 1;
@@ -186,7 +186,7 @@ PageWithBottomEdge {
 					}
 				},
 				Action {
-					iconName: "go-last"
+					iconName: "go-next"
 					onTriggered: {
 						bookWebView.opacity = 0;
 						loadingIndicator.opacity = 1;
@@ -234,7 +234,7 @@ PageWithBottomEdge {
 
             buttons: [
                 Action {
-                    iconName: "image-quality"
+                    iconName: "settings"
                     onTriggered: {
                         PopupUtils.open(stylesComponent)
                         closeBottomEdge()

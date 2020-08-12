@@ -11,14 +11,12 @@ import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 
-import Ubuntu.Components 1.3 as UUITK
-
 import Units 1.0
 
 Item {
     id: floatingButton
 
-    property int size: units.dp(30)		//units.gu(6)
+    property int size: units.dp(50)		//units.gu(6)
     property int margin: units.dp(5)	//units.gu(1)
     property color color: "#F7F7F7" //UbuntuColors.porcelain
     property color borderColor: "#CDCDCD" //UbuntuColors.silk
@@ -66,8 +64,11 @@ Item {
                             }
                             width: parent.width/2
                             height: width
-                            source: button.iconSource
-                            opacity: button.enabled ? 1.0 : 0.5
+                            sourceSize.width: width
+                            sourceSize.height: height
+                            // TODO: this icon loader is a bit hacky
+                            source: "../Icons/" + modelData.iconName + ".svg"
+                            opacity: modelData.enabled ? 1.0 : 0.35
                         }
                     }
                 }
