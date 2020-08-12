@@ -4,9 +4,9 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
-import Ubuntu.Components 1.3
-
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtLocation 5.9
 
 Rectangle {
     id: swipeControl
@@ -15,17 +15,17 @@ Rectangle {
     width: parent.width
     clip: true
 
-    property double lineWidth: units.dp(1)
-    property double marginWidth: units.gu(2)
+    property double lineWidth: 1 //units.dp(1)
+    property double marginWidth: 25
     property double threshold: 0.5
     property string actionText: ""
     property string notificationText: ""
-    property color sliderColor: "white"
-    property color actionColor: "red"
+    property color sliderColor: theme.palette.normal.foreground
+    property color actionColor: theme.palette.normal.negative
 
     signal triggered
 
-    Label {
+    Text {
         id: actionLabel
         text: swipeControl.actionText
         anchors {
@@ -38,13 +38,13 @@ Rectangle {
         scale: (slider.x > slider.width * swipeControl.threshold) ? 1.0 : 0.8
 
         Behavior on opacity {
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.BriskDuration
+            NumberAnimation {
+                duration: 333 //UbuntuAnimation.BriskDuration
             }
         }
         Behavior on scale {
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.BriskDuration
+            NumberAnimation {
+                duration: 333 //UbuntuAnimation.BriskDuration
             }
         }
     }
@@ -61,8 +61,8 @@ Rectangle {
         width: parent.width
 
         Behavior on x {
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.SnapDuration
+            NumberAnimation {
+                duration: 100 //UbuntuAnimation.SnapDuration
             }
         }
 
@@ -72,7 +72,8 @@ Rectangle {
             color: swipeControl.actionColor
             text: swipeControl.notificationText
         }
-
+		
+		/*
         Icon {
             name: "next"
             anchors {
@@ -85,6 +86,7 @@ Rectangle {
             width: height
             color: swipeControl.actionColor
         }
+        */
     }
 
     MouseArea {
