@@ -13,6 +13,8 @@ set(UI_SRC_FILES
     components/SwipeControl.qml
     images/error_cover.svg
     images/error_cover_full.svg
+    Icons/go-next.svg
+    Icons/COPYING
 )
 
 if(${OUT_OF_TREE_BUILD})

@@ -6,7 +6,6 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtLocation 5.9
 import Units 1.0
 
 Rectangle {
@@ -74,20 +73,20 @@ Rectangle {
             text: swipeControl.notificationText
         }
 		
-		/*
-        Icon {
-            name: "next"
-            anchors {
-                top: parent.top
-                topMargin: units.gu(1)
-                bottom: parent.bottom
-                bottomMargin: units.gu(1)
-                right: parent.right
-            }
-            width: height
-            color: swipeControl.actionColor
-        }
-        */
+		Image {
+			source: "../Icons/go-next.svg"
+			asynchronous: true
+			anchors {
+				top: parent.top
+				topMargin: units.dp(5)
+				bottom: parent.bottom
+				bottomMargin: units.dp(5)
+				right: parent.right
+			}
+			width: height
+			sourceSize.width: width
+			sourceSize.height: height
+		}
     }
 
     MouseArea {
