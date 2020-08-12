@@ -6,16 +6,18 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
-import Ubuntu.Components 1.3
+
+import Ubuntu.Components 1.3 as UUITK
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Components.Popups 1.3
 
 import "components"
 
 
-Page {
+UUITK.Page {
     id: localBooks
 
     flickable: gridview
@@ -363,23 +365,23 @@ Page {
         id: defaultCover
     }
 
-    header: PageHeader {
+    header: UUITK.PageHeader {
         id: header
         title: i18n.tr("Library")
 
         trailingActionBar {
             actions: [
-                Action {
+                UUITK.Action {
                     text: i18n.tr("Get Books")
                     iconName: "add"
 					onTriggered: pageStack.push(importer.pickerPage)
                 },
-                Action {
+                UUITK.Action {
                     text: i18n.tr("About")
                     iconName: "info"
 					onTriggered: pageStack.push(about)
                 },
-                Action {
+                UUITK.Action {
                     text: i18n.tr("Settings")
                     iconName: "settings"
                     onTriggered: {
@@ -392,7 +394,7 @@ Page {
 
             ]
         }
-        extension: Sections {
+        extension: UUITK.Sections {
             id: hsections
             model: [i18n.tr("Recently Read"), i18n.tr("Title"), i18n.tr("Author")]
             anchors {
@@ -481,7 +483,7 @@ Page {
                 radius: 1.5*gridmargin
                 samples: 16
                 source: image
-                color: UbuntuColors.graphite
+                color: "#666666" //UbuntuColors.graphite
                 verticalOffset: 0.25*gridmargin
             }
 
@@ -602,13 +604,13 @@ Page {
             }
         }
 
-        PullToRefresh {
+        UUITK.PullToRefresh {
             refreshing: reloading
             onRefresh: readBookDir()
         }
     }
 
-    Scrollbar {
+    UUITK.Scrollbar {
         flickableItem: listview
         align: Qt.AlignTrailing
     }
@@ -627,7 +629,7 @@ Page {
         delegate: titleDelegate
     }
 
-    Scrollbar {
+    UUITK.Scrollbar {
         flickableItem: perAuthorListView
         align: Qt.AlignTrailing
     }
@@ -649,13 +651,13 @@ Page {
         model: bookModel
         delegate: coverDelegate
 
-        PullToRefresh {
+        UUITK.PullToRefresh {
             refreshing: reloading
             onRefresh: readBookDir()
         }
     }
 
-    Scrollbar {
+    UUITK.Scrollbar {
         flickableItem: gridview
         align: Qt.AlignTrailing
         anchors {
@@ -674,7 +676,7 @@ Page {
             spacing: units.gu(2)
             width: Math.min(units.gu(30), parent.width)
 
-            Label {
+            UUITK.Label {
                 id: noBooksLabel
                 text: i18n.tr("No Books in Library")
                 fontSize: "large"
@@ -682,7 +684,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Label {
+            UUITK.Label {
                 /*/ A path on the file system. /*/
                 text: i18n.tr("Sturm Reader could not find any books for your library, and will " +
                               "automatically find all epub files in <i>%1</i>.  Additionally, any book " +
@@ -692,7 +694,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Button {
+            UUITK.Button {
                 text: i18n.tr("Get Books")
                 color: theme.palette.normal.positive
                 width: parent.width
@@ -769,7 +771,7 @@ Page {
                     }
                     spacing: units.gu(2)
 
-                    Label {
+                    UUITK.Label {
                         id: titleLabel
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
@@ -777,7 +779,7 @@ Page {
                         color: UbuntuColors.darkGrey
                         wrapMode: Text.Wrap
                     }
-                    Label {
+                    UUITK.Label {
                         id: filenameLabel
                         width: parent.width
                         horizontalAlignment: Text.AlignLeft
@@ -908,7 +910,7 @@ Page {
                 }
             }
 
-            Button {
+            UUITK.Button {
                 color: theme.palette.normal.positive
                 text: i18n.tr("Close")
                 onClicked: PopupUtils.close(settingsDisabledDialog)

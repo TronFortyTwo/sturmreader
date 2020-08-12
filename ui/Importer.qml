@@ -5,7 +5,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import Ubuntu.Components 1.3 as UUITK
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Content 1.3
@@ -115,11 +115,11 @@ Item {
         id: itemList
     }
 
-    Page {
+    UUITK.Page {
         id: importPage
         visible: false
         title: i18n.tr("Importing books...")
-        head.backAction: Action {
+        head.backAction: UUITK.Action {
             iconName: importing ? "preferences-system-updates-symbolic" : "back"
             onTriggered: {
                 if (!importing) {
@@ -156,15 +156,15 @@ Item {
                 }
             }
         }
-        Scrollbar {
+        UUITK.Scrollbar {
             flickableItem: sourcesView
             align: Qt.AlignTrailing
         }
     }
 
-    Page {
+    UUITK.Page {
 
-        header: PageHeader {
+        header: UUITK.PageHeader {
             visible: false
         }
 

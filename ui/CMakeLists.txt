@@ -1,20 +1,21 @@
 set(UI_SRC_FILES
 	About.qml
-    BookPage.qml
-    DefaultCover.qml
-    historystack.js
-    Importer.qml
-    LocalBooks.qml
-    main.qml
-    Reader.qml
-    Server.qml
-    components/FloatingButton.qml
-    components/PageWithBottomEdge.qml
-    components/SwipeControl.qml
-    images/error_cover.svg
-    images/error_cover_full.svg
-    Icons/go-next.svg
-    Icons/COPYING
+	BookPage.qml
+	DefaultCover.qml
+	historystack.js
+	Importer.qml
+	LocalBooks.qml
+	main.qml
+	Reader.qml
+	Server.qml
+	components/FloatingButton.qml
+	components/PageWithBottomEdge.qml
+	components/SwipeControl.qml
+	components/Action.qml
+	images/error_cover.svg
+	images/error_cover_full.svg
+	Icons/go-next.svg
+	Icons/COPYING
 )
 
 if(${OUT_OF_TREE_BUILD})
