@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2014 Canonical, Ltd.
  * Copyright 2015 Robert Schroll
+ * Copyright 2020 Emanuele Sorce
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +37,7 @@ UUITK.Page {
     property int controlPreviewTime: 2000
 
     readonly property alias bottomEdgePage: edgeLoader.item
-    readonly property bool isReady: ((bottomEdge.y === fakeHeader.height) && bottomEdgePageLoaded)
+    readonly property bool isReady: ((bottomEdge.y === 0) && bottomEdgePageLoaded)
     readonly property bool isCollapsed: (bottomEdge.y === page.height)
     readonly property bool bottomEdgePageLoaded: (edgeLoader.status == Loader.Ready)
 
@@ -190,7 +191,9 @@ UUITK.Page {
         }
     }
 
-    UUITK.StyledItem {
+    //UUITK.StyledItem {
+    /*
+    Item {
         id: fakeHeader
 
         anchors {
@@ -227,16 +230,15 @@ UUITK.Page {
         property Item contents: null
         property color panelColor: "red"
 
-        style: Theme.createStyleComponent("PageHeadStyle.qml", header)
-    }
-
+        //style: Theme.createStyleComponent("PageHeadStyle.qml", header)
+    }*/
 
     Rectangle {
         id: bottomEdge
         objectName: "bottomEdge"
 
         readonly property int tipHeight: units.dp(22)
-        readonly property int pageStartY: fakeHeader.height
+        readonly property int pageStartY: 0
 
         z: 1
         color: Theme.palette.normal.background
@@ -245,22 +247,41 @@ UUITK.Page {
             left: parent.left
             right: parent.right
         }
-        height: page.height - fakeHeader.height
+        height: page.height
         y: page.height
 
         visible: !page.isCollapsed
         state: "collapsed"
-        states: [
+        
+		Button {
+			id: backButton
+			width: page.width * 0.4
+			height: units.dp(50)
+			text: i18n.tr("Cancel")
+	
+			anchors {
+				bottom: parent.bottom
+				left: parent.left
+				leftMargin: page.width * 0.45
+				bottomMargin: units.dp(8)
+			}
+			z: 2
+			
+			onClicked: closeBottomEdge()
+		}
+		
+		states: [
             State {
                 name: "collapsed"
                 PropertyChanges {
                     target: bottomEdge
                     y: page.height
                 }
+                /*
                 PropertyChanges {
                     target: fakeHeader
                     y: -fakeHeader.height
-                }
+                }*/
                 PropertyChanges {
                     target: controls
                     y: page.height
@@ -272,10 +293,11 @@ UUITK.Page {
                     target: bottomEdge
                     y: bottomEdge.pageStartY
                 }
+                /*
                 PropertyChanges {
                     target: fakeHeader
                     y: 0
-                }
+                }*/
             },
             State {
                 name: "floating"
@@ -307,10 +329,11 @@ UUITK.Page {
                     target: bottomEdge
                     y: page.height
                 }
+                /*
                 PropertyChanges {
                     target: fakeHeader
                     y: -fakeHeader.height
-                }
+                }*/
                 PropertyChanges {
                     target: controls
                     y: page.height - controls.fullHeight
@@ -330,12 +353,13 @@ UUITK.Page {
                             duration: 300
                             easing.type: Easing.Linear
                         }
+                        /*
                         SmoothedAnimation {
                             target: fakeHeader
                             property: "y"
                             duration: 300
                             easing.type: Easing.Linear
-                        }
+                        }*/
                         SmoothedAnimation {
                             target: controls
                             property: "y"
@@ -381,11 +405,12 @@ UUITK.Page {
                             property: "y"
                             duration: 512
                         }
+                        /*
                         SmoothedAnimation {
                             target: fakeHeader
                             property: "y"
                             duration: 512
-                        }
+                        }*/
                     }
                     ScriptAction {
                         script: {
@@ -411,11 +436,12 @@ UUITK.Page {
                         property: "y"
                         duration: 300
                     }
+                    /*
                     SmoothedAnimation {
                         target: fakeHeader
                         property: "y"
                         duration: 300
-                    }
+                    }*/
                     SmoothedAnimation {
                         target: controls
                         property: "y"
