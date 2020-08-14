@@ -6,15 +6,17 @@
  */
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2 as QQC2
-
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
-import Ubuntu.Components.Popups 1.3
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
 import QtWebEngine 1.7
-import UserMetrics 0.1
+
+import Ubuntu.Components 1.3 as UUITK
+import Ubuntu.Components.ListItems 1.3 as UUITK
+import Ubuntu.Components.Popups 1.3 as UUITK
+import UserMetrics 0.1 as UUITK
 
 import FontList 1.0
+import Units 1.0
 
 import "components"
 import "historystack.js" as History
@@ -34,7 +36,7 @@ PageWithBottomEdge {
     property string book_componentId;
 	property real book_percent;
 
-    header: PageHeader {
+    header: UUITK.PageHeader {
         visible: false
     }
 
@@ -71,7 +73,7 @@ PageWithBottomEdge {
         id: contentsListModel
     }
 
-    ActivityIndicator {
+    BusyIndicator {
         id: loadingIndicator
         anchors.centerIn: parent
         opacity: 1
@@ -141,13 +143,13 @@ PageWithBottomEdge {
 		}
 	}
 
-    Metric {
-        id: pageMetric
-        name: "page-turn-metric"
-        format: i18n.tr("Pages read today: %1")
-        emptyFormat: i18n.tr("No pages read today")
-        domain: mainView.applicationName
-    }
+	UUITK.Metric {
+		id: pageMetric
+		name: "page-turn-metric"
+		format: i18n.tr("Pages read today: %1")
+		emptyFormat: i18n.tr("No pages read today")
+		domain: mainView.applicationName
+	}
 
     bottomEdgeControls: Rectangle {
 		
@@ -236,7 +238,7 @@ PageWithBottomEdge {
                 Action {
                     iconName: "settings"
                     onTriggered: {
-                        PopupUtils.open(stylesComponent)
+                        stylesDialog.open()
                         closeBottomEdge()
                     }
                 }
@@ -250,7 +252,7 @@ PageWithBottomEdge {
             anchors.fill: parent
 
             model: contentsListModel
-            delegate: Standard {
+            delegate: UUITK.Standard {
                 text: (new Array(model.level + 1)).join("    ") +
                       model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
                 selected: bookPage.currentChapter == model.src
@@ -270,7 +272,7 @@ PageWithBottomEdge {
                 }
             }
         }
-        Scrollbar {
+        UUITK.Scrollbar {
             flickableItem: contentsListView
             align: Qt.AlignTrailing
         }
@@ -373,7 +375,7 @@ PageWithBottomEdge {
 
         Component.onCompleted: {
             var targetwidth = 60
-            var widthgu = width/units.gu(1)
+            var widthgu = width/units.dp(8)
             if (widthgu > targetwidth)
                 // Set the margins to give us the target width, but no more than 30%.
                 defaults.margin = Math.round(Math.min(50 * (1 - targetwidth/widthgu), 30))
@@ -428,16 +430,23 @@ PageWithBottomEdge {
         source: Qt.resolvedUrl("../html/fonts/URW Gothic L.ttf")
     }
 
-    Component {
-        id: stylesComponent
-
-        Dialog {
-            id: stylesDialog
-            property real labelwidth: units.gu(11)
-            QQC2.ComboBox {
-                id: colorSelector
-                displayText: styleModel.get(currentIndex).stext
-                model: ListModel {
+    Dialog {
+		id: stylesDialog
+		property real labelwidth: width * 0.5
+		
+		width: parent.width * 0.75
+		height: parent.height * 0.5
+		leftMargin: (parent.width - width) * 0.5
+		topMargin: (parent.height - height) * 0.5
+		ColumnLayout {
+			width: parent.width
+			height: parent.height
+			spacing: units.dp(2)
+			ComboBox {
+				width: parent.width * 0.6
+				id: colorSelector
+				displayText: styleModel.get(currentIndex).stext
+				model: ListModel {
 					id: styleModel
 					ListElement {
 						stext: "Black on White"
@@ -471,11 +480,11 @@ PageWithBottomEdge {
 				onCurrentIndexChanged: {
 					bookStyles.textColor = styleModel.get(currentIndex).fore
 					bookStyles.background = styleModel.get(currentIndex).back
-                }
-				delegate: QQC2.ItemDelegate {
+				}
+				delegate: ItemDelegate {
 					highlighted: colorSelector.highlightedIndex === index
 					width: parent.width
- 					contentItem: Text {
+					contentItem: Text {
 						text: stext
 						color: comboboxfore
 					}
@@ -484,15 +493,16 @@ PageWithBottomEdge {
 					}
 				}
 			}
-            QQC2.ComboBox {
-                id: fontSelector
-                visible: !server.reader.pictureBook
-                onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
-                displayText: (model[currentIndex] == "Default") ? i18n.tr("Default Font") : model[currentIndex]
-                
-                model: fontLister.fontList
-                
-                delegate: QQC2.ItemDelegate {
+			ComboBox {
+				width: parent.width * 0.6
+				id: fontSelector
+				visible: !server.reader.pictureBook
+				onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
+				displayText: (model[currentIndex] == "Default") ? i18n.tr("Default Font") : model[currentIndex]
+				
+				model: fontLister.fontList
+				
+				delegate: ItemDelegate {
 					highlighted: fontSelector.highlightedIndex === index
 					width: parent.width
 					contentItem: Text {
@@ -501,166 +511,164 @@ PageWithBottomEdge {
 						color: theme.palette.normal.foregroundText
 					}
 				}
-            }
+			}
 
-            Row {
-                visible: !server.reader.pictureBook
-                Label {
-                    /*/ Prefer string of < 16 characters /*/
-                    text: i18n.tr("Font Scaling")
-                    verticalAlignment: Text.AlignVCenter
-                    wrapMode: Text.Wrap
-                    width: labelwidth
-                    height: fontScaleSlider.height
-                }
+			Row {
+				width: parent.width * 0.9
+				visible: !server.reader.pictureBook
+				Text {
+					/*/ Prefer string of < 16 characters /*/
+					text: i18n.tr("Font Scaling")
+					verticalAlignment: Text.AlignVCenter
+					wrapMode: Text.Wrap
+					width: stylesDialog.labelwidth
+					height: fontScaleSlider.height
+				}
 
-                Slider {
-                    id: fontScaleSlider
-                    width: parent.width - labelwidth
-                    minimumValue: 0
-                    maximumValue: 12
-                    function formatValue(v) {
-                        return ["0.5", "0.59", "0.7", "0.84", "1", "1.2", "1.4", "1.7", "2", "2.4",
-                                "2.8", "3.4", "4"][Math.round(v)]
-                    }
-                    onValueChanged: bookStyles.fontScale = formatValue(value)
-                }
-            }
+				Slider {
+					id: fontScaleSlider
+					width: parent.width - stylesDialog.labelwidth
+					from: 0.5
+					to: 4
+					onValueChanged: bookStyles.fontScale = value
+				}
+			}
 
-            Row {
-                visible: !server.reader.pictureBook
-                Label {
-                    /*/ Prefer string of < 16 characters /*/
-                    text: i18n.tr("Line Height")
-                    verticalAlignment: Text.AlignVCenter
-                    wrapMode: Text.Wrap
-                    width: labelwidth
-                    height: lineHeightSlider.height
-                }
+			Row {
+				width: parent.width * 0.9
+				visible: !server.reader.pictureBook
+				Text {
+					/*/ Prefer string of < 16 characters /*/
+					text: i18n.tr("Line Height")
+					verticalAlignment: Text.AlignVCenter
+					wrapMode: Text.Wrap
+					width: stylesDialog.labelwidth
+					height: lineHeightSlider.height
+				}
 
-                Slider {
-                    id: lineHeightSlider
-                    width: parent.width - labelwidth
-                    minimumValue: 0.8
-                    maximumValue: 2
-                    // If we make this a color, instead of a string, it stays linked to the
-                    // property, instead of storing the old value.  Moreover, we can't set it
-                    // here, for reasons I don't understand.  So we wait....
-                    property string activeColor: ""
+				UUITK.Slider {
+					id: lineHeightSlider
+					width: parent.width - stylesDialog.labelwidth
+					minimumValue: 0.8
+					maximumValue: 2
+					// If we make this a color, instead of a string, it stays linked to the
+					// property, instead of storing the old value.  Moreover, we can't set it
+					// here, for reasons I don't understand.  So we wait....
+					property string activeColor: ""
 
-                    function formatValue(v, untranslated) {
-                        if (v < 0.95)
-                            /*/ Indicates the default line height will be used, as opposed to a /*/
-                            /*/ user-set value.  There is only space for about 5 characters; if /*/
-                            /*/ the translated string will not fit, please translate this as an /*/
-                            /*/ em-dash (—). /*/
-                            return untranslated ? "Default" : i18n.tr("Auto")
-                        return v.toFixed(1)
-                    }
-                    function setThumbColor() {
-                        if (activeColor === "")
-                            activeColor = __styleInstance.thumb.color
+					function formatValue(v, untranslated) {
+						if (v < 0.95)
+							/*/ Indicates the default line height will be used, as opposed to a /*/
+							/*/ user-set value.  There is only space for about 5 characters; if /*/
+							/*/ the translated string will not fit, please translate this as an /*/
+							/*/ em-dash (—). /*/
+							return untranslated ? "Default" : i18n.tr("Auto")
+						return v.toFixed(1)
+					}
+					function setThumbColor() {
+						if (activeColor === "")
+							activeColor = __styleInstance.thumb.color
 
-                        __styleInstance.thumb.color = (value < 0.95) ?
-                                    UbuntuColors.warmGrey : activeColor
-                    }
-                    onValueChanged: {
-                        bookStyles.lineHeight = formatValue(value, true)
-                        setThumbColor()
-                    }
-                    onPressedChanged: {
-                        if (pressed)
-                            __styleInstance.thumb.color = activeColor
-                        else
-                            setThumbColor()
-                    }
-                }
-            }
+						__styleInstance.thumb.color = (value < 0.95) ?
+									UbuntuColors.warmGrey : activeColor
+					}
+					onValueChanged: {
+						bookStyles.lineHeight = formatValue(value, true)
+						setThumbColor()
+					}
+					onPressedChanged: {
+						if (pressed)
+							__styleInstance.thumb.color = activeColor
+						else
+							setThumbColor()
+					}
+				}
+			}
 
-            Row {
-                visible: !server.reader.pictureBook
-                Label {
-                    /*/ Prefer string of < 16 characters /*/
-                    text: i18n.tr("Margins")
-                    verticalAlignment: Text.AlignVCenter
-                    wrapMode: Text.Wrap
-                    width: labelwidth
-                    height: marginSlider.height
-                }
+			Row {
+				width: parent.width * 0.9
+				visible: !server.reader.pictureBook
+				Text {
+					/*/ Prefer string of < 16 characters /*/
+					text: i18n.tr("Margins")
+					verticalAlignment: Text.AlignVCenter
+					wrapMode: Text.Wrap
+					width: stylesDialog.labelwidth
+					height: marginSlider.height
+				}
 
-                Slider {
-                    id: marginSlider
-                    width: parent.width - labelwidth
-                    minimumValue: 0
-                    maximumValue: 30
-                    function formatValue(v) { return Math.round(v) + "%" }
-                    onValueChanged: bookStyles.margin = value
-                }
-            }
+				Slider {
+					id: marginSlider
+					width: parent.width - stylesDialog.labelwidth
+					from: 0
+					to: 30
+					function formatValue(v) { return Math.round(v) + "%" }
+					onValueChanged: bookStyles.margin = value
+				}
+			}
 
-            Button {
-                text: i18n.tr("Close")
-                color: theme.palette.normal.positive
-                onClicked: PopupUtils.close(stylesDialog)
-            }
+			Button {
+				width: parent.width * 0.8
+				text: i18n.tr("Close")
+				highlighted: true
+				onClicked: stylesDialog.close()
+			}
 
-            Item {
-                property bool horizontal: (setDefault.text.length < 16 && loadDefault.text.length < 16)
-                height: horizontal ? setDefault.height : 2 * setDefault.height + units.gu(2)
-                Button {
-                    id: setDefault
-                    /*/ Prefer string of < 16 characters /*/
-                    text: i18n.tr("Make Default")
-                    width: parent.horizontal ? parent.width/2 - units.gu(1) : parent.width
-                    anchors {
-                        left: parent.left
-                        top: parent.top
-                        //width: parent.width / 2
-                    }
-                    enabled: !bookStyles.atdefault
-                    onClicked: bookStyles.saveAsDefault()
-                }
-                Button {
-                    id: loadDefault
-                    /*/ Prefer string of < 16 characters /*/
-                    text: i18n.tr("Load Defaults")
-                    width: parent.horizontal ? parent.width/2 - units.gu(1) : parent.width
-                    anchors {
-                        right: parent.right
-                        bottom: parent.bottom
-                    }
-                    enabled: !bookStyles.atdefault
-                    onClicked: bookStyles.resetToDefaults()
-                }
-            }
+			GridLayout {
+				Button {
+					id: setDefault
+					/*/ Prefer string of < 16 characters /*/
+					text: i18n.tr("Make Default")
+					width: units.dp(100)
+					anchors {
+						left: parent.left
+						top: parent.top
+						//width: parent.width / 2
+					}
+					enabled: !bookStyles.atdefault
+					onClicked: bookStyles.saveAsDefault()
+				}
+				Button {
+					id: loadDefault
+					/*/ Prefer string of < 16 characters /*/
+					text: i18n.tr("Load Defaults")
+					width: units.dp(100)
+					anchors {
+						right: parent.right
+						bottom: parent.bottom
+					}
+					enabled: !bookStyles.atdefault
+					onClicked: bookStyles.resetToDefaults()
+				}
+			}
 
-            function setValues() {
-                for (var i=0; i<styleModel.count; i++) {
-                    if (styleModel.get(i).fore == bookStyles.textColor) {
-                        colorSelector.currentIndex = i
-                        break
-                    }
-                }
-                fontSelector.currentIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
-                fontScaleSlider.value = 4 + 4 * Math.LOG2E * Math.log(bookStyles.fontScale)
-                lineHeightSlider.value = (bookStyles.lineHeight == "Default") ? 0.8 : bookStyles.lineHeight
-                marginSlider.value = bookStyles.margin
-            }
+			function setValues() {
+				for (var i=0; i<styleModel.count; i++) {
+					if (styleModel.get(i).fore == bookStyles.textColor) {
+						colorSelector.currentIndex = i
+						break
+					}
+				}
+				fontSelector.currentIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
+				//fontScaleSlider.value = 4 + 4 * Math.LOG2E * Math.log(bookStyles.fontScale)
+				fontScaleSlider.value = bookStyles.fontScale
+				lineHeightSlider.value = (bookStyles.lineHeight == "Default") ? 0.8 : bookStyles.lineHeight
+				marginSlider.value = bookStyles.margin
+			}
+		}
+		function onLoadingChanged() {
+			if (bookStyles.loading == false)
+				setValues()
+		}
 
-            function onLoadingChanged() {
-                if (bookStyles.loading == false)
-                    setValues()
-            }
+		Component.onCompleted: {
+			setValues()
+			bookStyles.onLoadingChanged.connect(onLoadingChanged)
+		}
 
-            Component.onCompleted: {
-                setValues()
-                bookStyles.onLoadingChanged.connect(onLoadingChanged)
-            }
-
-            Component.onDestruction: {
-                bookStyles.onLoadingChanged.disconnect(onLoadingChanged)
-            }
-        }
+		Component.onDestruction: {
+			bookStyles.onLoadingChanged.disconnect(onLoadingChanged)
+		}
     }
 
     function updateNavButtons(back, forward) {
