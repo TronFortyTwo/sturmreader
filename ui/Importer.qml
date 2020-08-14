@@ -4,13 +4,14 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
-import Ubuntu.Components 1.3 as UUITK
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Content 1.3
 
-import "components"
+//import "components"
 
 Item {
     id: importer
@@ -115,11 +116,11 @@ Item {
         id: itemList
     }
 
-    UUITK.Page {
+    Page {
         id: importPage
         visible: false
         title: i18n.tr("Importing books...")
-        head.backAction: UUITK.Action {
+        head.backAction: Action {
             iconName: importing ? "preferences-system-updates-symbolic" : "back"
             onTriggered: {
                 if (!importing) {
@@ -156,15 +157,15 @@ Item {
                 }
             }
         }
-        UUITK.Scrollbar {
+        Scrollbar {
             flickableItem: sourcesView
             align: Qt.AlignTrailing
         }
     }
 
-    UUITK.Page {
+    Page {
 
-        header: UUITK.PageHeader {
+        header: PageHeader {
             visible: false
         }
 
@@ -185,7 +186,7 @@ Item {
         }
     }
 
-    ContentTransferHint {
+	ContentTransferHint {
         activeTransfer: importer.activeTransfer
     }
 }

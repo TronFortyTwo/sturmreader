@@ -11,8 +11,6 @@ import QtQuick.Layouts 1.3
 import QtWebEngine 1.7
 
 import Ubuntu.Components 1.3 as UUITK
-import Ubuntu.Components.ListItems 1.3 as UUITK
-import Ubuntu.Components.Popups 1.3 as UUITK
 import UserMetrics 0.1 as UUITK
 
 import FontList 1.0

@@ -4,7 +4,7 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
 import Epub 1.0
 
 

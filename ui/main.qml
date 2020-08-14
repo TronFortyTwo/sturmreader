@@ -12,31 +12,36 @@
 import QtQuick 2.9
 import QtQuick.LocalStorage 2.0
 import QtQuick.Window 2.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
+import QtQuick.Controls 2.2
+
+import Ubuntu.Components 1.3 as UUITK
+import Ubuntu.Components.Popups 1.3 as UUITK
+
 import Qt.labs.settings 1.0
 import File 1.0
+
+import Units 1.0
 
 import "components"
 
 
-MainView {
+ApplicationWindow {
     // objectName for functional testing purposes (autopilot-qt5)
     objectName: "mainView"
     id: mainView
     
-    applicationName: "sturmreader.emanuelesorce"
+    //applicationName: "sturmreader.emanuelesorce"
     
-    automaticOrientation: true
+    //automaticOrientation: true
     
-    width: units.gu(200)
-    height: units.gu(200)
+    width: units.dp(800)
+    height: units.dp(600)
 
     FileSystem {
         id: filesystem
     }
 
-    PageStack {
+    UUITK.PageStack {
         id: pageStack
         Component.onCompleted: push(localBooks)
 		onCurrentPageChanged: currentPage.forceActiveFocus()
@@ -57,7 +62,20 @@ MainView {
         }
     }
 
-    Component {
+    Dialog {
+		id: errorOpenDialog
+		title: i18n.tr("Error Opening File")
+		modal: true
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		visible: false
+		Text {
+			text: server.reader.error
+		}
+		standardButtons: Dialog.Ok
+	}
+    
+    /*Component {
         id: errorOpen
         Dialog {
             id: errorOpenDialog
@@ -68,7 +86,7 @@ MainView {
                 onClicked: PopupUtils.close(errorOpenDialog)
             }
         }
-    }
+    }*/
 
     Server {
         id: server
@@ -88,7 +106,7 @@ MainView {
             localBooks.updateRead(filename)
             return true
         }
-        PopupUtils.open(errorOpen)
+        errorOpenDialog.open()
         return false
     }
 
@@ -172,27 +190,24 @@ MainView {
         }
     }
 
-    Arguments {
-        id: args
-
-        Argument {
-            name: "appargs"
-            required: true
-            valueNames: ["APP_ARGS"]
-        }
-    }
-
     Component.onCompleted: {
+		
+		Qt.application.name = "sturmreader.emanuelesorce"
+		
         var db = openSettingsDatabase()
         db.transaction(function (tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS Settings(key TEXT UNIQUE, value TEXT)")
         })
 
-        var filePath = filesystem.canonicalFilePath(args.values.appargs)
-        if (filePath !== "") {
-            if (loadFile(filePath))
-                localBooks.addFile(filePath)
-        }
+		var bookarg = Qt.application.arguments[0]
+		if (bookarg != undefined && bookarg != "" && bookarg != null)
+		{
+			var filePath = filesystem.canonicalFilePath(bookarg)
+			if (filePath !== "") {
+				if (loadFile(filePath))
+					localBooks.addFile(filePath)
+			}
+		}
         
 		/*
         onWidthChanged.connect(sizeChanged)
