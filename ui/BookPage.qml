@@ -252,10 +252,11 @@ PageWithBottomEdge {
             anchors.fill: parent
 
             model: contentsListModel
-            delegate: UUITK.Standard {
-                text: (new Array(model.level + 1)).join("    ") +
-                      model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
-                selected: bookPage.currentChapter == model.src
+            delegate: ItemDelegate {
+				width: parent.width
+				highlighted: bookPage.currentChapter == model.src
+				text: (new Array(model.level + 1)).join("    ") +
+						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
 				onClicked: {
 					bookWebView.runJavaScript("reader.skipToChapter(" + JSON.stringify(model.src) + ");");
 					closeBottomEdge()
