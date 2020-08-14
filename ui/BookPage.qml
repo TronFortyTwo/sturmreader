@@ -272,10 +272,7 @@ PageWithBottomEdge {
                     }
                 }
             }
-        }
-        UUITK.Scrollbar {
-            flickableItem: contentsListView
-            align: Qt.AlignTrailing
+            ScrollBar.vertical: ScrollBar {}
         }
     }
     bottomEdgeTitle: i18n.tr("Contents")
