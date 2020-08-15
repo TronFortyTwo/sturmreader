@@ -18,11 +18,11 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import Ubuntu.Components 1.3 as UUITK
+//import Ubuntu.Components 1.3 as UUITK
 
 import Units 1.0
 
-UUITK.Page {
+Page {
     id: page
 
     property alias bottomEdgePageComponent: edgeLoader.sourceComponent
@@ -96,11 +96,11 @@ UUITK.Page {
         _areaWhenExpanded = expandedHeight;
     }
 
-    onActiveChanged: {
-        if (active) {
-            bottomEdge.state = "collapsed"
-        }
-    }
+    //onActiveChanged: {
+    //    if (active) {
+    //        bottomEdge.state = "collapsed"
+    //    }
+    //}
 
     onBottomEdgePageLoadedChanged: {
         if (_showEdgePageWhenReady && bottomEdgePageLoaded) {
@@ -113,7 +113,7 @@ UUITK.Page {
         id: bgVisual
 
         color: "black"
-        anchors.fill: page
+        anchors.fill: parent
         opacity: 0.7 * ((page.height - bottomEdge.y) / page.height)
         z: 1
     }

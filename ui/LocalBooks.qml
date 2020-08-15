@@ -9,37 +9,88 @@ import QtQuick 2.4
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
+import QtQuick.Layouts 1.3
 
 import Ubuntu.Components 1.3 as UUITK
-import Ubuntu.Components.ListItems 1.3
-import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3 as UUITK
+import Ubuntu.Components.Popups 1.3 as UUITK
 
 import "components"
 
+import Units 1.0
 
-UUITK.Page {
+
+Page {
     id: localBooks
 
-    flickable: gridview
+    //flickable: gridview
 
-    property int sort: localBooks.header.extension.selectedIndex
+    property int sort: headertabs.currentIndex
     property bool needsort: false
     property bool firststart: false
     property bool wide: false
     property string bookdir: ""
     property bool readablehome: false
     property string defaultdirname: i18n.tr("Books")
-    property double gridmargin: units.gu(1)
-    property double mingridwidth: units.gu(15)
+    property double gridmargin: units.dp(8)
+    property double mingridwidth: units.dp(120)
     property bool reloading: false
 
+    header: ColumnLayout {
+		id: header
+		spacing: 0
+		width: parent.width
+		ToolBar {
+			width: parent.width
+			RowLayout {
+				anchors.fill: parent
+				Text {
+					text: i18n.tr("Library")
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+				}
+				ToolButton {
+					text: qsTr("+")
+					onClicked: pageStack.push(importer.pickerPage)
+				}
+				ToolButton {
+					text: qsTr("i")
+					onClicked: pageStack.push(about)
+				}
+				ToolButton {
+					text: qsTr("S")
+					onClicked: {
+						if (localBooks.readablehome)
+                            PopupUtils.open(settingsComponent)
+                        else
+                            PopupUtils.open(settingsDisabledComponent)
+					}
+				}
+			}
+		}
+		TabBar {
+			id: headertabs
+			width: parent.width
+			TabButton {
+				text: i18n.tr("Recently Read")
+			}
+			TabButton {
+				text: i18n.tr("Title")
+			}
+			TabButton {
+				text: i18n.tr("Author")
+			}
+		}
+	}
+    
+    
     onSortChanged: {
         listBooks()
         perAuthorModel.clear()
         adjustViews(false)
     }
     onWidthChanged: {
-        wide = (width >= units.gu(80))
+        wide = (width >= units.dp(340))
         widthAnimation.enabled = false
         adjustViews(true)  // True to allow author's list if necessary
         widthAnimation.enabled = true
@@ -154,7 +205,7 @@ UUITK.Page {
             localBooks.needsort = true
             var title, author, authorsort, cover, fullcover, hash
             if (coverReader.load(res.rows.item(0).filename)) {
-                var coverinfo = coverReader.getCoverInfo(units.gu(5), 2*mingridwidth)
+                var coverinfo = coverReader.getCoverInfo(units.dp(40), 2*mingridwidth)
                 title = coverinfo.title
                 if (title == "ZZZnone")
                     title = res.rows.item(0).title
@@ -246,16 +297,16 @@ UUITK.Page {
         if (sort == 0) {
             listview.visible = false
             gridview.visible = true
-            localBooks.flickable = gridview
+            //localBooks.flickable = gridview
         } else {
             listview.visible = true
             gridview.visible = false
             if (!wide || sort != 2) {
                 listview.width = localBooks.width
                 listview.x = showAuthor ? -localBooks.width : 0
-                localBooks.flickable = showAuthor ? perAuthorListView : listview
+                //localBooks.flickable = showAuthor ? perAuthorListView : listview
             } else {
-                localBooks.flickable = null
+                //localBooks.flickable = null
                 listview.width = localBooks.width / 2
                 listview.x = 0
                 listview.topMargin = 0
@@ -363,48 +414,7 @@ UUITK.Page {
 
     DefaultCover {
         id: defaultCover
-    }
-
-    header: UUITK.PageHeader {
-        id: header
-        title: i18n.tr("Library")
-
-        trailingActionBar {
-            actions: [
-                UUITK.Action {
-                    text: i18n.tr("Get Books")
-                    iconName: "add"
-					onTriggered: pageStack.push(importer.pickerPage)
-                },
-                UUITK.Action {
-                    text: i18n.tr("About")
-                    iconName: "info"
-					onTriggered: pageStack.push(about)
-                },
-                UUITK.Action {
-                    text: i18n.tr("Settings")
-                    iconName: "settings"
-                    onTriggered: {
-                        if (localBooks.readablehome)
-                            PopupUtils.open(settingsComponent)
-                        else
-                            PopupUtils.open(settingsDisabledComponent)
-                    }
-                }
-
-            ]
-        }
-        extension: UUITK.Sections {
-            id: hsections
-            model: [i18n.tr("Recently Read"), i18n.tr("Title"), i18n.tr("Author")]
-            anchors {
-                left: parent.left
-                bottom: parent.bottom
-                leftMargin: units.gu(2)
-            }
-        }
-    }
-
+	}
 
     Component {
         id: coverDelegate
@@ -503,7 +513,7 @@ UUITK.Page {
 
     Component {
         id: titleDelegate
-        Subtitled {
+        UUITK.Subtitled {
             text: model.title
             subText: model.author
             iconSource: {
@@ -539,7 +549,7 @@ UUITK.Page {
 
     Component {
         id: authorDelegate
-        Subtitled {
+        UUITK.Subtitled {
             text: model.author || i18n.tr("Unknown Author")
             /*/ Argument will be at least 2. /*/
             subText: (model.count > 1) ? i18n.tr("%1 Book", "%1 Books", model.count).arg(model.count)
@@ -579,7 +589,7 @@ UUITK.Page {
         x: 0
 
         anchors {
-            top: header.bottom
+            //top: header.bottom
         }
 
         height: parent.height
@@ -604,6 +614,7 @@ UUITK.Page {
                 }
             }
         }
+        ScrollBar.vertical: ScrollBar { }
 
         UUITK.PullToRefresh {
             refreshing: reloading
@@ -611,16 +622,11 @@ UUITK.Page {
         }
     }
 
-    UUITK.Scrollbar {
-        flickableItem: listview
-        align: Qt.AlignTrailing
-    }
-
     ListView {
         id: perAuthorListView
         anchors {
             left: listview.right
-            top: header.bottom
+            //top: header.bottom
         }
         width: wide ? parent.width / 2 : parent.width
         height: parent.height
@@ -628,17 +634,14 @@ UUITK.Page {
 
         model: perAuthorModel
         delegate: titleDelegate
-    }
-
-    UUITK.Scrollbar {
-        flickableItem: perAuthorListView
-        align: Qt.AlignTrailing
+        
+        ScrollBar.vertical: ScrollBar { }
     }
 
     GridView {
         id: gridview
         anchors {
-            top: header.bottom
+			//top: header.bottom
             left: parent.left
             right: parent.right
             leftMargin: gridmargin
@@ -656,16 +659,8 @@ UUITK.Page {
             refreshing: reloading
             onRefresh: readBookDir()
         }
-    }
-
-    UUITK.Scrollbar {
-        flickableItem: gridview
-        align: Qt.AlignTrailing
-        anchors {
-            right: localBooks.right
-            top: header.bottom
-            bottom: localBooks.bottom
-        }
+        
+        ScrollBar.vertical: ScrollBar { }
     }
 
     Item {
@@ -674,18 +669,17 @@ UUITK.Page {
 
         Column {
             anchors.centerIn: parent
-            spacing: units.gu(2)
-            width: Math.min(units.gu(30), parent.width)
+            spacing: units.dp(16)
+            width: Math.min(units.dp(250), parent.width)
 
-            UUITK.Label {
+            Text {
                 id: noBooksLabel
                 text: i18n.tr("No Books in Library")
-                fontSize: "large"
-                width: parent.width
-                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 35
+				horizontalAlignment: Text.AlignHCenter
             }
 
-            UUITK.Label {
+            Text {
                 /*/ A path on the file system. /*/
                 text: i18n.tr("Sturm Reader could not find any books for your library, and will " +
                               "automatically find all epub files in <i>%1</i>.  Additionally, any book " +
@@ -695,9 +689,9 @@ UUITK.Page {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            UUITK.Button {
+            Button {
                 text: i18n.tr("Get Books")
-                color: theme.palette.normal.positive
+                highlighted: true
                 width: parent.width
                 onClicked: pageStack.push(bookSources)
             }
@@ -768,24 +762,24 @@ UUITK.Page {
                         left: infoCover.right
                         right: parent.right
                         top: parent.top
-                        leftMargin: units.gu(2)
+                        leftMargin: units.dp(18)
                     }
-                    spacing: units.gu(2)
+                    spacing: units.dp(16)
 
-                    UUITK.Label {
+                    Text {
                         id: titleLabel
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
-                        fontSize: "large"
-                        color: UbuntuColors.darkGrey
+                        font.pointSize: 35
+                        color: UUITK.UbuntuColors.darkGrey
                         wrapMode: Text.Wrap
                     }
                     UUITK.Label {
                         id: filenameLabel
                         width: parent.width
                         horizontalAlignment: Text.AlignLeft
-                        fontSize: "small"
-                        color: UbuntuColors.darkGrey
+                        font.pointSize: 12
+                        color: UUITK.UbuntuColors.darkGrey
                         wrapMode: Text.WrapAnywhere
                     }
                 }
@@ -816,14 +810,15 @@ UUITK.Page {
     Component {
         id: settingsComponent
 
-        Dialog {
+        UUITK.Dialog {
             id: settingsDialog
             title: firststart ? i18n.tr("Welcome to Sturm Reader!") : i18n.tr("Default Book Location")
             /*/ Text precedes an entry for a file path. /*/
             text: i18n.tr("Enter the folder in your home directory where your ebooks are or " +
                           "should be stored.\n\nChanging this value will not affect existing " +
                           "books in your library.")
-            property string homepath: filesystem.homePath() + "/"
+			
+			property string homepath: filesystem.homePath() + "/"
 
             TextField {
                 id: pathfield
@@ -892,7 +887,7 @@ UUITK.Page {
     Component {
         id: settingsDisabledComponent
 
-        Dialog {
+        UUITK.Dialog {
             id: settingsDisabledDialog
             title: i18n.tr("Default Book Location")
             /*/ A path on the file system. /*/
@@ -911,9 +906,9 @@ UUITK.Page {
                 }
             }
 
-            UUITK.Button {
-                color: theme.palette.normal.positive
-                text: i18n.tr("Close")
+            Button {
+                highlighted: true
+				text: i18n.tr("Close")
                 onClicked: PopupUtils.close(settingsDisabledDialog)
             }
         }

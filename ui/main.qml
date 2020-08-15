@@ -13,6 +13,7 @@ import QtQuick 2.9
 import QtQuick.LocalStorage 2.0
 import QtQuick.Window 2.0
 import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
 
 import Ubuntu.Components 1.3 as UUITK
 import Ubuntu.Components.Popups 1.3 as UUITK
@@ -41,34 +42,35 @@ ApplicationWindow {
         id: filesystem
     }
 
-    UUITK.PageStack {
+    StackView {
         id: pageStack
-        Component.onCompleted: push(localBooks)
-		onCurrentPageChanged: currentPage.forceActiveFocus()
-		
-		About {
-			id: about
-			visible: false
-		}
-		
-        LocalBooks {
-            id: localBooks
-            visible: false
-        }
-
-        BookPage {
-            id: bookPage
-            visible: false
-        }
+		anchors.fill: parent
+        initialItem: localBooks
+		//onCurrentPageChanged: currentPage.forceActiveFocus()
     }
+    
+    About {
+		id: about
+		visible: false
+	}
+		
+	LocalBooks {
+		id: localBooks
+		visible: false
+	}
+
+	BookPage {
+		id: bookPage
+		visible: false
+	}
 
     Dialog {
 		id: errorOpenDialog
 		title: i18n.tr("Error Opening File")
 		modal: true
+		visible: false
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		visible: false
 		Text {
 			text: server.reader.error
 		}
@@ -98,7 +100,7 @@ ApplicationWindow {
 
     function loadFile(filename) {
         if (server.reader.load(filename)) {
-            while (pageStack.currentPage != localBooks)
+            while (pageStack.currentItem != localBooks)
                 pageStack.pop()
 
             pageStack.push(bookPage, {url: "http://127.0.0.1:" + server.port})
@@ -198,8 +200,9 @@ ApplicationWindow {
         db.transaction(function (tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS Settings(key TEXT UNIQUE, value TEXT)")
         })
-
-		var bookarg = Qt.application.arguments[0]
+		
+		// TODO: support for importing using args
+		var bookarg = undefined //Qt.application.arguments[1]
 		if (bookarg != undefined && bookarg != "" && bookarg != null)
 		{
 			var filePath = filesystem.canonicalFilePath(bookarg)

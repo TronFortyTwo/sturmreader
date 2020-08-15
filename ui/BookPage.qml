@@ -34,10 +34,6 @@ PageWithBottomEdge {
     property string book_componentId;
 	property real book_percent;
 
-    header: UUITK.PageHeader {
-        visible: false
-    }
-
     focus: true
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
@@ -146,7 +142,7 @@ PageWithBottomEdge {
 		name: "page-turn-metric"
 		format: i18n.tr("Pages read today: %1")
 		emptyFormat: i18n.tr("No pages read today")
-		domain: mainView.applicationName
+		domain: Qt.application.name
 	}
 
     bottomEdgeControls: Rectangle {
@@ -566,7 +562,7 @@ PageWithBottomEdge {
 							activeColor = __styleInstance.thumb.color
 
 						__styleInstance.thumb.color = (value < 0.95) ?
-									UbuntuColors.warmGrey : activeColor
+									"#CDCDCD" /*UbuntuColors.warmGrey*/ : activeColor
 					}
 					onValueChanged: {
 						bookStyles.lineHeight = formatValue(value, true)
@@ -637,21 +633,22 @@ PageWithBottomEdge {
 					onClicked: bookStyles.resetToDefaults()
 				}
 			}
-
-			function setValues() {
-				for (var i=0; i<styleModel.count; i++) {
-					if (styleModel.get(i).fore == bookStyles.textColor) {
-						colorSelector.currentIndex = i
-						break
-					}
-				}
-				fontSelector.currentIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
-				//fontScaleSlider.value = 4 + 4 * Math.LOG2E * Math.log(bookStyles.fontScale)
-				fontScaleSlider.value = bookStyles.fontScale
-				lineHeightSlider.value = (bookStyles.lineHeight == "Default") ? 0.8 : bookStyles.lineHeight
-				marginSlider.value = bookStyles.margin
-			}
 		}
+		function setValues() {
+			for (var i=0; i<styleModel.count; i++) {
+				if (styleModel.get(i).fore == bookStyles.textColor) {
+					colorSelector.currentIndex = i
+					break
+				}
+			}
+			fontSelector.currentIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
+			//fontScaleSlider.value = 4 + 4 * Math.LOG2E * Math.log(bookStyles.fontScale)
+			fontScaleSlider.value = bookStyles.fontScale
+			//lineHeightSlider.value = (bookStyles.lineHeight == "Default") ? 0.8 : bookStyles.lineHeight
+			lineHeightSlider.value = 0.8
+			marginSlider.value = bookStyles.margin
+		}
+		
 		function onLoadingChanged() {
 			if (bookStyles.loading == false)
 				setValues()

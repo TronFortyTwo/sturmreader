@@ -6,10 +6,8 @@
 
 import QtQuick.Controls 2.2
 import QtQuick 2.9
-// only needed for the Page
-import Ubuntu.Components 1.3 as UUITK
 
-UUITK.Page {
+Page {
 	id: bookSources
 	title: i18n.tr("About")
 	
@@ -18,6 +16,7 @@ UUITK.Page {
 		anchors.fill: parent
 		//contentHeight:  //layout.height + 80
 		contentWidth: parent.width
+		ScrollBar.vertical: ScrollBar { }
 		
 		Column {
 			id: layout
