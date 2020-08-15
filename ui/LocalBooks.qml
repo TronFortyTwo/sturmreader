@@ -49,16 +49,34 @@ Page {
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
 				}
-				ToolButton {
-					text: qsTr("+")
+				AbstractButton {
+					width: height
+					height: parent.height * 0.75
+					text: i18n.tr("Add Book")
+					contentItem: Icon {
+						anchors.fill: parent
+						name: "add"
+					}
 					onClicked: pageStack.push(importer.pickerPage)
 				}
-				ToolButton {
-					text: qsTr("i")
+				AbstractButton {
+					width: height
+					height: parent.height * 0.75
+					text: i18n.tr("About")
+					contentItem: Icon {
+						anchors.fill: parent
+						name: "info"
+					}
 					onClicked: pageStack.push(about)
 				}
-				ToolButton {
-					text: qsTr("S")
+				AbstractButton {
+					width: height
+					height: parent.height * 0.75
+					text: i18n.tr("Settings")
+					contentItem: Icon {
+						anchors.fill: parent
+						name: "settings"
+					}
 					onClicked: {
 						if (localBooks.readablehome)
                             PopupUtils.open(settingsComponent)
@@ -66,6 +84,15 @@ Page {
                             PopupUtils.open(settingsDisabledComponent)
 					}
 				}
+				/*ToolButton {
+					text: qsTr("S")
+					onClicked: {
+						if (localBooks.readablehome)
+                            PopupUtils.open(settingsComponent)
+                        else
+                            PopupUtils.open(settingsDisabledComponent)
+					}
+				}*/
 			}
 		}
 		TabBar {

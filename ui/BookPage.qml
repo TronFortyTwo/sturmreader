@@ -47,7 +47,7 @@ PageWithBottomEdge {
     }
 
     onVisibleChanged: {
-        mainView.automaticOrientation = !visible
+        //mainView.automaticOrientation = !visible
         if (visible == false) {
             // Reset things for the next time this page is opened
 			isBookReady = false
@@ -163,7 +163,7 @@ PageWithBottomEdge {
 
                     onTriggered: {
                         pageStack.pop()
-                        localBooks.flickable.returnToBounds()  // Fix bug #63
+                        //localBooks.flickable.returnToBounds()  // Fix bug #63
                     }
                 }
             ]

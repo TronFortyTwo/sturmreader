@@ -12,11 +12,14 @@ set(UI_SRC_FILES
 	components/PageWithBottomEdge.qml
 	components/SwipeControl.qml
 	components/Action.qml
+	components/Icon.qml
 	images/error_cover.svg
 	images/error_cover_full.svg
+	Icons/add.svg
 	Icons/go-home.svg
 	Icons/go-next.svg
 	Icons/go-previous.svg
+	Icons/info.svg
 	Icons/redo.svg
 	Icons/settings.svg
 	Icons/undo.svg
