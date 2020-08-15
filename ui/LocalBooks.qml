@@ -36,80 +36,67 @@ Page {
     property double mingridwidth: units.dp(120)
     property bool reloading: false
 
-    header: ColumnLayout {
-		id: header
-		spacing: 0
+    header: ToolBar {
 		width: parent.width
-		ToolBar {
-			width: parent.width
-			RowLayout {
-				anchors.fill: parent
-				Text {
-					text: i18n.tr("Library")
-					horizontalAlignment: Qt.AlignHCenter
-					verticalAlignment: Qt.AlignVCenter
-				}
-				AbstractButton {
-					width: height
-					height: parent.height * 0.75
-					text: i18n.tr("Add Book")
-					contentItem: Icon {
-						anchors.fill: parent
-						name: "add"
-					}
-					onClicked: pageStack.push(importer.pickerPage)
-				}
-				AbstractButton {
-					width: height
-					height: parent.height * 0.75
-					text: i18n.tr("About")
-					contentItem: Icon {
-						anchors.fill: parent
-						name: "info"
-					}
-					onClicked: pageStack.push(about)
-				}
-				AbstractButton {
-					width: height
-					height: parent.height * 0.75
-					text: i18n.tr("Settings")
-					contentItem: Icon {
-						anchors.fill: parent
-						name: "settings"
-					}
-					onClicked: {
-						if (localBooks.readablehome)
-                            PopupUtils.open(settingsComponent)
-                        else
-                            PopupUtils.open(settingsDisabledComponent)
-					}
-				}
-				/*ToolButton {
-					text: qsTr("S")
-					onClicked: {
-						if (localBooks.readablehome)
-                            PopupUtils.open(settingsComponent)
-                        else
-                            PopupUtils.open(settingsDisabledComponent)
-					}
-				}*/
+		RowLayout {
+			spacing: units.dp(20)
+			anchors.fill: parent
+			
+			Label {
+				text: i18n.tr("Library")
+				elide: Label.ElideRight
+				horizontalAlignment: Qt.AlignHCenter
+				verticalAlignment: Qt.AlignVCenter
+				Layout.fillWidth: true
 			}
-		}
-		TabBar {
-			id: headertabs
-			width: parent.width
-			TabButton {
-				text: i18n.tr("Recently Read")
+			
+			ToolButton {
+				contentItem: Icon {
+					anchors.fill: parent
+					name: "add"
+					color: Theme.palette.normal.foregroundText
+				}
+				onClicked: pageStack.push(importer.pickerPage)
 			}
-			TabButton {
-				text: i18n.tr("Title")
+			
+			ToolButton {
+				contentItem: Icon {
+					anchors.fill: parent
+					name: "info"
+					color: Theme.palette.normal.foregroundText
+				}
+				onClicked: pageStack.push(about)
 			}
-			TabButton {
-				text: i18n.tr("Author")
+			
+			ToolButton {
+				contentItem: Icon {
+					anchors.fill: parent
+					name: "settings"
+					color: Theme.palette.normal.foregroundText
+				}
+				onClicked: {
+					if (localBooks.readablehome)
+						PopupUtils.open(settingsComponent)
+					else
+						PopupUtils.open(settingsDisabledComponent)
+				}
 			}
 		}
 	}
     
+	footer:	TabBar {
+		id: headertabs
+		width: parent.width
+		TabButton {
+			text: i18n.tr("Recently Read")
+		}
+		TabButton {
+			text: i18n.tr("Title")
+		}
+		TabButton {
+			text: i18n.tr("Author")
+		}
+	}
     
     onSortChanged: {
         listBooks()
