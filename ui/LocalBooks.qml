@@ -36,6 +36,10 @@ Page {
     property double mingridwidth: units.dp(120)
     property bool reloading: false
 
+    background: Rectangle {
+		color: theme.palette.normal.background
+	}
+    
     header: ToolBar {
 		width: parent.width
 		RowLayout {
@@ -54,7 +58,7 @@ Page {
 				contentItem: Icon {
 					anchors.fill: parent
 					name: "add"
-					color: Theme.palette.normal.foregroundText
+					color: Theme.palette.normal.baseText
 				}
 				onClicked: pageStack.push(importer.pickerPage)
 			}
@@ -63,7 +67,7 @@ Page {
 				contentItem: Icon {
 					anchors.fill: parent
 					name: "info"
-					color: Theme.palette.normal.foregroundText
+					color: Theme.palette.normal.baseText
 				}
 				onClicked: pageStack.push(about)
 			}
@@ -72,7 +76,7 @@ Page {
 				contentItem: Icon {
 					anchors.fill: parent
 					name: "settings"
-					color: Theme.palette.normal.foregroundText
+					color: Theme.palette.normal.baseText
 				}
 				onClicked: {
 					if (localBooks.readablehome)

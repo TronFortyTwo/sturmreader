@@ -6,15 +6,45 @@
 
 import QtQuick.Controls 2.2
 import QtQuick 2.9
+import QtQuick.Layouts 1.3
+
+import "components"
 
 Page {
 	id: bookSources
 	title: i18n.tr("About")
 	
+	header: ToolBar {
+		id: aboutheader
+		width: parent.width
+		RowLayout {
+			spacing: units.dp(20)
+			anchors.fill: parent
+			
+			ToolButton {
+				contentItem: Icon {
+					anchors.fill: parent
+					name: "go-previous"
+					color: theme.palette.normal.baseText
+				}
+				onClicked: pageStack.pop()
+			}
+			
+			Label {
+				text: i18n.tr("Library")
+				elide: Label.ElideRight
+				horizontalAlignment: Qt.AlignHCenter
+				verticalAlignment: Qt.AlignVCenter
+				Layout.fillWidth: true
+			}
+		}
+	}
+	
 	Flickable {
 		id: flickable
 		anchors.fill: parent
-		//contentHeight:  //layout.height + 80
+		anchors.topMargin: aboutheader.height
+		contentHeight:  layout.height + units.dp(80)
 		contentWidth: parent.width
 		ScrollBar.vertical: ScrollBar { }
 		

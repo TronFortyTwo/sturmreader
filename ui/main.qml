@@ -15,9 +15,6 @@ import QtQuick.Window 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
-import Ubuntu.Components 1.3 as UUITK
-import Ubuntu.Components.Popups 1.3 as UUITK
-
 import Qt.labs.settings 1.0
 import File 1.0
 
