@@ -545,38 +545,55 @@ Page {
 
     Component {
         id: titleDelegate
-        UUITK.Subtitled {
-            text: model.title
-            subText: model.author
-            iconSource: {
-                if (model.filename == "ZZZback")
-                    return "image://theme/back"
-                if (model.cover == "ZZZnone")
-                    return defaultCover.missingCover(model)
-                if (model.cover == "ZZZerror")
-                    return Qt.resolvedUrl("images/error_cover.svg")
-                return model.cover
-            }
-            iconFrame: model.filename != "ZZZback" && model.cover != "ZZZerror"
-            visible: model.filename != "ZZZback" || !wide
-            progression: false
-            onClicked: {
-                if (model.filename == "ZZZback") {
-                    perAuthorModel.needsclear = true
-                    adjustViews(false)
-                } else {
-                    // Save copies now, since these get cleared by loadFile (somehow...)
-                    var filename = model.filename
-                    var pasterror = model.cover == "ZZZerror"
-                    if (loadFile(filename) && pasterror)
-                        refreshCover(filename)
-                }
-            }
-            onPressAndHold: {
-                if (model.filename != "ZZZback")
-                    openInfoDialog(model)
-            }
-        }
+        ItemDelegate {
+			width: parent.width
+			contentItem: Row {
+				width: parent.width
+				height: units.dp(50)
+				spacing: width * 0.1
+				Image {
+					source: model.filename == "ZZZback" ? "image://theme/back" :
+							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
+							model.cover == "ZZZerror" ? "images/error_cover.svg" :
+								model.cover
+					height: parent.height * 0.75
+					sourceSize.height: height
+					sourceSize.width: width
+					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
+					visible: model.filename != "ZZZback" || !wide
+				}
+				Column {
+					height: parent.height
+					spacing: units.dp(5)
+					Text {
+						text: model.title
+						color: theme.palette.normal.backgroundText
+						font.pointSize: units.dp(12)
+					}
+					Text {
+						text: model.author
+						color: theme.palette.normal.backgroundText
+						font.pointSize: units.dp(9)
+					}
+				}
+			}
+			onClicked: {
+				if (model.filename == "ZZZback") {
+					perAuthorModel.needsclear = true
+					adjustViews(false)
+				} else {
+					// Save copies now, since these get cleared by loadFile (somehow...)
+					var filename = model.filename
+					var pasterror = model.cover == "ZZZerror"
+					if (loadFile(filename) && pasterror)
+						refreshCover(filename)
+				}
+			}
+			onPressAndHold: {
+				if (model.filename != "ZZZback")
+					openInfoDialog(model)
+			}
+		}
     }
 
     Component {
