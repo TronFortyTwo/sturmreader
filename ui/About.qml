@@ -44,7 +44,6 @@ Page {
 	Flickable {
 		id: flickable
 		anchors.fill: parent
-		anchors.topMargin: aboutheader.height
 		contentHeight:  layout.height + units.dp(80)
 		contentWidth: parent.width
 		ScrollBar.vertical: ScrollBar { }
@@ -57,6 +56,10 @@ Page {
 			anchors.left: parent.left
 			anchors.right: parent.right
 			width: parent.width
+			
+			Item {
+				height: units.dp(30)
+			}
 			
 			Image {
 				anchors.horizontalCenter: parent.horizontalCenter

@@ -391,6 +391,8 @@ Page {
                 tx.executeSql("UPDATE LocalBooks SET authorsort='zzznull'")
             })
         }
+        // refresh
+        readBookDir()
     }
 
     // We need to wait for main to be finished, so that the settings are available.
@@ -763,9 +765,10 @@ Page {
 		visible: false	
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		width: Math.max(parent.width * 0.5, units.dp(250))
-		height: Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(20)
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
+		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(100))
 		
+		modal: true
 		standardButtons: Dialog.Close
 		
 		property alias coverSource: infoCover.source
@@ -799,21 +802,21 @@ Page {
 					top: parent.top
 					leftMargin: units.dp(18)
 				}
-				spacing: units.dp(15)
+				spacing: units.dp(20)
 				Text {
 					id: titleLabel
 					width: parent.width
 					horizontalAlignment: Text.AlignHCenter
 					font.pixelSize: units.dp(30)
-					color: Theme.palette.color.foregroundText
+					color: theme.palette.normal.backgroundText
 					wrapMode: Text.Wrap
 				}
-				UUITK.Label {
+				Text {
 					id: filenameLabel
 					width: parent.width
 					horizontalAlignment: Text.AlignLeft
 					font.pixelSize: units.dp(12)
-					color: Theme.palette.color.backgroundText
+					color: theme.palette.normal.backgroundText
 					wrapMode: Text.WrapAnywhere
 				}
 				SwipeControl {
