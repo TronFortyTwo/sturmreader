@@ -764,12 +764,20 @@ Page {
 		property alias filename: filenameLabel.text
 		property alias allowDelete: swipe.visible
 		
-		header: Text {
-			id: titleLabel
-			horizontalAlignment: Text.AlignHCenter
-			font.pixelSize: units.dp(27)
-			color: theme.palette.normal.backgroundText
-			wrapMode: Text.Wrap
+		header: ToolBar {
+			width: parent.width
+			RowLayout {
+				anchors.fill: parent
+				Label {
+					id: titleLabel
+					font.pixelSize: units.dp(27)
+					color: theme.palette.normal.backgroundText
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
+				}
+			}
 		}
 		
 		Item {
@@ -837,11 +845,20 @@ Page {
 		
 		modal: true
 		
-		header: Text {
-			horizontalAlignment: Text.AlignHCenter
-			font.pixelSize: units.dp(27)
-			color: theme.palette.normal.backgroundText
-			text: firststart ? i18n.tr("Welcome to Sturm Reader!") : i18n.tr("Default Book Location")
+		header: ToolBar {
+			width: parent.width
+			RowLayout {
+				anchors.fill: parent
+				Label {
+					text: firststart ? i18n.tr("Welcome to Sturm Reader!") : i18n.tr("Default Book Location")
+					font.pixelSize: units.dp(27)
+					color: theme.palette.normal.backgroundText
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
+				}
+			}
 		}
 		
 		ColumnLayout {
@@ -923,11 +940,20 @@ Page {
     Dialog {
 		id: settingsDisabledDialog
 		
-		header: Text {
-			horizontalAlignment: Text.AlignHCenter
-			font.pixelSize: units.dp(27)
-			color: theme.palette.normal.backgroundText
-			text: i18n.tr("Default Book Location")
+		header: ToolBar {
+			width: parent.width
+			RowLayout {
+				anchors.fill: parent
+				Label {
+					text: i18n.tr("Default Book Location")
+					font.pixelSize: units.dp(27)
+					color: theme.palette.normal.backgroundText
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
+				}
+			}
 		}
 		
 		x: Math.round((parent.width - width) / 2)
@@ -938,7 +964,7 @@ Page {
 		modal: true
 		
 		/*/ A path on the file system. /*/
-		ColumnLayout {
+		Column {
 			anchors.fill: parent
 			width: parent.width
 			spacing: units.dp(20)
@@ -949,9 +975,11 @@ Page {
 							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
 				color: theme.palette.normal.backgroundText
 				width: parent.width
+				wrapMode: Text.WordWrap
 			}
 			
 			Button {
+				width: parent.width * 0.7
 				anchors.horizontalCenter: parent.horizontalCenter
 				text: i18n.tr("Reload Directory")
 				// We don't bother with the Timer trick here since we don't get this dialog on
@@ -964,6 +992,7 @@ Page {
 			}
 
 			Button {
+				width: parent.width * 0.7
 				anchors.horizontalCenter: parent.horizontalCenter
 				highlighted: true
 				text: i18n.tr("Close")
