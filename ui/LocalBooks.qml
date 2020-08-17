@@ -11,9 +11,7 @@ import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
-import Ubuntu.Components 1.3 as UUITK
 import Ubuntu.Components.ListItems 1.3 as UUITK
-import Ubuntu.Components.Popups 1.3 as UUITK
 
 import "components"
 
@@ -94,9 +92,9 @@ Page {
 				}
 				onClicked: {
 					if (localBooks.readablehome)
-						PopupUtils.open(settingsComponent)
+						settingsDialog.open()
 					else
-						PopupUtils.open(settingsDisabledComponent)
+						settingsDisabledDialog.open()
 				}
 			}
 		}
@@ -406,7 +404,7 @@ Page {
             readablehome = filesystem.readableHome()
             if (readablehome) {
                 setBookDir(filesystem.homePath() + "/" + defaultdirname)
-                PopupUtils.open(settingsComponent)
+                settingsDialog.open()
             } else {
                 setBookDir(filesystem.getDataDir(defaultdirname))
                 readBookDir()
@@ -649,11 +647,6 @@ Page {
             }
         }
         ScrollBar.vertical: ScrollBar { }
-
-        UUITK.PullToRefresh {
-            refreshing: reloading
-            onRefresh: readBookDir()
-        }
     }
 
     ListView {
@@ -688,11 +681,6 @@ Page {
 
         model: bookModel
         delegate: coverDelegate
-
-        //UUITK.PullToRefresh {
-        //    refreshing: reloading
-        //    onRefresh: readBookDir()
-        //}
         
         ScrollBar.vertical: ScrollBar { }
     }
@@ -776,6 +764,14 @@ Page {
 		property alias filename: filenameLabel.text
 		property alias allowDelete: swipe.visible
 		
+		header: Text {
+			id: titleLabel
+			horizontalAlignment: Text.AlignHCenter
+			font.pixelSize: units.dp(27)
+			color: theme.palette.normal.backgroundText
+			wrapMode: Text.Wrap
+		}
+		
 		Item {
 			id: dialogitem
 			anchors.fill: parent
@@ -804,14 +800,6 @@ Page {
 				}
 				spacing: units.dp(20)
 				Text {
-					id: titleLabel
-					width: parent.width
-					horizontalAlignment: Text.AlignHCenter
-					font.pixelSize: units.dp(30)
-					color: theme.palette.normal.backgroundText
-					wrapMode: Text.Wrap
-				}
-				Text {
 					id: filenameLabel
 					width: parent.width
 					horizontalAlignment: Text.AlignLeft
@@ -837,110 +825,150 @@ Page {
 		}
 	}
 
-    Component {
-        id: settingsComponent
-
-        UUITK.Dialog {
-            id: settingsDialog
-            title: firststart ? i18n.tr("Welcome to Sturm Reader!") : i18n.tr("Default Book Location")
-            /*/ Text precedes an entry for a file path. /*/
-            text: i18n.tr("Enter the folder in your home directory where your ebooks are or " +
-                          "should be stored.\n\nChanging this value will not affect existing " +
-                          "books in your library.")
+   Dialog {
+		id: settingsDialog
+		
+		property string homepath: filesystem.homePath() + "/"
+		
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
+		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(100))
+		
+		modal: true
+		
+		header: Text {
+			horizontalAlignment: Text.AlignHCenter
+			font.pixelSize: units.dp(27)
+			color: theme.palette.normal.backgroundText
+			text: firststart ? i18n.tr("Welcome to Sturm Reader!") : i18n.tr("Default Book Location")
+		}
+		
+		ColumnLayout {
 			
-			property string homepath: filesystem.homePath() + "/"
+			spacing: units.dp(20)
+			
+			/*/ Text precedes an entry for a file path. /*/
+			Text {
+				text: i18n.tr("Enter the folder in your home directory where your ebooks are or " +
+							"should be stored.\n\nChanging this value will not affect existing " +
+							"books in your library.")
+				color: theme.palette.normal.backgroundText
+			}
+	
+			TextField {
+				id: pathfield
+				text: {
+					if (bookdir.substring(0, settingsDialog.length) == settingsDialog.homepath)
+						return bookdir.substring(settingsDialog.homepath.length)
+					return bookdir
+				}
+				onTextChanged: {
+					var status = filesystem.exists(settingsDialog.homepath + pathfield.text)
+					if (status == 0) {
+						/*/ Create a new directory from path given. /*/
+						useButton.text = i18n.tr("Create Directory")
+						useButton.enabled = true
+					} else if (status == 1) {
+						/*/ File exists with path given. /*/
+						useButton.text = i18n.tr("File Exists")
+						useButton.enabled = false
+					} else if (status == 2) {
+						if (settingsDialog.homepath + pathfield.text == bookdir && !firststart)
+							/*/ Read the books in the given directory again. /*/
+							useButton.text = i18n.tr("Reload Directory")
+						else
+							/*/ Use directory specified to store books. /*/
+							useButton.text = i18n.tr("Use Directory")
+						useButton.enabled = true
+					}
+				}
+			}
 
-            TextField {
-                id: pathfield
-                text: {
-                    if (bookdir.substring(0, homepath.length) == homepath)
-                        return bookdir.substring(homepath.length)
-                    return bookdir
-                }
-                onTextChanged: {
-                    var status = filesystem.exists(homepath + pathfield.text)
-                    if (status == 0) {
-                        /*/ Create a new directory from path given. /*/
-                        useButton.text = i18n.tr("Create Directory")
-                        useButton.enabled = true
-                    } else if (status == 1) {
-                        /*/ File exists with path given. /*/
-                        useButton.text = i18n.tr("File Exists")
-                        useButton.enabled = false
-                    } else if (status == 2) {
-                        if (homepath + pathfield.text == bookdir && !firststart)
-                            /*/ Read the books in the given directory again. /*/
-                            useButton.text = i18n.tr("Reload Directory")
-                        else
-                            /*/ Use directory specified to store books. /*/
-                            useButton.text = i18n.tr("Use Directory")
-                        useButton.enabled = true
-                    }
-                }
-            }
+			Button {
+				id: useButton
+				onClicked: {
+					var status = filesystem.exists(settingsDialog.homepath + pathfield.text)
+					if (status != 1) { // Should always be true
+						if (status == 0)
+							filesystem.makeDir(settingsDialog.homepath + pathfield.text)
+						setBookDir(settingsDialog.homepath + pathfield.text)
+						useButton.enabled = false
+						useButton.text = i18n.tr("Please wait...")
+						cancelButton.enabled = false
+						unblocker.start()
+					}
+				}
+			}
 
-            Button {
-                id: useButton
-                onClicked: {
-                    var status = filesystem.exists(homepath + pathfield.text)
-                    if (status != 1) { // Should always be true
-                        if (status == 0)
-                            filesystem.makeDir(homepath + pathfield.text)
-                        setBookDir(homepath + pathfield.text)
-                        useButton.enabled = false
-                        useButton.text = i18n.tr("Please wait...")
-                        cancelButton.enabled = false
-                        unblocker.start()
-                    }
-                }
-            }
+			Timer {
+				id: unblocker
+				interval: 10
+				onTriggered: {
+					readBookDir()
+					settingsDialog.close()
+					firststart = false
+				}
+			}
 
-            Timer {
-                id: unblocker
-                interval: 10
-                onTriggered: {
-                    readBookDir()
-                    PopupUtils.close(settingsDialog)
-                    firststart = false
-                }
-            }
+			Button {
+				id: cancelButton
+				text: i18n.tr("Cancel")
+				visible: !firststart
+				onClicked: settingsDialog.close()
+			}
+		}
+	}
 
-            Button {
-                id: cancelButton
-                text: i18n.tr("Cancel")
-                visible: !firststart
-                onClicked: PopupUtils.close(settingsDialog)
-            }
-        }
-    }
+    Dialog {
+		id: settingsDisabledDialog
+		
+		header: Text {
+			horizontalAlignment: Text.AlignHCenter
+			font.pixelSize: units.dp(27)
+			color: theme.palette.normal.backgroundText
+			text: i18n.tr("Default Book Location")
+		}
+		
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
+		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(100))
+		
+		modal: true
+		
+		/*/ A path on the file system. /*/
+		ColumnLayout {
+			anchors.fill: parent
+			width: parent.width
+			spacing: units.dp(20)
+			
+			Text {
+				text: i18n.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
+							"from accessing most of your home directory.  Ebooks should be put in " +
+							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
+				color: theme.palette.normal.backgroundText
+				width: parent.width
+			}
+			
+			Button {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: i18n.tr("Reload Directory")
+				// We don't bother with the Timer trick here since we don't get this dialog on
+				// first launch, so we shouldn't have too many books added to the library when
+				// this button is clicked.s
+				onClicked: {
+					settingsDisabledDialog.close()
+					readBookDir()
+				}
+			}
 
-    Component {
-        id: settingsDisabledComponent
-
-        UUITK.Dialog {
-            id: settingsDisabledDialog
-            title: i18n.tr("Default Book Location")
-            /*/ A path on the file system. /*/
-            text: i18n.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
-                             "from accessing most of your home directory.  Ebooks should be put in " +
-                             "<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
-
-            Button {
-                text: i18n.tr("Reload Directory")
-                // We don't bother with the Timer trick here since we don't get this dialog on
-                // first launch, so we shouldn't have too many books added to the library when
-                // this button is clicked.s
-                onClicked: {
-                    PopupUtils.close(settingsDisabledDialog)
-                    readBookDir()
-                }
-            }
-
-            Button {
-                highlighted: true
+			Button {
+				anchors.horizontalCenter: parent.horizontalCenter
+				highlighted: true
 				text: i18n.tr("Close")
-                onClicked: PopupUtils.close(settingsDisabledDialog)
-            }
-        }
-    }
+				onClicked: settingsDisabledDialog.close()
+			}
+		}
+	}
 }
