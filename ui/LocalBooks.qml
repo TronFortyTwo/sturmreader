@@ -11,8 +11,6 @@ import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
-import Ubuntu.Components.ListItems 1.3 as UUITK
-
 import "components"
 
 import Units 1.0
@@ -598,23 +596,42 @@ Page {
 
     Component {
         id: authorDelegate
-        UUITK.Subtitled {
-            text: model.author || i18n.tr("Unknown Author")
-            /*/ Argument will be at least 2. /*/
-            subText: (model.count > 1) ? i18n.tr("%1 Book", "%1 Books", model.count).arg(model.count)
-                                       : model.title
-            iconSource: {
-                if (model.count > 1)
-                    return "image://theme/contact"
-                if (model.cover == "ZZZnone")
-                    return defaultCover.missingCover(model)
-                if (model.cover == "ZZZerror")
-                    return Qt.resolvedUrl("images/error_cover.svg")
-                return model.cover
-            }
-            iconFrame: model.count == 1 && model.cover != "ZZZerror"
-            progression: model.count > 1
-            onClicked: {
+        
+        ItemDelegate {
+			width: parent.width
+			contentItem: Row {
+				width: parent.width
+				height: units.dp(50)
+				spacing: width * 0.1
+				Image {
+					source: model.count > 1 ? "image://theme/contact" :
+							model.filename == "ZZZback" ? "image://theme/back" :
+							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
+							model.cover == "ZZZerror" ? "images/error_cover.svg" :
+							model.cover
+					height: parent.height * 0.75
+					sourceSize.height: height
+					sourceSize.width: width
+					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
+					visible: model.filename != "ZZZback" || !wide
+				}
+				Column {
+					height: parent.height
+					spacing: units.dp(5)
+					Text {
+						text: model.author || i18n.tr("Unknown Author")
+						color: theme.palette.normal.backgroundText
+						font.pointSize: units.dp(12)
+					}
+					Text {
+						text: (model.count > 1) ? i18n.tr("%1 Book", "%1 Books", model.count).arg(model.count)
+								: model.title
+						color: theme.palette.normal.backgroundText
+						font.pointSize: units.dp(9)
+					}
+				}
+			}
+			onClicked: {
                 if (model.count > 1) {
                     listAuthorBooks(model.authorsort)
                     adjustViews(true)
@@ -630,7 +647,7 @@ Page {
                 if (model.count == 1)
                     openInfoDialog(model)
             }
-        }
+		}
     }
 
     ListView {
