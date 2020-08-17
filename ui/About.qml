@@ -31,9 +31,10 @@ Page {
 			}
 			
 			Label {
-				text: i18n.tr("Library")
+				text: i18n.tr("About")
+				font.pixelSize: units.dp(27)
 				elide: Label.ElideRight
-				horizontalAlignment: Qt.AlignHCenter
+				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
 				Layout.fillWidth: true
 			}
@@ -155,6 +156,7 @@ Page {
 			Text {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
+				color: theme.palette.normal.baseText
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				text: "Copyright (C) 2015 Robert Schroll"

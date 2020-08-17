@@ -50,7 +50,7 @@ ApplicationWindow {
 		id: about
 		visible: false
 	}
-		
+	
 	LocalBooks {
 		id: localBooks
 		visible: false
@@ -73,19 +73,6 @@ ApplicationWindow {
 		}
 		standardButtons: Dialog.Ok
 	}
-    
-    /*Component {
-        id: errorOpen
-        Dialog {
-            id: errorOpenDialog
-            title: i18n.tr("Error Opening File")
-            text: server.reader.error
-            Button {
-                text: i18n.tr("OK")
-                onClicked: PopupUtils.close(errorOpenDialog)
-            }
-        }
-    }*/
 
     Server {
         id: server

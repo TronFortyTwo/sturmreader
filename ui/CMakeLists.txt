@@ -21,6 +21,7 @@ set(UI_SRC_FILES
 	Icons/go-previous.svg
 	Icons/info.svg
 	Icons/redo.svg
+	Icons/refresh.svg
 	Icons/settings.svg
 	Icons/undo.svg
 	Icons/COPYING

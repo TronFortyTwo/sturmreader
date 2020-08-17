@@ -32,12 +32,12 @@ Page {
     property string bookdir: ""
     property bool readablehome: false
     property string defaultdirname: i18n.tr("Books")
-    property double gridmargin: units.dp(8)
-    property double mingridwidth: units.dp(120)
+    property double gridmargin: units.dp(10)
+    property double mingridwidth: units.dp(150)
     property bool reloading: false
 
     background: Rectangle {
-		color: theme.palette.normal.background
+		color: Theme.palette.normal.background
 	}
     
     header: ToolBar {
@@ -48,8 +48,10 @@ Page {
 			
 			Label {
 				text: i18n.tr("Library")
+				font.pixelSize: units.dp(27)
 				elide: Label.ElideRight
-				horizontalAlignment: Qt.AlignHCenter
+				anchors.leftMargin: units.dp(20)
+				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
 				Layout.fillWidth: true
 			}
@@ -61,6 +63,18 @@ Page {
 					color: Theme.palette.normal.baseText
 				}
 				onClicked: pageStack.push(importer.pickerPage)
+			}
+			
+			ToolButton {
+				id: refresh
+				contentItem: Icon {
+					anchors.fill: parent
+					name: "refresh"
+					color: Theme.palette.normal.baseText
+				}
+				onClicked: {
+					readBookDir()
+				}
 			}
 			
 			ToolButton {
@@ -673,10 +687,10 @@ Page {
         model: bookModel
         delegate: coverDelegate
 
-        UUITK.PullToRefresh {
-            refreshing: reloading
-            onRefresh: readBookDir()
-        }
+        //UUITK.PullToRefresh {
+        //    refreshing: reloading
+        //    onRefresh: readBookDir()
+        //}
         
         ScrollBar.vertical: ScrollBar { }
     }
@@ -722,108 +736,103 @@ Page {
         }
     }
 
-
-
+    
     function openInfoDialog(book) {
-        var dialog = PopupUtils.open(infoComponent)
-        dialog.bookTitle = book.title
-        dialog.filename = book.filename
+		infoDialog.open()
+        infoDialog.bookTitle = book.title
+        infoDialog.filename = book.filename
 
         var dirs = ["/.local/share/%1", "/.local/share/ubuntu-download-manager/%1"]
         for (var i=0; i<dirs.length; i++) {
-            var path = filesystem.homePath() + dirs[i].arg(mainView.applicationName)
-            if (dialog.filename.slice(0, path.length) == path) {
-                dialog.allowDelete = true
+            var path = filesystem.homePath() + dirs[i].arg(Qt.application.name)
+            if (infoDialog.filename.slice(0, path.length) == path) {
+                infoDialog.allowDelete = true
                 break
             }
         }
-
         if (book.cover == "ZZZerror")
-            dialog.coverSource = defaultCover.errorCover(book)
+            infoDialog.coverSource = defaultCover.errorCover(book)
         else if (!book.fullcover)
-            dialog.coverSource = defaultCover.missingCover(book)
+            infoDialog.coverSource = defaultCover.missingCover(book)
         else
-            dialog.coverSource = book.fullcover
+            infoDialog.coverSource = book.fullcover
     }
+    
+    Dialog {
+		id: infoDialog
+		visible: false	
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		width: Math.max(parent.width * 0.5, units.dp(250))
+		height: Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(20)
+		
+		standardButtons: Dialog.Close
+		
+		property alias coverSource: infoCover.source
+		property alias bookTitle: titleLabel.text
+		property alias filename: filenameLabel.text
+		property alias allowDelete: swipe.visible
+		
+		Item {
+			id: dialogitem
+			anchors.fill: parent
 
-    Component {
-        id: infoComponent
+			Image {
+				id: infoCover
+				width: parent.width / 3
+				height: parent.width / 2
+				anchors {
+					left: parent.left
+					top: parent.top
+				}
+				fillMode: Image.PreserveAspectFit
+				// Prevent blurry SVGs
+				sourceSize.width: 2*localBooks.mingridwidth
+				sourceSize.height: 3*localBooks.mingridwidth
+			}
 
-        Dialog {
-            id: infoDialog
-
-            property alias coverSource: infoCover.source
-            property alias bookTitle: titleLabel.text
-            property alias filename: filenameLabel.text
-            property alias allowDelete: swipe.visible
-
-            Item {
-                height: Math.max(infoCover.height, infoColumn.height)
-
-                Image {
-                    id: infoCover
-                    width: parent.width / 3
-                    height: parent.width / 2
-                    anchors {
-                        left: parent.left
-                        top: parent.top
-                    }
-                    fillMode: Image.PreserveAspectFit
-                    // Prevent blurry SVGs
-                    sourceSize.width: 2*localBooks.mingridwidth
-                    sourceSize.height: 3*localBooks.mingridwidth
-                }
-
-                Column {
-                    id: infoColumn
-                    anchors {
-                        left: infoCover.right
-                        right: parent.right
-                        top: parent.top
-                        leftMargin: units.dp(18)
-                    }
-                    spacing: units.dp(16)
-
-                    Text {
-                        id: titleLabel
-                        width: parent.width
-                        horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: 35
-                        color: UUITK.UbuntuColors.darkGrey
-                        wrapMode: Text.Wrap
-                    }
-                    UUITK.Label {
-                        id: filenameLabel
-                        width: parent.width
-                        horizontalAlignment: Text.AlignLeft
-                        font.pointSize: 12
-                        color: UUITK.UbuntuColors.darkGrey
-                        wrapMode: Text.WrapAnywhere
-                    }
-                }
-            }
-
-            SwipeControl {
-                id: swipe
-                visible: false
-                /*/ A control can be dragged to delete a file.  The deletion occurs /*/
-                /*/ when the user releases the control. /*/
-                actionText: i18n.tr("Release to Delete")
-                /*/ A control can be dragged to delete a file. /*/
-                notificationText: i18n.tr("Swipe to Delete")
-                onTriggered: {
-                    filesystem.remove(infoDialog.filename)
-                    PopupUtils.close(infoDialog)
-                    readBookDir()
-                }
-            }
-
-            Button {
-                text: i18n.tr("Close")
-                onClicked: PopupUtils.close(infoDialog)
-            }
-        }
-    }
+			Column {
+				id: infoColumn
+				anchors {
+					left: infoCover.right
+					right: parent.right
+					top: parent.top
+					leftMargin: units.dp(18)
+				}
+				spacing: units.dp(15)
+				Text {
+					id: titleLabel
+					width: parent.width
+					horizontalAlignment: Text.AlignHCenter
+					font.pixelSize: units.dp(30)
+					color: Theme.palette.color.foregroundText
+					wrapMode: Text.Wrap
+				}
+				UUITK.Label {
+					id: filenameLabel
+					width: parent.width
+					horizontalAlignment: Text.AlignLeft
+					font.pixelSize: units.dp(12)
+					color: Theme.palette.color.backgroundText
+					wrapMode: Text.WrapAnywhere
+				}
+				SwipeControl {
+					id: swipe
+					visible: false
+					/*/ A control can be dragged to delete a file.  The deletion occurs /*/
+					/*/ when the user releases the control. /*/
+					actionText: i18n.tr("Release to Delete")
+					/*/ A control can be dragged to delete a file. /*/
+					notificationText: i18n.tr("Swipe to Delete")
+					onTriggered: {
+						filesystem.remove(infoDialog.filename)
+						infoDialog.close()
+						readBookDir()
+					}
+				}
+			}
+		}
+	}
 
     Component {
         id: settingsComponent
