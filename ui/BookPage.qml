@@ -10,7 +10,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtWebEngine 1.7
 
-import Ubuntu.Components 1.3 as UUITK
 import UserMetrics 0.1 as UUITK
 
 import FontList 1.0
@@ -571,42 +570,14 @@ PageWithBottomEdge {
 					height: lineHeightSlider.height
 				}
 
-				UUITK.Slider {
+				Slider {
 					id: lineHeightSlider
 					width: parent.width - stylesDialog.labelwidth
-					minimumValue: 0.8
-					maximumValue: 2
-					// If we make this a color, instead of a string, it stays linked to the
-					// property, instead of storing the old value.  Moreover, we can't set it
-					// here, for reasons I don't understand.  So we wait....
-					property string activeColor: ""
-
-					function formatValue(v, untranslated) {
-						if (v < 0.95)
-							/*/ Indicates the default line height will be used, as opposed to a /*/
-							/*/ user-set value.  There is only space for about 5 characters; if /*/
-							/*/ the translated string will not fit, please translate this as an /*/
-							/*/ em-dash (—). /*/
-							return untranslated ? "Default" : i18n.tr("Auto")
-						return v.toFixed(1)
-					}
-					function setThumbColor() {
-						if (activeColor === "")
-							activeColor = __styleInstance.thumb.color
-
-						__styleInstance.thumb.color = (value < 0.95) ?
-									"#CDCDCD" /*UbuntuColors.warmGrey*/ : activeColor
-					}
-					onValueChanged: {
-						bookStyles.lineHeight = formatValue(value, true)
-						setThumbColor()
-					}
-					onPressedChanged: {
-						if (pressed)
-							__styleInstance.thumb.color = activeColor
-						else
-							setThumbColor()
-					}
+					from: 0.8
+					to: 2
+					stepSize: 0.2
+					snapMode: Slider.snapAlways
+					onMoved: bookStyles.lineHeight = value
 				}
 			}
 
@@ -628,6 +599,8 @@ PageWithBottomEdge {
 					width: parent.width - stylesDialog.labelwidth
 					from: 0
 					to: 30
+					stepSize: 3
+					snapMode: Slider.snapAlways
 					function formatValue(v) { return Math.round(v) + "%" }
 					onValueChanged: bookStyles.margin = value
 				}
@@ -652,7 +625,6 @@ PageWithBottomEdge {
 					anchors {
 						left: parent.left
 						top: parent.top
-						//width: parent.width / 2
 					}
 					enabled: !bookStyles.atdefault
 					onClicked: bookStyles.saveAsDefault()
@@ -670,7 +642,19 @@ PageWithBottomEdge {
 					onClicked: bookStyles.resetToDefaults()
 				}
 			}
+			
+			BusyIndicator {
+				anchors.horizontalCenter: parent.horizontalCenter
+				opacity: loadingIndicator.opacity
+				running: opacity != 0
+			}
 		}
+		
+		onOpened: {
+			if (bookStyles.loading == false)
+				setValues()
+		}
+			
 		function setValues() {
 			for (var i=0; i<styleModel.count; i++) {
 				if (styleModel.get(i).fore == bookStyles.textColor) {
@@ -682,7 +666,7 @@ PageWithBottomEdge {
 			//fontScaleSlider.value = 4 + 4 * Math.LOG2E * Math.log(bookStyles.fontScale)
 			fontScaleSlider.value = bookStyles.fontScale
 			//lineHeightSlider.value = (bookStyles.lineHeight == "Default") ? 0.8 : bookStyles.lineHeight
-			lineHeightSlider.value = 0.8
+			lineHeightSlider.value = bookStyles.lineHeight
 			marginSlider.value = bookStyles.margin
 		}
 		
