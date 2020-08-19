@@ -101,6 +101,7 @@ Rectangle {
             if (slider.x > slider.width * swipeControl.threshold) {
                 slider.x = slider.width
                 swipeControl.triggered()
+				slider.x = 0
             } else {
                 slider.x = 0
             }
