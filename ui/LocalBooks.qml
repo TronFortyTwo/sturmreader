@@ -118,7 +118,7 @@ Page {
         adjustViews(false)
     }
     onWidthChanged: {
-        wide = (width >= units.dp(340))
+        wide = (width > units.dp(800))
         widthAnimation.enabled = false
         adjustViews(true)  // True to allow author's list if necessary
         widthAnimation.enabled = true

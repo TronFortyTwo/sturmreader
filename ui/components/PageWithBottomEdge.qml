@@ -63,6 +63,7 @@ Page {
 		height: parent.height * 0.75
 		y: (parent.height - height) * 0.5
 		x: (parent.width - width) * 0.5
+		dim: true
 		
 		header: ToolBar {
 			width: parent.width
