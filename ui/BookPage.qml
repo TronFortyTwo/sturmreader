@@ -614,30 +614,21 @@ PageWithBottomEdge {
 				onClicked: stylesDialog.close()
 			}
 
-			GridLayout {
+			Row {
 				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent * 0.8
+				width: parent.width * 0.8
+				spacing: width - setDefault.width - loadDefaults.width
 				Button {
 					id: setDefault
-					/*/ Prefer string of < 16 characters /*/
+					/*/ Prefer < 16 characters /*/
 					text: i18n.tr("Make Default")
-					width: parent.width * 0.4
-					anchors {
-						left: parent.left
-						top: parent.top
-					}
 					enabled: !bookStyles.atdefault
 					onClicked: bookStyles.saveAsDefault()
 				}
 				Button {
-					id: loadDefault
-					/*/ Prefer string of < 16 characters /*/
+					id: loadDefaults
+					/*/ Prefer < 16 characters /*/
 					text: i18n.tr("Load Defaults")
-					width: parent.width * 0.4
-					anchors {
-						right: parent.right
-						bottom: parent.bottom
-					}
 					enabled: !bookStyles.atdefault
 					onClicked: bookStyles.resetToDefaults()
 				}
