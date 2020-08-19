@@ -337,7 +337,11 @@ PageWithBottomEdge {
         function update() {
             if (loading)
                 return
-
+                
+			// start loading
+			loadingIndicator.opacity = 1;
+			bookWebView.opacity = 0;
+			
             //Messaging.sendMessage("Styles", asObject())
             // this one below should be improved
 			bookWebView.runJavaScript("styleManager.updateStyles({" +
@@ -424,18 +428,42 @@ PageWithBottomEdge {
 
     Dialog {
 		id: stylesDialog
-		property real labelwidth: width * 0.5
+		property real labelwidth: width * 0.3
+		visible: false
 		
-		width: parent.width * 0.75
-		height: parent.height * 0.5
-		leftMargin: (parent.width - width) * 0.5
-		topMargin: (parent.height - height) * 0.5
-		ColumnLayout {
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
+		
+		modal: true
+		
+		header: ToolBar {
+			width: parent.width
+			RowLayout {
+				anchors.fill: parent
+				Label {
+					text: i18n.tr("Book Settings")
+					font.pixelSize: units.dp(27)
+					color: theme.palette.normal.backgroundText
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
+				}
+			}
+		}
+		
+		Column {
+			id: settingsColumn
+			
 			width: parent.width
 			height: parent.height
-			spacing: units.dp(2)
+			
+			spacing: units.dp(20)
+			
 			ComboBox {
-				width: parent.width * 0.6
+				anchors.horizontalCenter: parent.horizontalCenter
+				width: parent.width * 0.8
 				id: colorSelector
 				displayText: styleModel.get(currentIndex).stext
 				model: ListModel {
@@ -486,7 +514,8 @@ PageWithBottomEdge {
 				}
 			}
 			ComboBox {
-				width: parent.width * 0.6
+				anchors.horizontalCenter: parent.horizontalCenter
+				width: parent.width * 0.8
 				id: fontSelector
 				visible: !server.reader.pictureBook
 				onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
@@ -506,6 +535,7 @@ PageWithBottomEdge {
 			}
 
 			Row {
+				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 0.9
 				visible: !server.reader.pictureBook
 				Text {
@@ -522,11 +552,14 @@ PageWithBottomEdge {
 					width: parent.width - stylesDialog.labelwidth
 					from: 0.5
 					to: 4
-					onValueChanged: bookStyles.fontScale = value
+					stepSize: 0.25
+					snapMode: Slider.snapAlways
+					onMoved: bookStyles.fontScale = value
 				}
 			}
 
 			Row {
+				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 0.9
 				visible: !server.reader.pictureBook
 				Text {
@@ -578,6 +611,7 @@ PageWithBottomEdge {
 			}
 
 			Row {
+				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 0.9
 				visible: !server.reader.pictureBook
 				Text {
@@ -600,6 +634,7 @@ PageWithBottomEdge {
 			}
 
 			Button {
+				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 0.8
 				text: i18n.tr("Close")
 				highlighted: true
@@ -607,11 +642,13 @@ PageWithBottomEdge {
 			}
 
 			GridLayout {
+				anchors.horizontalCenter: parent.horizontalCenter
+				width: parent * 0.8
 				Button {
 					id: setDefault
 					/*/ Prefer string of < 16 characters /*/
 					text: i18n.tr("Make Default")
-					width: units.dp(100)
+					width: parent.width * 0.4
 					anchors {
 						left: parent.left
 						top: parent.top
@@ -624,7 +661,7 @@ PageWithBottomEdge {
 					id: loadDefault
 					/*/ Prefer string of < 16 characters /*/
 					text: i18n.tr("Load Defaults")
-					width: units.dp(100)
+					width: parent.width * 0.4
 					anchors {
 						right: parent.right
 						bottom: parent.bottom

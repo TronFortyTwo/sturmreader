@@ -88,7 +88,7 @@ ApplicationWindow {
                 pageStack.pop()
 
             pageStack.push(bookPage, {url: "http://127.0.0.1:" + server.port})
-            window.title = server.reader.title()
+            mainView.title = server.reader.title()
             localBooks.updateRead(filename)
             return true
         }
