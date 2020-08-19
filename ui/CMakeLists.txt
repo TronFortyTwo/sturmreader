@@ -16,6 +16,7 @@ set(UI_SRC_FILES
 	images/error_cover.svg
 	images/error_cover_full.svg
 	Icons/add.svg
+	Icons/book.svg
 	Icons/go-home.svg
 	Icons/go-next.svg
 	Icons/go-previous.svg

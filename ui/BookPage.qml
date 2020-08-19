@@ -56,7 +56,7 @@ PageWithBottomEdge {
             url = ""
             bookWebView.opacity = 0
             loadingIndicator.opacity = 1
-            closeBottomEdge()
+            closeContent()
         } else {
             bookStyles.loadForBook()
         }
@@ -103,14 +103,14 @@ PageWithBottomEdge {
 				}
 			}
 			else if(msg[0] == "Ready") {
-				isBookReady = true;
+				isBookReady = true
 				if(doPageChangeAsSoonAsReady) {
-					bookPage.onPageChange();
+					bookPage.onPageChange()
 					doPageChangeAsSoonAsReady = false;
 				}
-				bookWebView.opacity = 1;
-				loadingIndicator.opacity = 0;
-				previewControls();
+				bookWebView.opacity = 1
+				loadingIndicator.opacity = 0
+				openControls()
 			}
 			else if(msg[0] == "status_requested") {
 				bookWebView.runJavaScript("statusUpdate()");
@@ -130,7 +130,7 @@ PageWithBottomEdge {
 		
 		onActiveFocusChanged: {
 			if(activeFocus)
-				closeBottomEdge()
+				closeContent()
 			// reject attempts to give WebView focus
 			focus = false;
 		}
@@ -152,14 +152,12 @@ PageWithBottomEdge {
         anchors.left: parent.left
         anchors.right: parent.right
         height: childrenRect.height
-
+        
         FloatingButton {
             anchors.left: parent.left
-
             buttons: [
                 Action {
                     iconName: "go-home"
-
                     onTriggered: {
                         pageStack.pop()
                         //localBooks.flickable.returnToBounds()  // Fix bug #63
@@ -167,10 +165,8 @@ PageWithBottomEdge {
                 }
             ]
         }
-
         FloatingButton {
 			anchors.left: parent.horizontalCenter
-			
 			buttons: [
 				Action {
 					iconName: "go-previous"
@@ -190,10 +186,8 @@ PageWithBottomEdge {
 				}
 			]
 		}
-		
 		FloatingButton {
 			anchors.right: parent.horizontalCenter
-
             buttons: [
                 Action {
                     iconName: "undo"
@@ -223,16 +217,27 @@ PageWithBottomEdge {
                 }
             ]
         }
-
         FloatingButton {
+            anchors.right: settingsButton.left
+            buttons: [
+                Action {
+                    iconName: "book"
+                    onTriggered: {
+						openContent()
+						closeControls()
+                    }
+                }
+            ]
+        }
+        FloatingButton {
+			id: settingsButton
             anchors.right: parent.right
-
             buttons: [
                 Action {
                     iconName: "settings"
                     onTriggered: {
                         stylesDialog.open()
-                        closeBottomEdge()
+                        closeControls()
                     }
                 }
             ]
@@ -252,7 +257,7 @@ PageWithBottomEdge {
 						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
 				onClicked: {
 					bookWebView.runJavaScript("reader.skipToChapter(" + JSON.stringify(model.src) + ");");
-					closeBottomEdge()
+					closeContent()
 				}
             }
 
@@ -268,8 +273,6 @@ PageWithBottomEdge {
             ScrollBar.vertical: ScrollBar {}
         }
     }
-    bottomEdgeTitle: i18n.tr("Contents")
-    reloadBottomEdgePage: false
 
     Item {
         id: bookStyles
