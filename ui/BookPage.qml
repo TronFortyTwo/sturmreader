@@ -130,7 +130,7 @@ PageWithBottomEdge {
 		
 		onActiveFocusChanged: {
 			if(activeFocus)
-				closeContent()
+				closeControls()
 			// reject attempts to give WebView focus
 			focus = false;
 		}
@@ -147,7 +147,7 @@ PageWithBottomEdge {
     bottomEdgeControls: Rectangle {
 		
 		antialiasing: false
-		color: "#ffffff"
+		color: theme.palette.normal.background
 		
         anchors.left: parent.left
         anchors.right: parent.right
@@ -263,7 +263,7 @@ PageWithBottomEdge {
 
             Connections {
                 target: bookPage
-                onBottomEdgePressed: {
+                onContentOpened: {
                     for (var i=0; i<contentsListModel.count; i++) {
                         if (contentsListModel.get(i).src == bookPage.currentChapter)
 							contentsListView.positionViewAtIndex(i, ListView.Center)
@@ -435,7 +435,7 @@ PageWithBottomEdge {
 		
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(450)))
 		
 		modal: true
 		
@@ -609,14 +609,6 @@ PageWithBottomEdge {
 				}
 			}
 
-			Button {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.8
-				text: i18n.tr("Close")
-				highlighted: true
-				onClicked: stylesDialog.close()
-			}
-
 			Row {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 0.8
@@ -635,6 +627,14 @@ PageWithBottomEdge {
 					enabled: !bookStyles.atdefault
 					onClicked: bookStyles.resetToDefaults()
 				}
+			}
+			
+			Button {
+				anchors.horizontalCenter: parent.horizontalCenter
+				width: parent.width * 0.8
+				text: i18n.tr("Close")
+				highlighted: true
+				onClicked: stylesDialog.close()
 			}
 			
 			BusyIndicator {

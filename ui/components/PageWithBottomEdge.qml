@@ -28,15 +28,14 @@ Page {
 
     property int _areaWhenExpanded: 0
 
-    signal bottomEdgePressed()
-    signal bottomEdgeReleased()
-    signal bottomEdgeDismissed()
+    signal contentOpened()
 
 	function openContent() {
-		drawer.open()
+		content.open()
+		contentOpened()
 	}
     function closeContent() {
-        drawer.close()
+        content.close()
     }
 	function closeControls() {
 		controls.close()
@@ -45,20 +44,8 @@ Page {
 		controls.open()
 	}
 
-    function _pushPage()
-    {
-        if (edgeLoader.status === Loader.Ready) {
-            if (edgeLoader.item.flickable) {
-                edgeLoader.item.flickable.contentY = -page.header.height
-                edgeLoader.item.flickable.returnToBounds()
-            }
-            if (edgeLoader.item.ready)
-                edgeLoader.item.ready()
-        }
-    }
-
     Dialog {
-		id: drawer
+		id: content
 		width: Math.min(parent.width, units.gu(1000))
 		height: parent.height * 0.75
 		y: (parent.height - height) * 0.5
@@ -96,7 +83,7 @@ Page {
 		height: controlLoader.height
 		z: 1
 		edge: Qt.BottomEdge
-		dim: false
+		modal: false
 		
 		Loader {
             id: controlLoader

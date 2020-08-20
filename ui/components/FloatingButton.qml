@@ -17,9 +17,8 @@ Item {
     id: floatingButton
 
     property int size: units.dp(50)		//units.gu(6)
-    property int margin: units.dp(5)	//units.gu(1)
-    property color color: "#F7F7F7" //UbuntuColors.porcelain
-    property color borderColor: "#CDCDCD" //UbuntuColors.silk
+    property int margin: units.dp(8)	//units.gu(1)
+    property color borderColor: Theme.palette.normal.base //UbuntuColors.silk
     property list<Action> buttons
 
     width: bubble.width + 2*margin
@@ -37,7 +36,7 @@ Item {
             width: childrenRect.width
             height: size
             radius: size/2
-            color: floatingButton.color
+            color: Theme.palette.normal.overlay
             border {
                 color: borderColor
                 width: units.dp(1)
@@ -52,24 +51,19 @@ Item {
                         width: size
                         height: size
 						
-						onClicked: {
-							modelData.triggered()
-						}
+						onClicked: modelData.triggered()
 						
-                        Image {
-                            id: icon
-                            anchors {
-                                verticalCenter: parent.verticalCenter
-                                horizontalCenter: parent.horizontalCenter
-                            }
-                            width: parent.width/2
-                            height: width
-                            sourceSize.width: width
-                            sourceSize.height: height
-                            // TODO: this icon loader is a bit hacky
-                            source: "../Icons/" + modelData.iconName + ".svg"
-                            opacity: modelData.enabled ? 1.0 : 0.35
-                        }
+						Icon {
+							anchors {
+								verticalCenter: parent.verticalCenter
+								horizontalCenter: parent.horizontalCenter
+							}
+							width: parent.width * 0.6
+							height: parent.height * 0.6
+							color: Theme.palette.normal.overlayText
+							name: modelData.iconName
+							opacity: modelData.enabled ? 1.0 : 0.35
+						}
                     }
                 }
             }

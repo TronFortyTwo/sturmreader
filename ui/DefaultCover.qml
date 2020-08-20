@@ -210,7 +210,7 @@ Item {
 </svg>
 '
 
-    //Textures {
-    //    id: textures
-    //}
+    Textures {
+        id: textures
+    }
 }

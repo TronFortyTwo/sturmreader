@@ -43,10 +43,9 @@ Page {
 			anchors.fill: parent
 			
 			Label {
-				text: i18n.tr("Library")
+				text: "  " + i18n.tr("Library")
 				font.pixelSize: units.dp(27)
 				elide: Label.ElideRight
-				anchors.leftMargin: units.dp(20)
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
 				Layout.fillWidth: true
@@ -59,18 +58,6 @@ Page {
 					color: Theme.palette.normal.baseText
 				}
 				onClicked: pageStack.push(importer.pickerPage)
-			}
-			
-			ToolButton {
-				id: refresh
-				contentItem: Icon {
-					anchors.fill: parent
-					name: "refresh"
-					color: Theme.palette.normal.baseText
-				}
-				onClicked: {
-					readBookDir()
-				}
 			}
 			
 			ToolButton {
@@ -726,12 +713,13 @@ Page {
         Column {
             anchors.centerIn: parent
             spacing: units.dp(16)
-            width: Math.min(units.dp(250), parent.width)
+            width: Math.min(units.dp(350), parent.width)
 
             Text {
                 id: noBooksLabel
+				anchors.horizontalCenter: parent.horizontalCenter
                 text: i18n.tr("No Books in Library")
-                font.pointSize: 35
+                font.pixelSize: units.dp(35)
 				horizontalAlignment: Text.AlignHCenter
             }
 
