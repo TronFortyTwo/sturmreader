@@ -5,7 +5,7 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
@@ -53,7 +53,9 @@ Page {
 			
 			ToolButton {
 				contentItem: Icon {
-					anchors.fill: parent
+					width: height
+					height: parent.height * 0.5
+					anchors.centerIn: parent
 					name: "add"
 					color: Theme.palette.normal.baseText
 				}
@@ -62,7 +64,9 @@ Page {
 			
 			ToolButton {
 				contentItem: Icon {
-					anchors.fill: parent
+					width: height
+					height: parent.height * 0.5
+					anchors.centerIn: parent
 					name: "info"
 					color: Theme.palette.normal.baseText
 				}
@@ -71,7 +75,9 @@ Page {
 			
 			ToolButton {
 				contentItem: Icon {
-					anchors.fill: parent
+					width: height
+					height: parent.height * 0.5
+					anchors.centerIn: parent
 					name: "settings"
 					color: Theme.palette.normal.baseText
 				}
@@ -534,7 +540,7 @@ Page {
 			width: parent.width
 			contentItem: Row {
 				width: parent.width
-				height: units.dp(50)
+				height: units.dp(45)
 				spacing: width * 0.1
 				Image {
 					source: model.filename == "ZZZback" ? "image://theme/back" :
@@ -588,7 +594,7 @@ Page {
 			width: parent.width
 			contentItem: Row {
 				width: parent.width
-				height: units.dp(50)
+				height: units.dp(45)
 				spacing: width * 0.1
 				Image {
 					source: model.count > 1 ? "image://theme/contact" :
@@ -713,14 +719,16 @@ Page {
         Column {
             anchors.centerIn: parent
             spacing: units.dp(16)
-            width: Math.min(units.dp(350), parent.width)
+            width: Math.min(units.dp(350), parent.width - units.gu(8))
 
             Text {
                 id: noBooksLabel
 				anchors.horizontalCenter: parent.horizontalCenter
                 text: i18n.tr("No Books in Library")
-                font.pixelSize: units.dp(35)
+                font.pixelSize: units.dp(30)
 				horizontalAlignment: Text.AlignHCenter
+				width: parent.width
+				wrapMode: Text.Wrap
             }
 
             Text {
@@ -729,19 +737,22 @@ Page {
                               "automatically find all epub files in <i>%1</i>.  Additionally, any book " +
                               "opened will be added to the library.").arg(bookdir)
                 wrapMode: Text.Wrap
+				anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
             }
 
             Button {
                 text: i18n.tr("Get Books")
+				anchors.horizontalCenter: parent.horizontalCenter
                 highlighted: true
                 width: parent.width
-                onClicked: pageStack.push(bookSources)
+                onClicked: pageStack.push(importer.pickerPage)
             }
 
             Button {
                 text: i18n.tr("Search Again")
+				anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
                 onClicked: readBookDir()
             }
@@ -863,7 +874,7 @@ Page {
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
 		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
-		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(100))
+		height: Math.min(parent.height*0.9, units.gu(600))
 		
 		modal: true
 		
@@ -963,6 +974,7 @@ Page {
 		id: settingsDisabledDialog
 		
 		header: ToolBar {
+			id: settingsDisabledHeader
 			width: parent.width
 			RowLayout {
 				anchors.fill: parent
@@ -981,13 +993,14 @@ Page {
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
 		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
-		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(100))
+		height: Math.min(parent.height*0.9, settingsDisabledColumn.height + settingsDisabledHeader.height + units.dp(50))
 		
 		modal: true
 		
 		/*/ A path on the file system. /*/
 		Column {
-			anchors.fill: parent
+			id: settingsDisabledColumn
+			
 			width: parent.width
 			spacing: units.dp(20)
 			

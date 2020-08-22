@@ -23,7 +23,9 @@ Page {
 			
 			ToolButton {
 				contentItem: Icon {
-					anchors.fill: parent
+					width: height
+					height: parent.height * 0.5
+					anchors.centerIn: parent
 					name: "go-previous"
 					color: theme.palette.normal.baseText
 				}
