@@ -43,6 +43,12 @@ Page {
 	function openControls() {
 		controls.open()
 	}
+	function turnControlsOn() {
+		controls.interactive = true
+	}
+	function turnControlsOff() {
+		controls.interactive = false
+	}
 
     Dialog {
 		id: content
@@ -84,6 +90,9 @@ Page {
 		z: 1
 		edge: Qt.BottomEdge
 		modal: false
+		
+		// is turned on by turnControlsOn()
+		interactive: false
 		
 		Loader {
             id: controlLoader

@@ -159,8 +159,11 @@ PageWithBottomEdge {
                 Action {
                     iconName: "go-home"
                     onTriggered: {
-                        pageStack.pop()
-                        //localBooks.flickable.returnToBounds()  // Fix bug #63
+						// turn stuff off and exit
+						closeContent()
+						closeControls()
+						turnControlsOff()
+						pageStack.pop()
                     }
                 }
             ]

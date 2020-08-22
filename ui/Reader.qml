@@ -61,11 +61,15 @@ Item {
     }
 
     function hash() {
-        return currentReader.hash
+		if (currentReader !== undefined)
+			return currentReader.hash
+		else return undefined
     }
 
     function title() {
-        return currentReader.title
+		if (currentReader !== undefined)
+			return currentReader.title
+		else return undefined
     }
 
     function serveBookData(response) {

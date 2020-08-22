@@ -90,6 +90,7 @@ ApplicationWindow {
             pageStack.push(bookPage, {url: "http://127.0.0.1:" + server.port})
             mainView.title = server.reader.title()
             localBooks.updateRead(filename)
+			bookPage.turnControlsOn()
             return true
         }
         errorOpenDialog.open()
