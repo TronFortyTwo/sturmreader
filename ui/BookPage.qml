@@ -153,7 +153,13 @@ PageWithBottomEdge {
         anchors.right: parent.right
         height: childrenRect.height
         
+        // relaxed layout uses more space, nicer on wider screens
+        // there is one button more on the right, so we check there
+		property bool relaxed_layout: parent.width * 0.5 >=
+			jump_button.width + content_button.width + settings_button.width
+		
         FloatingButton {
+			id: home_button
             anchors.left: parent.left
             buttons: [
                 Action {
@@ -168,29 +174,9 @@ PageWithBottomEdge {
                 }
             ]
         }
-        FloatingButton {
-			anchors.left: parent.horizontalCenter
-			buttons: [
-				Action {
-					iconName: "go-previous"
-					onTriggered: {
-						bookWebView.opacity = 0;
-						loadingIndicator.opacity = 1;
-						bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: -10}))");
-					}
-				},
-				Action {
-					iconName: "go-next"
-					onTriggered: {
-						bookWebView.opacity = 0;
-						loadingIndicator.opacity = 1;
-						bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: 10}))");
-					}
-				}
-			]
-		}
 		FloatingButton {
-			anchors.right: parent.horizontalCenter
+			id: history_button
+			anchors.right: relaxed_layout ? parent.horizontalCenter : jump_button.left
             buttons: [
                 Action {
                     iconName: "undo"
@@ -221,7 +207,31 @@ PageWithBottomEdge {
             ]
         }
         FloatingButton {
-            anchors.right: settingsButton.left
+			id: jump_button
+			anchors.left: relaxed_layout ? parent.horizontalCenter : undefined
+			anchors.right: relaxed_layout ? undefined : content_button.left
+			buttons: [
+				Action {
+					iconName: "go-previous"
+					onTriggered: {
+						bookWebView.opacity = 0;
+						loadingIndicator.opacity = 1;
+						bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: -10}))");
+					}
+				},
+				Action {
+					iconName: "go-next"
+					onTriggered: {
+						bookWebView.opacity = 0;
+						loadingIndicator.opacity = 1;
+						bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: 10}))");
+					}
+				}
+			]
+		}
+        FloatingButton {
+			id: content_button
+            anchors.right: settings_button.left
             buttons: [
                 Action {
                     iconName: "book"
@@ -233,7 +243,7 @@ PageWithBottomEdge {
             ]
         }
         FloatingButton {
-			id: settingsButton
+			id: settings_button
             anchors.right: parent.right
             buttons: [
                 Action {
