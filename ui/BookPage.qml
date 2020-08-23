@@ -556,6 +556,7 @@ PageWithBottomEdge {
 				Text {
 					/*/ Prefer string of < 16 characters /*/
 					text: i18n.tr("Font Scaling")
+					color: theme.palette.normal.foregroundText
 					verticalAlignment: Text.AlignVCenter
 					wrapMode: Text.Wrap
 					width: stylesDialog.labelwidth
@@ -580,6 +581,7 @@ PageWithBottomEdge {
 				Text {
 					/*/ Prefer string of < 16 characters /*/
 					text: i18n.tr("Line Height")
+					color: theme.palette.normal.foregroundText
 					verticalAlignment: Text.AlignVCenter
 					wrapMode: Text.Wrap
 					width: stylesDialog.labelwidth
@@ -604,6 +606,7 @@ PageWithBottomEdge {
 				Text {
 					/*/ Prefer string of < 16 characters /*/
 					text: i18n.tr("Margins")
+					color: theme.palette.normal.foregroundText
 					verticalAlignment: Text.AlignVCenter
 					wrapMode: Text.Wrap
 					width: stylesDialog.labelwidth

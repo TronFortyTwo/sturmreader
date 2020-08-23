@@ -92,7 +92,7 @@ Page {
 			
 			Text {
 				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width
+				width: parent.width * 4 / 5
 				color: theme.palette.normal.baseText
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
