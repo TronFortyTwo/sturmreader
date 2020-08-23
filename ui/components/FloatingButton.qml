@@ -16,9 +16,9 @@ import Units 1.0
 Item {
     id: floatingButton
 
-    property int size: units.dp(50)		//units.gu(6)
-    property int margin: units.dp(8)	//units.gu(1)
-    property color borderColor: Theme.palette.normal.base //UbuntuColors.silk
+    property int size: units.dp(48)		//units.gu(6)
+    property int margin: units.dp(7)	//units.gu(1)
+    //property color borderColor: Theme.palette.normal.base //UbuntuColors.silk
     property list<Action> buttons
 
     width: bubble.width + 2*margin
@@ -38,7 +38,7 @@ Item {
             radius: size/2
             color: Theme.palette.normal.overlay
             border {
-                color: borderColor
+                color: Theme.palette.normal.base
                 width: units.dp(1)
             }
 
@@ -70,12 +70,13 @@ Item {
         }
     }
 
-    DropShadow {
+    /*
+	DropShadow {
         anchors.fill: container
         radius: 1.5*margin
         samples: 16
         source: container
         color: borderColor
         verticalOffset: 0.25*margin
-    }
+    }*/
 }

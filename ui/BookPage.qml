@@ -155,8 +155,11 @@ PageWithBottomEdge {
         
         // relaxed layout uses more space, nicer on wider screens
         // there is one button more on the right, so we check there
-		property bool relaxed_layout: parent.width * 0.5 >=
-			jump_button.width + content_button.width + settings_button.width
+		property bool relaxed_layout: parent.width * 0.5 >= jump_button.width + content_button.width + settings_button.width
+		
+		// When relaxed layout is not used in small enought screens buttons overlap
+		// This reduce button size of a ratio to make them fit
+		//property double button_reduction_ratio: 
 		
         FloatingButton {
 			id: home_button
@@ -176,7 +179,7 @@ PageWithBottomEdge {
         }
 		FloatingButton {
 			id: history_button
-			anchors.right: relaxed_layout ? parent.horizontalCenter : jump_button.left
+			anchors.right: jump_button.left
             buttons: [
                 Action {
                     iconName: "undo"
@@ -208,8 +211,11 @@ PageWithBottomEdge {
         }
         FloatingButton {
 			id: jump_button
-			anchors.left: relaxed_layout ? parent.horizontalCenter : undefined
-			anchors.right: relaxed_layout ? undefined : content_button.left
+			//anchors.left: relaxed_layout ? parent.horizontalCenter : undefined
+			//anchors.right: relaxed_layout ? undefined : content_button.left
+			anchors.right: content_button.left
+			anchors.rightMargin: relaxed_layout ? parent.width * 0.5 - content_button.width - settings_button.width - width : 0
+			
 			buttons: [
 				Action {
 					iconName: "go-previous"
@@ -236,8 +242,8 @@ PageWithBottomEdge {
                 Action {
                     iconName: "book"
                     onTriggered: {
-						openContent()
 						closeControls()
+						openContent()
                     }
                 }
             ]
@@ -729,13 +735,18 @@ PageWithBottomEdge {
 		pageMetric.increment()
 	}
 
+	onWidthChanged: windowSizeChanged()
+	onHeightChanged: windowSizeChanged()
+	
     function windowSizeChanged() {
-		bookWebView.runJavaScript("reader.resized();");
+		bookWebView.opacity = 0
+		loadingIndicator.opacity = 1
+		bookWebView.runJavaScript("reader.resized();")
     }
 
-    Component.onCompleted: {
+    /*Component.onCompleted: {
         server.reader.contentsReady.connect(parseContents)
         onWidthChanged.connect(windowSizeChanged)
         onHeightChanged.connect(windowSizeChanged)
-    }
+    }*/
 }
