@@ -299,7 +299,7 @@ PageWithBottomEdge {
 
         property string textColor
         property string fontFamily
-        property var lineHeight
+        property real lineHeight
         property real fontScale
         property string background
         property real margin
@@ -309,7 +309,7 @@ PageWithBottomEdge {
         property var defaults: ({
             textColor: "#222",
             fontFamily: "Default",
-            lineHeight: "Default",
+            lineHeight: 1,
             fontScale: 1,
             background: "url(.background_paper@30.png)",
             margin: 0,
@@ -660,7 +660,7 @@ PageWithBottomEdge {
 			
 			BusyIndicator {
 				width: height
-				height: units.dp(30)
+				height: units.dp(35)
 				anchors.horizontalCenter: parent.horizontalCenter
 				opacity: loadingIndicator.opacity
 				running: opacity != 0
@@ -680,9 +680,7 @@ PageWithBottomEdge {
 				}
 			}
 			fontSelector.currentIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
-			//fontScaleSlider.value = 4 + 4 * Math.LOG2E * Math.log(bookStyles.fontScale)
 			fontScaleSlider.value = bookStyles.fontScale
-			//lineHeightSlider.value = (bookStyles.lineHeight == "Default") ? 0.8 : bookStyles.lineHeight
 			lineHeightSlider.value = bookStyles.lineHeight
 			marginSlider.value = bookStyles.margin
 		}
