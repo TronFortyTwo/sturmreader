@@ -454,10 +454,12 @@ PageWithBottomEdge {
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
 		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(450)))
+		height: Math.min(parent.height*0.9, stylesFlickable.contentHeight + stylesToolbar.height + units.dp(50))
 		
 		modal: true
 		
 		header: ToolBar {
+			id: stylesToolbar
 			width: parent.width
 			RowLayout {
 				anchors.fill: parent
@@ -473,197 +475,209 @@ PageWithBottomEdge {
 			}
 		}
 		
-		Column {
-			id: settingsColumn
-			
+		//BusyIndicator {
+		//	width: height
+		//	height: units.dp(35)
+		//	anchors.right: parent.right
+		//	anchors.top: stylesToolbar.bottom
+		//	opacity: loadingIndicator.opacity
+		//	running: opacity != 0
+		//}
+		
+		Flickable {
+			id: stylesFlickable
+			clip: true
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
 			width: parent.width
-			height: parent.height
+			contentWidth: parent.width
+			contentHeight: settingsColumn.height
 			
-			spacing: units.dp(20)
+			ScrollBar.vertical: ScrollBar { }
 			
-			ComboBox {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.8
-				id: colorSelector
-				displayText: styleModel.get(currentIndex).stext
-				model: ListModel {
-					id: styleModel
-					ListElement {
-						stext: "Black on White"
-						back: "white"
-						fore: "black"
-						comboboxback: "white"
-						comboboxfore: "black"
-					}
-					ListElement {
-						stext: "Dark on Texture"
-						back: "url(.background_paper@30.png)"
-						fore: "#222"
-						comboboxback: "#dddddd"
-						comboboxfore: "#222222"
-					}
-					ListElement {
-						stext: "Light on Texture"
-						back: "url(.background_paper_invert@30.png)"
-						fore: "#999"
-						comboboxback: "#222222"
-						comboboxfore: "#dddddd"
-					}
-					ListElement {
-						stext: "White on Black"
-						back: "black"
-						fore: "white"
-						comboboxback: "black"
-						comboboxfore: "white"
-					}
-				}
-				onCurrentIndexChanged: {
-					bookStyles.textColor = styleModel.get(currentIndex).fore
-					bookStyles.background = styleModel.get(currentIndex).back
-				}
-				delegate: ItemDelegate {
-					highlighted: colorSelector.highlightedIndex === index
-					width: parent.width
-					contentItem: Text {
-						text: stext
-						color: comboboxfore
-					}
-					background: Rectangle {
-						color: comboboxback
-					}
-				}
-			}
-			ComboBox {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.8
-				id: fontSelector
-				visible: !server.reader.pictureBook
-				onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
-				displayText: (model[currentIndex] == "Default") ? i18n.tr("Default Font") : model[currentIndex]
+			Column {
+				id: settingsColumn
+				width: parent.width
+				anchors.centerIn: parent.center
 				
-				model: fontLister.fontList
+				spacing: units.dp(20)
 				
-				delegate: ItemDelegate {
-					highlighted: fontSelector.highlightedIndex === index
-					width: parent.width
-					contentItem: Text {
-						text: (modelData == "Default") ? i18n.tr("Default Font") : modelData
-						font.family: modelData
+				ComboBox {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.8
+					id: colorSelector
+					displayText: styleModel.get(currentIndex).stext
+					model: ListModel {
+						id: styleModel
+						ListElement {
+							stext: "Black on White"
+							back: "white"
+							fore: "black"
+							comboboxback: "white"
+							comboboxfore: "black"
+						}
+						ListElement {
+							stext: "Dark on Texture"
+							back: "url(.background_paper@30.png)"
+							fore: "#222"
+							comboboxback: "#dddddd"
+							comboboxfore: "#222222"
+						}
+						ListElement {
+							stext: "Light on Texture"
+							back: "url(.background_paper_invert@30.png)"
+							fore: "#999"
+							comboboxback: "#222222"
+							comboboxfore: "#dddddd"
+						}
+						ListElement {
+							stext: "White on Black"
+							back: "black"
+							fore: "white"
+							comboboxback: "black"
+							comboboxfore: "white"
+						}
+					}
+					onCurrentIndexChanged: {
+						bookStyles.textColor = styleModel.get(currentIndex).fore
+						bookStyles.background = styleModel.get(currentIndex).back
+					}
+					delegate: ItemDelegate {
+						highlighted: colorSelector.highlightedIndex === index
+						width: parent.width
+						contentItem: Text {
+							text: stext
+							color: comboboxfore
+						}
+						background: Rectangle {
+							color: comboboxback
+						}
+					}
+				}
+				ComboBox {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.8
+					id: fontSelector
+					visible: !server.reader.pictureBook
+					onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
+					displayText: (model[currentIndex] == "Default") ? i18n.tr("Default Font") : model[currentIndex]
+					
+					model: fontLister.fontList
+					
+					delegate: ItemDelegate {
+						highlighted: fontSelector.highlightedIndex === index
+						width: parent.width
+						contentItem: Text {
+							text: (modelData == "Default") ? i18n.tr("Default Font") : modelData
+							font.family: modelData
+							color: theme.palette.normal.foregroundText
+						}
+					}
+				}
+
+				Row {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.9
+					visible: !server.reader.pictureBook
+					Text {
+						/*/ Prefer string of < 16 characters /*/
+						text: i18n.tr("Font Scaling")
 						color: theme.palette.normal.foregroundText
+						verticalAlignment: Text.AlignVCenter
+						wrapMode: Text.Wrap
+						width: stylesDialog.labelwidth
+						height: fontScaleSlider.height
+					}
+
+					Slider {
+						id: fontScaleSlider
+						width: parent.width - stylesDialog.labelwidth
+						from: 0.5
+						to: 4
+						stepSize: 0.25
+						snapMode: Slider.snapAlways
+						onMoved: bookStyles.fontScale = value
 					}
 				}
-			}
 
-			Row {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.9
-				visible: !server.reader.pictureBook
-				Text {
-					/*/ Prefer string of < 16 characters /*/
-					text: i18n.tr("Font Scaling")
-					color: theme.palette.normal.foregroundText
-					verticalAlignment: Text.AlignVCenter
-					wrapMode: Text.Wrap
-					width: stylesDialog.labelwidth
-					height: fontScaleSlider.height
+				Row {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.9
+					visible: !server.reader.pictureBook
+					Text {
+						/*/ Prefer string of < 16 characters /*/
+						text: i18n.tr("Line Height")
+						color: theme.palette.normal.foregroundText
+						verticalAlignment: Text.AlignVCenter
+						wrapMode: Text.Wrap
+						width: stylesDialog.labelwidth
+						height: lineHeightSlider.height
+					}
+
+					Slider {
+						id: lineHeightSlider
+						width: parent.width - stylesDialog.labelwidth
+						from: 0.8
+						to: 2
+						stepSize: 0.2
+						snapMode: Slider.snapAlways
+						onMoved: bookStyles.lineHeight = value
+					}
 				}
 
-				Slider {
-					id: fontScaleSlider
-					width: parent.width - stylesDialog.labelwidth
-					from: 0.5
-					to: 4
-					stepSize: 0.25
-					snapMode: Slider.snapAlways
-					onMoved: bookStyles.fontScale = value
-				}
-			}
+				Row {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.9
+					visible: !server.reader.pictureBook
+					Text {
+						/*/ Prefer string of < 16 characters /*/
+						text: i18n.tr("Margins")
+						color: theme.palette.normal.foregroundText
+						verticalAlignment: Text.AlignVCenter
+						wrapMode: Text.Wrap
+						width: stylesDialog.labelwidth
+						height: marginSlider.height
+					}
 
-			Row {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.9
-				visible: !server.reader.pictureBook
-				Text {
-					/*/ Prefer string of < 16 characters /*/
-					text: i18n.tr("Line Height")
-					color: theme.palette.normal.foregroundText
-					verticalAlignment: Text.AlignVCenter
-					wrapMode: Text.Wrap
-					width: stylesDialog.labelwidth
-					height: lineHeightSlider.height
-				}
-
-				Slider {
-					id: lineHeightSlider
-					width: parent.width - stylesDialog.labelwidth
-					from: 0.8
-					to: 2
-					stepSize: 0.2
-					snapMode: Slider.snapAlways
-					onMoved: bookStyles.lineHeight = value
-				}
-			}
-
-			Row {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.9
-				visible: !server.reader.pictureBook
-				Text {
-					/*/ Prefer string of < 16 characters /*/
-					text: i18n.tr("Margins")
-					color: theme.palette.normal.foregroundText
-					verticalAlignment: Text.AlignVCenter
-					wrapMode: Text.Wrap
-					width: stylesDialog.labelwidth
-					height: marginSlider.height
+					Slider {
+						id: marginSlider
+						width: parent.width - stylesDialog.labelwidth
+						from: 0
+						to: 30
+						stepSize: 3
+						snapMode: Slider.snapAlways
+						function formatValue(v) { return Math.round(v) + "%" }
+						onValueChanged: bookStyles.margin = value
+					}
 				}
 
-				Slider {
-					id: marginSlider
-					width: parent.width - stylesDialog.labelwidth
-					from: 0
-					to: 30
-					stepSize: 3
-					snapMode: Slider.snapAlways
-					function formatValue(v) { return Math.round(v) + "%" }
-					onValueChanged: bookStyles.margin = value
+				Row {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.8
+					spacing: width - setDefault.width - loadDefaults.width
+					Button {
+						id: setDefault
+						/*/ Prefer < 16 characters /*/
+						text: i18n.tr("Make Default")
+						enabled: !bookStyles.atdefault
+						onClicked: bookStyles.saveAsDefault()
+					}
+					Button {
+						id: loadDefaults
+						/*/ Prefer < 16 characters /*/
+						text: i18n.tr("Load Defaults")
+						enabled: !bookStyles.atdefault
+						onClicked: bookStyles.resetToDefaults()
+					}
 				}
-			}
-
-			Row {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.8
-				spacing: width - setDefault.width - loadDefaults.width
+				
 				Button {
-					id: setDefault
-					/*/ Prefer < 16 characters /*/
-					text: i18n.tr("Make Default")
-					enabled: !bookStyles.atdefault
-					onClicked: bookStyles.saveAsDefault()
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.8
+					text: i18n.tr("Close")
+					highlighted: true
+					onClicked: stylesDialog.close()
 				}
-				Button {
-					id: loadDefaults
-					/*/ Prefer < 16 characters /*/
-					text: i18n.tr("Load Defaults")
-					enabled: !bookStyles.atdefault
-					onClicked: bookStyles.resetToDefaults()
-				}
-			}
-			
-			Button {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.8
-				text: i18n.tr("Close")
-				highlighted: true
-				onClicked: stylesDialog.close()
-			}
-			
-			BusyIndicator {
-				width: height
-				height: units.dp(35)
-				anchors.horizontalCenter: parent.horizontalCenter
-				opacity: loadingIndicator.opacity
-				running: opacity != 0
 			}
 		}
 		
