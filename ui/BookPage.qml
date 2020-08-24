@@ -5,7 +5,7 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.9
+import QtQuick 2.4
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtWebEngine 1.7
@@ -242,7 +242,6 @@ PageWithBottomEdge {
                 Action {
                     iconName: "book"
                     onTriggered: {
-						closeControls()
 						openContent()
                     }
                 }
@@ -660,6 +659,8 @@ PageWithBottomEdge {
 			}
 			
 			BusyIndicator {
+				width: height
+				height: units.dp(30)
 				anchors.horizontalCenter: parent.horizontalCenter
 				opacity: loadingIndicator.opacity
 				running: opacity != 0
@@ -734,9 +735,6 @@ PageWithBottomEdge {
 		})
 		pageMetric.increment()
 	}
-
-	onWidthChanged: windowSizeChanged()
-	onHeightChanged: windowSizeChanged()
 	
     function windowSizeChanged() {
 		bookWebView.opacity = 0
@@ -744,9 +742,9 @@ PageWithBottomEdge {
 		bookWebView.runJavaScript("reader.resized();")
     }
 
-    /*Component.onCompleted: {
+    Component.onCompleted: {
         server.reader.contentsReady.connect(parseContents)
         onWidthChanged.connect(windowSizeChanged)
         onHeightChanged.connect(windowSizeChanged)
-    }*/
+    }
 }
