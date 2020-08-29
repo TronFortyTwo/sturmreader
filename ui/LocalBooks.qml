@@ -24,7 +24,7 @@ Page {
 
     //flickable: gridview
 
-    property int sort: headertabs.currentIndex
+    property int sort: footertabs.currentIndex
     property bool needsort: false
     property bool firststart: false
     property bool wide: false
@@ -95,7 +95,7 @@ Page {
 	}
     
 	footer:	TabBar {
-		id: headertabs
+		id: footertabs
 		width: parent.width
 		TabButton {
 			text: i18n.tr("Recently Read")
@@ -650,12 +650,7 @@ Page {
         id: listview
         x: 0
 
-        anchors {
-            //top: header.bottom
-        }
-
-        height: parent.height
-        width: parent.width
+        anchors.fill: parent
 
         clip: true
 
@@ -682,11 +677,11 @@ Page {
     ListView {
         id: perAuthorListView
         anchors {
+			top: listview.top
             left: listview.right
-            //top: header.bottom
+            bottom: listview.bottom
         }
         width: wide ? parent.width / 2 : parent.width
-        height: parent.height
         clip: true
 
         model: perAuthorModel
@@ -697,14 +692,11 @@ Page {
 
     GridView {
         id: gridview
-        anchors {
-			//top: header.bottom
-            left: parent.left
-            right: parent.right
-            leftMargin: gridmargin
-            rightMargin: gridmargin
-        }
-        height: mainView.height
+        
+        anchors.fill: parent
+        anchors.leftMargin: gridmargin
+		anchors.rightMargin: gridmargin
+        
         clip: true
         cellWidth: width / Math.floor(width/mingridwidth)
         cellHeight: cellWidth*1.5
