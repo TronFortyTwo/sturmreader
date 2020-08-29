@@ -53,7 +53,7 @@ Page {
     Dialog {
 		id: content
 		width: Math.min(parent.width, units.gu(1000))
-		height: parent.height * 0.75
+		height: Math.max(parent.height * 0.75, Math.min(parent.height, units.dp(500)))
 		y: (parent.height - height) * 0.5
 		x: (parent.width - width) * 0.5
 		dim: true

@@ -24,7 +24,7 @@ Item {
     property int margin: units.dp(size * margin_to_size_ratio)
     // the maximum size allowed for the component
 	property int max_size: units.dp(100)
-	// the btton size
+	// the button size
 	property int size: Math.min(best_size, max_size / (1 + 2*margin_to_size_ratio))
     
     property list<Action> buttons

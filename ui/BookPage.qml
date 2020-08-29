@@ -241,6 +241,7 @@ PageWithBottomEdge {
                     iconName: "book"
                     onTriggered: {
 						openContent()
+						closeControls()
                     }
                 }
             ]
