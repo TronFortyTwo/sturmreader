@@ -453,7 +453,7 @@ PageWithBottomEdge {
 		
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(450)))
+		width: Math.min(parent.width, Math.max(parent.width * 0.5, units.dp(450)))
 		height: Math.min(parent.height*0.9, stylesFlickable.contentHeight + stylesToolbar.height + units.dp(50))
 		
 		modal: true
@@ -472,21 +472,24 @@ PageWithBottomEdge {
 					verticalAlignment: Qt.AlignVCenter
 					Layout.fillWidth: true
 				}
+				
+				BusyIndicator {
+					width: height
+					height: units.dp(25)
+					anchors.right: parent.right
+					anchors.top: stylesToolbar.bottom
+					opacity: loadingIndicator.opacity
+					running: opacity != 0
+				}
 			}
 		}
 		
-		//BusyIndicator {
-		//	width: height
-		//	height: units.dp(35)
-		//	anchors.right: parent.right
-		//	anchors.top: stylesToolbar.bottom
-		//	opacity: loadingIndicator.opacity
-		//	running: opacity != 0
-		//}
-		
 		Flickable {
 			id: stylesFlickable
+			
 			clip: true
+			boundsBehavior: Flickable.OvershootBounds
+			
 			anchors.top: parent.top
 			anchors.bottom: parent.bottom
 			width: parent.width
@@ -651,24 +654,21 @@ PageWithBottomEdge {
 					}
 				}
 
-				Row {
+				Button {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.8
-					spacing: width - setDefault.width - loadDefaults.width
-					Button {
-						id: setDefault
-						/*/ Prefer < 16 characters /*/
-						text: i18n.tr("Make Default")
-						enabled: !bookStyles.atdefault
-						onClicked: bookStyles.saveAsDefault()
-					}
-					Button {
-						id: loadDefaults
-						/*/ Prefer < 16 characters /*/
-						text: i18n.tr("Load Defaults")
-						enabled: !bookStyles.atdefault
-						onClicked: bookStyles.resetToDefaults()
-					}
+					/*/ Prefer < 16 characters /*/
+					text: i18n.tr("Make Default")
+					enabled: !bookStyles.atdefault
+					onClicked: bookStyles.saveAsDefault()
+				}
+				Button {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.8
+					/*/ Prefer < 16 characters /*/
+					text: i18n.tr("Load Defaults")
+					enabled: !bookStyles.atdefault
+					onClicked: bookStyles.resetToDefaults()
 				}
 				
 				Button {
