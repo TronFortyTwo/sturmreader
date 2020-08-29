@@ -152,13 +152,15 @@ PageWithBottomEdge {
         // there is one button more on the right, so we check there
 		property bool relaxed_layout: parent.width * 0.5 >= jump_button.width + content_button.width + settings_button.width
 		
-		// When relaxed layout is not used in small enought screens buttons overlap
-		// This reduce button size of a ratio to make them fit
-		//property double button_reduction_ratio: 
+		// reduce button size when even not relaxed layout not enought
+		// 7 is the number of buttons
+		// Not 100% accurate alghorithm, but this convers just edge cases (very small phone display)
+		property int max_button_size: width / 7 - units.dp(1.5)
 		
         FloatingButton {
 			id: home_button
             anchors.left: parent.left
+            max_size: max_button_size
             buttons: [
                 Action {
                     iconName: "go-home"
@@ -175,6 +177,7 @@ PageWithBottomEdge {
 		FloatingButton {
 			id: history_button
 			anchors.right: jump_button.left
+			max_size: max_button_size
             buttons: [
                 Action {
                     iconName: "undo"
@@ -206,10 +209,9 @@ PageWithBottomEdge {
         }
         FloatingButton {
 			id: jump_button
-			//anchors.left: relaxed_layout ? parent.horizontalCenter : undefined
-			//anchors.right: relaxed_layout ? undefined : content_button.left
 			anchors.right: content_button.left
 			anchors.rightMargin: relaxed_layout ? parent.width * 0.5 - content_button.width - settings_button.width - width : 0
+			max_size: max_button_size
 			
 			buttons: [
 				Action {
@@ -233,6 +235,7 @@ PageWithBottomEdge {
         FloatingButton {
 			id: content_button
             anchors.right: settings_button.left
+            max_size: max_button_size
             buttons: [
                 Action {
                     iconName: "book"
@@ -244,7 +247,8 @@ PageWithBottomEdge {
         }
         FloatingButton {
 			id: settings_button
-            anchors.right: parent.right
+			anchors.right: parent.right
+			max_size: max_button_size
             buttons: [
                 Action {
                     iconName: "settings"

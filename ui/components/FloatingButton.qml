@@ -16,9 +16,17 @@ import Units 1.0
 Item {
     id: floatingButton
 
-    property int size: units.dp(48)		//units.gu(6)
-    property int margin: units.dp(7)	//units.gu(1)
-    //property color borderColor: Theme.palette.normal.base //UbuntuColors.silk
+    property real margin_to_size_ratio: 0.1
+    
+    // the size recommended for the button
+    property int best_size: units.dp(45)
+	// the size of the margin
+    property int margin: units.dp(size * margin_to_size_ratio)
+    // the maximum size allowed for the component
+	property int max_size: units.dp(100)
+	// the btton size
+	property int size: Math.min(best_size, max_size / (1 + 2*margin_to_size_ratio))
+    
     property list<Action> buttons
 
     width: bubble.width + 2*margin
@@ -69,14 +77,4 @@ Item {
             }
         }
     }
-
-    /*
-	DropShadow {
-        anchors.fill: container
-        radius: 1.5*margin
-        samples: 16
-        source: container
-        color: borderColor
-        verticalOffset: 0.25*margin
-    }*/
 }
