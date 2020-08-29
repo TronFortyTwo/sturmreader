@@ -28,6 +28,9 @@ ApplicationWindow {
     objectName: "mainView"
     id: mainView
     
+    property string defaultTitle: "Sturm Reader"
+    title: defaultTitle
+    
     //applicationName: "sturmreader.emanuelesorce"
     
     //automaticOrientation: true

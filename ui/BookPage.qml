@@ -175,6 +175,7 @@ PageWithBottomEdge {
 						closeControls()
 						turnControlsOff()
 						pageStack.pop()
+						mainView.title = mainView.defaultTitle
                     }
                 }
             ]
