@@ -5,19 +5,18 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtWebEngine 1.7
-
-import UserMetrics 0.1 as UUITK
 
 import FontList 1.0
 import Units 1.0
 
 import "components"
-import "historystack.js" as History
+import "not-portable"
 
+import "historystack.js" as History
 
 PageWithBottomEdge {
     id: bookPage
@@ -135,13 +134,9 @@ PageWithBottomEdge {
 			focus = false;
 		}
 	}
-
-	UUITK.Metric {
+	
+	Metrics {
 		id: pageMetric
-		name: "page-turn-metric"
-		format: i18n.tr("Pages read today: %1")
-		emptyFormat: i18n.tr("No pages read today")
-		domain: Qt.application.name
 	}
 
     bottomEdgeControls: Rectangle {
@@ -745,7 +740,7 @@ PageWithBottomEdge {
 			componentId: book_componentId,
 			percent: Number(book_percent)
 		})
-		pageMetric.increment()
+		pageMetric.turnPage()
 	}
 	
     function windowSizeChanged() {

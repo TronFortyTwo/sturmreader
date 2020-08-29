@@ -3,6 +3,9 @@
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
+ * 
+ * This file is part of Sturm Reader and is distributed under the terms of
+ * the GPL. See the file COPYING for full details.
  */
 
 import QtQuick 2.9

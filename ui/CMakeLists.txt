@@ -1,4 +1,5 @@
 set(UI_SRC_FILES
+
 	About.qml
 	BookPage.qml
 	DefaultCover.qml
@@ -8,13 +9,18 @@ set(UI_SRC_FILES
 	main.qml
 	Reader.qml
 	Server.qml
+	
+	not-portable/Metrics.qml
+	
 	components/FloatingButton.qml
 	components/PageWithBottomEdge.qml
 	components/SwipeControl.qml
 	components/Action.qml
 	components/Icon.qml
+	
 	images/error_cover.svg
 	images/error_cover_full.svg
+	
 	Icons/add.svg
 	Icons/book.svg
 	Icons/go-home.svg
