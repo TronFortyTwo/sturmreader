@@ -53,8 +53,7 @@ PageWithBottomEdge {
             if (history)
                 history.clear()
             url = ""
-            bookWebView.opacity = 0
-            loadingIndicator.opacity = 1
+			bookLoadingStart()
             closeContent()
         } else {
             bookStyles.loadForBook()
@@ -72,6 +71,14 @@ PageWithBottomEdge {
         running: opacity != 0
     }
     
+    function bookLoadingStart(){
+		bookWebView.opacity = 0
+		loadingIndicator.opacity = 1
+	}
+	function bookLoadingCompleted(){
+		bookWebView.opacity = 1
+		loadingIndicator.opacity = 0
+	}
     
 	WebEngineView {
 		id: bookWebView
@@ -96,8 +103,7 @@ PageWithBottomEdge {
 					doPageChangeAsSoonAsReady = true;
 				else
 				{
-					loadingIndicator.opacity = 0;
-					bookWebView.opacity = 1;
+					bookLoadingCompleted()
 					bookPage.onPageChange();
 				}
 			}
@@ -105,10 +111,9 @@ PageWithBottomEdge {
 				isBookReady = true
 				if(doPageChangeAsSoonAsReady) {
 					bookPage.onPageChange()
-					doPageChangeAsSoonAsReady = false;
+					doPageChangeAsSoonAsReady = false
 				}
-				bookWebView.opacity = 1
-				loadingIndicator.opacity = 0
+				bookLoadingCompleted()
 				openControls()
 			}
 			else if(msg[0] == "status_requested") {
@@ -186,8 +191,7 @@ PageWithBottomEdge {
                         var locus = history.goBackward()
                         if (locus !== null) {
 							navjump = true;
-							bookWebView.opacity = 0;
-							loadingIndicator.opacity = 1;
+							bookLoadingStart()
 							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
                         }
                     }
@@ -199,8 +203,7 @@ PageWithBottomEdge {
                         var locus = history.goForward()
                         if (locus !== null) {
 							navjump = true;
-							bookWebView.opacity = 0;
-							loadingIndicator.opacity = 1;
+							bookLoadingStart()
 							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
                         }
                     }
@@ -217,16 +220,14 @@ PageWithBottomEdge {
 				Action {
 					iconName: "go-previous"
 					onTriggered: {
-						bookWebView.opacity = 0;
-						loadingIndicator.opacity = 1;
+						bookLoadingStart()
 						bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: -10}))");
 					}
 				},
 				Action {
 					iconName: "go-next"
 					onTriggered: {
-						bookWebView.opacity = 0;
-						loadingIndicator.opacity = 1;
+						bookLoadingStart()
 						bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: 10}))");
 					}
 				}
@@ -274,6 +275,7 @@ PageWithBottomEdge {
 				text: (new Array(model.level + 1)).join("    ") +
 						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
 				onClicked: {
+					bookLoadingStart()
 					bookWebView.runJavaScript("reader.skipToChapter(" + JSON.stringify(model.src) + ");");
 					closeContent()
 				}
@@ -358,9 +360,7 @@ PageWithBottomEdge {
             if (loading)
                 return
                 
-			// start loading
-			loadingIndicator.opacity = 1;
-			bookWebView.opacity = 0;
+			bookLoadingStart()
 			
             //Messaging.sendMessage("Styles", asObject())
             // this one below should be improved
@@ -749,8 +749,7 @@ PageWithBottomEdge {
 	}
 	
     function windowSizeChanged() {
-		bookWebView.opacity = 0
-		loadingIndicator.opacity = 1
+		bookLoadingStart()
 		bookWebView.runJavaScript("reader.resized();")
     }
 
