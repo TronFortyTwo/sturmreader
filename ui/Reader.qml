@@ -4,7 +4,7 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
 import Epub 1.0
 
 
@@ -61,11 +61,15 @@ Item {
     }
 
     function hash() {
-        return currentReader.hash
+		if (currentReader !== undefined)
+			return currentReader.hash
+		else return undefined
     }
 
     function title() {
-        return currentReader.title
+		if (currentReader !== undefined)
+			return currentReader.title
+		else return undefined
     }
 
     function serveBookData(response) {

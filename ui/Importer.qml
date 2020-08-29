@@ -4,13 +4,14 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
-import Ubuntu.Components.ListItems 1.3
-import Ubuntu.Content 1.3
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import Ubuntu.Components 1.3 as UUITK
+import Ubuntu.Components.Popups 1.3 as UUITK
+import Ubuntu.Components.ListItems 1.3 as UUITK
+import Ubuntu.Content 1.3 as UUITK
 
-import "components"
+//import "components"
 
 Item {
     id: importer
@@ -20,10 +21,10 @@ Item {
     property bool importing: false
 
     Connections {
-        target: ContentHub
+        target: UUITK.ContentHub
         onImportRequested: {
             activeTransfer = transfer
-            if (activeTransfer.state === ContentTransfer.Charged)
+            if (activeTransfer.state === UUITK.ContentTransfer.Charged)
                 importItems(activeTransfer.items)
         }
     }
@@ -31,7 +32,7 @@ Item {
     Connections {
         target: activeTransfer
         onStateChanged: {
-            if (activeTransfer.state === ContentTransfer.Charged)
+            if (activeTransfer.state === UUITK.ContentTransfer.Charged)
                 importItems(activeTransfer.items)
         }
     }
@@ -115,26 +116,34 @@ Item {
         id: itemList
     }
 
-    Page {
+    UUITK.Page {
         id: importPage
         visible: false
-        title: i18n.tr("Importing books...")
-        head.backAction: Action {
-            iconName: importing ? "preferences-system-updates-symbolic" : "back"
-            onTriggered: {
-                if (!importing) {
-                    itemList.clear()
-                    pageStack.pop()
-                }
-            }
+        header: UUITK.PageHeader {
+			id: importpageheader
+			title: i18n.tr("Importing books...")
+			leadingActionBar.actions: [
+				UUITK.Action {
+					iconName: importing ? "preferences-system-updates-symbolic" : "back"
+					onTriggered: {
+						if (!importing) {
+							itemList.clear()
+							pageStack.pop()
+						}
+					}
+				}
+			]
         }
 
         ListView {
             id: sourcesView
-            anchors.fill: parent
+            anchors.top: importpageheader.bottom
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
 
             model: itemList
-            delegate: Subtitled {
+            delegate: UUITK.Subtitled {
                 text: model.item.url.toString().split("/").pop()
                 subText: {
                     switch (model.state) {
@@ -156,27 +165,27 @@ Item {
                 }
             }
         }
-        Scrollbar {
+        UUITK.Scrollbar {
             flickableItem: sourcesView
             align: Qt.AlignTrailing
         }
     }
 
-    Page {
+    UUITK.Page {
 
-        header: PageHeader {
+        header: UUITK.PageHeader {
             visible: false
         }
 
         id: picker
         visible: false
-        ContentPeerPicker {
-            handler: ContentHandler.Source
-            contentType: ContentType.Documents
+        UUITK.ContentPeerPicker {
+            handler: UUITK.ContentHandler.Source
+            contentType: UUITK.ContentType.Documents
             headerText: i18n.tr("Import books from")
 
             onPeerSelected: {
-                peer.selectionType = ContentTransfer.Multiple
+                peer.selectionType = UUITK.ContentTransfer.Multiple
                 activeTransfer = peer.request()
                 pageStack.pop()
             }
@@ -185,7 +194,7 @@ Item {
         }
     }
 
-    ContentTransferHint {
+	UUITK.ContentTransferHint {
         activeTransfer: importer.activeTransfer
     }
 }

@@ -4,9 +4,9 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
-import Ubuntu.Components 1.3
-
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import Units 1.0
 
 Rectangle {
     id: swipeControl
@@ -16,16 +16,16 @@ Rectangle {
     clip: true
 
     property double lineWidth: units.dp(1)
-    property double marginWidth: units.gu(2)
+    property double marginWidth: units.dp(15)
     property double threshold: 0.5
     property string actionText: ""
     property string notificationText: ""
-    property color sliderColor: "white"
-    property color actionColor: "red"
+    property color sliderColor: theme.palette.normal.foreground
+    property color actionColor: theme.palette.normal.negative
 
     signal triggered
 
-    Label {
+    Text {
         id: actionLabel
         text: swipeControl.actionText
         anchors {
@@ -38,13 +38,13 @@ Rectangle {
         scale: (slider.x > slider.width * swipeControl.threshold) ? 1.0 : 0.8
 
         Behavior on opacity {
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.BriskDuration
+            NumberAnimation {
+                duration: 333
             }
         }
         Behavior on scale {
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.BriskDuration
+            NumberAnimation {
+                duration: 333
             }
         }
     }
@@ -61,8 +61,8 @@ Rectangle {
         width: parent.width
 
         Behavior on x {
-            UbuntuNumberAnimation {
-                duration: UbuntuAnimation.SnapDuration
+            NumberAnimation {
+                duration: 100
             }
         }
 
@@ -72,19 +72,21 @@ Rectangle {
             color: swipeControl.actionColor
             text: swipeControl.notificationText
         }
-
-        Icon {
-            name: "next"
-            anchors {
-                top: parent.top
-                topMargin: units.gu(1)
-                bottom: parent.bottom
-                bottomMargin: units.gu(1)
-                right: parent.right
-            }
-            width: height
-            color: swipeControl.actionColor
-        }
+		
+		Image {
+			source: "../Icons/go-next.svg"
+			asynchronous: true
+			anchors {
+				top: parent.top
+				topMargin: units.dp(5)
+				bottom: parent.bottom
+				bottomMargin: units.dp(5)
+				right: parent.right
+			}
+			width: height
+			sourceSize.width: width
+			sourceSize.height: height
+		}
     }
 
     MouseArea {
@@ -99,6 +101,7 @@ Rectangle {
             if (slider.x > slider.width * swipeControl.threshold) {
                 slider.x = slider.width
                 swipeControl.triggered()
+				slider.x = 0
             } else {
                 slider.x = 0
             }

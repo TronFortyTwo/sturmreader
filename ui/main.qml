@@ -12,63 +12,70 @@
 import QtQuick 2.9
 import QtQuick.LocalStorage 2.0
 import QtQuick.Window 2.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
+
 import Qt.labs.settings 1.0
 import File 1.0
+
+import Units 1.0
 
 import "components"
 
 
-MainView {
+ApplicationWindow {
     // objectName for functional testing purposes (autopilot-qt5)
     objectName: "mainView"
     id: mainView
     
-    applicationName: "sturmreader.emanuelesorce"
+    property string defaultTitle: "Sturm Reader"
+    title: defaultTitle
     
-    automaticOrientation: true
+    //applicationName: "sturmreader.emanuelesorce"
     
-    width: units.gu(200)
-    height: units.gu(200)
+    //automaticOrientation: true
+    
+    width: units.dp(800)
+    height: units.dp(600)
 
     FileSystem {
         id: filesystem
     }
 
-    PageStack {
+    StackView {
         id: pageStack
-        Component.onCompleted: push(localBooks)
-		onCurrentPageChanged: currentPage.forceActiveFocus()
-		
-		About {
-			id: about
-			visible: false
+		anchors.fill: parent
+        initialItem: localBooks
+		//onCurrentPageChanged: currentPage.forceActiveFocus()
+    }
+    
+    About {
+		id: about
+		visible: false
+	}
+	
+	LocalBooks {
+		id: localBooks
+		visible: false
+	}
+
+	BookPage {
+		id: bookPage
+		visible: false
+	}
+
+    Dialog {
+		id: errorOpenDialog
+		title: i18n.tr("Error Opening File")
+		modal: true
+		visible: false
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		Text {
+			text: server.reader.error
 		}
-		
-        LocalBooks {
-            id: localBooks
-            visible: false
-        }
-
-        BookPage {
-            id: bookPage
-            visible: false
-        }
-    }
-
-    Component {
-        id: errorOpen
-        Dialog {
-            id: errorOpenDialog
-            title: i18n.tr("Error Opening File")
-            text: server.reader.error
-            Button {
-                text: i18n.tr("OK")
-                onClicked: PopupUtils.close(errorOpenDialog)
-            }
-        }
-    }
+		standardButtons: Dialog.Ok
+	}
 
     Server {
         id: server
@@ -80,15 +87,16 @@ MainView {
 
     function loadFile(filename) {
         if (server.reader.load(filename)) {
-            while (pageStack.currentPage != localBooks)
+            while (pageStack.currentItem != localBooks)
                 pageStack.pop()
 
             pageStack.push(bookPage, {url: "http://127.0.0.1:" + server.port})
-            window.title = server.reader.title()
+            mainView.title = server.reader.title()
             localBooks.updateRead(filename)
+			bookPage.turnControlsOn()
             return true
         }
-        PopupUtils.open(errorOpen)
+        errorOpenDialog.open()
         return false
     }
 
@@ -172,27 +180,25 @@ MainView {
         }
     }
 
-    Arguments {
-        id: args
-
-        Argument {
-            name: "appargs"
-            required: true
-            valueNames: ["APP_ARGS"]
-        }
-    }
-
     Component.onCompleted: {
+		
+		Qt.application.name = "sturmreader.emanuelesorce"
+		
         var db = openSettingsDatabase()
         db.transaction(function (tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS Settings(key TEXT UNIQUE, value TEXT)")
         })
-
-        var filePath = filesystem.canonicalFilePath(args.values.appargs)
-        if (filePath !== "") {
-            if (loadFile(filePath))
-                localBooks.addFile(filePath)
-        }
+		
+		// TODO: support for importing using args
+		var bookarg = undefined //Qt.application.arguments[1]
+		if (bookarg != undefined && bookarg != "" && bookarg != null)
+		{
+			var filePath = filesystem.canonicalFilePath(bookarg)
+			if (filePath !== "") {
+				if (loadFile(filePath))
+					localBooks.addFile(filePath)
+			}
+		}
         
 		/*
         onWidthChanged.connect(sizeChanged)

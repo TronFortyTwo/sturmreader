@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Emanuele Sorce emanuele.sorce@hotmail.com
+ * Copyright 2020 Emanuele Sorce
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,11 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import Ubuntu.Components.ListItems 1.3 as ListItem
-import Ubuntu.Components 1.3 as Toolkit
-import Ubuntu.Components 1.3
+#ifndef UNITS_H
+#define UNITS_H
 
-Toolkit.OptionSelector{
+#include <QObject>
 
-}
+class Units : public QObject
+{
+	Q_OBJECT
+
+	public:
+		
+		Q_INVOKABLE int dp(double value) const;
+};
+
+#endif // FONTLISTER_H

@@ -3,41 +3,118 @@
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
+ * 
+ * This file is part of Sturm Reader and is distributed under the terms of
+ * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
-import Ubuntu.Components.Popups 1.3
+import QtQuick.Layouts 1.3
 
 import "components"
+
+import Units 1.0
 
 
 Page {
     id: localBooks
 
-    flickable: gridview
+    //flickable: gridview
 
-    property int sort: localBooks.header.extension.selectedIndex
+    property int sort: footertabs.currentIndex
     property bool needsort: false
     property bool firststart: false
     property bool wide: false
     property string bookdir: ""
     property bool readablehome: false
     property string defaultdirname: i18n.tr("Books")
-    property double gridmargin: units.gu(1)
-    property double mingridwidth: units.gu(15)
+    property double gridmargin: units.dp(10)
+    property double mingridwidth: units.dp(150)
     property bool reloading: false
 
+    background: Rectangle {
+		color: Theme.palette.normal.background
+	}
+    
+    header: ToolBar {
+		width: parent.width
+		RowLayout {
+			spacing: units.dp(20)
+			anchors.fill: parent
+			
+			Label {
+				text: "  " + i18n.tr("Library")
+				font.pixelSize: units.dp(27)
+				elide: Label.ElideRight
+				horizontalAlignment: Qt.AlignLeft
+				verticalAlignment: Qt.AlignVCenter
+				Layout.fillWidth: true
+			}
+			
+			ToolButton {
+				contentItem: Icon {
+					width: height
+					height: parent.height * 0.5
+					anchors.centerIn: parent
+					name: "add"
+					color: Theme.palette.normal.baseText
+				}
+				onClicked: pageStack.push(importer.pickerPage)
+			}
+			
+			ToolButton {
+				contentItem: Icon {
+					width: height
+					height: parent.height * 0.5
+					anchors.centerIn: parent
+					name: "info"
+					color: Theme.palette.normal.baseText
+				}
+				onClicked: pageStack.push(about)
+			}
+			
+			ToolButton {
+				contentItem: Icon {
+					width: height
+					height: parent.height * 0.5
+					anchors.centerIn: parent
+					name: "settings"
+					color: Theme.palette.normal.baseText
+				}
+				onClicked: {
+					if (localBooks.readablehome)
+						settingsDialog.open()
+					else
+						settingsDisabledDialog.open()
+				}
+			}
+		}
+	}
+    
+	footer:	TabBar {
+		id: footertabs
+		width: parent.width
+		TabButton {
+			text: i18n.tr("Recently Read")
+		}
+		TabButton {
+			text: i18n.tr("Title")
+		}
+		TabButton {
+			text: i18n.tr("Author")
+		}
+	}
+    
     onSortChanged: {
         listBooks()
         perAuthorModel.clear()
         adjustViews(false)
     }
     onWidthChanged: {
-        wide = (width >= units.gu(80))
+        wide = (width > units.dp(800))
         widthAnimation.enabled = false
         adjustViews(true)  // True to allow author's list if necessary
         widthAnimation.enabled = true
@@ -152,7 +229,7 @@ Page {
             localBooks.needsort = true
             var title, author, authorsort, cover, fullcover, hash
             if (coverReader.load(res.rows.item(0).filename)) {
-                var coverinfo = coverReader.getCoverInfo(units.gu(5), 2*mingridwidth)
+                var coverinfo = coverReader.getCoverInfo(units.dp(40), 2*mingridwidth)
                 title = coverinfo.title
                 if (title == "ZZZnone")
                     title = res.rows.item(0).title
@@ -244,16 +321,16 @@ Page {
         if (sort == 0) {
             listview.visible = false
             gridview.visible = true
-            localBooks.flickable = gridview
+            //localBooks.flickable = gridview
         } else {
             listview.visible = true
             gridview.visible = false
             if (!wide || sort != 2) {
                 listview.width = localBooks.width
                 listview.x = showAuthor ? -localBooks.width : 0
-                localBooks.flickable = showAuthor ? perAuthorListView : listview
+                //localBooks.flickable = showAuthor ? perAuthorListView : listview
             } else {
-                localBooks.flickable = null
+                //localBooks.flickable = null
                 listview.width = localBooks.width / 2
                 listview.x = 0
                 listview.topMargin = 0
@@ -306,6 +383,8 @@ Page {
                 tx.executeSql("UPDATE LocalBooks SET authorsort='zzznull'")
             })
         }
+        // refresh
+        readBookDir()
     }
 
     // We need to wait for main to be finished, so that the settings are available.
@@ -319,7 +398,7 @@ Page {
             readablehome = filesystem.readableHome()
             if (readablehome) {
                 setBookDir(filesystem.homePath() + "/" + defaultdirname)
-                PopupUtils.open(settingsComponent)
+                settingsDialog.open()
             } else {
                 setBookDir(filesystem.getDataDir(defaultdirname))
                 readBookDir()
@@ -361,48 +440,7 @@ Page {
 
     DefaultCover {
         id: defaultCover
-    }
-
-    header: PageHeader {
-        id: header
-        title: i18n.tr("Library")
-
-        trailingActionBar {
-            actions: [
-                Action {
-                    text: i18n.tr("Get Books")
-                    iconName: "add"
-					onTriggered: pageStack.push(importer.pickerPage)
-                },
-                Action {
-                    text: i18n.tr("About")
-                    iconName: "info"
-					onTriggered: pageStack.push(about)
-                },
-                Action {
-                    text: i18n.tr("Settings")
-                    iconName: "settings"
-                    onTriggered: {
-                        if (localBooks.readablehome)
-                            PopupUtils.open(settingsComponent)
-                        else
-                            PopupUtils.open(settingsDisabledComponent)
-                    }
-                }
-
-            ]
-        }
-        extension: Sections {
-            id: hsections
-            model: [i18n.tr("Recently Read"), i18n.tr("Title"), i18n.tr("Author")]
-            anchors {
-                left: parent.left
-                bottom: parent.bottom
-                leftMargin: units.gu(2)
-            }
-        }
-    }
-
+	}
 
     Component {
         id: coverDelegate
@@ -481,7 +519,7 @@ Page {
                 radius: 1.5*gridmargin
                 samples: 16
                 source: image
-                color: UbuntuColors.graphite
+                color: "#666666" //UbuntuColors.graphite
                 verticalOffset: 0.25*gridmargin
             }
 
@@ -501,59 +539,95 @@ Page {
 
     Component {
         id: titleDelegate
-        Subtitled {
-            text: model.title
-            subText: model.author
-            iconSource: {
-                if (model.filename == "ZZZback")
-                    return "image://theme/back"
-                if (model.cover == "ZZZnone")
-                    return defaultCover.missingCover(model)
-                if (model.cover == "ZZZerror")
-                    return Qt.resolvedUrl("images/error_cover.svg")
-                return model.cover
-            }
-            iconFrame: model.filename != "ZZZback" && model.cover != "ZZZerror"
-            visible: model.filename != "ZZZback" || !wide
-            progression: false
-            onClicked: {
-                if (model.filename == "ZZZback") {
-                    perAuthorModel.needsclear = true
-                    adjustViews(false)
-                } else {
-                    // Save copies now, since these get cleared by loadFile (somehow...)
-                    var filename = model.filename
-                    var pasterror = model.cover == "ZZZerror"
-                    if (loadFile(filename) && pasterror)
-                        refreshCover(filename)
-                }
-            }
-            onPressAndHold: {
-                if (model.filename != "ZZZback")
-                    openInfoDialog(model)
-            }
-        }
+        ItemDelegate {
+			width: parent.width
+			contentItem: Row {
+				width: parent.width
+				height: units.dp(45)
+				spacing: width * 0.1
+				Image {
+					source: model.filename == "ZZZback" ? "image://theme/back" :
+							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
+							model.cover == "ZZZerror" ? "images/error_cover.svg" :
+								model.cover
+					height: parent.height * 0.75
+					sourceSize.height: height
+					sourceSize.width: width
+					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
+					visible: model.filename != "ZZZback" || !wide
+				}
+				Column {
+					height: parent.height
+					spacing: units.dp(5)
+					Text {
+						text: model.title
+						color: theme.palette.normal.backgroundText
+						font.pointSize: units.dp(12)
+					}
+					Text {
+						text: model.author
+						color: theme.palette.normal.backgroundText
+						font.pointSize: units.dp(9)
+					}
+				}
+			}
+			onClicked: {
+				if (model.filename == "ZZZback") {
+					perAuthorModel.needsclear = true
+					adjustViews(false)
+				} else {
+					// Save copies now, since these get cleared by loadFile (somehow...)
+					var filename = model.filename
+					var pasterror = model.cover == "ZZZerror"
+					if (loadFile(filename) && pasterror)
+						refreshCover(filename)
+				}
+			}
+			onPressAndHold: {
+				if (model.filename != "ZZZback")
+					openInfoDialog(model)
+			}
+		}
     }
 
     Component {
         id: authorDelegate
-        Subtitled {
-            text: model.author || i18n.tr("Unknown Author")
-            /*/ Argument will be at least 2. /*/
-            subText: (model.count > 1) ? i18n.tr("%1 Book", "%1 Books", model.count).arg(model.count)
-                                       : model.title
-            iconSource: {
-                if (model.count > 1)
-                    return "image://theme/contact"
-                if (model.cover == "ZZZnone")
-                    return defaultCover.missingCover(model)
-                if (model.cover == "ZZZerror")
-                    return Qt.resolvedUrl("images/error_cover.svg")
-                return model.cover
-            }
-            iconFrame: model.count == 1 && model.cover != "ZZZerror"
-            progression: model.count > 1
-            onClicked: {
+        
+        ItemDelegate {
+			width: parent.width
+			contentItem: Row {
+				width: parent.width
+				height: units.dp(45)
+				spacing: width * 0.1
+				Image {
+					source: model.count > 1 ? "image://theme/contact" :
+							model.filename == "ZZZback" ? "image://theme/back" :
+							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
+							model.cover == "ZZZerror" ? "images/error_cover.svg" :
+							model.cover
+					height: parent.height * 0.75
+					sourceSize.height: height
+					sourceSize.width: width
+					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
+					visible: model.filename != "ZZZback" || !wide
+				}
+				Column {
+					height: parent.height
+					spacing: units.dp(5)
+					Text {
+						text: model.author || i18n.tr("Unknown Author")
+						color: theme.palette.normal.backgroundText
+						font.pointSize: units.dp(12)
+					}
+					Text {
+						text: (model.count > 1) ? i18n.tr("%1 Book", "%1 Books", model.count).arg(model.count)
+								: model.title
+						color: theme.palette.normal.backgroundText
+						font.pointSize: units.dp(9)
+					}
+				}
+			}
+			onClicked: {
                 if (model.count > 1) {
                     listAuthorBooks(model.authorsort)
                     adjustViews(true)
@@ -569,19 +643,14 @@ Page {
                 if (model.count == 1)
                     openInfoDialog(model)
             }
-        }
+		}
     }
 
     ListView {
         id: listview
         x: 0
 
-        anchors {
-            top: header.bottom
-        }
-
-        height: parent.height
-        width: parent.width
+        anchors.fill: parent
 
         clip: true
 
@@ -590,8 +659,9 @@ Page {
         Behavior on x {
             id: widthAnimation
             NumberAnimation {
-                duration: UbuntuAnimation.BriskDuration
-                easing: UbuntuAnimation.StandardEasing
+                duration: 333 //UbuntuAnimation.BriskDuration
+                // TODO:
+                //easing: UbuntuAnimation.StandardEasing
 
                 onRunningChanged: {
                     if (!running && perAuthorModel.needsclear) {
@@ -601,68 +671,40 @@ Page {
                 }
             }
         }
-
-        PullToRefresh {
-            refreshing: reloading
-            onRefresh: readBookDir()
-        }
-    }
-
-    Scrollbar {
-        flickableItem: listview
-        align: Qt.AlignTrailing
+        ScrollBar.vertical: ScrollBar { }
     }
 
     ListView {
         id: perAuthorListView
         anchors {
+			top: listview.top
             left: listview.right
-            top: header.bottom
+            bottom: listview.bottom
         }
         width: wide ? parent.width / 2 : parent.width
-        height: parent.height
         clip: true
 
         model: perAuthorModel
         delegate: titleDelegate
-    }
-
-    Scrollbar {
-        flickableItem: perAuthorListView
-        align: Qt.AlignTrailing
+        
+        ScrollBar.vertical: ScrollBar { }
     }
 
     GridView {
         id: gridview
-        anchors {
-            top: header.bottom
-            left: parent.left
-            right: parent.right
-            leftMargin: gridmargin
-            rightMargin: gridmargin
-        }
-        height: mainView.height
+        
+        anchors.fill: parent
+        anchors.leftMargin: gridmargin
+		anchors.rightMargin: gridmargin
+        
         clip: true
         cellWidth: width / Math.floor(width/mingridwidth)
         cellHeight: cellWidth*1.5
 
         model: bookModel
         delegate: coverDelegate
-
-        PullToRefresh {
-            refreshing: reloading
-            onRefresh: readBookDir()
-        }
-    }
-
-    Scrollbar {
-        flickableItem: gridview
-        align: Qt.AlignTrailing
-        anchors {
-            right: localBooks.right
-            top: header.bottom
-            bottom: localBooks.bottom
-        }
+        
+        ScrollBar.vertical: ScrollBar { }
     }
 
     Item {
@@ -671,248 +713,321 @@ Page {
 
         Column {
             anchors.centerIn: parent
-            spacing: units.gu(2)
-            width: Math.min(units.gu(30), parent.width)
+            spacing: units.dp(16)
+            width: Math.min(units.dp(350), parent.width - units.gu(8))
 
-            Label {
+            Text {
                 id: noBooksLabel
+				anchors.horizontalCenter: parent.horizontalCenter
                 text: i18n.tr("No Books in Library")
-                fontSize: "large"
-                width: parent.width
-                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: units.dp(30)
+				horizontalAlignment: Text.AlignHCenter
+				width: parent.width
+				wrapMode: Text.Wrap
             }
 
-            Label {
+            Text {
                 /*/ A path on the file system. /*/
                 text: i18n.tr("Sturm Reader could not find any books for your library, and will " +
                               "automatically find all epub files in <i>%1</i>.  Additionally, any book " +
                               "opened will be added to the library.").arg(bookdir)
                 wrapMode: Text.Wrap
+				anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
             }
 
             Button {
                 text: i18n.tr("Get Books")
-                color: theme.palette.normal.positive
+				anchors.horizontalCenter: parent.horizontalCenter
+                highlighted: true
                 width: parent.width
-                onClicked: pageStack.push(bookSources)
+                onClicked: pageStack.push(importer.pickerPage)
             }
 
             Button {
                 text: i18n.tr("Search Again")
+				anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
                 onClicked: readBookDir()
             }
         }
     }
 
-
-
+    
     function openInfoDialog(book) {
-        var dialog = PopupUtils.open(infoComponent)
-        dialog.bookTitle = book.title
-        dialog.filename = book.filename
+		infoDialog.open()
+        infoDialog.bookTitle = book.title
+        infoDialog.filename = book.filename
 
         var dirs = ["/.local/share/%1", "/.local/share/ubuntu-download-manager/%1"]
         for (var i=0; i<dirs.length; i++) {
-            var path = filesystem.homePath() + dirs[i].arg(mainView.applicationName)
-            if (dialog.filename.slice(0, path.length) == path) {
-                dialog.allowDelete = true
+            var path = filesystem.homePath() + dirs[i].arg(Qt.application.name)
+            if (infoDialog.filename.slice(0, path.length) == path) {
+                infoDialog.allowDelete = true
                 break
             }
         }
-
         if (book.cover == "ZZZerror")
-            dialog.coverSource = defaultCover.errorCover(book)
+            infoDialog.coverSource = defaultCover.errorCover(book)
         else if (!book.fullcover)
-            dialog.coverSource = defaultCover.missingCover(book)
+            infoDialog.coverSource = defaultCover.missingCover(book)
         else
-            dialog.coverSource = book.fullcover
+            infoDialog.coverSource = book.fullcover
     }
+    
+    Dialog {
+		id: infoDialog
+		visible: false	
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
+		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(100))
+		
+		modal: true
+		standardButtons: Dialog.Close
+		
+		property alias coverSource: infoCover.source
+		property alias bookTitle: titleLabel.text
+		property alias filename: filenameLabel.text
+		property alias allowDelete: swipe.visible
+		
+		header: ToolBar {
+			width: parent.width
+			RowLayout {
+				anchors.fill: parent
+				Label {
+					id: titleLabel
+					font.pixelSize: units.dp(27)
+					color: theme.palette.normal.backgroundText
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
+				}
+			}
+		}
+		
+		Item {
+			id: dialogitem
+			anchors.fill: parent
 
-    Component {
-        id: infoComponent
+			Image {
+				id: infoCover
+				width: parent.width / 3
+				height: parent.width / 2
+				anchors {
+					left: parent.left
+					top: parent.top
+				}
+				fillMode: Image.PreserveAspectFit
+				// Prevent blurry SVGs
+				sourceSize.width: 2*localBooks.mingridwidth
+				sourceSize.height: 3*localBooks.mingridwidth
+			}
 
-        Dialog {
-            id: infoDialog
+			Column {
+				id: infoColumn
+				anchors {
+					left: infoCover.right
+					right: parent.right
+					top: parent.top
+					leftMargin: units.dp(18)
+				}
+				spacing: units.dp(20)
+				Text {
+					id: filenameLabel
+					width: parent.width
+					horizontalAlignment: Text.AlignLeft
+					font.pixelSize: units.dp(12)
+					color: theme.palette.normal.backgroundText
+					wrapMode: Text.WrapAnywhere
+				}
+				SwipeControl {
+					id: swipe
+					visible: false
+					/*/ A control can be dragged to delete a file.  The deletion occurs /*/
+					/*/ when the user releases the control. /*/
+					actionText: i18n.tr("Release to Delete")
+					/*/ A control can be dragged to delete a file. /*/
+					notificationText: i18n.tr("Swipe to Delete")
+					onTriggered: {
+						filesystem.remove(infoDialog.filename)
+						infoDialog.close()
+						readBookDir()
+					}
+				}
+			}
+		}
+	}
 
-            property alias coverSource: infoCover.source
-            property alias bookTitle: titleLabel.text
-            property alias filename: filenameLabel.text
-            property alias allowDelete: swipe.visible
+   Dialog {
+		id: settingsDialog
+		
+		property string homepath: filesystem.homePath() + "/"
+		
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
+		height: Math.min(parent.height*0.9, units.gu(600))
+		
+		modal: true
+		
+		header: ToolBar {
+			width: parent.width
+			RowLayout {
+				anchors.fill: parent
+				Label {
+					text: firststart ? i18n.tr("Welcome to Sturm Reader!") : i18n.tr("Default Book Location")
+					font.pixelSize: units.dp(27)
+					color: theme.palette.normal.backgroundText
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
+				}
+			}
+		}
+		
+		ColumnLayout {
+			
+			spacing: units.dp(20)
+			
+			/*/ Text precedes an entry for a file path. /*/
+			Text {
+				text: i18n.tr("Enter the folder in your home directory where your ebooks are or " +
+							"should be stored.\n\nChanging this value will not affect existing " +
+							"books in your library.")
+				color: theme.palette.normal.backgroundText
+			}
+	
+			TextField {
+				id: pathfield
+				text: {
+					if (bookdir.substring(0, settingsDialog.length) == settingsDialog.homepath)
+						return bookdir.substring(settingsDialog.homepath.length)
+					return bookdir
+				}
+				onTextChanged: {
+					var status = filesystem.exists(settingsDialog.homepath + pathfield.text)
+					if (status == 0) {
+						/*/ Create a new directory from path given. /*/
+						useButton.text = i18n.tr("Create Directory")
+						useButton.enabled = true
+					} else if (status == 1) {
+						/*/ File exists with path given. /*/
+						useButton.text = i18n.tr("File Exists")
+						useButton.enabled = false
+					} else if (status == 2) {
+						if (settingsDialog.homepath + pathfield.text == bookdir && !firststart)
+							/*/ Read the books in the given directory again. /*/
+							useButton.text = i18n.tr("Reload Directory")
+						else
+							/*/ Use directory specified to store books. /*/
+							useButton.text = i18n.tr("Use Directory")
+						useButton.enabled = true
+					}
+				}
+			}
 
-            Item {
-                height: Math.max(infoCover.height, infoColumn.height)
+			Button {
+				id: useButton
+				onClicked: {
+					var status = filesystem.exists(settingsDialog.homepath + pathfield.text)
+					if (status != 1) { // Should always be true
+						if (status == 0)
+							filesystem.makeDir(settingsDialog.homepath + pathfield.text)
+						setBookDir(settingsDialog.homepath + pathfield.text)
+						useButton.enabled = false
+						useButton.text = i18n.tr("Please wait...")
+						cancelButton.enabled = false
+						unblocker.start()
+					}
+				}
+			}
 
-                Image {
-                    id: infoCover
-                    width: parent.width / 3
-                    height: parent.width / 2
-                    anchors {
-                        left: parent.left
-                        top: parent.top
-                    }
-                    fillMode: Image.PreserveAspectFit
-                    // Prevent blurry SVGs
-                    sourceSize.width: 2*localBooks.mingridwidth
-                    sourceSize.height: 3*localBooks.mingridwidth
-                }
+			Timer {
+				id: unblocker
+				interval: 10
+				onTriggered: {
+					readBookDir()
+					settingsDialog.close()
+					firststart = false
+				}
+			}
 
-                Column {
-                    id: infoColumn
-                    anchors {
-                        left: infoCover.right
-                        right: parent.right
-                        top: parent.top
-                        leftMargin: units.gu(2)
-                    }
-                    spacing: units.gu(2)
+			Button {
+				id: cancelButton
+				text: i18n.tr("Cancel")
+				visible: !firststart
+				onClicked: settingsDialog.close()
+			}
+		}
+	}
 
-                    Label {
-                        id: titleLabel
-                        width: parent.width
-                        horizontalAlignment: Text.AlignHCenter
-                        fontSize: "large"
-                        color: UbuntuColors.darkGrey
-                        wrapMode: Text.Wrap
-                    }
-                    Label {
-                        id: filenameLabel
-                        width: parent.width
-                        horizontalAlignment: Text.AlignLeft
-                        fontSize: "small"
-                        color: UbuntuColors.darkGrey
-                        wrapMode: Text.WrapAnywhere
-                    }
-                }
-            }
+    Dialog {
+		id: settingsDisabledDialog
+		
+		header: ToolBar {
+			id: settingsDisabledHeader
+			width: parent.width
+			RowLayout {
+				anchors.fill: parent
+				Label {
+					text: i18n.tr("Default Book Location")
+					font.pixelSize: units.dp(27)
+					color: theme.palette.normal.backgroundText
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
+				}
+			}
+		}
+		
+		x: Math.round((parent.width - width) / 2)
+        y: Math.round((parent.height - height) / 2)
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
+		height: Math.min(parent.height*0.9, settingsDisabledColumn.height + settingsDisabledHeader.height + units.dp(50))
+		
+		modal: true
+		
+		/*/ A path on the file system. /*/
+		Column {
+			id: settingsDisabledColumn
+			
+			width: parent.width
+			spacing: units.dp(20)
+			
+			Text {
+				text: i18n.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
+							"from accessing most of your home directory.  Ebooks should be put in " +
+							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
+				color: theme.palette.normal.backgroundText
+				width: parent.width
+				wrapMode: Text.WordWrap
+			}
+			
+			Button {
+				width: parent.width * 0.7
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: i18n.tr("Reload Directory")
+				// We don't bother with the Timer trick here since we don't get this dialog on
+				// first launch, so we shouldn't have too many books added to the library when
+				// this button is clicked.s
+				onClicked: {
+					settingsDisabledDialog.close()
+					readBookDir()
+				}
+			}
 
-            SwipeControl {
-                id: swipe
-                visible: false
-                /*/ A control can be dragged to delete a file.  The deletion occurs /*/
-                /*/ when the user releases the control. /*/
-                actionText: i18n.tr("Release to Delete")
-                /*/ A control can be dragged to delete a file. /*/
-                notificationText: i18n.tr("Swipe to Delete")
-                onTriggered: {
-                    filesystem.remove(infoDialog.filename)
-                    PopupUtils.close(infoDialog)
-                    readBookDir()
-                }
-            }
-
-            Button {
-                text: i18n.tr("Close")
-                onClicked: PopupUtils.close(infoDialog)
-            }
-        }
-    }
-
-    Component {
-        id: settingsComponent
-
-        Dialog {
-            id: settingsDialog
-            title: firststart ? i18n.tr("Welcome to Sturm Reader!") : i18n.tr("Default Book Location")
-            /*/ Text precedes an entry for a file path. /*/
-            text: i18n.tr("Enter the folder in your home directory where your ebooks are or " +
-                          "should be stored.\n\nChanging this value will not affect existing " +
-                          "books in your library.")
-            property string homepath: filesystem.homePath() + "/"
-
-            TextField {
-                id: pathfield
-                text: {
-                    if (bookdir.substring(0, homepath.length) == homepath)
-                        return bookdir.substring(homepath.length)
-                    return bookdir
-                }
-                onTextChanged: {
-                    var status = filesystem.exists(homepath + pathfield.text)
-                    if (status == 0) {
-                        /*/ Create a new directory from path given. /*/
-                        useButton.text = i18n.tr("Create Directory")
-                        useButton.enabled = true
-                    } else if (status == 1) {
-                        /*/ File exists with path given. /*/
-                        useButton.text = i18n.tr("File Exists")
-                        useButton.enabled = false
-                    } else if (status == 2) {
-                        if (homepath + pathfield.text == bookdir && !firststart)
-                            /*/ Read the books in the given directory again. /*/
-                            useButton.text = i18n.tr("Reload Directory")
-                        else
-                            /*/ Use directory specified to store books. /*/
-                            useButton.text = i18n.tr("Use Directory")
-                        useButton.enabled = true
-                    }
-                }
-            }
-
-            Button {
-                id: useButton
-                onClicked: {
-                    var status = filesystem.exists(homepath + pathfield.text)
-                    if (status != 1) { // Should always be true
-                        if (status == 0)
-                            filesystem.makeDir(homepath + pathfield.text)
-                        setBookDir(homepath + pathfield.text)
-                        useButton.enabled = false
-                        useButton.text = i18n.tr("Please wait...")
-                        cancelButton.enabled = false
-                        unblocker.start()
-                    }
-                }
-            }
-
-            Timer {
-                id: unblocker
-                interval: 10
-                onTriggered: {
-                    readBookDir()
-                    PopupUtils.close(settingsDialog)
-                    firststart = false
-                }
-            }
-
-            Button {
-                id: cancelButton
-                text: i18n.tr("Cancel")
-                visible: !firststart
-                onClicked: PopupUtils.close(settingsDialog)
-            }
-        }
-    }
-
-    Component {
-        id: settingsDisabledComponent
-
-        Dialog {
-            id: settingsDisabledDialog
-            title: i18n.tr("Default Book Location")
-            /*/ A path on the file system. /*/
-            text: i18n.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
-                             "from accessing most of your home directory.  Ebooks should be put in " +
-                             "<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
-
-            Button {
-                text: i18n.tr("Reload Directory")
-                // We don't bother with the Timer trick here since we don't get this dialog on
-                // first launch, so we shouldn't have too many books added to the library when
-                // this button is clicked.s
-                onClicked: {
-                    PopupUtils.close(settingsDisabledDialog)
-                    readBookDir()
-                }
-            }
-
-            Button {
-                color: theme.palette.normal.positive
-                text: i18n.tr("Close")
-                onClicked: PopupUtils.close(settingsDisabledDialog)
-            }
-        }
-    }
+			Button {
+				width: parent.width * 0.7
+				anchors.horizontalCenter: parent.horizontalCenter
+				highlighted: true
+				text: i18n.tr("Close")
+				onClicked: settingsDisabledDialog.close()
+			}
+		}
+	}
 }
