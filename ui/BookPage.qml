@@ -36,10 +36,12 @@ PageWithBottomEdge {
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
                 || event.key == Qt.Key_Period) {
-			bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: 1}))");
+			bookLoadingStart()
+			bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: 1}))")
         } else if (event.key == Qt.Key_Left || event.key == Qt.Key_Up
                    || event.key == Qt.Key_Backspace || event.key == Qt.Key_Comma) {
-			bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: -1}))");
+			bookLoadingStart()
+			bookWebView.runJavaScript("reader.moveTo(reader.getPlace().getLocus({direction: -1}))")
 		}
         event.accepted = true
     }

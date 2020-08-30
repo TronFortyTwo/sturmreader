@@ -3,11 +3,11 @@
 	"builder": "cmake",
 	"dependencies_target": [
 		"intltool",
-		"qtdeclarative5-u1db1.0",
 		"qtdeclarative5-usermetrics0.1",
 		"qtdeclarative5-ubuntu-content1",
 		"libpoppler-qt5-dev",
-		"qtdeclarative5-dev"
+		"qtdeclarative5-dev",
+		"qml-module-qtquick-controls2"
 	],
 	"dependencies_host": [
 		"gettext"
@@ -15,3 +15,4 @@
 	"dirty": true,
 	"default": "build install launch logs"
 }
+
