@@ -321,16 +321,13 @@ Page {
         if (sort == 0) {
             listview.visible = false
             gridview.visible = true
-            //localBooks.flickable = gridview
         } else {
             listview.visible = true
             gridview.visible = false
             if (!wide || sort != 2) {
                 listview.width = localBooks.width
                 listview.x = showAuthor ? -localBooks.width : 0
-                //localBooks.flickable = showAuthor ? perAuthorListView : listview
             } else {
-                //localBooks.flickable = null
                 listview.width = localBooks.width / 2
                 listview.x = 0
                 listview.topMargin = 0
@@ -519,7 +516,7 @@ Page {
                 radius: 1.5*gridmargin
                 samples: 16
                 source: image
-                color: "#666666" //UbuntuColors.graphite
+                color: "#666666"
                 verticalOffset: 0.25*gridmargin
             }
 
@@ -650,7 +647,8 @@ Page {
         id: listview
         x: 0
 
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
 
         clip: true
 
