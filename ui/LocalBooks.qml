@@ -867,7 +867,7 @@ Page {
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
 		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
-		height: Math.min(parent.height*0.9, units.gu(600))
+		height: Math.min(parent.height*0.9, units.dp(600))
 		
 		modal: true
 		

@@ -106,7 +106,7 @@ PageWithBottomEdge {
 				else
 				{
 					bookLoadingCompleted()
-					bookPage.onPageChange();
+					bookPage.onPageChange()
 				}
 			}
 			else if(msg[0] == "Ready") {
