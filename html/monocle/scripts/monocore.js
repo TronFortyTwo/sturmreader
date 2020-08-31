@@ -866,6 +866,10 @@ Gala.deafen = function (elem, evtType, fn, useCapture) {
 // the 'm' property -- eg, alert(evt.m) --> 'foo'
 //
 Gala.dispatch = function (elem, evtType, data, cancelable) {
+  
+	// launch events to log
+	console.log(evtType)
+  
   elem = Gala.$(elem);
   var evt;
   if (elem.dispatchEvent) {
@@ -2514,8 +2518,7 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
     if (!locus.direction) {
       dispatchEvent('monocle:turning');
       dispatchEvent('monocle:jumping', { locus: locus });
-	  // Sturm Reader hack:
-	  alert("Jumping " + JSON.stringify(getPlace().getLocus()) + " " + JSON.stringify(locus) );
+	  console.log("Jumping " + JSON.stringify(getPlace().getLocus()) + " " + JSON.stringify(locus) );
       fn = function () {
         dispatchEvent('monocle:jump', { locus: locus });
         if (callback) { callback(); }
@@ -2960,8 +2963,8 @@ Monocle.Book = function (dataSource, preloadWindow) {
           pageNumber: pageDiv.m.place.pageNumber(),
           componentId: locus.componentId
 		}
-		alert("componentId " + locus.componentId);
-		alert("status_requested")
+		console.log("componentId " + locus.componentId);
+		console.log("status_requested")
 		pageDiv.m.reader.dispatchEvent("monocle:pagechange", evtData);
       }
     }
@@ -5444,9 +5447,9 @@ Monocle.Flippers.Slider = function (reader) {
 
 
   function announceTurn() {
-    p.nextPageReady = true;
-    p.reader.dispatchEvent('monocle:turn');
-    resetTurnData();
+    p.nextPageReady = true
+    p.reader.dispatchEvent('monocle:turn')
+    resetTurnData()
   }
 
 

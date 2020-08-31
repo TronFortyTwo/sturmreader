@@ -87,15 +87,10 @@ PageWithBottomEdge {
 		anchors.fill: parent
 		opacity: 0
 		focus: false
-		onJavaScriptConsoleMessage: function(level, msg, linen, sourceID) {
-			console.log("WEB: " + msg + " | level: " + level + " | line: " + linen + " | source: " + sourceID);
-		}
-		onJavaScriptDialogRequested: function(request) {
-			request.accepted = true;
-			request.dialogAccept();
-			
-			console.log("got alert message: " + request.message );
-			var msg = request.message.split(" ");
+		onJavaScriptConsoleMessage: function(level, message, linen, sourceID) {
+			console.log("Book: " + message + " | level: " + level + " | line: " + linen + " | source: " + sourceID);
+		
+			var msg = message.split(" ");
 			
 			if(msg[0] == "Jumping") {
 				bookPage.onJumping([msg[1], msg[2]]);
@@ -130,8 +125,12 @@ PageWithBottomEdge {
 			else if(msg[0] == "componentId") {
 				book_componentId = msg[1];
 			}
+			else if(msg[0] == "monocle:notfound") {
+				// TODO: this should not happen
+				bookLoadingCompleted()
+			}
 			else
-				console.log("error: unrecognized request message: " + request.message );
+				console.log("error: unrecognized message");
 		}
 		
 		onActiveFocusChanged: {

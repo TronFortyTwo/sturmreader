@@ -23,9 +23,9 @@ the GPL. See the file COPYING for full details.
 var reader = null;
 
 function statusUpdate() {
-	alert("chapter " + JSON.stringify( reader.getPlace().chapterSrc() ) )
-	alert("percent " + JSON.stringify( reader.getPlace().percentageThrough() ) )
-	alert("PageChange");
+	console.log("chapter " + JSON.stringify( reader.getPlace().chapterSrc() ) )
+	console.log("percent " + JSON.stringify( reader.getPlace().percentageThrough() ) )
+	console.log("PageChange");
 }
 
 function createReader(bookData) {
@@ -37,7 +37,7 @@ function createReader(bookData) {
             var stencil = new Monocle.Controls.Stencil(reader);
             reader.addControl(stencil);
             styleManager.reader = reader;
-			alert("Ready");
+			console.log("Ready");
         }
     );
 }
