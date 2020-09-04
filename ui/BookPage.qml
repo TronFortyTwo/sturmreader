@@ -129,8 +129,10 @@ PageWithBottomEdge {
 				// TODO: this should not happen
 				bookLoadingCompleted()
 			}
+			// debug messages
+			else if(msg[0] == "#") {}
 			else
-				console.log("error: unrecognized message");
+				console.log("not handled");
 		}
 		
 		onActiveFocusChanged: {
@@ -278,7 +280,8 @@ PageWithBottomEdge {
 						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
 				onClicked: {
 					bookLoadingStart()
-					bookWebView.runJavaScript("reader.skipToChapter(" + JSON.stringify(model.src) + ");");
+					console.log(model.src)
+					bookWebView.runJavaScript('reader.skipToChapter("' + model.src + '")');
 					closeContent()
 				}
             }
@@ -479,7 +482,6 @@ PageWithBottomEdge {
 					width: height
 					height: units.dp(25)
 					anchors.right: parent.right
-					anchors.top: stylesToolbar.bottom
 					opacity: loadingIndicator.opacity
 					running: opacity != 0
 				}

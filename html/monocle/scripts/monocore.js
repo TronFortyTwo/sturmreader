@@ -868,8 +868,11 @@ Gala.deafen = function (elem, evtType, fn, useCapture) {
 Gala.dispatch = function (elem, evtType, data, cancelable) {
   
 	// launch events to log
-	console.log(evtType)
-  
+	if(evtType == "monocle:notfound")
+		console.log(evtType + " " + JSON.stringify(data))
+	else
+		console.log(evtType)
+		
   elem = Gala.$(elem);
   var evt;
   if (elem.dispatchEvent) {
@@ -2840,8 +2843,9 @@ Monocle.Book = function (dataSource, preloadWindow) {
       pageDiv.m.activeFrame.m.component :
       null;
     var component = null;
-    var cIndex = p.componentIds.indexOf(locus.componentId);
-    if (cIndex < 0 && !currComponent) {
+	var cIndex = componentIdIndex(locus.componentId)
+	
+	if (cIndex < 0 && !currComponent) {
       // No specified component, no current component. Load first component.
       locus.load = true;
       locus.componentId = p.componentIds[0];
@@ -2861,7 +2865,7 @@ Monocle.Book = function (dataSource, preloadWindow) {
       // No specified (or invalid) component, use current component.
       component = currComponent;
       locus.componentId = pageDiv.m.activeFrame.m.component.properties.id;
-      cIndex = p.componentIds.indexOf(locus.componentId);
+	  cIndex = componentIdIndex(locus.componentId)
     } else if (!p.components[cIndex] || p.components[cIndex] != currComponent) {
       // Specified component differs from current component. Load specified.
       locus.load = true;
@@ -2952,9 +2956,10 @@ Monocle.Book = function (dataSource, preloadWindow) {
       } else if (locus.boundaryend) {
         pageDiv.m.reader.dispatchEvent('monocle:boundaryend', evtData);
       } else {
-        var component = p.components[p.componentIds.indexOf(locus.componentId)];
-        pageDiv.m.place = pageDiv.m.place || new Monocle.Place();
-        pageDiv.m.place.setPlace(component, locus.page);
+		var component = p.components[componentIdIndex(locus.componentId)]
+		
+		pageDiv.m.place = pageDiv.m.place || new Monocle.Place();
+		pageDiv.m.place.setPlace(component, locus.page);
 		
 		// Sturm Reader hack:
 		evtData = {
@@ -2984,7 +2989,7 @@ Monocle.Book = function (dataSource, preloadWindow) {
   // offset to the given page in the locus passed to the callback.
   //
   function loadPageAt(pageDiv, locus, onLoad, onFail) {
-    var cIndex = p.componentIds.indexOf(locus.componentId);
+	var cIndex = componentIdIndex(locus.componentId)
     if (!locus.load || cIndex < 0) {
       locus = pageNumberAt(pageDiv, locus);
     }
@@ -3196,11 +3201,24 @@ Monocle.Book = function (dataSource, preloadWindow) {
 
 
   function componentIdMatching(str) {
-    str = decodeURIComponent(str);
+    str = decodeURIComponent(str)
     for (var i = 0, ii = p.componentIds.length; i < ii; ++i) {
       if (decodeURIComponent(p.componentIds[i]) == str) { return str; }
     }
     return null;
+  }
+  
+  // Similar as componentIdMatching() but
+  // returns the index of the matching element in p.componentIds
+  // returns -1 in case of not found
+  function componentIdIndex(str) {
+	  var i = p.componentIds.indexOf(str)
+	  if(i >= 0) return i
+	  let target = decodeURIComponent(str)
+	  for (i = 0, ii = p.componentIds.length; i < ii; ++i) {
+		  if (decodeURIComponent(p.componentIds[i]) == target) { return i; }
+	  }
+	  return -1;
   }
 
 
