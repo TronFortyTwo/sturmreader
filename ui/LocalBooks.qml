@@ -792,13 +792,15 @@ Page {
 		
 		header: ToolBar {
 			width: parent.width
+			height: titleLabel.height + units.dp(10)
 			RowLayout {
 				anchors.fill: parent
 				Label {
+					anchors.centerIn: parent
 					id: titleLabel
 					font.pixelSize: units.dp(27)
 					color: theme.palette.normal.backgroundText
-					elide: Label.ElideRight
+					wrapMode: Text.Wrap
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
 					Layout.fillWidth: true
