@@ -129,6 +129,7 @@ ApplicationWindow {
 		property alias y: mainView.y
 		property alias width: mainView.width
 		property alias height: mainView.height
+		property alias sort: localBooks.sort
 	}
 
     function getBookSetting(key) {

@@ -22,7 +22,7 @@ import Units 1.0
 Page {
     id: localBooks
 
-    property int sort: footertabs.currentIndex
+    property alias sort: footertabs.currentIndex
     property bool needsort: false
     property bool firststart: false
     property bool wide: false
