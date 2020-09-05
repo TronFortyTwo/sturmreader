@@ -10,6 +10,8 @@ import QtQuick.Layouts 1.3
 
 import "components"
 
+import Units 1.0
+
 Page {
 	id: bookSources
 	title: i18n.tr("About")
@@ -23,8 +25,7 @@ Page {
 			
 			ToolButton {
 				contentItem: Icon {
-					width: height
-					height: parent.height * 0.5
+					height: parent.height * 0.3
 					anchors.centerIn: parent
 					name: "go-previous"
 					color: theme.palette.normal.baseText
@@ -34,11 +35,12 @@ Page {
 			
 			Label {
 				text: i18n.tr("About")
-				font.pixelSize: units.dp(27)
+				font.pixelSize: units.dp(22)
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
 				Layout.fillWidth: true
+				Layout.fillHeight: true
 			}
 		}
 	}

@@ -94,17 +94,14 @@ PageWithBottomEdge {
 			
 			if(msg[0] == "Jumping") {
 				bookPage.onJumping([msg[1], msg[2]]);
-			}
-			else if(msg[0] == "PageChange") {
-				if(!isBookReady)
+			} else if(msg[0] == "PageChange") {
+				if(!isBookReady) {
 					doPageChangeAsSoonAsReady = true;
-				else
-				{
+				} else {
 					bookLoadingCompleted()
 					bookPage.onPageChange()
 				}
-			}
-			else if(msg[0] == "Ready") {
+			} else if(msg[0] == "Ready") {
 				isBookReady = true
 				if(doPageChangeAsSoonAsReady) {
 					bookPage.onPageChange()
@@ -112,27 +109,21 @@ PageWithBottomEdge {
 				}
 				bookLoadingCompleted()
 				openControls()
-			}
-			else if(msg[0] == "status_requested") {
+			} else if(msg[0] == "status_requested") {
 				bookWebView.runJavaScript("statusUpdate()");
-			}
-			else if(msg[0] == "chapter") {
+			} else if(msg[0] == "chapter") {
 				currentChapter = JSON.parse(msg[1]);
-			}
-			else if(msg[0] == "percent") {
+			} else if(msg[0] == "percent") {
 				book_percent = Number(msg[1]);
-			}
-			else if(msg[0] == "componentId") {
+			} else if(msg[0] == "componentId") {
 				book_componentId = msg[1];
-			}
-			else if(msg[0] == "monocle:notfound") {
+			} else if(msg[0] == "monocle:notfound") {
 				// TODO: this should not happen
 				bookLoadingCompleted()
 			}
 			// debug messages
 			else if(msg[0] == "#") {}
-			else
-				console.log("not handled");
+			else console.log("not handled");
 		}
 		
 		onActiveFocusChanged: {

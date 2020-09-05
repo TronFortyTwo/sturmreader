@@ -868,10 +868,7 @@ Gala.deafen = function (elem, evtType, fn, useCapture) {
 Gala.dispatch = function (elem, evtType, data, cancelable) {
   
 	// launch events to log
-	if(evtType == "monocle:notfound")
-		console.log(evtType + " " + JSON.stringify(data))
-	else
-		console.log(evtType)
+	console.log(evtType)
 		
   elem = Gala.$(elem);
   var evt;

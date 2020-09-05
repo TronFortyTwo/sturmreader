@@ -22,8 +22,6 @@ import Units 1.0
 Page {
     id: localBooks
 
-    //flickable: gridview
-
     property int sort: footertabs.currentIndex
     property bool needsort: false
     property bool firststart: false
@@ -42,12 +40,15 @@ Page {
     header: ToolBar {
 		width: parent.width
 		RowLayout {
-			spacing: units.dp(20)
-			anchors.fill: parent
+			spacing: units.dp(10)
+			anchors.top: parent.top
+			anchors.right: parent.right
+			anchors.bottom: parent.bottom
+			width: parent.width - units.dp(10)
 			
 			Label {
-				text: "  " + i18n.tr("Library")
-				font.pixelSize: units.dp(27)
+				text: i18n.tr("Library")
+				font.pixelSize: units.dp(22)
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
@@ -56,8 +57,7 @@ Page {
 			
 			ToolButton {
 				contentItem: Icon {
-					width: height
-					height: parent.height * 0.5
+					height: parent.height * 0.3
 					anchors.centerIn: parent
 					name: "add"
 					color: Theme.palette.normal.baseText
@@ -67,8 +67,7 @@ Page {
 			
 			ToolButton {
 				contentItem: Icon {
-					width: height
-					height: parent.height * 0.5
+					height: parent.height * 0.3
 					anchors.centerIn: parent
 					name: "info"
 					color: Theme.palette.normal.baseText
@@ -78,8 +77,7 @@ Page {
 			
 			ToolButton {
 				contentItem: Icon {
-					width: height
-					height: parent.height * 0.5
+					height: parent.height * 0.3
 					anchors.centerIn: parent
 					name: "settings"
 					color: Theme.palette.normal.baseText
