@@ -463,9 +463,9 @@ Page {
                             return defaultCover.missingCover(model)
                         return model.fullcover
                     }
-                    // Prevent blurry SVGs
-                    sourceSize.width: 2*localBooks.mingridwidth
-                    sourceSize.height: 3*localBooks.mingridwidth
+                    sourceSize.width: width
+                    sourceSize.height: height
+                    asynchronous: true
 
                     Text {
                         x: ((model.cover == "ZZZerror") ? 0.09375 : 0.125)*parent.width
@@ -480,11 +480,8 @@ Page {
                         style: Text.Raised
                         styleColor: defaultCover.highlightColor(model, defaultCover.hue(model))
                         font.family: "URW Bookman L"
-                        text: {
-                            if (!model.fullcover)
-                                return model.title
-                            return ""
-                        }
+						visible: !model.fullcover
+                        text: model.title
                     }
 
                     Text {
@@ -500,22 +497,20 @@ Page {
                         style: Text.Raised
                         styleColor: defaultCover.highlightColor(model, defaultCover.hue(model))
                         font.family: "URW Bookman L"
-                        text: {
-                            if (!model.fullcover)
-                                return model.author
-                            return ""
-                        }
+						visible: !model.fullcover
+                        text: model.author
                     }
                 }
             }
 
             DropShadow {
                 anchors.fill: image
-                radius: 1.5*gridmargin
-                samples: 16
+                radius: 12
+                samples: 12
                 source: image
-                color: "#666666"
-                verticalOffset: 0.25*gridmargin
+                color: Qt.tint(Theme.palette.normal.background, "#65666666")
+                verticalOffset: height * 0.025
+                horizontalOffset: width * 0.025
             }
 
             MouseArea {
@@ -546,6 +541,7 @@ Page {
 							model.cover == "ZZZerror" ? "images/error_cover.svg" :
 								model.cover
 					height: parent.height * 0.75
+					asynchronous: true
 					sourceSize.height: height
 					sourceSize.width: width
 					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
