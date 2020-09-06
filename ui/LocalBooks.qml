@@ -22,7 +22,7 @@ import Units 1.0
 Page {
     id: localBooks
 
-    property alias sort: footertabs.currentIndex
+    property alias sort: sorttabs.currentIndex
     property bool needsort: false
     property bool firststart: false
     property bool wide: false
@@ -37,72 +37,74 @@ Page {
 		color: Theme.palette.normal.background
 	}
     
-    header: ToolBar {
+    header: Column {
 		width: parent.width
-		RowLayout {
-			spacing: units.dp(10)
-			anchors.top: parent.top
-			anchors.right: parent.right
-			anchors.bottom: parent.bottom
-			width: parent.width - units.dp(10)
-			
-			Label {
-				text: i18n.tr("Library")
-				font.pixelSize: units.dp(22)
-				elide: Label.ElideRight
-				horizontalAlignment: Qt.AlignLeft
-				verticalAlignment: Qt.AlignVCenter
-				Layout.fillWidth: true
-			}
-			
-			ToolButton {
-				contentItem: Icon {
-					height: parent.height * 0.3
-					anchors.centerIn: parent
-					name: "add"
-					color: Theme.palette.normal.baseText
+		ToolBar {
+			width: parent.width
+			RowLayout {
+				spacing: units.dp(10)
+				anchors.top: parent.top
+				anchors.right: parent.right
+				anchors.bottom: parent.bottom
+				width: parent.width - units.dp(10)
+				
+				Label {
+					text: i18n.tr("Library")
+					font.pixelSize: units.dp(22)
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignLeft
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
 				}
-				onClicked: pageStack.push(importer.pickerPage)
-			}
-			
-			ToolButton {
-				contentItem: Icon {
-					height: parent.height * 0.3
-					anchors.centerIn: parent
-					name: "info"
-					color: Theme.palette.normal.baseText
+				
+				ToolButton {
+					contentItem: Icon {
+						height: parent.height * 0.2
+						anchors.centerIn: parent
+						name: "add"
+						color: Theme.palette.normal.baseText
+					}
+					onClicked: pageStack.push(importer.pickerPage)
 				}
-				onClicked: pageStack.push(about)
-			}
-			
-			ToolButton {
-				contentItem: Icon {
-					height: parent.height * 0.3
-					anchors.centerIn: parent
-					name: "settings"
-					color: Theme.palette.normal.baseText
+				
+				ToolButton {
+					contentItem: Icon {
+						height: parent.height * 0.2
+						anchors.centerIn: parent
+						name: "info"
+						color: Theme.palette.normal.baseText
+					}
+					onClicked: pageStack.push(about)
 				}
-				onClicked: {
-					if (localBooks.readablehome)
-						settingsDialog.open()
-					else
-						settingsDisabledDialog.open()
+				
+				ToolButton {
+					contentItem: Icon {
+						height: parent.height * 0.1
+						anchors.centerIn: parent
+						name: "settings"
+						color: Theme.palette.normal.baseText
+					}
+					onClicked: {
+						if (localBooks.readablehome)
+							settingsDialog.open()
+						else
+							settingsDisabledDialog.open()
+					}
 				}
 			}
 		}
-	}
-    
-	footer:	TabBar {
-		id: footertabs
-		width: parent.width
-		TabButton {
-			text: i18n.tr("Recently Read")
-		}
-		TabButton {
-			text: i18n.tr("Title")
-		}
-		TabButton {
-			text: i18n.tr("Author")
+		TabBar {
+			id: sorttabs
+			width: parent.width
+			TabButton {
+				text: i18n.tr("Recently Read")
+			}
+			TabButton {
+				text: i18n.tr("Title")
+			}
+			TabButton {
+				text: i18n.tr("Author")
+			}
 		}
 	}
     
@@ -531,16 +533,19 @@ Page {
         id: titleDelegate
         ItemDelegate {
 			width: parent.width
-			contentItem: Row {
-				width: parent.width
-				height: units.dp(45)
-				spacing: width * 0.1
+			contentItem: Item {
+				implicitWidth: parent.width
+				implicitHeight: units.dp(42)
 				Image {
+					id: titleDelegateImage
+					anchors.left: parent.left
+					anchors.verticalCenter: parent.verticalCenter
 					source: model.filename == "ZZZback" ? "image://theme/back" :
 							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
 							model.cover == "ZZZerror" ? "images/error_cover.svg" :
 								model.cover
-					height: parent.height * 0.75
+					height: units.dp(36)
+					width: units.dp(24)
 					asynchronous: true
 					sourceSize.height: height
 					sourceSize.width: width
@@ -549,16 +554,24 @@ Page {
 				}
 				Column {
 					height: parent.height
+					anchors.verticalCenter: parent.verticalCenter
+					anchors.left: titleDelegateImage.right
+					anchors.leftMargin: units.dp(20)
+					anchors.right: parent.right
 					spacing: units.dp(5)
 					Text {
+						width: parent.width
 						text: model.title
 						color: theme.palette.normal.backgroundText
 						font.pointSize: units.dp(12)
+						elide: Text.ElideRight
 					}
 					Text {
+						width: parent.width
 						text: model.author
 						color: theme.palette.normal.backgroundText
 						font.pointSize: units.dp(9)
+						elide: Text.ElideRight
 					}
 				}
 			}
@@ -588,7 +601,7 @@ Page {
 			width: parent.width
 			contentItem: Row {
 				width: parent.width
-				height: units.dp(45)
+				height: units.dp(42)
 				spacing: width * 0.1
 				Image {
 					source: model.count > 1 ? "image://theme/contact" :
