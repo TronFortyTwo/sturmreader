@@ -42,7 +42,7 @@ Page {
 		ToolBar {
 			width: parent.width
 			RowLayout {
-				spacing: units.dp(10)
+				spacing: units.dp(2)
 				anchors.top: parent.top
 				anchors.right: parent.right
 				anchors.bottom: parent.bottom
@@ -58,8 +58,8 @@ Page {
 				}
 				
 				ToolButton {
+					padding: units.dp(7)
 					contentItem: Icon {
-						height: parent.height * 0.2
 						anchors.centerIn: parent
 						name: "add"
 						color: Theme.palette.normal.baseText
@@ -68,8 +68,8 @@ Page {
 				}
 				
 				ToolButton {
+					padding: units.dp(7)
 					contentItem: Icon {
-						height: parent.height * 0.2
 						anchors.centerIn: parent
 						name: "info"
 						color: Theme.palette.normal.baseText
@@ -78,8 +78,8 @@ Page {
 				}
 				
 				ToolButton {
+					padding: units.dp(7)
 					contentItem: Icon {
-						height: parent.height * 0.1
 						anchors.centerIn: parent
 						name: "settings"
 						color: Theme.palette.normal.baseText

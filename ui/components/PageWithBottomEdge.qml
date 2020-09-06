@@ -87,7 +87,6 @@ Page {
 		id: controls
 		width: parent.width
 		height: controlLoader.height
-		z: 1
 		edge: Qt.BottomEdge
 		modal: false
 		

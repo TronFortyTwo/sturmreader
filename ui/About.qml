@@ -20,12 +20,12 @@ Page {
 		id: aboutheader
 		width: parent.width
 		RowLayout {
-			spacing: units.dp(20)
+			spacing: units.dp(10)
 			anchors.fill: parent
 			
 			ToolButton {
+				padding: units.dp(8)
 				contentItem: Icon {
-					height: parent.height * 0.2
 					anchors.centerIn: parent
 					name: "go-previous"
 					color: theme.palette.normal.baseText
