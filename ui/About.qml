@@ -14,7 +14,6 @@ import Units 1.0
 
 Page {
 	id: bookSources
-	title: i18n.tr("About")
 	
 	header: ToolBar {
 		id: aboutheader
@@ -24,7 +23,7 @@ Page {
 			anchors.fill: parent
 			
 			ToolButton {
-				padding: units.dp(8)
+				padding: units.dp(7)
 				contentItem: Icon {
 					anchors.centerIn: parent
 					name: "go-previous"

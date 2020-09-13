@@ -21,7 +21,7 @@ import File 1.0
 import Units 1.0
 
 import "components"
-
+import "not-portable"
 
 ApplicationWindow {
     // objectName for functional testing purposes (autopilot-qt5)
