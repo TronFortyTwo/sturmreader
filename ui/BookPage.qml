@@ -3,6 +3,9 @@
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
+ * 
+ * This file is part of Sturm Reader and is distributed under the terms of
+ * the GPL. See the file COPYING for full details.
  */
 
 import QtQuick 2.9
@@ -32,7 +35,6 @@ PageWithBottomEdge {
     property string book_componentId;
 	property real book_percent;
 
-    focus: true
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
                 || event.key == Qt.Key_Period) {
@@ -86,7 +88,6 @@ PageWithBottomEdge {
 		id: bookWebView
 		anchors.fill: parent
 		opacity: 0
-		focus: false
 		onJavaScriptConsoleMessage: function(level, message, linen, sourceID) {
 			console.log("Book: " + message + " | level: " + level + " | line: " + linen + " | source: " + sourceID);
 		
@@ -129,8 +130,6 @@ PageWithBottomEdge {
 		onActiveFocusChanged: {
 			if(activeFocus)
 				closeControls()
-			// reject attempts to give WebView focus
-			focus = false;
 		}
 	}
 	
