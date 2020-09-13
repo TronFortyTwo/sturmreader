@@ -544,7 +544,6 @@ Page {
 							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
 							model.cover == "ZZZerror" ? "images/error_cover.svg" :
 								model.cover
-					height: units.dp(36)
 					width: units.dp(24)
 					asynchronous: true
 					sourceSize.height: height
@@ -599,17 +598,19 @@ Page {
         
         ItemDelegate {
 			width: parent.width
-			contentItem: Row {
-				width: parent.width
-				height: units.dp(42)
-				spacing: width * 0.1
+			contentItem: Item {
+				implicitWidth: parent.width
+				implicitHeight: units.dp(42)
 				Image {
+					id: authorDelegateImage
+					anchors.left: parent.left
+					anchors.verticalCenter: parent.verticalCenter
 					source: model.count > 1 ? "image://theme/contact" :
 							model.filename == "ZZZback" ? "image://theme/back" :
 							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
 							model.cover == "ZZZerror" ? "images/error_cover.svg" :
 							model.cover
-					height: parent.height * 0.75
+					width: units.dp(24)
 					sourceSize.height: height
 					sourceSize.width: width
 					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
@@ -617,6 +618,10 @@ Page {
 				}
 				Column {
 					height: parent.height
+					anchors.verticalCenter: parent.verticalCenter
+					anchors.left: authorDelegateImage.right
+					anchors.leftMargin: units.dp(20)
+					anchors.right: parent.right
 					spacing: units.dp(5)
 					Text {
 						text: model.author || i18n.tr("Unknown Author")

@@ -6,10 +6,12 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import Ubuntu.Components 1.3 as UUITK
-import Ubuntu.Components.Popups 1.3 as UUITK
-import Ubuntu.Components.ListItems 1.3 as UUITK
+import QtQuick.Layouts 1.3
+
 import Ubuntu.Content 1.3 as UUITK
+
+import "components"
+import "not-portable"
 
 //import "components"
 
@@ -116,67 +118,92 @@ Item {
         id: itemList
     }
 
-    UUITK.Page {
+    Page {
         id: importPage
         visible: false
-        header: UUITK.PageHeader {
-			id: importpageheader
-			title: i18n.tr("Importing books...")
-			leadingActionBar.actions: [
-				UUITK.Action {
-					iconName: importing ? "preferences-system-updates-symbolic" : "back"
-					onTriggered: {
+        
+		header: ToolBar {
+			width: parent.width
+			RowLayout {
+				spacing: units.dp(2)
+				anchors.fill: parent
+				
+				ToolButton {
+					padding: units.dp(7)
+					contentItem: Icon {
+						anchors.centerIn: parent
+						name: importing ? "refresh" : "go-previous"
+						color: Theme.palette.normal.baseText
+					}
+					onClicked: {
 						if (!importing) {
 							itemList.clear()
 							pageStack.pop()
 						}
 					}
 				}
-			]
-        }
-
+				
+				Label {
+					text: i18n.tr("Importing books...")
+					font.pixelSize: units.dp(22)
+					elide: Label.ElideRight
+					horizontalAlignment: Qt.AlignLeft
+					verticalAlignment: Qt.AlignVCenter
+					Layout.fillWidth: true
+				}
+			}
+		}
+        
         ListView {
             id: sourcesView
-            anchors.top: importpageheader.bottom
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.fill: parent
 
             model: itemList
-            delegate: UUITK.Subtitled {
-                text: model.item.url.toString().split("/").pop()
-                subText: {
-                    switch (model.state) {
-                    case importState.new:
-                        return i18n.tr("Waiting")
-                    case importState.processing:
-                        return i18n.tr("Processing")
-                    case importState.imported:
-                        return i18n.tr("Imported to %1").arg(model.importName)
-                    case importState.exists:
-                        return i18n.tr("Already in library: %1").arg(model.importName)
-                    case importState.error:
-                        return i18n.tr("Error: %1").arg(model.error.split("\n\n")[0])
-                    }
-                }
-                onClicked: {
+            delegate: ItemDelegate {
+				width: parent.width
+				contentItem: Item {
+					implicitWidth: parent.width
+					implicitHeight: units.dp(42)
+					Column {
+						anchors.left: parent.left
+						anchors.right: parent.right
+						anchors.verticalCenter: parent.verticalCenter
+						spacing: units.dp(5)
+						Text {
+							text: model.item.url.toString().split("/").pop()
+							color: theme.palette.normal.backgroundText
+							font.pointSize: units.dp(12)
+						}
+						Text {
+							text: {
+								switch (model.state) {
+									case importState.new:
+										return i18n.tr("Waiting")
+									case importState.processing:
+										return i18n.tr("Processing")
+									case importState.imported:
+										return i18n.tr("Imported to %1").arg(model.importName)
+									case importState.exists:
+										return i18n.tr("Already in library: %1").arg(model.importName)
+									case importState.error:
+										return i18n.tr("Error: %1").arg(model.error.split("\n\n")[0])
+								}
+							}
+							color: theme.palette.normal.backgroundText
+							font.pointSize: units.dp(9)
+						}
+					}
+				}
+				onClicked: {
                     if (!importing)
                         clearAndLoad(model)
                 }
-            }
-        }
-        UUITK.Scrollbar {
-            flickableItem: sourcesView
-            align: Qt.AlignTrailing
+			}
+			ScrollBar.vertical: ScrollBar { }
         }
     }
 
-    UUITK.Page {
-
-        header: UUITK.PageHeader {
-            visible: false
-        }
-
+    Page {
         id: picker
         visible: false
         UUITK.ContentPeerPicker {
