@@ -1,11 +1,16 @@
 set(HTML_SRC_FILES
+    
     index.html
+    pdf.html
     instantslider.js
     styling.js
+    
     monocle/scripts/monocore.js
     monocle/scripts/monoctrl.js
     monocle/styles/monocore.css
     monocle/styles/monoctrl.css
+    
+    pdfjs/build/pdf.js
 )
 set(HTML_SUPPORTING_FILES
     background_paper@30.png

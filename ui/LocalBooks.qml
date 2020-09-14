@@ -670,7 +670,7 @@ Page {
             id: widthAnimation
             NumberAnimation {
                 duration: 300
-                easing: Easing.OutQuad
+                easing.type: Easing.OutQuad
 
                 onRunningChanged: {
                     if (!running && perAuthorModel.needsclear) {

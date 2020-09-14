@@ -83,8 +83,7 @@ ApplicationWindow {
         if (server.reader.load(filename)) {
             while (pageStack.currentItem != localBooks)
                 pageStack.pop()
-
-            pageStack.push(bookPage, {url: "http://127.0.0.1:" + server.port})
+            pageStack.push(bookPage, {url: "http://127.0.0.1:" + server.port + "/" + server.reader.fileType})
             mainView.title = server.reader.title()
             localBooks.updateRead(filename)
 			bookPage.turnControlsOn()

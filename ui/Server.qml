@@ -2,11 +2,15 @@
  *
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
+ * 
+ * Copyright 2020 Emanuele Sorce
+ *
+ * This file is part of Sturm Reader and is distributed under the terms of
+ * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
 import HttpServer 1.0
-
 
 HttpServer {
     id: server
@@ -47,7 +51,14 @@ HttpServer {
     }
     
     onNewRequest: { // request, response
-        if (request.path == "/")
+		// new pdf reader
+		if (request.path == "/PDF")
+			return static_file("pdf.html", response)
+        // the monocle reader
+		if (request.path == "/EPUB")
+            return static_file("index.html", response)
+		// TODO: CBZ is more pdf than epub
+		if (request.path == "/CBZ")
             return static_file("index.html", response)
         if (request.path == "/.bookdata.js")
             return reader.serveBookData(response)

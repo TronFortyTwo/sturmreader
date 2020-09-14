@@ -12,6 +12,6 @@
 	"dependencies_host": [
 		"gettext"
 	],
-	"default": "build install launch logs"
+	"default": "clean build install launch logs"
 }
 
