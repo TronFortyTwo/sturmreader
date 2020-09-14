@@ -16,16 +16,17 @@ Item {
     property string fileType: ""
     property var currentReader: {
         switch (fileType) {
-        case "EPUB":
-            return epub
-        case "CBZ":
-            return cbz
-        case "PDF":
-            return pdf
-        default:
-            return undefined
+			case "EPUB":
+				return epub
+			case "CBZ":
+				return cbz
+			case "PDF":
+				return pdf
+			default:
+				return undefined
         }
     }
+    property string filename: ""
     property bool pictureBook: currentReader !== epub
     property string error: {
         if (currentReader === undefined)
@@ -53,7 +54,8 @@ Item {
         height: mainView.height
     }
 
-    function load(filename) {
+    function load(fn) {
+		filename = fn
         fileType = filesystem.fileType(filename)
         if (currentReader === undefined)
             return false

@@ -10,8 +10,6 @@ the GPL. See the file COPYING for full details.
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, user-scalable=no">
 
-<script src=".pdfjs/build/pdf.js"></script>
-
 <style type="text/css">
 	#the-canvas {
 		border: 1px solid black;
@@ -19,10 +17,24 @@ the GPL. See the file COPYING for full details.
 	}
 </style>
 
+<script src=".pdfjs/build/pdf.js"></script>
+<!--script src=".pdfdata.js"></script-->
 <script>
+
 window.onload = function () {
-	console.log("Ready")
+	
+	var pdfjsLib = window['pdfjs-dist/build/pdf']
+	
+	pdfjsLib.GlobalWorkerOptions.workerSrc = '.pdfjs/build/pdf.worker.js';
+	
+	var loading = pdfjsLib.getDocument("book.pdf")
+	
+	loading.promise.then(function(pdf) {
+		
+		console.log("Ready")
+	});
 }
+
 </script>
 
 </head>

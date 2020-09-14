@@ -748,7 +748,7 @@ PageWithBottomEdge {
 	
     function windowSizeChanged() {
 		bookLoadingStart()
-		bookWebView.runJavaScript("reader.resized();")
+		bookWebView.runJavaScript("reader.resized()")
     }
 
     Component.onCompleted: {

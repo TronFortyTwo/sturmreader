@@ -60,6 +60,10 @@ HttpServer {
 		// TODO: CBZ is more pdf than epub
 		if (request.path == "/CBZ")
             return static_file("index.html", response)
+		
+		if (request.path == "/book.pdf")
+			return static_file(reader.filename, response)
+			
         if (request.path == "/.bookdata.js")
             return reader.serveBookData(response)
         if (request.path == "/.defaults.js")
