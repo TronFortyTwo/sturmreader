@@ -354,7 +354,11 @@ PageWithBottomEdge {
         function update() {
             if (loading)
                 return
-                
+			
+			// book is not loaded
+			if(bookWebView.url == "")
+				return
+			
 			bookLoadingStart()
 			
             //Messaging.sendMessage("Styles", asObject())
@@ -592,7 +596,7 @@ PageWithBottomEdge {
 						from: 0.5
 						to: 4
 						stepSize: 0.25
-						snapMode: Slider.snapAlways
+						snapMode: Slider.SnapAlways
 						onMoved: bookStyles.fontScale = value
 					}
 				}
@@ -617,7 +621,7 @@ PageWithBottomEdge {
 						from: 0.8
 						to: 2
 						stepSize: 0.2
-						snapMode: Slider.snapAlways
+						snapMode: Slider.SnapAlways
 						onMoved: bookStyles.lineHeight = value
 					}
 				}
@@ -642,7 +646,7 @@ PageWithBottomEdge {
 						from: 0
 						to: 30
 						stepSize: 3
-						snapMode: Slider.snapAlways
+						snapMode: Slider.SnapAlways
 						function formatValue(v) { return Math.round(v) + "%" }
 						onValueChanged: bookStyles.margin = value
 					}

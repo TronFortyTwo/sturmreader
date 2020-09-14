@@ -48,11 +48,6 @@ ApplicationWindow {
         initialItem: localBooks
 		//onCurrentPageChanged: currentPage.forceActiveFocus()
     }
-    
-    About {
-		id: about
-		visible: false
-	}
 	
 	LocalBooks {
 		id: localBooks

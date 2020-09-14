@@ -74,7 +74,7 @@ Page {
 						name: "info"
 						color: Theme.palette.normal.baseText
 					}
-					onClicked: pageStack.push(about)
+					onClicked: pageStack.push("About.qml")
 				}
 				
 				ToolButton {
