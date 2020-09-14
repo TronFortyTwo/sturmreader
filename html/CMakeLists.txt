@@ -12,6 +12,7 @@ set(HTML_SRC_FILES
     
     pdfjs/build/pdf.js
     pdfjs/build/pdf.worker.js
+    
 )
 set(HTML_SUPPORTING_FILES
     background_paper@30.png

@@ -18,21 +18,24 @@ the GPL. See the file COPYING for full details.
 </style>
 
 <script src=".pdfjs/build/pdf.js"></script>
-<!--script src=".pdfdata.js"></script-->
 <script>
 
-window.onload = function () {
+function init() {
 	
-	var pdfjsLib = window['pdfjs-dist/build/pdf']
+	//var pdfjsLib = window['pdfjs-dist/build/pdf']
 	
 	pdfjsLib.GlobalWorkerOptions.workerSrc = '.pdfjs/build/pdf.worker.js';
 	
 	var loading = pdfjsLib.getDocument("book.pdf")
 	
-	loading.promise.then(function(pdf) {
+	loading.promise.then( function(pdf) {
 		
 		console.log("Ready")
 	});
+}
+
+window.onload = function() {
+	init()
 }
 
 </script>
