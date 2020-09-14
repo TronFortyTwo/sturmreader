@@ -46,7 +46,6 @@ ApplicationWindow {
         id: pageStack
 		anchors.fill: parent
         initialItem: localBooks
-		//onCurrentPageChanged: currentPage.forceActiveFocus()
     }
 	
 	LocalBooks {

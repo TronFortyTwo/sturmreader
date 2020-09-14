@@ -669,9 +669,8 @@ Page {
         Behavior on x {
             id: widthAnimation
             NumberAnimation {
-                duration: 333 //UbuntuAnimation.BriskDuration
-                // TODO:
-                //easing: UbuntuAnimation.StandardEasing
+                duration: 300
+                easing: Easing.OutQuad
 
                 onRunningChanged: {
                     if (!running && perAuthorModel.needsclear) {
