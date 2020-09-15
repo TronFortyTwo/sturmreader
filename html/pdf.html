@@ -14,28 +14,75 @@ the GPL. See the file COPYING for full details.
 	#the-canvas {
 		border: 1px solid black;
 		direction: ltr;
+		height: 100%;
+		width: 100%;
 	}
 </style>
 
 <script src=".pdfjs/build/pdf.js"></script>
 <script>
 
-function init() {
-	
-	//var pdfjsLib = window['pdfjs-dist/build/pdf']
+var pageNumber = 1
+var pageIsRendering = false
+var pageNumIsPending = null
+
+var doc = undefined
+
+const moveToPage = num => {
+    pageNumber += num;
+    queueRenderPage(pageNumber);
+}
+
+const renderPage = num => {
+	pageIsRendering = true;
+
+    doc.getPage(num).then(function(page) {
+		console.log('Page loaded');
+        var scale = 1.5;
+		var viewport = page.getViewport({ scale: scale, });
+
+		var canvas = document.getElementById('the-canvas');
+		var context = canvas.getContext('2d');
+		canvas.height = viewport.height;
+		canvas.width = viewport.width;
+
+        var renderContext = {
+			canvasContext: context,
+			viewport: viewport,
+		}
+		pageNumber = num
+		
+        page.render(renderContext).promise.then(() => {
+			console.log('Page rendered');
+            pageIsRendering = false;
+            
+            if (pageNumIsPending !== null) {
+                renderPage(pageNumIsPending);
+                pageNumIsPending = null;
+            }
+            console.log("PageChange");
+        });
+    });
+}
+
+const queueRenderPage = num => {
+    if (pageIsRendering) {
+        pageNumIsPending = num;
+    } else {
+        renderPage(num);
+    }
+};
+
+window.onload = function() {
 	
 	pdfjsLib.GlobalWorkerOptions.workerSrc = '.pdfjs/build/pdf.worker.js';
 	
-	var loading = pdfjsLib.getDocument("book.pdf")
-	
-	loading.promise.then( function(pdf) {
-		
+	pdfjsLib.getDocument("book.pdf").promise.then(pdf => {
+		console.log('PDF loaded');
+		doc = pdf
+		renderPage(pageNumber)
 		console.log("Ready")
 	});
-}
-
-window.onload = function() {
-	init()
 }
 
 </script>
@@ -43,11 +90,7 @@ window.onload = function() {
 </head>
 
 <body>
-	
-	<h1>PDF.js 'Hello, world!' example</h1>
-
 	<canvas id="the-canvas"></canvas>
-
 </body>
 
 </html>
