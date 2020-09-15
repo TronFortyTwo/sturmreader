@@ -11,11 +11,23 @@ the GPL. See the file COPYING for full details.
 <meta name="viewport" content="width=device-width, user-scalable=no">
 
 <style type="text/css">
-	#the-canvas {
-		border: 0px solid black;
+	#fast-canvas {
+		border: 0px;
 		direction: ltr;
-		height: 100%;
 		width: 100%;
+		z-index: -1;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+	}
+	#slow-canvas {
+		border: 0px;
+		direction: ltr;
+		width: 100%;
+		z-index: 1;
+		position: absolute;
+		top: 0px;
+		left: 0px;
 	}
 </style>
 
@@ -28,6 +40,16 @@ var pageNumIsPending = null
 
 var doc = undefined
 
+function slowForeground(){
+	document.getElementById("slow-canvas").style.zIndex = "1";
+	document.getElementById("fast-canvas").style.zIndex = "-1";
+}
+
+function fastForeground(){
+	document.getElementById("slow-canvas").style.zIndex = "-1";
+	document.getElementById("fast-canvas").style.zIndex = "1";
+}
+
 function windowSizeChanged(){
 	console.log('ok')
 }
@@ -36,23 +58,25 @@ function statusUpdate() {
 	console.log("UpdatePage")
 }
 
-function moveToPage (num) {
-    pageNumber += num;
-    queueRenderPage(pageNumber);
+function moveToPageRelative (num) {
+    queueRenderPage(pageNumber + num);
 }
 
-function renderPage (num) {
-	pageIsRendering = true;
+function renderPage (num, fast) {
 
     doc.getPage(num).then(
 		function(page) {
+		
 			var target_width = window.innerWidth;
 			var original_viewport = page.getViewport({ scale: 1 });
 			var scale = target_width / original_viewport.width;
-		
+			
+			if(fast)
+				scale = Math.max(1.5, scale * 0.3)
+			
 			var viewport = page.getViewport({ scale: scale });
 
-			var canvas = document.getElementById('the-canvas');
+			var canvas = document.getElementById(fast ? 'fast-canvas' : 'slow-canvas');
 			var context = canvas.getContext('2d');
 			canvas.height = viewport.height;
 			canvas.width = viewport.width;
@@ -60,18 +84,22 @@ function renderPage (num) {
 			var renderContext = {
 				canvasContext: context,
 				viewport: viewport,
+				enableWebGL: true
 			}
-			
+			pageNumber = num
+
 			page.render(renderContext).promise.then(
 				function(){
-					pageIsRendering = false;
-					pageNumber = num
-				
-					if (pageNumIsPending !== null) {
-						renderPage(pageNumIsPending);
-						pageNumIsPending = null;
-					}
+					if(fast) fastForeground()
+					else slowForeground()
 					console.log("UpdatePage");
+					if (pageNumIsPending !== null) {
+						var temp_next_page = pageNumIsPending
+						pageNumIsPending = null;
+						renderPage(temp_next_page, true);
+					}
+					else if(fast)
+						renderPage(num, false)
 				},
 				function(reason){
 					console.log("# page rendering failed " + reason);
@@ -88,7 +116,9 @@ function queueRenderPage (num) {
     if (pageIsRendering) {
         pageNumIsPending = num;
     } else {
-        renderPage(num);
+		pageIsRendering = true;
+        renderPage(num, true);
+		pageIsRendering = false;
     }
 };
 
@@ -99,7 +129,7 @@ window.onload = function() {
 	pdfjsLib.getDocument("book.pdf").promise.then(
 		function(pdf) {
 			doc = pdf
-			renderPage(pageNumber)
+			queueRenderPage(pageNumber)
 			console.log("Ready")
 		},
 		function(reason){
@@ -113,7 +143,11 @@ window.onload = function() {
 </head>
 
 <body>
-	<canvas id="the-canvas"></canvas>
+	<canvas id="fast-canvas"></canvas>
+</body>
+
+<body>
+	<canvas id="slow-canvas"></canvas>
 </body>
 
 </html>
