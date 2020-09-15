@@ -13,12 +13,13 @@ the GPL. See the file COPYING for full details.
 <script src=".pdfjs/build/pdf.js"></script>
 <script>
 
-var pageNumber = 1
-var pageIsRendering = false
-var pageNumIsPending = null
-var page_width = window.innerWidth
+var pageNumber = 1;
+var pageIsRendering = false;
+var pageNumIsPending = null;
+var page_width = window.innerWidth;
+var book_aspect_ratio = 1;
 
-var doc = undefined
+var doc = undefined;
 
 function slowForeground(){
 	document.getElementById("slow-canvas").style.visibility = "visible";
@@ -30,11 +31,34 @@ function fastForeground(){
 	document.getElementById("fast-canvas").style.visibility = "visible";
 }
 
+function centerCanvas(){
+	var slow_canvas = document.getElementById("slow-canvas");
+	var fast_canvas = document.getElementById("fast-canvas");
+	if(window.innerWidth / window.visualViewport.height < book_aspect_ratio) {
+		slow_canvas.style.top = "50%";
+		slow_canvas.style.transform = "translateY(-50%)";
+		slow_canvas.style.MsTransform = "translateY(-50%)";
+		fast_canvas.style.top = "50%";
+		fast_canvas.style.transform = "translateY(-50%)";
+		fast_canvas.style.MsTransform = "translateY(-50%)";
+	} else {
+		slow_canvas.style.top = "0px";
+		slow_canvas.style.transform = "translateY(-0px)";
+		slow_canvas.style.MsTransform = "translateY(-0px)";
+		fast_canvas.style.top = "0px";
+		fast_canvas.style.transform = "translateY(-0px)";
+		fast_canvas.style.MsTransform = "translateY(-0px)";
+	}
+}
+
 function windowSizeChanged(){
 	if(!doc) return;
 
 	var past_width = page_width
 	page_width = window.innerWidth
+	
+	centerCanvas()
+	
 	// trigger a background rendering if resolution increase
 	if(window.innerWidth > past_width)
 		queueRenderPage(pageNumber)
@@ -62,6 +86,7 @@ function renderPage (num, fast) {
 			if(fast)
 				scale = Math.max(1.5, scale * 0.3)
 			else
+				// 5 is quite a lot anyway
 				scale = Math.min(5, scale)
 			
 			var viewport = page.getViewport({ scale: scale });
@@ -70,6 +95,8 @@ function renderPage (num, fast) {
 			var context = canvas.getContext('2d');
 			canvas.height = viewport.height;
 			canvas.width = viewport.width;
+			
+			book_aspect_ratio = viewport.width / viewport.height;
 
 			var renderContext = {
 				canvasContext: context,
@@ -131,12 +158,13 @@ window.onload = function() {
 
 <style type="text/css">
 	.page {
-		margin: 0px
+		margin-left: 0px;
+		margin-right: 0px;
+		margin-bottom: 0px;
 		border: 0px;
 		direction: ltr;
 		width: 100%;
 		position: absolute;
-		top: 0px;
 		left: 0px;
 	}
 	body{
