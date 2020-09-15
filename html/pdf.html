@@ -15,19 +15,13 @@ the GPL. See the file COPYING for full details.
 		border: 0px;
 		direction: ltr;
 		width: 100%;
-		z-index: -1;
 		position: absolute;
-		top: 0px;
-		left: 0px;
 	}
 	#slow-canvas {
 		border: 0px;
 		direction: ltr;
 		width: 100%;
-		z-index: 1;
 		position: absolute;
-		top: 0px;
-		left: 0px;
 	}
 </style>
 
@@ -41,13 +35,13 @@ var pageNumIsPending = null
 var doc = undefined
 
 function slowForeground(){
-	document.getElementById("slow-canvas").style.zIndex = "1";
-	document.getElementById("fast-canvas").style.zIndex = "-1";
+	document.getElementById("slow-canvas").style.visibility = "visible";
+	document.getElementById("fast-canvas").style.visibility = "hidden";
 }
 
 function fastForeground(){
-	document.getElementById("slow-canvas").style.zIndex = "-1";
-	document.getElementById("fast-canvas").style.zIndex = "1";
+	document.getElementById("slow-canvas").style.visibility = "hidden";
+	document.getElementById("fast-canvas").style.visibility = "visible";
 }
 
 function windowSizeChanged(){
@@ -73,6 +67,8 @@ function renderPage (num, fast) {
 			
 			if(fast)
 				scale = Math.max(1.5, scale * 0.3)
+			else
+				scale = Math.min(5, scale)
 			
 			var viewport = page.getViewport({ scale: scale });
 
