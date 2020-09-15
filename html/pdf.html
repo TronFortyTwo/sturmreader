@@ -11,9 +11,10 @@ the GPL. See the file COPYING for full details.
 <meta name="viewport" content="width=device-width, user-scalable=no">
 
 <script src=".pdfjs/build/pdf.js"></script>
+<script src=".defaults.js"></script>
 <script>
 
-var pageNumber = 1;
+var pageNumber;
 var pageIsRendering = false;
 var pageNumIsPending = null;
 var page_width = window.innerWidth;
@@ -67,6 +68,8 @@ function windowSizeChanged(){
 }
 
 function statusUpdate() {
+	// save PageNumber as percentage
+	console.log("pageNumber " + pageNumber)
 	console.log("UpdatePage")
 }
 
@@ -109,7 +112,7 @@ function renderPage (num, fast) {
 				function(){
 					if(fast) fastForeground()
 					else slowForeground()
-					console.log("UpdatePage");
+					console.log("status_requested");
 					if (pageNumIsPending !== null) {
 						var temp_next_page = pageNumIsPending
 						pageNumIsPending = null;
@@ -140,6 +143,10 @@ function queueRenderPage (num) {
 };
 
 window.onload = function() {
+	
+	pageNumber = SAVED_PLACE.pageNumber
+	if(!pageNumber)
+		pageNumber = 1
 	
 	pdfjsLib.GlobalWorkerOptions.workerSrc = '.pdfjs/build/pdf.worker.js';
 	

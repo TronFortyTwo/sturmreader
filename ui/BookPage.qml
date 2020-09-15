@@ -32,8 +32,10 @@ PageWithBottomEdge {
     property bool canForward: false
     property bool isBookReady: false
     property bool doPageChangeAsSoonAsReady: false
+    
     property string book_componentId;
 	property real book_percent;
+	property int book_pageNumber;
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
@@ -104,10 +106,10 @@ PageWithBottomEdge {
 					bookPage.updateSavedPage()
 				}
 			} else if(msg[0] == "Ready") {
-				isBookReady = true
+				isBookReady = true;
 				if(doPageChangeAsSoonAsReady) {
-					bookPage.updateSavedPage()
-					doPageChangeAsSoonAsReady = false
+					bookPage.updateSavedPage();
+					doPageChangeAsSoonAsReady = false;
 				}
 				bookLoadingCompleted()
 				openControls()
@@ -119,6 +121,8 @@ PageWithBottomEdge {
 				book_percent = Number(msg[1]);
 			} else if(msg[0] == "componentId") {
 				book_componentId = msg[1];
+			} else if(msg[0] == "pageNumber") {
+				book_pageNumber = msg[1];
 			} else if(msg[0] == "ok") {
 				bookLoadingCompleted();
 			} else if(msg[0] == "monocle:notfound") {
@@ -743,8 +747,11 @@ PageWithBottomEdge {
 
 	function updateSavedPage() {
 		setBookSetting("locus", {
+			// monocle
 			componentId: book_componentId,
-			percent: Number(book_percent)
+			percent: Number(book_percent),
+			// pdf
+			pageNumber: book_pageNumber
 		})
 		pageMetric.turnPage()
 	}
