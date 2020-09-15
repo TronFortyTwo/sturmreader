@@ -10,27 +10,13 @@ the GPL. See the file COPYING for full details.
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, user-scalable=no">
 
-<style type="text/css">
-	#fast-canvas {
-		border: 0px;
-		direction: ltr;
-		width: 100%;
-		position: absolute;
-	}
-	#slow-canvas {
-		border: 0px;
-		direction: ltr;
-		width: 100%;
-		position: absolute;
-	}
-</style>
-
 <script src=".pdfjs/build/pdf.js"></script>
 <script>
 
 var pageNumber = 1
 var pageIsRendering = false
 var pageNumIsPending = null
+var page_width = window.innerWidth
 
 var doc = undefined
 
@@ -45,7 +31,15 @@ function fastForeground(){
 }
 
 function windowSizeChanged(){
-	console.log('ok')
+	if(!doc) return;
+
+	var past_width = page_width
+	page_width = window.innerWidth
+	// trigger a background rendering if resolution increase
+	if(window.innerWidth > past_width)
+		queueRenderPage(pageNumber)
+	else
+		console.log('ok')
 }
 
 function statusUpdate() {
@@ -61,7 +55,7 @@ function renderPage (num, fast) {
     doc.getPage(num).then(
 		function(page) {
 		
-			var target_width = window.innerWidth;
+			var target_width = page_width;
 			var original_viewport = page.getViewport({ scale: 1 });
 			var scale = target_width / original_viewport.width;
 			
@@ -133,17 +127,31 @@ window.onload = function() {
 		}
 	)
 }
-
 </script>
+
+<style type="text/css">
+	.page {
+		margin: 0px
+		border: 0px;
+		direction: ltr;
+		width: 100%;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+	}
+	body{
+		margin: 0px;
+	}
+</style>
 
 </head>
 
 <body>
-	<canvas id="fast-canvas"></canvas>
+	<canvas class="page" id="fast-canvas"></canvas>
 </body>
 
 <body>
-	<canvas id="slow-canvas"></canvas>
+	<canvas class="page" id="slow-canvas"></canvas>
 </body>
 
 </html>
