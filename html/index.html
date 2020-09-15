@@ -26,6 +26,10 @@ the GPL. See the file COPYING for full details.
 <script>
 var reader = null;
 
+function windowSizeChanged() {
+	if(reader) reader.resized();
+}
+
 function moveToPage(num) {
 	reader.moveTo(reader.getPlace().getLocus({direction: num}));
 }
@@ -33,7 +37,7 @@ function moveToPage(num) {
 function statusUpdate() {
 	console.log("chapter " + JSON.stringify( reader.getPlace().chapterSrc() ) );
 	console.log("percent " + JSON.stringify( reader.getPlace().percentageThrough() ) );
-	console.log("PageChange");
+	console.log("UpdatePage");
 }
 
 window.onload = function () {

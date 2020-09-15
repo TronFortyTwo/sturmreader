@@ -40,12 +40,13 @@ PageWithBottomEdge {
                 || event.key == Qt.Key_Period) {
 			bookLoadingStart()
 			bookWebView.runJavaScript("moveToPage(1)")
+			event.accepted = true
         } else if (event.key == Qt.Key_Left || event.key == Qt.Key_Up
                    || event.key == Qt.Key_Backspace || event.key == Qt.Key_Comma) {
 			bookLoadingStart()
 			bookWebView.runJavaScript("moveToPage(-1)")
+			event.accepted = true
 		}
-        event.accepted = true
     }
 
     onVisibleChanged: {
@@ -95,17 +96,17 @@ PageWithBottomEdge {
 			
 			if(msg[0] == "Jumping") {
 				bookPage.onJumping([msg[1], msg[2]]);
-			} else if(msg[0] == "PageChange") {
+			} else if(msg[0] == "UpdatePage") {
 				if(!isBookReady) {
 					doPageChangeAsSoonAsReady = true;
 				} else {
 					bookLoadingCompleted()
-					bookPage.onPageChange()
+					bookPage.updateSavedPage()
 				}
 			} else if(msg[0] == "Ready") {
 				isBookReady = true
 				if(doPageChangeAsSoonAsReady) {
-					bookPage.onPageChange()
+					bookPage.updateSavedPage()
 					doPageChangeAsSoonAsReady = false
 				}
 				bookLoadingCompleted()
@@ -118,13 +119,15 @@ PageWithBottomEdge {
 				book_percent = Number(msg[1]);
 			} else if(msg[0] == "componentId") {
 				book_componentId = msg[1];
+			} else if(msg[0] == "ok") {
+				bookLoadingCompleted();
 			} else if(msg[0] == "monocle:notfound") {
-				// TODO: this should not happen
+				// This is a bug
 				bookLoadingCompleted()
 			}
 			// debug messages
 			else if(msg[0] == "#") {}
-			else console.log("not handled");
+			else console.log("ignored");
 		}
 		
 		onActiveFocusChanged: {
@@ -738,7 +741,7 @@ PageWithBottomEdge {
             history.add(locuses[0], locuses[1])
     }
 
-	function onPageChange() {
+	function updateSavedPage() {
 		setBookSetting("locus", {
 			componentId: book_componentId,
 			percent: Number(book_percent)
@@ -748,7 +751,7 @@ PageWithBottomEdge {
 	
     function windowSizeChanged() {
 		bookLoadingStart()
-		bookWebView.runJavaScript("reader.resized()")
+		bookWebView.runJavaScript("windowSizeChanged();")
     }
 
     Component.onCompleted: {

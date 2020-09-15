@@ -12,7 +12,7 @@ the GPL. See the file COPYING for full details.
 
 <style type="text/css">
 	#the-canvas {
-		border: 1px solid black;
+		border: 0px solid black;
 		direction: ltr;
 		height: 100%;
 		width: 100%;
@@ -28,44 +28,63 @@ var pageNumIsPending = null
 
 var doc = undefined
 
-const moveToPage = num => {
+function windowSizeChanged(){
+	console.log('ok')
+}
+
+function statusUpdate() {
+	console.log("UpdatePage")
+}
+
+function moveToPage (num) {
     pageNumber += num;
     queueRenderPage(pageNumber);
 }
 
-const renderPage = num => {
+function renderPage (num) {
 	pageIsRendering = true;
 
-    doc.getPage(num).then(function(page) {
-		console.log('Page loaded');
-        var scale = 1.5;
-		var viewport = page.getViewport({ scale: scale, });
-
-		var canvas = document.getElementById('the-canvas');
-		var context = canvas.getContext('2d');
-		canvas.height = viewport.height;
-		canvas.width = viewport.width;
-
-        var renderContext = {
-			canvasContext: context,
-			viewport: viewport,
-		}
-		pageNumber = num
+    doc.getPage(num).then(
+		function(page) {
+			var target_width = window.innerWidth;
+			var original_viewport = page.getViewport({ scale: 1 });
+			var scale = target_width / original_viewport.width;
 		
-        page.render(renderContext).promise.then(() => {
-			console.log('Page rendered');
-            pageIsRendering = false;
-            
-            if (pageNumIsPending !== null) {
-                renderPage(pageNumIsPending);
-                pageNumIsPending = null;
-            }
-            console.log("PageChange");
-        });
-    });
+			var viewport = page.getViewport({ scale: scale });
+
+			var canvas = document.getElementById('the-canvas');
+			var context = canvas.getContext('2d');
+			canvas.height = viewport.height;
+			canvas.width = viewport.width;
+
+			var renderContext = {
+				canvasContext: context,
+				viewport: viewport,
+			}
+			
+			page.render(renderContext).promise.then(
+				function(){
+					pageIsRendering = false;
+					pageNumber = num
+				
+					if (pageNumIsPending !== null) {
+						renderPage(pageNumIsPending);
+						pageNumIsPending = null;
+					}
+					console.log("UpdatePage");
+				},
+				function(reason){
+					console.log("# page rendering failed " + reason);
+				}
+			)
+		},
+		function(reason){
+			console.log("#page loading failed " + reason);
+		}
+	)
 }
 
-const queueRenderPage = num => {
+function queueRenderPage (num) {
     if (pageIsRendering) {
         pageNumIsPending = num;
     } else {
@@ -77,12 +96,16 @@ window.onload = function() {
 	
 	pdfjsLib.GlobalWorkerOptions.workerSrc = '.pdfjs/build/pdf.worker.js';
 	
-	pdfjsLib.getDocument("book.pdf").promise.then(pdf => {
-		console.log('PDF loaded');
-		doc = pdf
-		renderPage(pageNumber)
-		console.log("Ready")
-	});
+	pdfjsLib.getDocument("book.pdf").promise.then(
+		function(pdf) {
+			doc = pdf
+			renderPage(pageNumber)
+			console.log("Ready")
+		},
+		function(reason){
+			console.log("#pdf file loading failed " + reason)
+		}
+	)
 }
 
 </script>
