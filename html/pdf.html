@@ -12,6 +12,7 @@ the GPL. See the file COPYING for full details.
 
 <script src=".pdfjs/build/pdf.js"></script>
 <script src=".defaults.js"></script>
+<script src=".hammer.js"></script>
 <script>
 
 var pageNumber;
@@ -20,6 +21,7 @@ var pageNumIsPending = null;
 var page_width = window.innerWidth;
 var book_aspect_ratio = 1;
 var first_render = true;
+var mc = undefined;
 
 var doc = undefined;
 
@@ -144,6 +146,14 @@ function queueRenderPage (num) {
 };
 
 window.onload = function() {
+	
+	// initialize gestures
+	mc = new Hammer(document);
+	
+	mc.on("tap press", 
+		function(ev) {
+			moveToPageRelative(1);
+		});
 	
 	// load saved page or open from the beginning
 	pageNumber = SAVED_PLACE.pageNumber;
