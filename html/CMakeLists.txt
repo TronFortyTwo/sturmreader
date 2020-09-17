@@ -9,10 +9,6 @@ set(HTML_SRC_FILES
     monocle/scripts/monoctrl.js
     monocle/styles/monocore.css
     monocle/styles/monoctrl.css
-    
-    pdfjs/build/pdf.js
-    pdfjs/build/pdf.worker.js
-    
 )
 set(HTML_SUPPORTING_FILES
     background_paper@30.png
