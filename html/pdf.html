@@ -61,7 +61,15 @@ function statusUpdate() {
 }
 
 function moveToPageRelative (num) {
-    queueRenderPage(pageNumber + num);
+
+	queueRenderPage(pageNumber + num);
+	
+	//if(jump)
+	//	console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: pageNumber+num}));
+}
+
+function moveToLocus(locus) {
+	queueRenderPage(locus.pageNumber);
 }
 
 function renderPage (num, fast) {

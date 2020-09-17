@@ -56,10 +56,10 @@ HttpServer {
 			return static_file("../html/pdf.html", response)
         // the monocle reader
 		if (request.path == "/EPUB")
-            return static_file("../html/index.html", response)
+            return static_file("../html/monocle.html", response)
 		// TODO: CBZ is more pdf than epub
 		if (request.path == "/CBZ")
-            return static_file("../html/index.html", response)
+            return static_file("../html/monocle.html", response)
 		
 		if (request.path == "/book.pdf")
 			return static_file(reader.filename, response)

@@ -30,6 +30,10 @@ function windowSizeChanged() {
 	if(reader) reader.resized();
 }
 
+function moveToLocus(locus) {
+	reader.moveTo(locus);
+}
+
 function moveToPageRelative(num) {
 	reader.moveTo(reader.getPlace().getLocus({direction: num}));
 }

@@ -196,7 +196,7 @@ PageWithBottomEdge {
                         if (locus !== null) {
 							navjump = true;
 							bookLoadingStart()
-							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
+							bookWebView.runJavaScript("moveToLocus(" + locus + ")");
                         }
                     }
                 },
@@ -208,7 +208,7 @@ PageWithBottomEdge {
                         if (locus !== null) {
 							navjump = true;
 							bookLoadingStart()
-							bookWebView.runJavaScript("reader.moveTo(" + locus + ")");
+							bookWebView.runJavaScript("moveToLocus(" + locus + ")");
                         }
                     }
                 }
