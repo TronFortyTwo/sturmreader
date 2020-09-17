@@ -11,7 +11,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtWebEngine 1.7
+import QtWebEngine 1.10
 
 import FontList 1.0
 import Units 1.0
@@ -91,6 +91,9 @@ PageWithBottomEdge {
 		id: bookWebView
 		anchors.fill: parent
 		opacity: 0
+		
+		settings.showScrollBars: false
+		
 		onJavaScriptConsoleMessage: function(level, message, linen, sourceID) {
 			console.log("Book: " + message + " | level: " + level + " | line: " + linen + " | source: " + sourceID);
 		
