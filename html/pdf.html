@@ -19,6 +19,7 @@ var pageIsRendering = false;
 var pageNumIsPending = null;
 var page_width = window.innerWidth;
 var book_aspect_ratio = 1;
+var first_render = true;
 
 var doc = undefined;
 
@@ -35,36 +36,22 @@ function fastForeground(){
 function centerCanvas(){
 	var slow_canvas = document.getElementById("slow-canvas");
 	var fast_canvas = document.getElementById("fast-canvas");
-	if(window.innerWidth / window.visualViewport.height < book_aspect_ratio) {
+	if(window.innerWidth / window.innerHeight < book_aspect_ratio) {
 		slow_canvas.style.top = "50%";
 		slow_canvas.style.transform = "translateY(-50%)";
-		slow_canvas.style.MsTransform = "translateY(-50%)";
 		fast_canvas.style.top = "50%";
 		fast_canvas.style.transform = "translateY(-50%)";
-		fast_canvas.style.MsTransform = "translateY(-50%)";
 	} else {
 		slow_canvas.style.top = "0px";
 		slow_canvas.style.transform = "translateY(-0px)";
-		slow_canvas.style.MsTransform = "translateY(-0px)";
 		fast_canvas.style.top = "0px";
 		fast_canvas.style.transform = "translateY(-0px)";
-		fast_canvas.style.MsTransform = "translateY(-0px)";
 	}
 }
 
-function windowSizeChanged(){
-	if(!doc) return;
-
-	var past_width = page_width
-	page_width = window.innerWidth
-	
-	centerCanvas()
-	
-	// trigger a background rendering if resolution increase
-	if(window.innerWidth > past_width)
-		queueRenderPage(pageNumber)
-	else
-		console.log('ok')
+function windowSizeChanged() {
+	// we handle this ourself with window.onresize()
+	console.log('ok');
 }
 
 function statusUpdate() {
@@ -112,6 +99,12 @@ function renderPage (num, fast) {
 				function(){
 					if(fast) fastForeground()
 					else slowForeground()
+					
+					if(first_render) {
+						console.log("Ready")
+						first_render = false;
+					}
+					centerCanvas();
 					console.log("status_requested");
 					if (pageNumIsPending !== null) {
 						var temp_next_page = pageNumIsPending
@@ -144,23 +137,40 @@ function queueRenderPage (num) {
 
 window.onload = function() {
 	
-	pageNumber = SAVED_PLACE.pageNumber
+	// load saved page or open from the beginning
+	pageNumber = SAVED_PLACE.pageNumber;
 	if(!pageNumber)
-		pageNumber = 1
+		pageNumber = 1;
 	
+	// load file and render first page
 	pdfjsLib.GlobalWorkerOptions.workerSrc = '.pdfjs/build/pdf.worker.js';
-	
 	pdfjsLib.getDocument("book.pdf").promise.then(
 		function(pdf) {
-			doc = pdf
-			queueRenderPage(pageNumber)
-			console.log("Ready")
+			// init stuff
+			doc = pdf;
+			first_render = true;
+			
+			// render
+			queueRenderPage(pageNumber);
 		},
 		function(reason){
 			console.log("#pdf file loading failed " + reason)
 		}
 	)
 }
+window.onresize = function() {
+	if(!doc) return;
+
+	var past_width = page_width
+	page_width = window.innerWidth
+	
+	centerCanvas();
+	
+	// trigger a background rendering if resolution increase
+	if(window.innerWidth > past_width)
+		queueRenderPage(pageNumber);
+}
+
 </script>
 
 <style type="text/css">
