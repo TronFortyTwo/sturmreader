@@ -16,14 +16,32 @@ the GPL. See the file COPYING for full details.
 <script>
 
 var pageNumber;
-var pageIsRendering = false;
+var page_is_rendering = false;
 var pageNumIsPending = null;
 var page_width = window.innerWidth;
 var book_aspect_ratio = 1;
 var first_render = true;
 var mc = undefined;
-
 var doc = undefined;
+
+// BOOK PAGE CALLS
+// we handle this ourself with window.onresize()
+//		since the qml signal arrives before the webview has actually changed the html window size
+function windowSizeChanged() { console.log('ok'); }
+// save PageNumber as percentage
+function statusUpdate() {
+	console.log("pageNumber " + pageNumber)
+	console.log("UpdatePage")
+}
+function moveToPageRelative (num) {
+	queueRenderPage(pageNumber + num);
+	//if(jump)
+	//	console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: pageNumber+num}));
+}
+function moveToLocus(locus) {
+	queueRenderPage(locus.pageNumber);
+}
+// END BOOK PAGE CALLS
 
 function slowForeground(){
 	document.getElementById("slow-canvas").style.visibility = "visible";
@@ -51,29 +69,6 @@ function centerCanvas(){
 	}
 }
 
-function windowSizeChanged() {
-	// we handle this ourself with window.onresize()
-	console.log('ok');
-}
-
-function statusUpdate() {
-	// save PageNumber as percentage
-	console.log("pageNumber " + pageNumber)
-	console.log("UpdatePage")
-}
-
-function moveToPageRelative (num) {
-
-	queueRenderPage(pageNumber + num);
-	
-	//if(jump)
-	//	console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: pageNumber+num}));
-}
-
-function moveToLocus(locus) {
-	queueRenderPage(locus.pageNumber);
-}
-
 function renderPage (num, fast) {
 
     doc.getPage(num).then(
@@ -84,7 +79,7 @@ function renderPage (num, fast) {
 			var scale = target_width / original_viewport.width;
 			
 			if(fast)
-				scale = Math.max(1.5, scale * 0.3)
+				scale = Math.max(2, scale * 0.3)
 			else
 				// 5 is quite a lot anyway
 				scale = Math.min(5, scale)
@@ -136,24 +131,31 @@ function renderPage (num, fast) {
 }
 
 function queueRenderPage (num) {
-    if (pageIsRendering) {
+    if (page_is_rendering) {
         pageNumIsPending = num;
     } else {
-		pageIsRendering = true;
+		page_is_rendering = true;
         renderPage(num, true);
-		pageIsRendering = false;
+		page_is_rendering = false;
     }
 };
+
+function tapPageTurn(ev) {
+
+	// do not move if zoomed
+	if(window.visualViewport.scale > 1.001)
+		return;
+	
+	moveToPageRelative(1);
+}
 
 window.onload = function() {
 	
 	// initialize gestures
 	mc = new Hammer(document);
 	
-	mc.on("tap press", 
-		function(ev) {
-			moveToPageRelative(1);
-		});
+	// tap to move instanlty by one page
+	mc.on("tap press",function(ev) { tapPageTurn(ev) });
 	
 	// load saved page or open from the beginning
 	pageNumber = SAVED_PLACE.pageNumber;

@@ -40,14 +40,14 @@ PageWithBottomEdge {
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
                 || event.key == Qt.Key_Period) {
-			bookLoadingStart()
-			bookWebView.runJavaScript("moveToPageRelative(1)")
-			event.accepted = true
+			bookLoadingStart();
+			bookWebView.runJavaScript("moveToPageRelative(1)");
+			event.accepted = true;
         } else if (event.key == Qt.Key_Left || event.key == Qt.Key_Up
                    || event.key == Qt.Key_Backspace || event.key == Qt.Key_Comma) {
-			bookLoadingStart()
-			bookWebView.runJavaScript("moveToPageRelative(-1)")
-			event.accepted = true
+			bookLoadingStart();
+			bookWebView.runJavaScript("moveToPageRelative(-1)");
+			event.accepted = true;
 		}
     }
 
@@ -79,12 +79,12 @@ PageWithBottomEdge {
     }
     
     function bookLoadingStart(){
-		bookWebView.opacity = 0
-		loadingIndicator.opacity = 1
+		bookWebView.opacity = 0;
+		loadingIndicator.opacity = 1;
 	}
 	function bookLoadingCompleted(){
-		bookWebView.opacity = 1
-		loadingIndicator.opacity = 0
+		bookWebView.opacity = 1;
+		loadingIndicator.opacity = 0;
 	}
     
 	WebEngineView {
