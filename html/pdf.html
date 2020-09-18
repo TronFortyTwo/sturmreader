@@ -146,7 +146,10 @@ function tapPageTurn(ev) {
 	if(window.visualViewport.scale > 1.001)
 		return;
 	
-	moveToPageRelative(1);
+	if(ev.center.x > window.innerWidth * 0.4)
+		moveToPageRelative(1);
+	else
+		moveToPageRelative(-1);
 }
 
 window.onload = function() {
