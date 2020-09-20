@@ -32,18 +32,28 @@ function windowSizeChanged() {
 	if(!first_render)
 		console.log('ok');
 }
-// save PageNumber as percentage
 function statusUpdate() {
-	console.log("pageNumber " + pageNumber)
-	console.log("UpdatePage")
+	// for the chapter, scroll throught the chapters to find the right one if any
+	let chap = -1;
+	for(let i=0; i<outline.length; i++) {
+		if(outline[i].src <= pageNumber)
+			chap = outline[i].src;
+		else
+			break;
+	}
+	console.log("chapter " + JSON.stringify(chap));
+	console.log("pageNumber " + pageNumber);
+	console.log("UpdatePage");
 }
 function moveToPageRelative (num) {
 	queueRenderPage(pageNumber + num);
-	//if(jump)
-	//	console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: pageNumber+num}));
 }
 function moveToLocus(locus) {
 	queueRenderPage(locus.pageNumber);
+}
+function moveToChapter(chap) {
+	console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: Number(chap)}));
+	queueRenderPage(Number(chap));
 }
 // END BOOK PAGE CALLS
 
@@ -177,7 +187,7 @@ function parseOutlineNodeArray(ol, depth) {
 			console.log('# unsupported dest: ' + JSON.stringify(dest));
 			continue;
 		}
-		outline.push({title: o_title, pageNumber: o_pageNumber, level: depth});
+		outline.push({title: o_title, src: o_pageNumber, level: depth});
 		
 		// analize child
 		parseOutlineNodeArray(ol[i].items, depth+1);

@@ -114,15 +114,15 @@ PageWithBottomEdge {
 				openControls()
 			} else if(msg[0] == "setContent") {
 				contentsListModel.clear();
-				for(var i=2; i<msg.length; i++)
-					msg[1] += " " + msg[i];
-				console.log(msg[1]);
+				if(msg.length > 2)
+					for(var i=2; i<msg.length; i++) msg[1] += " " + msg[i];
 				var con = JSON.parse(msg[1]);
-				for(var i=0; i<con.length; i++)
-					contentsListModel.append(con[i]);
+				for(var i=0; i<con.length; i++) contentsListModel.append(con[i]);
 			} else if(msg[0] == "status_requested") {
 				bookWebView.runJavaScript("statusUpdate()");
 			} else if(msg[0] == "chapter") {
+				if(msg.length > 2)
+					for(var i=2; i<msg.length; i++) msg[1] += " " + msg[i];
 				currentChapter = JSON.parse(msg[1]);
 			} else if(msg[0] == "percent") {
 				book_percent = Number(msg[1]);
@@ -288,8 +288,7 @@ PageWithBottomEdge {
 						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
 				onClicked: {
 					bookLoadingStart();
-					console.log(model.src);
-					bookWebView.runJavaScript('reader.skipToChapter("' + model.src + '")');
+					bookWebView.runJavaScript('moveToChapter("' + model.src + '")');
 					closeContent();
 				}
             }

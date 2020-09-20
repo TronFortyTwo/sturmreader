@@ -43,6 +43,10 @@ function statusUpdate() {
 	console.log("percent " + JSON.stringify( reader.getPlace().percentageThrough() ) );
 	console.log("UpdatePage");
 }
+function moveToChapter(chap){
+	reader.skipToChapter(chap);
+}
+
 
 window.onload = function () {
     var styleInfo = styleManager.init(bookData.getMetaData("title"));
