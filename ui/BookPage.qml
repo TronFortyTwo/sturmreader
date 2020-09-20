@@ -67,10 +67,6 @@ PageWithBottomEdge {
         }
     }
 
-    ListModel {
-        id: contentsListModel
-    }
-
     BusyIndicator {
         id: loadingIndicator
         anchors.centerIn: parent
@@ -116,6 +112,14 @@ PageWithBottomEdge {
 				}
 				bookLoadingCompleted()
 				openControls()
+			} else if(msg[0] == "setContent") {
+				contentsListModel.clear();
+				for(var i=2; i<msg.length; i++)
+					msg[1] += " " + msg[i];
+				console.log(msg[1]);
+				var con = JSON.parse(msg[1]);
+				for(var i=0; i<con.length; i++)
+					contentsListModel.append(con[i]);
 			} else if(msg[0] == "status_requested") {
 				bookWebView.runJavaScript("statusUpdate()");
 			} else if(msg[0] == "chapter") {
@@ -267,6 +271,10 @@ PageWithBottomEdge {
         }
     }
 
+    ListModel {
+        id: contentsListModel
+    }
+    
     bottomEdgePageComponent: Item {
         ListView {
             id: contentsListView
@@ -279,10 +287,10 @@ PageWithBottomEdge {
 				text: (new Array(model.level + 1)).join("    ") +
 						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
 				onClicked: {
-					bookLoadingStart()
-					console.log(model.src)
+					bookLoadingStart();
+					console.log(model.src);
 					bookWebView.runJavaScript('reader.skipToChapter("' + model.src + '")');
-					closeContent()
+					closeContent();
 				}
             }
 
@@ -290,8 +298,10 @@ PageWithBottomEdge {
                 target: bookPage
                 onContentOpened: {
                     for (var i=0; i<contentsListModel.count; i++) {
-                        if (contentsListModel.get(i).src == bookPage.currentChapter)
-							contentsListView.positionViewAtIndex(i, ListView.Center)
+						if (contentsListModel.get(i).src == bookPage.currentChapter) {
+							contentsListView.positionViewAtIndex(i, ListView.Center);
+							break;
+						}
                     }
                 }
             }

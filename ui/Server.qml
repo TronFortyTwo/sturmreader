@@ -53,7 +53,7 @@ HttpServer {
     onNewRequest: { // request, response
 		// new pdf reader
 		if (request.path == "/PDF")
-			return static_file("../html/pdf.html", response)
+			return static_file("../html/pdfjs.html", response)
         // the monocle reader
 		if (request.path == "/EPUB")
             return static_file("../html/monocle.html", response)

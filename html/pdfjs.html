@@ -27,7 +27,10 @@ var doc = undefined;
 // BOOK PAGE CALLS
 // we handle this ourself with window.onresize()
 //		since the qml signal arrives before the webview has actually changed the html window size
-function windowSizeChanged() { console.log('ok'); }
+function windowSizeChanged() {
+	if(!first_render)
+		console.log('ok');
+}
 // save PageNumber as percentage
 function statusUpdate() {
 	console.log("pageNumber " + pageNumber)
@@ -79,10 +82,10 @@ function renderPage (num, fast) {
 			var scale = target_width / original_viewport.width;
 			
 			if(fast)
-				scale = Math.max(2, scale * 0.3)
+				scale = Math.max(2, scale * 0.3);
 			else
 				// 5 is quite a lot anyway
-				scale = Math.min(5, scale)
+				scale = Math.min(5, scale);
 			
 			var viewport = page.getViewport({ scale: scale });
 
@@ -98,7 +101,7 @@ function renderPage (num, fast) {
 				viewport: viewport,
 				enableWebGL: true
 			}
-			pageNumber = num
+			pageNumber = num;
 
 			page.render(renderContext).promise.then(
 				function(){
@@ -117,7 +120,7 @@ function renderPage (num, fast) {
 						renderPage(temp_next_page, true);
 					}
 					else if(fast)
-						renderPage(num, false)
+						renderPage(num, false);
 				},
 				function(reason){
 					console.log("# page rendering failed " + reason);
@@ -125,7 +128,7 @@ function renderPage (num, fast) {
 			)
 		},
 		function(reason){
-			console.log("#page loading failed " + reason);
+			console.log("# page loading failed " + reason);
 		}
 	)
 }
@@ -161,23 +164,57 @@ window.onload = function() {
 	mc.on("tap press",function(ev) { tapPageTurn(ev) });
 	
 	// load saved page or open from the beginning
-	pageNumber = SAVED_PLACE.pageNumber;
-	if(!pageNumber)
+	if(SAVED_PLACE && SAVED_PLACE.pageNumber)
+		pageNumber = SAVED_PLACE.pageNumber;
+	else
 		pageNumber = 1;
 	
 	// load file and render first page
 	pdfjsLib.GlobalWorkerOptions.workerSrc = '.pdfjs/build/pdf.worker.js';
 	pdfjsLib.getDocument("book.pdf").promise.then(
-		function(pdf) {
+		function(pdf_obj) {
 			// init stuff
-			doc = pdf;
+			doc = pdf_obj;
 			first_render = true;
+			
+			// populate content
+			doc.getOutline().then( function(outline) {
+				if(!outline) return;
+				
+				pairs = [];
+				
+				for (let i=0; i < outline.length; i++) {
+					const dest = outline[i].dest;
+					let o_title = outline[i].title;
+					let o_pageNumber = 1;
+					
+					if(typeof(dest) === "string") {
+						doc.getDestination(dest).then(function(destination) {
+							console.log("# destination: " + JSON.stringify(dest));
+							const ref = destination[0];
+							// And the page id
+							doc.getPageIndex(ref).then(function(index) {
+								o_pageNumber = Number(index) + 1;
+							}).catch(function(reason){console.log("# getPageIndex error: " + reason)});
+						}).catch(function(reason){console.log("# getDestination error: " + reason)});
+					} else if(typeof(dest) == "object") {
+						o_pageNumber = dest[0].num;
+					} else {
+						console.log('# unsupported dest: ' + JSON.stringify(dest));
+						continue;
+					}
+					pairs.push({level: 0, title: o_title, pageNumber: o_pageNumber});
+				}
+				
+				console.log("setContent " + JSON.stringify(pairs));
+				
+			}).catch(function(reason){console.log("# cannot fetch outline")});
 			
 			// render
 			queueRenderPage(pageNumber);
 		},
 		function(reason){
-			console.log("#pdf file loading failed " + reason)
+			console.log("# file loading failed " + reason)
 		}
 	)
 }

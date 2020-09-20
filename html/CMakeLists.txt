@@ -1,7 +1,7 @@
 set(HTML_SRC_FILES
     
     monocle.html
-    pdf.html
+    pdfjs.html
     instantslider.js
     styling.js
     
