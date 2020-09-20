@@ -23,6 +23,7 @@ var book_aspect_ratio = 1;
 var first_render = true;
 var mc = undefined;
 var doc = undefined;
+var outline = undefined;
 
 // BOOK PAGE CALLS
 // we handle this ourself with window.onresize()
@@ -155,7 +156,37 @@ function tapPageTurn(ev) {
 		moveToPageRelative(-1);
 }
 
+function parseOutlineNodeArray(ol, depth) {
+	for (let i=0; i < ol.length; i++) {
+		const dest = ol[i].dest;
+		let o_title = ol[i].title;
+		let o_pageNumber = 1;
+		
+		if(typeof(dest) === "string") {
+			doc.getDestination(dest).then(function(destination) {
+				console.log("# destination: " + JSON.stringify(dest));
+				const ref = destination[0];
+				// And the page id
+				doc.getPageIndex(ref).then(function(index) {
+					o_pageNumber = Number(index) + 1;
+				}, (reason) => console.log("# getPageIndex error: " + reason) );
+			}, (reason) => console.log("# getDestination error: " + reason) );
+		} else if(typeof(dest) == "object") {
+			o_pageNumber = dest[0].num;
+		} else {
+			console.log('# unsupported dest: ' + JSON.stringify(dest));
+			continue;
+		}
+		outline.push({title: o_title, pageNumber: o_pageNumber, level: depth});
+		
+		// analize child
+		parseOutlineNodeArray(ol[i].items, depth+1);
+	}
+}
+
 window.onload = function() {
+	
+	outline = [];
 	
 	// initialize gestures
 	mc = new Hammer(document);
@@ -178,37 +209,14 @@ window.onload = function() {
 			first_render = true;
 			
 			// populate content
-			doc.getOutline().then( function(outline) {
-				if(!outline) return;
+			doc.getOutline().then( function(ol) {
+				if(!ol) return;
 				
-				pairs = [];
+				parseOutlineNodeArray(ol, 0);
 				
-				for (let i=0; i < outline.length; i++) {
-					const dest = outline[i].dest;
-					let o_title = outline[i].title;
-					let o_pageNumber = 1;
-					
-					if(typeof(dest) === "string") {
-						doc.getDestination(dest).then(function(destination) {
-							console.log("# destination: " + JSON.stringify(dest));
-							const ref = destination[0];
-							// And the page id
-							doc.getPageIndex(ref).then(function(index) {
-								o_pageNumber = Number(index) + 1;
-							}).catch(function(reason){console.log("# getPageIndex error: " + reason)});
-						}).catch(function(reason){console.log("# getDestination error: " + reason)});
-					} else if(typeof(dest) == "object") {
-						o_pageNumber = dest[0].num;
-					} else {
-						console.log('# unsupported dest: ' + JSON.stringify(dest));
-						continue;
-					}
-					pairs.push({level: 0, title: o_title, pageNumber: o_pageNumber});
-				}
+				console.log("setContent " + JSON.stringify(outline));
 				
-				console.log("setContent " + JSON.stringify(pairs));
-				
-			}).catch(function(reason){console.log("# cannot fetch outline")});
+			}, (reason) => console.log("# cannot fetch outline") );
 			
 			// render
 			queueRenderPage(pageNumber);
@@ -216,7 +224,7 @@ window.onload = function() {
 		function(reason){
 			console.log("# file loading failed " + reason)
 		}
-	)
+	);
 }
 window.onresize = function() {
 	if(!doc) return;
