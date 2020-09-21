@@ -52,20 +52,10 @@ PageWithBottomEdge {
     }
 
     onVisibleChanged: {
-        if (visible == false) {
-            // Reset things for the next time this page is opened
-			isBookReady = false;
-			doPageChangeAsSoonAsReady = false;
-            if (history)
-                history.clear();
-            url = "";
-			contentsListModel.clear();
-			bookLoadingStart();
-            closeContent();
+        if (visible == false)
 			bookPage.destroy();
-        } else {
+        else
             bookStyles.loadForBook();
-        }
     }
 
     BusyIndicator {
@@ -280,6 +270,7 @@ PageWithBottomEdge {
         ListView {
             id: contentsListView
             anchors.fill: parent
+            visible: contentsListModel.count > 0
 
             model: contentsListModel
             delegate: ItemDelegate {
@@ -307,6 +298,12 @@ PageWithBottomEdge {
             }
             ScrollBar.vertical: ScrollBar {}
         }
+        Text {
+			anchors.centerIn: parent
+			visible: contentsListModel.count == 0
+			text: i18n.tr("Nothing here");
+			color: Theme.palette.normal.foregroundText
+		}
     }
 
     Item {
@@ -771,7 +768,7 @@ PageWithBottomEdge {
 	
     function windowSizeChanged() {
 		bookLoadingStart()
-		bookWebView.runJavaScript("windowSizeChanged();")
+		bookWebView.runJavaScript("if (windowSizeChanged) windowSizeChanged();")
     }
 
     Component.onCompleted: {

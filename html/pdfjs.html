@@ -26,7 +26,7 @@ var doc = undefined;
 var outline = undefined;
 var number_of_pages = 0;
 
-// BOOK PAGE CALLS
+// BOOK PAGE API
 // we handle this ourself with window.onresize()
 //		since the qml signal arrives before the webview has actually changed the html window size
 function windowSizeChanged() {
@@ -64,6 +64,14 @@ function moveToLocus(locus) {
 function moveToChapter(chap) {
 	console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: Number(chap)}));
 	queueRenderPage(Number(chap));
+}
+var styleManager = {
+
+	updateStyles: function(style){
+		if(style.background)
+			document.body.style.background = style.background;
+		console.log("ok");
+	}
 }
 // END BOOK PAGE CALLS
 

@@ -30,7 +30,8 @@ ApplicationWindow {
     title: defaultTitle
     
     property string defaultTitle: "Sturm Reader"
-	property var bookPage: null;
+	property var bookPageComponent: Qt.createComponent("BookPage.qml")
+	property var bookPage: null
     
     //applicationName: "sturmreader.emanuelesorce"
     
@@ -53,11 +54,6 @@ ApplicationWindow {
 		id: localBooks
 		visible: false
 	}
-
-	//BookPage {
-	//	id: bookPage
-	//	visible: false
-	//}
 
     Dialog {
 		id: errorOpenDialog
@@ -85,7 +81,6 @@ ApplicationWindow {
             while (pageStack.currentItem != localBooks)
                 pageStack.pop()
 			// create bookPage
-			var bookPageComponent = Qt.createComponent("BookPage.qml");
 			bookPage = bookPageComponent.createObject(mainView, {url: "http://127.0.0.1:" + server.port + "/" + server.reader.fileType, visible: false});
 			
             pageStack.push(bookPage)
