@@ -47,12 +47,16 @@ function statusUpdate() {
 	console.log("UpdatePage");
 }
 function moveToPageRelative (num) {
-	if(pageNumber + num < 1)
-		queueRenderPage(1);
-	else if(pageNumber + num > number_of_pages)
-		queueRenderPage(number_of_pages);
-	else
-		queueRenderPage(pageNumber + num);
+	let target = pageNumber + Number(num);
+	if(target < 1)
+		target = 1;
+	else if(target > number_of_pages)
+		target = number_of_pages;
+	
+	if(Math.abs(target - pageNumber) > 1)
+		console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
+	
+	queueRenderPage(target);
 }
 function moveToLocus(locus) {
 	queueRenderPage(locus.pageNumber);

@@ -60,6 +60,7 @@ PageWithBottomEdge {
             if (history)
                 history.clear()
             url = ""
+			contentsListModel.clear()
 			bookLoadingStart()
             closeContent()
         } else {
