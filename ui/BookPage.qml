@@ -52,19 +52,19 @@ PageWithBottomEdge {
     }
 
     onVisibleChanged: {
-        //mainView.automaticOrientation = !visible
         if (visible == false) {
             // Reset things for the next time this page is opened
-			isBookReady = false
-			doPageChangeAsSoonAsReady = false
+			isBookReady = false;
+			doPageChangeAsSoonAsReady = false;
             if (history)
-                history.clear()
-            url = ""
-			contentsListModel.clear()
-			bookLoadingStart()
-            closeContent()
+                history.clear();
+            url = "";
+			contentsListModel.clear();
+			bookLoadingStart();
+            closeContent();
+			bookPage.destroy();
         } else {
-            bookStyles.loadForBook()
+            bookStyles.loadForBook();
         }
     }
 

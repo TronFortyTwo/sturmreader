@@ -27,9 +27,10 @@ ApplicationWindow {
     // objectName for functional testing purposes (autopilot-qt5)
     objectName: "mainView"
     id: mainView
+    title: defaultTitle
     
     property string defaultTitle: "Sturm Reader"
-    title: defaultTitle
+	property var bookPage: null;
     
     //applicationName: "sturmreader.emanuelesorce"
     
@@ -53,10 +54,10 @@ ApplicationWindow {
 		visible: false
 	}
 
-	BookPage {
-		id: bookPage
-		visible: false
-	}
+	//BookPage {
+	//	id: bookPage
+	//	visible: false
+	//}
 
     Dialog {
 		id: errorOpenDialog
@@ -83,7 +84,11 @@ ApplicationWindow {
         if (server.reader.load(filename)) {
             while (pageStack.currentItem != localBooks)
                 pageStack.pop()
-            pageStack.push(bookPage, {url: "http://127.0.0.1:" + server.port + "/" + server.reader.fileType})
+			// create bookPage
+			var bookPageComponent = Qt.createComponent("BookPage.qml");
+			bookPage = bookPageComponent.createObject(mainView, {url: "http://127.0.0.1:" + server.port + "/" + server.reader.fileType, visible: false});
+			
+            pageStack.push(bookPage)
             mainView.title = server.reader.title()
             localBooks.updateRead(filename)
 			bookPage.turnControlsOn()
