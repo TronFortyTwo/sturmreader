@@ -24,6 +24,7 @@ var first_render = true;
 var mc = undefined;
 var doc = undefined;
 var outline = undefined;
+var number_of_pages = 0;
 
 // BOOK PAGE CALLS
 // we handle this ourself with window.onresize()
@@ -46,7 +47,12 @@ function statusUpdate() {
 	console.log("UpdatePage");
 }
 function moveToPageRelative (num) {
-	queueRenderPage(pageNumber + num);
+	if(pageNumber + num < 1)
+		queueRenderPage(1);
+	else if(pageNumber + num > number_of_pages)
+		queueRenderPage(number_of_pages);
+	else
+		queueRenderPage(pageNumber + num);
 }
 function moveToLocus(locus) {
 	queueRenderPage(locus.pageNumber);
@@ -84,7 +90,6 @@ function centerCanvas(){
 }
 
 function renderPage (num, fast) {
-
     doc.getPage(num).then(
 		function(page) {
 		
@@ -116,31 +121,34 @@ function renderPage (num, fast) {
 
 			page.render(renderContext).promise.then(
 				function(){
+					// set up canvases
 					if(fast) fastForeground()
 					else slowForeground()
+					centerCanvas();
 					
 					if(first_render) {
 						console.log("Ready")
 						first_render = false;
 					}
-					centerCanvas();
-					console.log("status_requested");
+					
+					// avoid double status updates, since each page is rendered twice
+					if(fast)
+						console.log("status_requested");
+					
+					// if there is another page to render, render it
 					if (pageNumIsPending !== null) {
 						var temp_next_page = pageNumIsPending
 						pageNumIsPending = null;
 						renderPage(temp_next_page, true);
 					}
+					// or if this was the fast render, render it better
 					else if(fast)
 						renderPage(num, false);
 				},
-				function(reason){
-					console.log("# page rendering failed " + reason);
-				}
+				(reason) => console.log("# page rendering failed " + reason)
 			)
 		},
-		function(reason){
-			console.log("# page loading failed " + reason);
-		}
+		(reason) => console.log("# page loading failed " + reason)
 	)
 }
 
@@ -166,31 +174,37 @@ function tapPageTurn(ev) {
 		moveToPageRelative(-1);
 }
 
-function parseOutlineNodeArray(ol, depth) {
-	for (let i=0; i < ol.length; i++) {
-		const dest = ol[i].dest;
-		let o_title = ol[i].title;
-		let o_pageNumber = 1;
+async function parseOutlineNode(ol, depth) {
+	const dest = ol.dest;
+	let o_title = ol.title;
+	let o_pageNumber = 1;
 		
-		if(typeof(dest) === "string") {
-			doc.getDestination(dest).then(function(destination) {
-				console.log("# destination: " + JSON.stringify(dest));
-				const ref = destination[0];
-				// And the page id
-				doc.getPageIndex(ref).then(function(index) {
-					o_pageNumber = Number(index) + 1;
-				}, (reason) => console.log("# getPageIndex error: " + reason) );
-			}, (reason) => console.log("# getDestination error: " + reason) );
-		} else if(typeof(dest) == "object") {
-			o_pageNumber = dest[0].num;
-		} else {
-			console.log('# unsupported dest: ' + JSON.stringify(dest));
-			continue;
+	var ref = dest[0];
+		
+	if(typeof(dest) === "string") {
+		try {
+			var destination = await doc.getDestination(dest);
+			ref = destination[0];
+		} catch(err) {
+			console.log("# getDestination error: " + err);
 		}
-		outline.push({title: o_title, src: o_pageNumber, level: depth});
-		
-		// analize child
-		parseOutlineNodeArray(ol[i].items, depth+1);
+	}
+	
+	try{
+		o_pageNumber = 1 + await doc.getPageIndex(ref);
+	} catch(err) {
+		console.log("# getPageIndex error: " + err);
+	}
+	
+	outline.push({title: o_title, src: o_pageNumber, level: depth});
+	
+	// analize child
+	await parseOutlineNodeArray(ol.items, depth+1);
+}
+
+async function parseOutlineNodeArray(ol, depth) {
+	for (let i=0; i < ol.length; i++) {
+		await parseOutlineNode(ol[i], depth);
 	}
 }
 
@@ -217,14 +231,13 @@ window.onload = function() {
 			// init stuff
 			doc = pdf_obj;
 			first_render = true;
+			number_of_pages = doc.numPages;
 			
 			// populate content
 			doc.getOutline().then( function(ol) {
 				if(!ol) return;
 				
-				parseOutlineNodeArray(ol, 0);
-				
-				console.log("setContent " + JSON.stringify(outline));
+				parseOutlineNodeArray(ol, 0).then( () => console.log("setContent " + JSON.stringify(outline)), ()=> console.log("Error 414234") );
 				
 			}, (reason) => console.log("# cannot fetch outline") );
 			
