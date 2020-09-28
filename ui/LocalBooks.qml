@@ -1002,6 +1002,7 @@ Page {
 		height: Math.min(parent.height*0.9, settingsDisabledColumn.height + settingsDisabledHeader.height + units.dp(50))
 		
 		modal: true
+		standardButtons: Dialog.Save
 		
 		/*/ A path on the file system. /*/
 		Column {
@@ -1010,7 +1011,7 @@ Page {
 			width: parent.width
 			spacing: units.dp(20)
 			
-			Text {
+			Label {
 				text: i18n.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
 							"from accessing most of your home directory.  Ebooks should be put in " +
 							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
@@ -1025,19 +1026,24 @@ Page {
 				text: i18n.tr("Reload Directory")
 				// We don't bother with the Timer trick here since we don't get this dialog on
 				// first launch, so we shouldn't have too many books added to the library when
-				// this button is clicked.s
+				// this button is clicked.
 				onClicked: {
 					settingsDisabledDialog.close()
 					readBookDir()
 				}
 			}
-
-			Button {
-				width: parent.width * 0.7
-				anchors.horizontalCenter: parent.horizontalCenter
-				highlighted: true
-				text: i18n.tr("Close")
-				onClicked: settingsDisabledDialog.close()
+			
+			RowLayout {
+				Label {
+					text: i18n.tr("Use legacy PDF viewer")
+					Layout.fillWidth: true
+					color: theme.palette.normal.backgroundText
+					wrapMode: Text.Wrap
+				}
+				Switch {
+					checked: server.legacy_pdf
+					onClicked: server.legacy_pdf = checked
+				}
 			}
 		}
 	}

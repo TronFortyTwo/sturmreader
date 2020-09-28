@@ -15,6 +15,8 @@ import HttpServer 1.0
 HttpServer {
     id: server
     
+    property bool legacy_pdf: true
+    
     property int port: 5000
     
     Component.onCompleted: {
@@ -52,8 +54,12 @@ HttpServer {
     
     onNewRequest: { // request, response
 		// new pdf reader
-		if (request.path == "/PDF")
-			return static_file("../html/pdfjs.html", response)
+		if (request.path == "/PDF") {
+			if(legacy_pdf)
+				return static_file("../html/monocle.html", response)
+			else
+				return static_file("../html/pdfjs.html", response)
+		}
         // the monocle reader
 		if (request.path == "/EPUB")
             return static_file("../html/monocle.html", response)

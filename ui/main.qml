@@ -62,7 +62,7 @@ ApplicationWindow {
 		visible: false
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		Text {
+		Label {
 			text: server.reader.error
 		}
 		standardButtons: Dialog.Ok
@@ -123,6 +123,7 @@ ApplicationWindow {
 		property alias width: mainView.width
 		property alias height: mainView.height
 		property alias sort: localBooks.sort
+		property alias legacy_pdf: server.legacy_pdf
 	}
 
     function getBookSetting(key) {

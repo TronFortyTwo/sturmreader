@@ -124,7 +124,7 @@ PageWithBottomEdge {
 			} else if(msg[0] == "ok") {
 				bookLoadingCompleted();
 			} else if(msg[0] == "monocle:notfound") {
-				// This is a bug
+				// This is caused by a bug
 				bookLoadingCompleted()
 			}
 			// debug messages
