@@ -21,7 +21,7 @@ Item {
     // the size recommended for the button
     property int best_size: units.dp(45)
 	// the size of the margin
-    property int margin: units.dp(size * margin_to_size_ratio)
+    property int margin: size * margin_to_size_ratio
     // the maximum size allowed for the component
 	property int max_size: units.dp(100)
 	// the button size

@@ -150,15 +150,16 @@ PageWithBottomEdge {
         anchors.left: parent.left
         anchors.right: parent.right
         height: childrenRect.height
+        width: parent.width
         
         // relaxed layout uses more space, nicer on wider screens
         // there is one button more on the right, so we check there
-		property bool relaxed_layout: parent.width * 0.5 >= jump_button.width + content_button.width + settings_button.width
+		property bool relaxed_layout: width * 0.5 >= jump_button.width + content_button.width + settings_button.width
 		
 		// reduce button size when even not relaxed layout not enought
 		// 7 is the number of buttons
 		// Not 100% accurate alghorithm, but this convers just edge cases (very small phone display)
-		property int max_button_size: width / 7 - units.dp(1.5)
+		property int max_button_size: width / 7 - units.dp(1)
 		
         FloatingButton {
 			id: home_button
