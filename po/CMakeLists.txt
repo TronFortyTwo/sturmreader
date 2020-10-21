@@ -4,7 +4,7 @@ include(FindGettext)
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
 set(DOMAIN ${PROJECT_NAME})
-set(POT_FILE ${DOMAIN}.pot)
+set(POT_FILE ${APP_HARDCODE}.pot)
 file(GLOB PO_FILES *.po)
 
 # Create the .pot file containing the translations template
@@ -17,11 +17,12 @@ add_custom_target(${POT_FILE} ALL
         --from-code=UTF-8
         -L javascript --qt --add-comments=/
         --keyword=tr --keyword=tr:1,2
-        --package-name='${APP_HARDCODE}'
+        --package-name='${DOMAIN}'
         --copyright-holder='Robert Schroll - Emanuele Sorce'
         --msgid-bugs-address='rschroll@gmail.com - emanuele.sorce@hotmail.com'
-        ${I18N_SRC_FILES})
-
+        ${I18N_SRC_FILES}
+    COMMAND ${CMAKE_COMMAND} -E copy ${POT_FILE} ${CMAKE_CURRENT_SOURCE_DIR})
+    
 # Build the binary translations catalog for each language
 # it finds source translations (*.po) for
 foreach(PO_FILE ${PO_FILES})
