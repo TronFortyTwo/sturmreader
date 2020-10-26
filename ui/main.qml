@@ -30,6 +30,7 @@ ApplicationWindow {
     objectName: "mainView"
     id: mainView
     title: defaultTitle
+    visible: true
     
     property string defaultTitle: "Sturm Reader"
 	property var bookPageComponent: Qt.createComponent("BookPage.qml")

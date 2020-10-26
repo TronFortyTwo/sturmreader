@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.0.0)
+
 set(UI_SRC_FILES
 
 	About.qml
@@ -45,6 +47,11 @@ endif(${OUT_OF_TREE_BUILD})
 set(IMAGE_SRC
     images/stainedpaper_tiled.jpg
 )
+
+add_executable(sturmreader main.cpp ${QT_RESOURCES})
+qt5_use_modules(sturmreader Gui Qml Quick QuickControls2)
+install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
+
 
 add_custom_command(OUTPUT Textures.qml
     COMMAND ./encoder.sh ${IMAGE_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/Textures.qml
