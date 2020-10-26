@@ -3,7 +3,6 @@
 include(FindGettext)
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
-set(DOMAIN ${PROJECT_NAME})
 set(POT_FILE ${APP_HARDCODE}.pot)
 file(GLOB PO_FILES *.po)
 
@@ -17,7 +16,7 @@ add_custom_target(${POT_FILE} ALL
         --from-code=UTF-8
         -L javascript --qt --add-comments=/
         --keyword=tr --keyword=tr:1,2
-        --package-name='${DOMAIN}'
+        --package-name='${PROJECT_NAME}'
         --copyright-holder='Robert Schroll - Emanuele Sorce'
         --msgid-bugs-address='rschroll@gmail.com - emanuele.sorce@hotmail.com'
         ${I18N_SRC_FILES}
@@ -31,5 +30,5 @@ foreach(PO_FILE ${PO_FILES})
     set(INSTALL_DIR ${CMAKE_INSTALL_LOCALEDIR}/${LANG}/LC_MESSAGES)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${LANG}.gmo
             DESTINATION ${INSTALL_DIR}
-			RENAME ${DOMAIN}.mo)
+			RENAME ${PROJECT_NAME}.mo)
 endforeach(PO_FILE)

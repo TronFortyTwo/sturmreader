@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-10-21 17:22+0000\n"
+"POT-Creation-Date: 2020-10-26 13:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,88 +77,88 @@ msgid ""
 "Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
 msgstr ""
 
-#: ui/main.qml:60
+#: ui/main.qml:58
 msgid "Error Opening File"
 msgstr ""
 
-#: ui/LocalBooks.qml:31
+#: ui/LocalBooks.qml:29
 msgid "Books"
 msgstr ""
 
-#: ui/LocalBooks.qml:52
+#: ui/LocalBooks.qml:50
 msgid "Library"
 msgstr ""
 
-#: ui/LocalBooks.qml:100
+#: ui/LocalBooks.qml:98
 msgid "Recently Read"
 msgstr ""
 
-#: ui/LocalBooks.qml:103
+#: ui/LocalBooks.qml:101
 msgid "Title"
 msgstr ""
 
-#: ui/LocalBooks.qml:106
+#: ui/LocalBooks.qml:104
 msgid "Author"
 msgstr ""
 
-#: ui/LocalBooks.qml:125 ui/LocalBooks.qml:892
+#: ui/LocalBooks.qml:123 ui/LocalBooks.qml:890
 msgid "Welcome to Sturm Reader!"
 msgstr ""
 
-#: ui/LocalBooks.qml:207
+#: ui/LocalBooks.qml:205
 msgid "Back"
 msgstr ""
 
-#: ui/LocalBooks.qml:262
+#: ui/LocalBooks.qml:260
 msgid "Could not open this book."
 msgstr ""
 
-#: ui/LocalBooks.qml:627
+#: ui/LocalBooks.qml:625
 msgid "Unknown Author"
 msgstr ""
 
-#: ui/LocalBooks.qml:632
+#: ui/LocalBooks.qml:630
 msgid "%1 Book"
 msgid_plural "%1 Books"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ui/LocalBooks.qml:731
+#: ui/LocalBooks.qml:729
 msgid "No Books in Library"
 msgstr ""
 
 #. / A path on the file system. /
-#: ui/LocalBooks.qml:740
+#: ui/LocalBooks.qml:738
 msgid ""
 "Sturm Reader could not find any books for your library, and will "
 "automatically find all epub files in <i>%1</i>.  Additionally, any book "
 "opened will be added to the library."
 msgstr ""
 
-#: ui/LocalBooks.qml:750
+#: ui/LocalBooks.qml:748
 msgid "Get Books"
 msgstr ""
 
-#: ui/LocalBooks.qml:758
+#: ui/LocalBooks.qml:756
 msgid "Search Again"
 msgstr ""
 
 #. / A control can be dragged to delete a file.  The deletion occurs /
 #. / when the user releases the control. /
-#: ui/LocalBooks.qml:862
+#: ui/LocalBooks.qml:860
 msgid "Release to Delete"
 msgstr ""
 
 #. / A control can be dragged to delete a file. /
-#: ui/LocalBooks.qml:864
+#: ui/LocalBooks.qml:862
 msgid "Swipe to Delete"
 msgstr ""
 
-#: ui/LocalBooks.qml:892 ui/LocalBooks.qml:988
+#: ui/LocalBooks.qml:890 ui/LocalBooks.qml:986
 msgid "Default Book Location"
 msgstr ""
 
-#: ui/LocalBooks.qml:909
+#: ui/LocalBooks.qml:907
 msgid ""
 "Enter the folder in your home directory where your ebooks are or should be "
 "stored.\n"
@@ -167,41 +167,41 @@ msgid ""
 msgstr ""
 
 #. / Create a new directory from path given. /
-#: ui/LocalBooks.qml:926
+#: ui/LocalBooks.qml:924
 msgid "Create Directory"
 msgstr ""
 
 #. / File exists with path given. /
-#: ui/LocalBooks.qml:930
+#: ui/LocalBooks.qml:928
 msgid "File Exists"
 msgstr ""
 
 #. / Read the books in the given directory again. /
-#: ui/LocalBooks.qml:935 ui/LocalBooks.qml:1026
+#: ui/LocalBooks.qml:933 ui/LocalBooks.qml:1024
 msgid "Reload Directory"
 msgstr ""
 
 #. / Use directory specified to store books. /
-#: ui/LocalBooks.qml:938
+#: ui/LocalBooks.qml:936
 msgid "Use Directory"
 msgstr ""
 
-#: ui/LocalBooks.qml:953
+#: ui/LocalBooks.qml:951
 msgid "Please wait..."
 msgstr ""
 
-#: ui/LocalBooks.qml:972
+#: ui/LocalBooks.qml:970
 msgid "Cancel"
 msgstr ""
 
-#: ui/LocalBooks.qml:1015
+#: ui/LocalBooks.qml:1013
 msgid ""
 "Sturm Reader seems to be operating under AppArmor restrictions that prevent "
 "it from accessing most of your home directory.  Ebooks should be put in <i>"
 "%1</i> for Sturm Reader to read them."
 msgstr ""
 
-#: ui/LocalBooks.qml:1038
+#: ui/LocalBooks.qml:1036
 msgid "Use legacy PDF viewer"
 msgstr ""
 

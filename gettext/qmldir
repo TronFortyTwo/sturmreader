@@ -1,0 +1,2 @@
+module Gettext
+plugin gettextplugin

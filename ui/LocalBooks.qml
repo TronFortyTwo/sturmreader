@@ -7,7 +7,6 @@
  * This file is part of Sturm Reader and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
  */
-
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
@@ -18,21 +17,20 @@ import "components"
 
 import Units 1.0
 
-
 Page {
-    id: localBooks
+	id: localBooks
 
-    property alias sort: sorttabs.currentIndex
-    property bool needsort: false
-    property bool firststart: false
-    property bool wide: false
-    property string bookdir: ""
-    property bool readablehome: false
-    property string defaultdirname: i18n.tr("Books")
-    property double gridmargin: units.dp(10)
-    property double mingridwidth: units.dp(150)
-    property bool reloading: false
-
+	property alias sort: sorttabs.currentIndex
+	property bool needsort: false
+	property bool firststart: false
+	property bool wide: false
+	property string bookdir: ""
+	property bool readablehome: false
+	property string defaultdirname: i18n.tr("Books")
+	property double gridmargin: units.dp(10)
+	property double mingridwidth: units.dp(150)
+	property bool reloading: false
+	
     background: Rectangle {
 		color: Theme.palette.normal.background
 	}

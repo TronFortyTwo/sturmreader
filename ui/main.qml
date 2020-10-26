@@ -9,6 +9,8 @@
  * the GNU GPLv3. See the file COPYING for full details.
  */
 
+import Ubuntu.Components 1.3
+
 import QtQuick 2.9
 import QtQuick.LocalStorage 2.0
 import QtQuick.Window 2.0
@@ -32,10 +34,6 @@ ApplicationWindow {
     property string defaultTitle: "Sturm Reader"
 	property var bookPageComponent: Qt.createComponent("BookPage.qml")
 	property var bookPage: null
-    
-    //applicationName: "sturmreader.emanuelesorce"
-    
-    //automaticOrientation: true
     
     width: units.dp(800)
     height: units.dp(600)
@@ -204,6 +202,11 @@ ApplicationWindow {
             height = size[1]
         }*/
 
+		console.log("Using locale: " + mainView.locale.name);
+		console.log("i18n language: " + i18n.language);
+		i18n.domain = "sturmreader.emanuelesorce"
+		console.log("i18n domain: " + i18n.domain);
+		
         localBooks.onMainCompleted()
     }
 }
