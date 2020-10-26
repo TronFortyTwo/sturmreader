@@ -176,12 +176,10 @@ ApplicationWindow {
 
     Component.onCompleted: {
 		
-		Qt.application.name = "sturmreader.emanuelesorce"
-		
-        var db = openSettingsDatabase()
-        db.transaction(function (tx) {
-            tx.executeSql("CREATE TABLE IF NOT EXISTS Settings(key TEXT UNIQUE, value TEXT)")
-        })
+		var db = openSettingsDatabase()
+		db.transaction(function (tx) {
+			tx.executeSql("CREATE TABLE IF NOT EXISTS Settings(key TEXT UNIQUE, value TEXT)")
+		})
 		
 		// TODO: support for importing using args
 		var bookarg = undefined //Qt.application.arguments[1]
@@ -202,11 +200,7 @@ ApplicationWindow {
             width = size[0]
             height = size[1]
         }*/
-
-		console.log("Using locale: " + mainView.locale.name);
-		console.log("i18n language: " + i18n.language);
-		i18n.domain = "sturmreader.emanuelesorce"
-		console.log("i18n domain: " + i18n.domain);
+		i18n.domain = Qt.application.name;
 		
         localBooks.onMainCompleted()
     }
