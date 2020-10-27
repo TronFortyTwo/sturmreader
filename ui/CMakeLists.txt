@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
+set(CMAKE_AUTOMOC ON)
+
 set(UI_SRC_FILES
 
 	About.qml
@@ -48,7 +50,7 @@ set(IMAGE_SRC
     images/stainedpaper_tiled.jpg
 )
 
-add_executable(sturmreader main.cpp ${QT_RESOURCES})
+add_executable(sturmreader main.cpp gettext.cpp ${QT_RESOURCES})
 qt5_use_modules(sturmreader Gui Qml Quick QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 

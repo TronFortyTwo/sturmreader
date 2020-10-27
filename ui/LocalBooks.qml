@@ -26,7 +26,7 @@ Page {
 	property bool wide: false
 	property string bookdir: ""
 	property bool readablehome: false
-	property string defaultdirname: i18n.tr("Books")
+	property string defaultdirname: gettext.tr("Books")
 	property double gridmargin: units.dp(10)
 	property double mingridwidth: units.dp(150)
 	property bool reloading: false
@@ -47,7 +47,7 @@ Page {
 				width: parent.width - units.dp(10)
 				
 				Label {
-					text: i18n.tr("Library")
+					text: gettext.tr("Library")
 					font.pixelSize: units.dp(22)
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignLeft
@@ -95,7 +95,7 @@ Page {
 			id: sorttabs
 			width: parent.width
 			TabButton {
-				text: i18n.tr("Recently Read")
+				text: gettext.tr("Recently Read")
 			}
 			TabButton {
 				text: i18n.tr("Title")

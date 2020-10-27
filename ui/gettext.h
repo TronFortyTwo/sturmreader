@@ -13,7 +13,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+ 
+#include <QObject>
 #include <QGuiApplication>
 #include <QCoreApplication>
 #include <QUrl>
@@ -21,34 +22,25 @@
 #include <QDebug>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
+#include <QtQml>
 #include <QObject>
-#include <QQmlEngine>
-#include <QQmlContext>
 
-#include <string>
-#include <locale>
-#include <libintl.h>
-
-#include "gettext.h"
-
-// =================
-// Launcher function
-// =================
-int main(int argc, char *argv[])
+class Gettext : public QObject
 {
-	//QApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-	QQuickStyle::setStyle("Suru");
+Q_OBJECT
 
-	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
-	app->setApplicationName("sturmreader.emanuelesorce");
+public:
 
-	//Gettext gt();
-	qmlRegisterType<Gettext>("Gettext", 1, 0, "Gettext");
+	explicit Gettext(QObject* parent = 0);
+	//virtual ~Gettext(){}
 	
-	qDebug() << "Starting";
-
-	QQmlApplicationEngine engine;
-	engine.load("ui/main.qml");
+	Q_INVOKABLE
+	QString tr(const QString& text) const;
 	
-	return app->exec();
-}
+	Q_INVOKABLE
+	QString tr(const QString& singular, const QString& plural, int n) const;
+	
+	void setDomain(const QString& domain);
+	
+	//Q_DISABLE_COPY(Gettext)
+};
