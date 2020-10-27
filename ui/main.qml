@@ -18,7 +18,6 @@ import Qt.labs.settings 1.0
 import File 1.0
 
 import Units 1.0
-//import Gettext 1.0
 
 import "components"
 import "not-portable"
@@ -36,10 +35,6 @@ ApplicationWindow {
     
     width: units.dp(800)
     height: units.dp(600)
-
-	//Gettext {
-	//	id: gettext
-	//}
 	
     FileSystem {
         id: filesystem
@@ -202,7 +197,6 @@ ApplicationWindow {
             width = size[0]
             height = size[1]
         }*/
-		//i18n.domain = Qt.application.name;
 		
         localBooks.onMainCompleted()
     }

@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
 	app->setApplicationName("sturmreader.emanuelesorce");
 
 	Gettext gt;
-	//qmlRegisterType<Gettext>("Gettext", 1, 0, "Gettext");
 	
 	qDebug() << "Starting";
 

@@ -77,10 +77,10 @@ Page {
 		standardButtons: Dialog.Cancel
 		
 		Loader {
-            id: edgeLoader
-            asynchronous: true
-            anchors.fill: parent
-        }
+			id: edgeLoader
+			asynchronous: true
+			anchors.fill: parent
+		}
 	}
 
 	Drawer {

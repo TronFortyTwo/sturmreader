@@ -95,6 +95,8 @@ PageWithBottomEdge {
 					bookLoadingCompleted()
 					bookPage.updateSavedPage()
 				}
+			} else if(msg[0] == "startLoading") {
+				bookLoadingStart();
 			} else if(msg[0] == "Ready") {
 				isBookReady = true;
 				if(doPageChangeAsSoonAsReady) {
@@ -381,7 +383,7 @@ PageWithBottomEdge {
 			
             //Messaging.sendMessage("Styles", asObject())
             // this one below should be improved
-			bookWebView.runJavaScript("styleManager.updateStyles({" +
+			bookWebView.runJavaScript("if (styleManager) styleManager.updateStyles({" +
 				"'textColor':'" + textColor +
 				"','fontFamily':'" + fontFamily +
 				"','lineHeight':'" + lineHeight +
@@ -766,15 +768,8 @@ PageWithBottomEdge {
 		})
 		pageMetric.turnPage()
 	}
-	
-    function windowSizeChanged() {
-		bookLoadingStart()
-		bookWebView.runJavaScript("if (windowSizeChanged) windowSizeChanged();")
-    }
 
-    Component.onCompleted: {
-        server.reader.contentsReady.connect(parseContents)
-        onWidthChanged.connect(windowSizeChanged)
-        onHeightChanged.connect(windowSizeChanged)
-    }
+	Component.onCompleted: {
+		server.reader.contentsReady.connect(parseContents)
+	}
 }

@@ -78,8 +78,6 @@ void Gettext::setDomain(const QString& domain) {
 	else
 		locale_path = QStringLiteral("/usr/share/locale");
 	
-	qDebug() << locale_path;
-	
 	bindtextdomain(domain.toUtf8(), locale_path.toUtf8());
 }
 

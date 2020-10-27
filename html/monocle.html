@@ -26,10 +26,6 @@ the GPL. See the file COPYING for full details.
 <script>
 var reader = null;
 
-function windowSizeChanged() {
-	if(reader) reader.resized();
-}
-
 function moveToLocus(locus) {
 	reader.moveTo(locus);
 }
@@ -60,6 +56,13 @@ window.onload = function () {
 			console.log("Ready");
         }
     );
+}
+
+window.onresize = function () {
+	if(reader) {
+		console.log("startLoading");
+		reader.resized();
+	}
 }
 
 </script>

@@ -27,12 +27,7 @@ var outline = undefined;
 var number_of_pages = 0;
 
 // BOOK PAGE API
-// we handle this ourself with window.onresize()
-//		since the qml signal arrives before the webview has actually changed the html window size
-function windowSizeChanged() {
-	if(!first_render)
-		console.log('ok');
-}
+
 function statusUpdate() {
 	// for the chapter, scroll throught the chapters to find the right one if any
 	let chap = -1;
