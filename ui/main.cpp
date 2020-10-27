@@ -42,12 +42,13 @@ int main(int argc, char *argv[])
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName("sturmreader.emanuelesorce");
 
-	//Gettext gt();
-	qmlRegisterType<Gettext>("Gettext", 1, 0, "Gettext");
+	Gettext gt;
+	//qmlRegisterType<Gettext>("Gettext", 1, 0, "Gettext");
 	
 	qDebug() << "Starting";
 
 	QQmlApplicationEngine engine;
+	engine.rootContext()->setContextProperty("gettext", &gt);
 	engine.load("ui/main.qml");
 	
 	return app->exec();
