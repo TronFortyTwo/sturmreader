@@ -98,10 +98,10 @@ Page {
 				text: gettext.tr("Recently Read")
 			}
 			TabButton {
-				text: i18n.tr("Title")
+				text: gettext.tr("Title")
 			}
 			TabButton {
-				text: i18n.tr("Author")
+				text: gettext.tr("Author")
 			}
 		}
 	}
@@ -120,7 +120,7 @@ Page {
     
     function onFirstStart(db) {
         db.changeVersion(db.version, "1")
-        noBooksLabel.text = i18n.tr("Welcome to Sturm Reader!")
+        noBooksLabel.text = gettext.tr("Welcome to Sturm Reader!")
         firststart = true
     }
 
@@ -202,7 +202,7 @@ Page {
                     perAuthorModel.append({filename: item.filename, title: item.title,
                                            author: item.author, cover: item.cover, fullcover: item.fullcover})
             }
-            perAuthorModel.append({filename: "ZZZback", title: i18n.tr("Back"),
+            perAuthorModel.append({filename: "ZZZback", title: gettext.tr("Back"),
                                    author: "", cover: ""})
         })
     }
@@ -257,7 +257,7 @@ Page {
                 hash = coverReader.hash()
             } else {
                 title = res.rows.item(0).title
-                author = i18n.tr("Could not open this book.")
+                author = gettext.tr("Could not open this book.")
                 authorsort = "zzzzerror"
                 cover = "ZZZerror"
                 fullcover = ""
@@ -622,12 +622,12 @@ Page {
 					anchors.right: parent.right
 					spacing: units.dp(5)
 					Text {
-						text: model.author || i18n.tr("Unknown Author")
+						text: model.author || gettext.tr("Unknown Author")
 						color: theme.palette.normal.backgroundText
 						font.pointSize: units.dp(12)
 					}
 					Text {
-						text: (model.count > 1) ? i18n.tr("%1 Book", "%1 Books", model.count).arg(model.count)
+						text: (model.count > 1) ? gettext.tr("%1 Book", "%1 Books", model.count).arg(model.count)
 								: model.title
 						color: theme.palette.normal.backgroundText
 						font.pointSize: units.dp(9)
@@ -726,7 +726,7 @@ Page {
             Text {
                 id: noBooksLabel
 				anchors.horizontalCenter: parent.horizontalCenter
-                text: i18n.tr("No Books in Library")
+                text: gettext.tr("No Books in Library")
                 font.pixelSize: units.dp(30)
 				horizontalAlignment: Text.AlignHCenter
 				width: parent.width
@@ -735,7 +735,7 @@ Page {
 
             Text {
                 /*/ A path on the file system. /*/
-                text: i18n.tr("Sturm Reader could not find any books for your library, and will " +
+                text: gettext.tr("Sturm Reader could not find any books for your library, and will " +
                               "automatically find all epub files in <i>%1</i>.  Additionally, any book " +
                               "opened will be added to the library.").arg(bookdir)
                 wrapMode: Text.Wrap
@@ -745,7 +745,7 @@ Page {
             }
 
             Button {
-                text: i18n.tr("Get Books")
+                text: gettext.tr("Get Books")
 				anchors.horizontalCenter: parent.horizontalCenter
                 highlighted: true
                 width: parent.width
@@ -753,7 +753,7 @@ Page {
             }
 
             Button {
-                text: i18n.tr("Search Again")
+                text: gettext.tr("Search Again")
 				anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
                 onClicked: readBookDir()
@@ -857,9 +857,9 @@ Page {
 					visible: false
 					/*/ A control can be dragged to delete a file.  The deletion occurs /*/
 					/*/ when the user releases the control. /*/
-					actionText: i18n.tr("Release to Delete")
+					actionText: gettext.tr("Release to Delete")
 					/*/ A control can be dragged to delete a file. /*/
-					notificationText: i18n.tr("Swipe to Delete")
+					notificationText: gettext.tr("Swipe to Delete")
 					onTriggered: {
 						filesystem.remove(infoDialog.filename)
 						infoDialog.close()
@@ -887,7 +887,7 @@ Page {
 			RowLayout {
 				anchors.fill: parent
 				Label {
-					text: firststart ? i18n.tr("Welcome to Sturm Reader!") : i18n.tr("Default Book Location")
+					text: firststart ? gettext.tr("Welcome to Sturm Reader!") : gettext.tr("Default Book Location")
 					font.pixelSize: units.dp(27)
 					color: theme.palette.normal.backgroundText
 					elide: Label.ElideRight
@@ -904,7 +904,7 @@ Page {
 			
 			/*/ Text precedes an entry for a file path. /*/
 			Text {
-				text: i18n.tr("Enter the folder in your home directory where your ebooks are or " +
+				text: gettext.tr("Enter the folder in your home directory where your ebooks are or " +
 							"should be stored.\n\nChanging this value will not affect existing " +
 							"books in your library.")
 				color: theme.palette.normal.backgroundText
@@ -921,19 +921,19 @@ Page {
 					var status = filesystem.exists(settingsDialog.homepath + pathfield.text)
 					if (status == 0) {
 						/*/ Create a new directory from path given. /*/
-						useButton.text = i18n.tr("Create Directory")
+						useButton.text = gettext.tr("Create Directory")
 						useButton.enabled = true
 					} else if (status == 1) {
 						/*/ File exists with path given. /*/
-						useButton.text = i18n.tr("File Exists")
+						useButton.text = gettext.tr("File Exists")
 						useButton.enabled = false
 					} else if (status == 2) {
 						if (settingsDialog.homepath + pathfield.text == bookdir && !firststart)
 							/*/ Read the books in the given directory again. /*/
-							useButton.text = i18n.tr("Reload Directory")
+							useButton.text = gettext.tr("Reload Directory")
 						else
 							/*/ Use directory specified to store books. /*/
-							useButton.text = i18n.tr("Use Directory")
+							useButton.text = gettext.tr("Use Directory")
 						useButton.enabled = true
 					}
 				}
@@ -948,7 +948,7 @@ Page {
 							filesystem.makeDir(settingsDialog.homepath + pathfield.text)
 						setBookDir(settingsDialog.homepath + pathfield.text)
 						useButton.enabled = false
-						useButton.text = i18n.tr("Please wait...")
+						useButton.text = gettext.tr("Please wait...")
 						cancelButton.enabled = false
 						unblocker.start()
 					}
@@ -967,7 +967,7 @@ Page {
 
 			Button {
 				id: cancelButton
-				text: i18n.tr("Cancel")
+				text: gettext.tr("Cancel")
 				visible: !firststart
 				onClicked: settingsDialog.close()
 			}
@@ -983,7 +983,7 @@ Page {
 			RowLayout {
 				anchors.fill: parent
 				Label {
-					text: i18n.tr("Default Book Location")
+					text: gettext.tr("Default Book Location")
 					font.pixelSize: units.dp(27)
 					color: theme.palette.normal.backgroundText
 					elide: Label.ElideRight
@@ -1010,7 +1010,7 @@ Page {
 			spacing: units.dp(20)
 			
 			Label {
-				text: i18n.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
+				text: gettext.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
 							"from accessing most of your home directory.  Ebooks should be put in " +
 							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
 				color: theme.palette.normal.backgroundText
@@ -1021,7 +1021,7 @@ Page {
 			Button {
 				width: parent.width * 0.7
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: i18n.tr("Reload Directory")
+				text: gettext.tr("Reload Directory")
 				// We don't bother with the Timer trick here since we don't get this dialog on
 				// first launch, so we shouldn't have too many books added to the library when
 				// this button is clicked.
@@ -1033,7 +1033,7 @@ Page {
 			
 			RowLayout {
 				Label {
-					text: i18n.tr("Use legacy PDF viewer")
+					text: gettext.tr("Use legacy PDF viewer")
 					Layout.fillWidth: true
 					color: theme.palette.normal.backgroundText
 					wrapMode: Text.Wrap

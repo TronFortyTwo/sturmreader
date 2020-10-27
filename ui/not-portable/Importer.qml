@@ -54,7 +54,7 @@ Item {
         UUITK.ContentPeerPicker {
             handler: UUITK.ContentHandler.Source
             contentType: UUITK.ContentType.Documents
-            headerText: i18n.tr("Import books from")
+            headerText: gettext.tr("Import books from")
 
             onPeerSelected: {
                 peer.selectionType = UUITK.ContentTransfer.Multiple

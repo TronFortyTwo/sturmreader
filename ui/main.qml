@@ -8,9 +8,6 @@
  * This file is part of Sturm Reader and is distributed under the terms of
  * the GNU GPLv3. See the file COPYING for full details.
  */
-
-import Ubuntu.Components 1.3
-
 import QtQuick 2.9
 import QtQuick.LocalStorage 2.0
 import QtQuick.Window 2.0
@@ -61,7 +58,7 @@ ApplicationWindow {
 
     Dialog {
 		id: errorOpenDialog
-		title: i18n.tr("Error Opening File")
+		title: Gettext.tr("Error Opening File")
 		modal: true
 		visible: false
 		x: Math.round((parent.width - width) / 2)
@@ -205,7 +202,7 @@ ApplicationWindow {
             width = size[0]
             height = size[1]
         }*/
-		i18n.domain = Qt.application.name;
+		//i18n.domain = Qt.application.name;
 		
         localBooks.onMainCompleted()
     }

@@ -35,7 +35,7 @@ Page {
 			anchors.fill: parent
 			
 			Label {
-				text: i18n.tr("Importing books...")
+				text: gettext.tr("Importing books...")
 				font.pixelSize: units.dp(22)
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
@@ -85,15 +85,15 @@ Page {
 						text: {
 							switch (model.state) {
 								case importState.new:
-									return i18n.tr("Waiting")
+									return gettext.tr("Waiting")
 								case importState.processing:
-									return i18n.tr("Processing")
+									return gettext.tr("Processing")
 								case importState.imported:
-									return i18n.tr("Imported to %1").arg(model.importName)
+									return gettext.tr("Imported to %1").arg(model.importName)
 								case importState.exists:
-									return i18n.tr("Already in library: %1").arg(model.importName)
+									return gettext.tr("Already in library: %1").arg(model.importName)
 								case importState.error:
-									return i18n.tr("Error: %1").arg(model.error.split("\n\n")[0])
+									return gettext.tr("Error: %1").arg(model.error.split("\n\n")[0])
 							}
 						}
 						color: theme.palette.normal.backgroundText

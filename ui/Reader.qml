@@ -30,10 +30,10 @@ Item {
     property bool pictureBook: currentReader !== epub
     property string error: {
         if (currentReader === undefined)
-            return i18n.tr("Could not determine file type.\n\n" +
+            return gettext.tr("Could not determine file type.\n\n" +
                            "Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM.")
         else
-            return i18n.tr("Could not parse file.\n\n" +
+            return gettext.tr("Could not parse file.\n\n" +
                            "Although it appears to be a %1 file, it could not be parsed by Sturm Reader.").arg(fileType)
     }
 

@@ -10,8 +10,8 @@ import QtQuick 2.9
 UUITK.Metric {
 	id: pageMetric
 	name: "page-turn-metric"
-	format: i18n.tr("Pages read today: %1")
-		emptyFormat: i18n.tr("No pages read today")
+	format: gettext.tr("Pages read today: %1")
+		emptyFormat: gettext.tr("No pages read today")
 		domain: Qt.application.name
 	
 	function turnPage() {

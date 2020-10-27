@@ -278,7 +278,7 @@ PageWithBottomEdge {
 				width: parent.width
 				highlighted: bookPage.currentChapter == model.src
 				text: (new Array(model.level + 1)).join("    ") +
-						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, i18n.tr("Page"))
+						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, gettext.tr("Page"))
 				onClicked: {
 					bookLoadingStart();
 					bookWebView.runJavaScript('moveToChapter("' + model.src + '")');
@@ -302,7 +302,7 @@ PageWithBottomEdge {
         Text {
 			anchors.centerIn: parent
 			visible: contentsListModel.count == 0
-			text: i18n.tr("Nothing here");
+			text: gettext.tr("Nothing here");
 			color: Theme.palette.normal.foregroundText
 		}
     }
@@ -481,7 +481,7 @@ PageWithBottomEdge {
 			RowLayout {
 				anchors.fill: parent
 				Label {
-					text: i18n.tr("Book Settings")
+					text: gettext.tr("Book Settings")
 					font.pixelSize: units.dp(27)
 					color: theme.palette.normal.backgroundText
 					elide: Label.ElideRight
@@ -579,7 +579,7 @@ PageWithBottomEdge {
 					id: fontSelector
 					visible: !server.reader.pictureBook
 					onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
-					displayText: (model[currentIndex] == "Default") ? i18n.tr("Default Font") : model[currentIndex]
+					displayText: (model[currentIndex] == "Default") ? gettext.tr("Default Font") : model[currentIndex]
 					
 					model: fontLister.fontList
 					
@@ -587,7 +587,7 @@ PageWithBottomEdge {
 						highlighted: fontSelector.highlightedIndex === index
 						width: parent.width
 						contentItem: Text {
-							text: (modelData == "Default") ? i18n.tr("Default Font") : modelData
+							text: (modelData == "Default") ? gettext.tr("Default Font") : modelData
 							font.family: modelData
 							color: theme.palette.normal.foregroundText
 						}
@@ -600,7 +600,7 @@ PageWithBottomEdge {
 					visible: !server.reader.pictureBook
 					Text {
 						/*/ Prefer string of < 16 characters /*/
-						text: i18n.tr("Font Scaling")
+						text: gettext.tr("Font Scaling")
 						color: theme.palette.normal.foregroundText
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
@@ -625,7 +625,7 @@ PageWithBottomEdge {
 					visible: !server.reader.pictureBook
 					Text {
 						/*/ Prefer string of < 16 characters /*/
-						text: i18n.tr("Line Height")
+						text: gettext.tr("Line Height")
 						color: theme.palette.normal.foregroundText
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
@@ -650,7 +650,7 @@ PageWithBottomEdge {
 					visible: !server.reader.pictureBook
 					Text {
 						/*/ Prefer string of < 16 characters /*/
-						text: i18n.tr("Margins")
+						text: gettext.tr("Margins")
 						color: theme.palette.normal.foregroundText
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
@@ -674,7 +674,7 @@ PageWithBottomEdge {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.8
 					/*/ Prefer < 16 characters /*/
-					text: i18n.tr("Make Default")
+					text: gettext.tr("Make Default")
 					enabled: !bookStyles.atdefault
 					onClicked: bookStyles.saveAsDefault()
 				}
@@ -682,7 +682,7 @@ PageWithBottomEdge {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.8
 					/*/ Prefer < 16 characters /*/
-					text: i18n.tr("Load Defaults")
+					text: gettext.tr("Load Defaults")
 					enabled: !bookStyles.atdefault
 					onClicked: bookStyles.resetToDefaults()
 				}
@@ -690,7 +690,7 @@ PageWithBottomEdge {
 				Button {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.8
-					text: i18n.tr("Close")
+					text: gettext.tr("Close")
 					highlighted: true
 					onClicked: stylesDialog.close()
 				}

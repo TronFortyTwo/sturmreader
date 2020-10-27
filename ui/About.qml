@@ -33,7 +33,7 @@ Page {
 			}
 			
 			Label {
-				text: i18n.tr("About")
+				text: gettext.tr("About")
 				font.pixelSize: units.dp(22)
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
@@ -78,7 +78,7 @@ Page {
 				font.bold: true
 				horizontalAlignment: Text.AlignHCenter
 				wrapMode: Text.WordWrap
-				text: i18n.tr("Sturm Reader")
+				text: gettext.tr("Sturm Reader")
 				color: theme.palette.normal.baseText
 			}
 			
@@ -88,7 +88,7 @@ Page {
 				color: theme.palette.normal.baseText
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
-				text: i18n.tr("Sturm (und Drang) Reader is an open source Ebook reader.<br>Community is what makes this app possible, so pull requests, translations, feedback and donations are very appreciated :)<br>This app Is a fork of the Beru app by Rshcroll, Thanks!<br>This app stands on the shoulder of various Open Source projects, see source code for licensing details");
+				text: gettext.tr("Sturm (und Drang) Reader is an open source Ebook reader.<br>Community is what makes this app possible, so pull requests, translations, feedback and donations are very appreciated :)<br>This app Is a fork of the Beru app by Rshcroll, Thanks!<br>This app stands on the shoulder of various Open Source projects, see source code for licensing details");
 			}
 			
 			Text {
@@ -97,7 +97,7 @@ Page {
 				color: theme.palette.normal.baseText
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
-				text: i18n.tr("A big thanks to all translators, beta-testers, and users<br/>in general who improve this app with their work and feedback")
+				text: gettext.tr("A big thanks to all translators, beta-testers, and users<br/>in general who improve this app with their work and feedback")
 			}
 			
 			Text {
@@ -106,7 +106,7 @@ Page {
 				color: theme.palette.normal.baseText
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
-				text: i18n.tr("A special thanks to Joan Cibersheep for the new logo")
+				text: gettext.tr("A special thanks to Joan Cibersheep for the new logo")
 			}
 					
 			Text {
@@ -115,12 +115,12 @@ Page {
 				color: theme.palette.normal.baseText
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
-				text: i18n.tr("A special thanks to Jeroen for support and a test device")
+				text: gettext.tr("A special thanks to Jeroen for support and a test device")
 			}
 			
 			Button {
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: i18n.tr("See source on Github")
+				text: gettext.tr("See source on Github")
 				highlighted: true
 				width: parent.width * 4 / 5
 				onClicked: Qt.openUrlExternally("https://github.com/tronfortytwo/sturmreader");
@@ -128,7 +128,7 @@ Page {
 			
 			Button {
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: i18n.tr("Report bug or feature request")
+				text: gettext.tr("Report bug or feature request")
 				highlighted: true
 				width: parent.width * 4 / 5
 				onClicked: Qt.openUrlExternally("https://github.com/tronfortytwo/sturmreader/issues");
@@ -136,14 +136,14 @@ Page {
 			
 			Button {
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: i18n.tr("See License (GNU GPL v3)")
+				text: gettext.tr("See License (GNU GPL v3)")
 				width: parent.width * 4 / 5
 				onClicked: Qt.openUrlExternally("https://github.com/TronFortyTwo/sturmreader/blob/master/LICENSE");
 			}
 			
 			Button {
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: i18n.tr("❤Donate❤")
+				text: gettext.tr("❤Donate❤")
 				highlighted: true
 				width: parent.width * 4 / 5
 				onClicked: Qt.openUrlExternally("https://paypal.me/emanuele42");

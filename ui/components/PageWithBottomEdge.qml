@@ -63,7 +63,7 @@ Page {
 			RowLayout {
 				anchors.fill: parent
 				Label {
-					text: i18n.tr("Contents")
+					text: gettext.tr("Contents")
 					font.pixelSize: units.dp(27)
 					color: theme.palette.normal.backgroundText
 					elide: Label.ElideRight
