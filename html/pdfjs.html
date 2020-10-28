@@ -48,10 +48,13 @@ function moveToPageRelative (num) {
 	else if(target > number_of_pages)
 		target = number_of_pages;
 	
-	if(Math.abs(target - pageNumber) > 1)
-		console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
+	// Don't trigger turning if it's the same page
+	if(target != pageNumber) {
+		if(Math.abs(target - pageNumber) > 1)
+			console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
 	
-	queueRenderPage(target);
+		queueRenderPage(target);
+	}
 }
 function moveToLocus(locus) {
 	queueRenderPage(locus.pageNumber);

@@ -158,18 +158,15 @@ Page {
 					spacing: units.dp(15)
 					
 					onVisibleChanged: {
-						if(visible) {
-							pagesTumblerModel.popuplate();
-							page_slider.value = pdf_pageNumber;
-							pagesTumbler.currentIndex = page_slider.value;
-						}
+						pagesTumblerModel.popuplate();
+						page_slider.value = pdf_pageNumber;
 					}
 					
 					Text {
 						width: parent.width
 						horizontalAlignment: Text.AlignHCenter
-						text: gettext.tr("Page") + " " + page_slider.value + "/" + (pdf_numberOfPages + 1)
-						font.pointSize: 20
+						text: gettext.tr("Page") + " " + page_slider.value + "/" + (pdf_numberOfPages)
+						font.pointSize: 19
 						color: Theme.palette.normal.foregroundText
 					}
 					ListModel {
@@ -177,8 +174,8 @@ Page {
 						
 						function popuplate() {
 							clear();
-							for (var i = 0; i <= pdf_numberOfPages; i += 1)
-								append({"num": (i+1)});
+							for (var i = 1; i <= pdf_numberOfPages; i += 1)
+								append({"num": (i)});
 						}
 					}
 					RowLayout {
@@ -186,7 +183,7 @@ Page {
 						Button {
 							Layout.alignment: Qt.AlignLeft
 							text: "-"
-							font.weight: Font.Bold
+							font.pointSize: 19
 							onClicked: pagesTumbler.currentIndex -= 1
 						}
 						Tumbler {
@@ -215,7 +212,7 @@ Page {
 						Button {
 							Layout.alignment: Qt.AlignRight
 							text: "+"
-							font.weight: Font.Bold
+							font.pointSize: 19
 							onClicked: pagesTumbler.currentIndex += 1
 						}
 					}
@@ -227,13 +224,13 @@ Page {
 						id: page_slider
 						Layout.fillWidth: true
 						from: 1
-						to: pdf_numberOfPages+1
+						to: pdf_numberOfPages
 						stepSize: 1
 						value: pdf_pageNumber
 						onValueChanged: {
 							if (pagesTumbler.currentIndex != value-1)
 								pagesTumbler.currentIndex = value-1
-							pdf_newPage = value-1;
+							pdf_newPage = value;
 						}
 						snapMode: Slider.SnapAlways
 					}
