@@ -190,7 +190,6 @@ Page {
 							Layout.alignment: Qt.AlignHCenter
 							id: pagesTumbler
 							rotation: -90
-							currentIndex: page_slide.value-1
 							wrap: false
 							model: pagesTumblerModel
 							delegate: Text {

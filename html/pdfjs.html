@@ -184,6 +184,39 @@ function tapPageTurn(ev) {
 		moveToPageRelative(-1);
 }
 
+var panDirection = ""
+
+function panLeftPageTurn(ev) {
+	// do not move if zoomed
+	if(window.visualViewport.scale > 1.001)
+		return;
+	
+	panDirection = "left";
+	
+	console.log('panleft');
+}
+
+function panRightPageTurn(ev) {
+	// do not move if zoomed
+	if(window.visualViewport.scale > 1.001)
+		return;
+	
+	panDirection = "right";
+	
+	console.log('panright');
+}
+
+function panEndPageTurn(ev) {
+	// do not move if zoomed
+	if(window.visualViewport.scale > 1.001)
+		return;
+	
+	if( Math.abs(ev.deltaX) > window.visualViewport.width * 0.25)
+		moveToPageRelative( panDirection == "left" ? 1 : -1);
+		
+	console.log('panend');
+}
+
 async function parseOutlineNode(ol, depth) {
 	const dest = ol.dest;
 	let o_title = ol.title;
@@ -220,13 +253,20 @@ async function parseOutlineNodeArray(ol, depth) {
 
 window.onload = function() {
 	
+	// set the background
+	document.getElementById("next-canvas").style.zIndex = -1;
+	
 	outline = [];
 	
 	// initialize gestures
 	mc = new Hammer(document);
 	
 	// tap to move instanlty by one page
-	mc.on("tap press",function(ev) { tapPageTurn(ev) });
+	mc.on("tap press", (ev) => tapPageTurn(ev) );
+	mc.on("panright", (ev) => panRightPageTurn(ev) );
+	mc.on("panleft", (ev) => panLeftPageTurn(ev) );
+	mc.on("panend", (ev) => panEndPageTurn(ev) );
+	mc.on("pancancel", (ev) => panEndPageTurn(ev) );
 	
 	// load saved page or open from the beginning
 	if(SAVED_PLACE && SAVED_PLACE.pageNumber)
@@ -286,7 +326,7 @@ window.onresize = function() {
 		position: absolute;
 		left: 0px;
 	}
-	body{
+	body {
 		margin: 0px;
 	}
 </style>
@@ -296,6 +336,7 @@ window.onresize = function() {
 <body>
 	<canvas class="page" id="fast-canvas"></canvas>
 	<canvas class="page" id="slow-canvas"></canvas>
+	<canvas class="page" id="next-canvas"></canvas>
 </body>
 
 </html>

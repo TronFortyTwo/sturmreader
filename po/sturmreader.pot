@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-10-28 18:33+0000\n"
+"POT-Creation-Date: 2020-10-28 23:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,40 +38,40 @@ msgstr ""
 msgid "No outline available"
 msgstr ""
 
-#: ui/BookPage.qml:698
+#: ui/BookPage.qml:697
 msgid "Book Settings"
 msgstr ""
 
-#: ui/BookPage.qml:796 ui/BookPage.qml:804
+#: ui/BookPage.qml:795 ui/BookPage.qml:803
 msgid "Default Font"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:817
+#: ui/BookPage.qml:816
 msgid "Font Scaling"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:842
+#: ui/BookPage.qml:841
 msgid "Line Height"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:867
+#: ui/BookPage.qml:866
 msgid "Margins"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/BookPage.qml:891
+#: ui/BookPage.qml:890
 msgid "Make Default"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/BookPage.qml:899
+#: ui/BookPage.qml:898
 msgid "Load Defaults"
 msgstr ""
 
-#: ui/BookPage.qml:907
+#: ui/BookPage.qml:906
 msgid "Close"
 msgstr ""
 
