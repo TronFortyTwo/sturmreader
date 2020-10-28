@@ -23,31 +23,30 @@ import Units 1.0
 Page {
     id: page
 
-    property alias bottomEdgePageComponent: edgeLoader.sourceComponent
-    property alias bottomEdgeControls: controlLoader.sourceComponent
-
-    property int _areaWhenExpanded: 0
-
+	property alias outlineComponent: outlineLoader.sourceComponent
+	property alias pagesComponent: pagesLoader.sourceComponent
+	property alias bottomEdgeControls: controlLoader.sourceComponent
+    
     signal contentOpened()
 
 	function openContent() {
-		content.open()
-		contentOpened()
+		content.open();
+		contentOpened();
 	}
     function closeContent() {
-        content.close()
+        content.close();
     }
 	function closeControls() {
-		controls.close()
+		controls.close();
 	}
 	function openControls() {
-		controls.open()
+		controls.open();
 	}
 	function turnControlsOn() {
-		controls.interactive = true
+		controls.interactive = true;
 	}
 	function turnControlsOff() {
-		controls.interactive = false
+		controls.interactive = false;
 	}
 
     Dialog {
@@ -58,18 +57,40 @@ Page {
 		x: (parent.width - width) * 0.5
 		dim: true
 		
-		header: ToolBar {
+		header: Column {
 			width: parent.width
-			RowLayout {
-				anchors.fill: parent
-				Label {
-					text: gettext.tr("Contents")
-					font.pixelSize: units.dp(27)
-					color: theme.palette.normal.backgroundText
-					elide: Label.ElideRight
-					horizontalAlignment: Qt.AlignHCenter
-					verticalAlignment: Qt.AlignVCenter
-					Layout.fillWidth: true
+			ToolBar {
+				width: parent.width
+				RowLayout {
+					anchors.fill: parent
+					Label {
+						text: gettext.tr("Contents")
+						font.pixelSize: units.dp(27)
+						color: theme.palette.normal.backgroundText
+						elide: Label.ElideRight
+						horizontalAlignment: Qt.AlignHCenter
+						verticalAlignment: Qt.AlignVCenter
+						Layout.fillWidth: true
+					}
+				}
+			}
+			TabBar {
+				id: sorttabs
+				width: parent.width
+				TabButton {
+					text: gettext.tr("Outline")
+					onClicked: {
+						pagesLoader.visible = false;
+						outlineLoader.visible = true;
+					}
+				}
+				TabButton {
+					text: gettext.tr("Pages")
+					visible: server.reader.pictureBook
+					onClicked: {
+						outlineLoader.visible = false;
+						pagesLoader.visible = true;
+					}
 				}
 			}
 		}
@@ -77,7 +98,14 @@ Page {
 		standardButtons: Dialog.Cancel
 		
 		Loader {
-			id: edgeLoader
+			id: outlineLoader
+			asynchronous: true
+			anchors.fill: parent
+		}
+		
+		Loader {
+			visible: false
+			id: pagesLoader
 			asynchronous: true
 			anchors.fill: parent
 		}

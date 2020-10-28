@@ -30,7 +30,13 @@ ApplicationWindow {
     visible: true
     
     property string defaultTitle: "Sturm Reader"
-	property var bookPageComponent: Qt.createComponent("BookPage.qml")
+	property var bookPageComponent: {
+		var bp = Qt.createComponent("BookPage.qml");
+		
+		if (bp.status == Component.Error)
+			console.log("Error loading component BookPage.qml:", bp.errorString());
+		return bp;
+	}
 	property var bookPage: null
     
     width: units.dp(800)
@@ -53,7 +59,7 @@ ApplicationWindow {
 
     Dialog {
 		id: errorOpenDialog
-		title: Gettext.tr("Error Opening File")
+		title: gettext.tr("Error Opening File")
 		modal: true
 		visible: false
 		x: Math.round((parent.width - width) / 2)

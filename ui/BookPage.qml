@@ -35,7 +35,9 @@ PageWithBottomEdge {
     
     property string book_componentId;
 	property real book_percent;
-	property int book_pageNumber;
+	
+	property int pdf_pageNumber;
+	property int pdf_numberOfPages;
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
@@ -122,15 +124,18 @@ PageWithBottomEdge {
 			} else if(msg[0] == "componentId") {
 				book_componentId = msg[1];
 			} else if(msg[0] == "pageNumber") {
-				book_pageNumber = msg[1];
+				pdf_pageNumber = msg[1];
+			} else if(msg[0] == "numberOfPages") {
+				pdf_numberOfPages = Number(msg[1]);
 			} else if(msg[0] == "ok") {
 				bookLoadingCompleted();
 			} else if(msg[0] == "monocle:notfound") {
-				// This is caused by a bug
+				// This is caused by a bug - we prevent the app from freeze in loading at least
 				bookLoadingCompleted()
 			}
 			// debug messages
 			else if(msg[0] == "#") {}
+			// not handled messages
 			else console.log("ignored");
 		}
 		
@@ -269,7 +274,7 @@ PageWithBottomEdge {
         id: contentsListModel
     }
     
-    bottomEdgePageComponent: Item {
+    outlineComponent: Item {
         ListView {
             id: contentsListView
             anchors.fill: parent
@@ -301,11 +306,95 @@ PageWithBottomEdge {
             }
             ScrollBar.vertical: ScrollBar {}
         }
-        Text {
+		Label {
 			anchors.centerIn: parent
 			visible: contentsListModel.count == 0
-			text: gettext.tr("Nothing here");
+			text: gettext.tr("No outline available")
 			color: Theme.palette.normal.foregroundText
+		}
+	}
+    
+	pagesComponent: Item {
+		anchors.fill: parent
+		Column {
+			width: parent.width
+			anchors.leftMargin: units.dp(10)
+			anchors.rightMargin: units.dp(10)
+			
+			spacing: units.dp(15)
+			
+			onVisibleChanged: {
+				if(visible) {
+					pagesTumblerModel.popuplate();
+					page_slider.value = pdf_pageNumber;
+					pagesTumbler.currentIndex = page_slider.value;
+				}
+			}
+			
+			Text {
+				width: parent.width
+				horizontalAlignment: Text.AlignHCenter
+				text: gettext.tr("Page") + " " + pdf_pageNumber + "/" + (pdf_numberOfPages + 1)
+				font.pointSize: 20
+				color: Theme.palette.normal.foregroundText
+			}
+			ListModel {
+				id: pagesTumblerModel
+				
+				function popuplate() {
+					clear();
+					for (var i = pdf_numberOfPages; i > 0; i -= 1)
+						append({"num": (i)});
+				}
+			}
+			RowLayout {
+				width: parent.width
+				Button {
+					Layout.alignment: Qt.AlignLeft
+					text: "-"
+					onClicked: pagesTumbler.currentIndex += 1
+				}
+				Tumbler {
+					Layout.alignment: Qt.AlignHCenter
+					id: pagesTumbler
+					rotation: 90
+					wrap: false
+					model: pagesTumblerModel
+					delegate: Text {
+						text: model.num
+						rotation: -90
+						color: Theme.palette.normal.foregroundText
+						font.weight: (model.num == pagesTumbler.currentIndex) ? Font.Bold : Font.Normal
+						font.pointSize: (model.num == pagesTumbler.currentIndex) ? 18 : 16
+						width: units.dp(60)
+						height: units.dp(60)
+						horizontalAlignment: Text.AlignHCenter
+						verticalAlignment: Text.AlignVCenter
+					}
+				}
+				Button {
+					Layout.alignment: Qt.AlignRight
+					text: "+"
+					onClicked: pagesTumbler.currentIndex -= 1
+				}
+			}
+		}
+		RowLayout {
+			width: parent.width
+			anchors.bottom: parent.bottom
+			Slider {
+				id: page_slider
+				Layout.fillWidth: true
+				from: 1
+				to: pdf_numberOfPages
+				stepSize: 1
+				value: pdf_pageNumber
+				snapMode: Slider.SnapAlways
+			}
+			Text {
+				text: Math.floor(100 * page_slider.value / pdf_numberOfPages) + "%"
+				color: Theme.palette.normal.foregroundText
+			}
 		}
     }
 
@@ -383,7 +472,7 @@ PageWithBottomEdge {
 			
             //Messaging.sendMessage("Styles", asObject())
             // this one below should be improved
-			bookWebView.runJavaScript("if (styleManager) styleManager.updateStyles({" +
+			bookWebView.runJavaScript("if(styleManager) styleManager.updateStyles({" +
 				"'textColor':'" + textColor +
 				"','fontFamily':'" + fontFamily +
 				"','lineHeight':'" + lineHeight +
@@ -764,7 +853,7 @@ PageWithBottomEdge {
 			componentId: book_componentId,
 			percent: Number(book_percent),
 			// pdf
-			pageNumber: book_pageNumber
+			pageNumber: pdf_pageNumber
 		})
 		pageMetric.turnPage()
 	}

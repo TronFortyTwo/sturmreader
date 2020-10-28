@@ -239,12 +239,13 @@ window.onload = function() {
 			doc = pdf_obj;
 			first_render = true;
 			number_of_pages = doc.numPages;
+			console.log("numberOfPages " + number_of_pages);
 			
 			// populate content
 			doc.getOutline().then( function(ol) {
 				if(!ol) return;
 				
-				parseOutlineNodeArray(ol, 0).then( () => console.log("setContent " + JSON.stringify(outline)), ()=> console.log("Error 414234") );
+				parseOutlineNodeArray(ol, 0).then( () => console.log("setContent " + JSON.stringify(outline)), ()=> console.log("# Error 414234") );
 				
 			}, (reason) => console.log("# cannot fetch outline") );
 			

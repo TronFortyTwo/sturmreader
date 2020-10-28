@@ -15,7 +15,7 @@ import HttpServer 1.0
 HttpServer {
     id: server
     
-    property bool legacy_pdf: true
+    property bool legacy_pdf: false
     
     property int port: 5000
     
