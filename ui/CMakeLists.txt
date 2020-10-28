@@ -18,7 +18,6 @@ set(UI_SRC_FILES
 	not-portable/Importer.qml
 
 	components/FloatingButton.qml
-	components/PageWithBottomEdge.qml
 	components/SwipeControl.qml
 	components/Action.qml
 	components/Icon.qml

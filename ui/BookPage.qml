@@ -21,9 +21,380 @@ import "not-portable"
 
 import "historystack.js" as History
 
-PageWithBottomEdge {
+Page {
     id: bookPage
+    
+	property int pdf_newPage: 0
+    
+    signal contentOpened()
 
+	function openContent() {
+		content.open();
+		contentOpened();
+	}
+    function closeContent() {
+        content.close();
+    }
+	function closeControls() {
+		controls.close();
+	}
+	function openControls() {
+		controls.open();
+	}
+	function turnControlsOn() {
+		controls.interactive = true;
+	}
+	function turnControlsOff() {
+		controls.interactive = false;
+	}
+    
+    Dialog {
+		id: content
+		width: Math.min(parent.width, units.dp(750))
+		height: Math.max(parent.height * 0.75, Math.min(parent.height, units.dp(500)))
+		y: (parent.height - height) * 0.5
+		x: (parent.width - width) * 0.5
+		dim: true
+		
+		header: Column {
+			width: parent.width
+			ToolBar {
+				width: parent.width
+				RowLayout {
+					anchors.fill: parent
+					Label {
+						text: gettext.tr("Contents")
+						font.pixelSize: units.dp(27)
+						color: theme.palette.normal.backgroundText
+						elide: Label.ElideRight
+						horizontalAlignment: Qt.AlignHCenter
+						verticalAlignment: Qt.AlignVCenter
+						Layout.fillWidth: true
+					}
+				}
+			}
+			TabBar {
+				id: sorttabs
+				width: parent.width
+				TabButton {
+					text: gettext.tr("Outline")
+					onClicked: {
+						pagesLoader.visible = false;
+						outlineLoader.visible = true;
+						content.standardButtons = Dialog.Cancel;
+					}
+				}
+				TabButton {
+					text: gettext.tr("Pages")
+					visible: server.reader.pictureBook
+					onClicked: {
+						outlineLoader.visible = false;
+						pagesLoader.visible = true;
+						content.standardButtons = Dialog.Cancel | Dialog.Ok;
+					}
+				}
+			}
+		}
+		
+		standardButtons: Dialog.Cancel
+		
+		Loader {
+			id: outlineLoader
+			asynchronous: true
+			anchors.fill: parent
+			sourceComponent: Item {
+				ListView {
+					id: contentsListView
+					anchors.fill: parent
+					visible: contentsListModel.count > 0
+
+					model: contentsListModel
+					delegate: ItemDelegate {
+						width: parent.width
+						highlighted: bookPage.currentChapter == model.src
+						text: (new Array(model.level + 1)).join("    ") +
+								model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, gettext.tr("Page"))
+						onClicked: {
+							bookLoadingStart();
+							bookWebView.runJavaScript('moveToChapter("' + model.src + '")');
+							closeContent();
+						}
+					}
+
+					Connections {
+						target: bookPage
+						onContentOpened: {
+							for (var i=0; i<contentsListModel.count; i++) {
+								if (contentsListModel.get(i).src == bookPage.currentChapter) {
+									contentsListView.positionViewAtIndex(i, ListView.Center);
+									break;
+								}
+							}
+						}
+					}
+					ScrollBar.vertical: ScrollBar {}
+				}
+				Label {
+					anchors.centerIn: parent
+					visible: contentsListModel.count == 0
+					text: gettext.tr("No outline available")
+					color: Theme.palette.normal.foregroundText
+				}
+			}
+		}
+		
+		Loader {
+			visible: false
+			id: pagesLoader
+			asynchronous: true
+			anchors.fill: parent
+			sourceComponent: Item {
+				anchors.fill: parent
+				Column {
+					width: parent.width
+					anchors.leftMargin: units.dp(10)
+					anchors.rightMargin: units.dp(10)
+					
+					spacing: units.dp(15)
+					
+					onVisibleChanged: {
+						if(visible) {
+							pagesTumblerModel.popuplate();
+							page_slider.value = pdf_pageNumber;
+							pagesTumbler.currentIndex = page_slider.value;
+						}
+					}
+					
+					Text {
+						width: parent.width
+						horizontalAlignment: Text.AlignHCenter
+						text: gettext.tr("Page") + " " + page_slider.value + "/" + (pdf_numberOfPages + 1)
+						font.pointSize: 20
+						color: Theme.palette.normal.foregroundText
+					}
+					ListModel {
+						id: pagesTumblerModel
+						
+						function popuplate() {
+							clear();
+							for (var i = 0; i <= pdf_numberOfPages; i += 1)
+								append({"num": (i+1)});
+						}
+					}
+					RowLayout {
+						width: parent.width
+						Button {
+							Layout.alignment: Qt.AlignLeft
+							text: "-"
+							font.weight: Font.Bold
+							onClicked: pagesTumbler.currentIndex -= 1
+						}
+						Tumbler {
+							Layout.alignment: Qt.AlignHCenter
+							id: pagesTumbler
+							rotation: -90
+							currentIndex: page_slide.value-1
+							wrap: false
+							model: pagesTumblerModel
+							delegate: Text {
+								text: model.num
+								rotation: 90
+								color: Theme.palette.normal.foregroundText
+								font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
+								font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
+								width: units.dp(60)
+								height: units.dp(60)
+								horizontalAlignment: Text.AlignHCenter
+								verticalAlignment: Text.AlignVCenter
+							}
+							onCurrentIndexChanged: {
+								if (page_slider.value != currentIndex+1)
+									page_slider.value = currentIndex+1
+							}
+						}
+						Button {
+							Layout.alignment: Qt.AlignRight
+							text: "+"
+							font.weight: Font.Bold
+							onClicked: pagesTumbler.currentIndex += 1
+						}
+					}
+				}
+				RowLayout {
+					width: parent.width
+					anchors.bottom: parent.bottom
+					Slider {
+						id: page_slider
+						Layout.fillWidth: true
+						from: 1
+						to: pdf_numberOfPages+1
+						stepSize: 1
+						value: pdf_pageNumber
+						onValueChanged: {
+							if (pagesTumbler.currentIndex != value-1)
+								pagesTumbler.currentIndex = value-1
+							pdf_newPage = value-1;
+						}
+						snapMode: Slider.SnapAlways
+					}
+					Text {
+						width: units.dp(50)
+						text: Math.floor(100 * page_slider.value / pdf_numberOfPages) + "%"
+						color: Theme.palette.normal.foregroundText
+					}
+				}
+			}
+		}
+		
+		onAccepted: {
+			var locus = {pageNumber: pdf_newPage}
+			bookWebView.runJavaScript("moveToLocus(" + JSON.stringify(locus) + ")");
+		}
+	}
+
+	Drawer {
+		id: controls
+		width: parent.width
+		height: controlLoader.height
+		edge: Qt.BottomEdge
+		modal: false
+		
+		// is turned on by turnControlsOn()
+		interactive: false
+		
+		Loader {
+            id: controlLoader
+            asynchronous: true
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: parent.top
+            }
+			sourceComponent: Rectangle {
+				
+				antialiasing: false
+				color: theme.palette.normal.background
+				
+				anchors.left: parent.left
+				anchors.right: parent.right
+				height: childrenRect.height
+				width: parent.width
+				
+				// relaxed layout uses more space, nicer on wider screens
+				// there is one button more on the right, so we check there
+				property bool relaxed_layout: width * 0.5 >= jump_button.width + content_button.width + settings_button.width
+				
+				// reduce button size when even not relaxed layout not enought
+				// 7 is the number of buttons
+				// Not 100% accurate alghorithm, but this convers just edge cases (very small phone display)
+				property int max_button_size: width / 7 - units.dp(1)
+				
+				FloatingButton {
+					id: home_button
+					anchors.left: parent.left
+					max_size: max_button_size
+					buttons: [
+						Action {
+							iconName: "go-home"
+							onTriggered: {
+								// turn stuff off and exit
+								closeContent()
+								closeControls()
+								turnControlsOff()
+								pageStack.pop()
+								mainView.title = mainView.defaultTitle
+							}
+						}
+					]
+				}
+				FloatingButton {
+					id: history_button
+					anchors.right: jump_button.left
+					max_size: max_button_size
+					buttons: [
+						Action {
+							iconName: "undo"
+							enabled: canBack
+							onTriggered: {
+								var locus = history.goBackward()
+								if (locus !== null) {
+									navjump = true;
+									bookLoadingStart()
+									bookWebView.runJavaScript("moveToLocus(" + locus + ")");
+								}
+							}
+						},
+						Action {
+							iconName: "redo"
+							enabled: canForward
+							onTriggered: {
+								var locus = history.goForward()
+								if (locus !== null) {
+									navjump = true;
+									bookLoadingStart()
+									bookWebView.runJavaScript("moveToLocus(" + locus + ")");
+								}
+							}
+						}
+					]
+				}
+				FloatingButton {
+					id: jump_button
+					anchors.right: content_button.left
+					anchors.rightMargin: relaxed_layout ? parent.width * 0.5 - content_button.width - settings_button.width - width : 0
+					max_size: max_button_size
+					
+					buttons: [
+						Action {
+							iconName: "go-previous"
+							onTriggered: {
+								bookLoadingStart()
+								bookWebView.runJavaScript("moveToPageRelative(-10)");
+							}
+						},
+						Action {
+							iconName: "go-next"
+							onTriggered: {
+								bookLoadingStart()
+								bookWebView.runJavaScript("moveToPageRelative(10)");
+							}
+						}
+					]
+				}
+				FloatingButton {
+					id: content_button
+					anchors.right: settings_button.left
+					max_size: max_button_size
+					buttons: [
+						Action {
+							iconName: "book"
+							onTriggered: {
+								openContent()
+								closeControls()
+							}
+						}
+					]
+				}
+				FloatingButton {
+					id: settings_button
+					anchors.right: parent.right
+					max_size: max_button_size
+					buttons: [
+						Action {
+							iconName: "settings"
+							onTriggered: {
+								stylesDialog.open()
+								closeControls()
+							}
+						}
+					]
+				}
+			}
+        }
+	}
+    
+    // Stuff
+    
     property alias url: bookWebView.url
     property var currentChapter: null
     property var history: new History.History(updateNavButtons)
@@ -149,253 +520,8 @@ PageWithBottomEdge {
 		id: pageMetric
 	}
 
-    bottomEdgeControls: Rectangle {
-		
-		antialiasing: false
-		color: theme.palette.normal.background
-		
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: childrenRect.height
-        width: parent.width
-        
-        // relaxed layout uses more space, nicer on wider screens
-        // there is one button more on the right, so we check there
-		property bool relaxed_layout: width * 0.5 >= jump_button.width + content_button.width + settings_button.width
-		
-		// reduce button size when even not relaxed layout not enought
-		// 7 is the number of buttons
-		// Not 100% accurate alghorithm, but this convers just edge cases (very small phone display)
-		property int max_button_size: width / 7 - units.dp(1)
-		
-        FloatingButton {
-			id: home_button
-            anchors.left: parent.left
-            max_size: max_button_size
-            buttons: [
-                Action {
-                    iconName: "go-home"
-                    onTriggered: {
-						// turn stuff off and exit
-						closeContent()
-						closeControls()
-						turnControlsOff()
-						pageStack.pop()
-						mainView.title = mainView.defaultTitle
-                    }
-                }
-            ]
-        }
-		FloatingButton {
-			id: history_button
-			anchors.right: jump_button.left
-			max_size: max_button_size
-            buttons: [
-                Action {
-                    iconName: "undo"
-                    enabled: canBack
-                    onTriggered: {
-                        var locus = history.goBackward()
-                        if (locus !== null) {
-							navjump = true;
-							bookLoadingStart()
-							bookWebView.runJavaScript("moveToLocus(" + locus + ")");
-                        }
-                    }
-                },
-                Action {
-                    iconName: "redo"
-                    enabled: canForward
-                    onTriggered: {
-                        var locus = history.goForward()
-                        if (locus !== null) {
-							navjump = true;
-							bookLoadingStart()
-							bookWebView.runJavaScript("moveToLocus(" + locus + ")");
-                        }
-                    }
-                }
-            ]
-        }
-        FloatingButton {
-			id: jump_button
-			anchors.right: content_button.left
-			anchors.rightMargin: relaxed_layout ? parent.width * 0.5 - content_button.width - settings_button.width - width : 0
-			max_size: max_button_size
-			
-			buttons: [
-				Action {
-					iconName: "go-previous"
-					onTriggered: {
-						bookLoadingStart()
-						bookWebView.runJavaScript("moveToPageRelative(-10)");
-					}
-				},
-				Action {
-					iconName: "go-next"
-					onTriggered: {
-						bookLoadingStart()
-						bookWebView.runJavaScript("moveToPageRelative(10)");
-					}
-				}
-			]
-		}
-        FloatingButton {
-			id: content_button
-            anchors.right: settings_button.left
-            max_size: max_button_size
-            buttons: [
-                Action {
-                    iconName: "book"
-                    onTriggered: {
-						openContent()
-						closeControls()
-                    }
-                }
-            ]
-        }
-        FloatingButton {
-			id: settings_button
-			anchors.right: parent.right
-			max_size: max_button_size
-            buttons: [
-                Action {
-                    iconName: "settings"
-                    onTriggered: {
-                        stylesDialog.open()
-                        closeControls()
-                    }
-                }
-            ]
-        }
-    }
-
     ListModel {
         id: contentsListModel
-    }
-    
-    outlineComponent: Item {
-        ListView {
-            id: contentsListView
-            anchors.fill: parent
-            visible: contentsListModel.count > 0
-
-            model: contentsListModel
-            delegate: ItemDelegate {
-				width: parent.width
-				highlighted: bookPage.currentChapter == model.src
-				text: (new Array(model.level + 1)).join("    ") +
-						model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, gettext.tr("Page"))
-				onClicked: {
-					bookLoadingStart();
-					bookWebView.runJavaScript('moveToChapter("' + model.src + '")');
-					closeContent();
-				}
-            }
-
-            Connections {
-                target: bookPage
-                onContentOpened: {
-                    for (var i=0; i<contentsListModel.count; i++) {
-						if (contentsListModel.get(i).src == bookPage.currentChapter) {
-							contentsListView.positionViewAtIndex(i, ListView.Center);
-							break;
-						}
-                    }
-                }
-            }
-            ScrollBar.vertical: ScrollBar {}
-        }
-		Label {
-			anchors.centerIn: parent
-			visible: contentsListModel.count == 0
-			text: gettext.tr("No outline available")
-			color: Theme.palette.normal.foregroundText
-		}
-	}
-    
-	pagesComponent: Item {
-		anchors.fill: parent
-		Column {
-			width: parent.width
-			anchors.leftMargin: units.dp(10)
-			anchors.rightMargin: units.dp(10)
-			
-			spacing: units.dp(15)
-			
-			onVisibleChanged: {
-				if(visible) {
-					pagesTumblerModel.popuplate();
-					page_slider.value = pdf_pageNumber;
-					pagesTumbler.currentIndex = page_slider.value;
-				}
-			}
-			
-			Text {
-				width: parent.width
-				horizontalAlignment: Text.AlignHCenter
-				text: gettext.tr("Page") + " " + pdf_pageNumber + "/" + (pdf_numberOfPages + 1)
-				font.pointSize: 20
-				color: Theme.palette.normal.foregroundText
-			}
-			ListModel {
-				id: pagesTumblerModel
-				
-				function popuplate() {
-					clear();
-					for (var i = pdf_numberOfPages; i > 0; i -= 1)
-						append({"num": (i)});
-				}
-			}
-			RowLayout {
-				width: parent.width
-				Button {
-					Layout.alignment: Qt.AlignLeft
-					text: "-"
-					onClicked: pagesTumbler.currentIndex += 1
-				}
-				Tumbler {
-					Layout.alignment: Qt.AlignHCenter
-					id: pagesTumbler
-					rotation: 90
-					wrap: false
-					model: pagesTumblerModel
-					delegate: Text {
-						text: model.num
-						rotation: -90
-						color: Theme.palette.normal.foregroundText
-						font.weight: (model.num == pagesTumbler.currentIndex) ? Font.Bold : Font.Normal
-						font.pointSize: (model.num == pagesTumbler.currentIndex) ? 18 : 16
-						width: units.dp(60)
-						height: units.dp(60)
-						horizontalAlignment: Text.AlignHCenter
-						verticalAlignment: Text.AlignVCenter
-					}
-				}
-				Button {
-					Layout.alignment: Qt.AlignRight
-					text: "+"
-					onClicked: pagesTumbler.currentIndex -= 1
-				}
-			}
-		}
-		RowLayout {
-			width: parent.width
-			anchors.bottom: parent.bottom
-			Slider {
-				id: page_slider
-				Layout.fillWidth: true
-				from: 1
-				to: pdf_numberOfPages
-				stepSize: 1
-				value: pdf_pageNumber
-				snapMode: Slider.SnapAlways
-			}
-			Text {
-				text: Math.floor(100 * page_slider.value / pdf_numberOfPages) + "%"
-				color: Theme.palette.normal.foregroundText
-			}
-		}
     }
 
     Item {
