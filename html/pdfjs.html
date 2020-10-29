@@ -184,37 +184,38 @@ function tapPageTurn(ev) {
 		moveToPageRelative(-1);
 }
 
+// direction of the current pan movement, can be 'l', 'r' o 'n'.
 var panDirection = ""
+// X of the current pan movement start point
+var panDeltaX = 0
 
-function panLeftPageTurn(ev) {
+function panPageTurn(ev) {
 	// do not move if zoomed
 	if(window.visualViewport.scale > 1.001)
 		return;
 	
-	panDirection = "left";
+	panDeltaX += ev.deltaX;
 	
-	console.log('panleft');
-}
-
-function panRightPageTurn(ev) {
-	// do not move if zoomed
-	if(window.visualViewport.scale > 1.001)
-		return;
+	if(ev.offsetDirection == Hammer.DIRECTION_LEFT)
+		panDirection = panDirection == "" ? "l" : "l"//"n"
+	else if(ev.offsetDirection == Hammer.DIRECTION_RIGHT)
+		panDirection = panDirection == "" ? "r" : "r"//"n"
 	
-	panDirection = "right";
 	
-	console.log('panright');
-}
-
-function panEndPageTurn(ev) {
-	// do not move if zoomed
-	if(window.visualViewport.scale > 1.001)
-		return;
-	
-	if( Math.abs(ev.deltaX) > window.visualViewport.width * 0.25)
-		moveToPageRelative( panDirection == "left" ? 1 : -1);
+	if(panDirection != "" && ev.isFinal) {
 		
-	console.log('panend');
+		console.log(panDeltaX);
+		
+		if( Math.abs(panDeltaX) > window.visualViewport.width * 0.25)
+			moveToPageRelative( panDirection == "l" ? 1 : -1);
+		
+		panDeltaX = 0;
+		panDirection = "";
+		
+		console.log('# pan hit');
+	}
+	else
+		console.log('# pan');
 }
 
 async function parseOutlineNode(ol, depth) {
@@ -233,7 +234,7 @@ async function parseOutlineNode(ol, depth) {
 		}
 	}
 	
-	try{
+	try {
 		o_pageNumber = 1 + await doc.getPageIndex(ref);
 	} catch(err) {
 		console.log("# getPageIndex error: " + err);
@@ -258,15 +259,23 @@ window.onload = function() {
 	
 	outline = [];
 	
+	mc = new Hammer.Manager(document);
+	
 	// initialize gestures
-	mc = new Hammer(document);
+	var Swipe = new Hammer.Swipe();
+	var Tap = new Hammer.Tap();
+	var Pan = new Hammer.Pan();
+	
+	// Add the recognizer to the manager
+	mc.add(Swipe);
+	mc.add(Tap);
+	mc.add(Pan);
 	
 	// tap to move instanlty by one page
 	mc.on("tap press", (ev) => tapPageTurn(ev) );
-	mc.on("panright", (ev) => panRightPageTurn(ev) );
-	mc.on("panleft", (ev) => panLeftPageTurn(ev) );
-	mc.on("panend", (ev) => panEndPageTurn(ev) );
-	mc.on("pancancel", (ev) => panEndPageTurn(ev) );
+	//mc.on("panright", (ev) => panRightPageTurn(ev) );
+	//mc.on("panleft", (ev) => panLeftPageTurn(ev) );
+	mc.on("pan", (ev) => panPageTurn(ev) );
 	
 	// load saved page or open from the beginning
 	if(SAVED_PLACE && SAVED_PLACE.pageNumber)
