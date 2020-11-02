@@ -22,9 +22,22 @@ import "not-portable"
 import "historystack.js" as History
 
 Page {
-    id: bookPage
+	id: bookPage
     
-	property int pdf_newPage: 0
+	property alias url: bookWebView.url
+	property var currentChapter: null
+	property var history: new History.History(updateNavButtons)
+	property bool navjump: false
+	property bool canBack: false
+	property bool canForward: false
+	property bool isBookReady: false
+	property bool doPageChangeAsSoonAsReady: false
+    
+	property string book_componentId;
+	property real book_percent;
+	
+	property int pdf_pageNumber;
+	property int pdf_numberOfPages;
     
     signal contentOpened()
 
@@ -48,13 +61,19 @@ Page {
 		controls.interactive = false;
 	}
     
-    Dialog {
+	ListModel {
+		id: pagesTumblerModel
+	}
+    
+	Dialog {
 		id: content
 		width: Math.min(parent.width, units.dp(750))
 		height: Math.max(parent.height * 0.75, Math.min(parent.height, units.dp(500)))
 		y: (parent.height - height) * 0.5
 		x: (parent.width - width) * 0.5
 		dim: true
+		
+		property alias pdf_newPage: pageSlider.value
 		
 		header: Column {
 			width: parent.width
@@ -86,7 +105,7 @@ Page {
 				}
 				TabButton {
 					text: gettext.tr("Pages")
-					visible: server.reader.pictureBook
+					visible: server.reader.pictureBook && !server.legacy_pdf
 					onClicked: {
 						outlineLoader.visible = false;
 						pagesLoader.visible = true;
@@ -98,146 +117,143 @@ Page {
 		
 		standardButtons: Dialog.Cancel
 		
-		Loader {
+		Item {
 			id: outlineLoader
-			asynchronous: true
+			
 			anchors.fill: parent
-			sourceComponent: Item {
-				ListView {
-					id: contentsListView
-					anchors.fill: parent
-					visible: contentsListModel.count > 0
+			
+			ListView {
+				id: contentsListView
+				anchors.fill: parent
+				visible: contentsListModel.count > 0
 
-					model: contentsListModel
-					delegate: ItemDelegate {
-						width: parent.width
-						highlighted: bookPage.currentChapter == model.src
-						text: (new Array(model.level + 1)).join("    ") +
-								model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, gettext.tr("Page"))
-						onClicked: {
-							bookLoadingStart();
-							bookWebView.runJavaScript('moveToChapter("' + model.src + '")');
-							closeContent();
-						}
+				model: contentsListModel
+				delegate: ItemDelegate {
+					width: parent.width
+					highlighted: bookPage.currentChapter == model.src
+					text: (new Array(model.level + 1)).join("    ") +
+							model.title.replace(/(\n| )+/g, " ").replace(/^%PAGE%/, gettext.tr("Page"))
+					onClicked: {
+						bookLoadingStart();
+						bookWebView.runJavaScript('moveToChapter("' + model.src + '")');
+						closeContent();
 					}
+				}
 
-					Connections {
-						target: bookPage
-						onContentOpened: {
-							for (var i=0; i<contentsListModel.count; i++) {
-								if (contentsListModel.get(i).src == bookPage.currentChapter) {
-									contentsListView.positionViewAtIndex(i, ListView.Center);
-									break;
-								}
+				Connections {
+					target: bookPage
+					onContentOpened: {
+						for (var i=0; i<contentsListModel.count; i++) {
+							if (contentsListModel.get(i).src == bookPage.currentChapter) {
+								contentsListView.positionViewAtIndex(i, ListView.Center);
+								break;
 							}
 						}
 					}
-					ScrollBar.vertical: ScrollBar {}
 				}
-				Label {
-					anchors.centerIn: parent
-					visible: contentsListModel.count == 0
-					text: gettext.tr("No outline available")
-					color: Theme.palette.normal.foregroundText
-				}
+				ScrollBar.vertical: ScrollBar {}
+			}
+			Label {
+				anchors.centerIn: parent
+				visible: contentsListModel.count == 0
+				text: gettext.tr("No outline available")
+				color: Theme.palette.normal.foregroundText
 			}
 		}
 		
-		Loader {
-			visible: false
+		Item {
 			id: pagesLoader
-			asynchronous: true
 			anchors.fill: parent
-			sourceComponent: Item {
-				anchors.fill: parent
-				Column {
+			visible: false
+			
+			property alias slider: pageSlider
+			
+			Column {
+				width: parent.width
+				anchors.leftMargin: units.dp(10)
+				anchors.rightMargin: units.dp(10)
+				
+				spacing: units.dp(15)
+				
+				onVisibleChanged: {
+					// repopulate
+					//if (pagesTumblerModel.count != pdf_numberOfPages) {
+					//	pagesTumblerModel.clear();
+					//	for (var i = 1; i <= pdf_numberOfPages; i += 1)
+					//		pagesTumblerModel.append({"num": (i)});
+					//}
+					//if (pagesLoader.slider.to != pdf_numberOfPages)
+					//	pagesLoader.slider.to = pdf_numberOfPages;
+					
+					pagesLoader.slider.value = pdf_pageNumber;
+				}
+				
+				Text {
 					width: parent.width
-					anchors.leftMargin: units.dp(10)
-					anchors.rightMargin: units.dp(10)
-					
-					spacing: units.dp(15)
-					
-					onVisibleChanged: {
-						pagesTumblerModel.popuplate();
-						page_slider.value = pdf_pageNumber;
-					}
-					
-					Text {
-						width: parent.width
-						horizontalAlignment: Text.AlignHCenter
-						text: gettext.tr("Page") + " " + page_slider.value + "/" + (pdf_numberOfPages)
-						font.pointSize: 19
-						color: Theme.palette.normal.foregroundText
-					}
-					ListModel {
-						id: pagesTumblerModel
-						
-						function popuplate() {
-							clear();
-							for (var i = 1; i <= pdf_numberOfPages; i += 1)
-								append({"num": (i)});
-						}
-					}
-					RowLayout {
-						width: parent.width
-						Button {
-							Layout.alignment: Qt.AlignLeft
-							text: "-"
-							font.pointSize: 19
-							onClicked: pagesTumbler.currentIndex -= 1
-						}
-						Tumbler {
-							Layout.alignment: Qt.AlignHCenter
-							id: pagesTumbler
-							rotation: -90
-							wrap: false
-							model: pagesTumblerModel
-							delegate: Text {
-								text: model.num
-								rotation: 90
-								color: Theme.palette.normal.foregroundText
-								font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
-								font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
-								width: units.dp(60)
-								height: units.dp(60)
-								horizontalAlignment: Text.AlignHCenter
-								verticalAlignment: Text.AlignVCenter
-							}
-							onCurrentIndexChanged: {
-								if (page_slider.value != currentIndex+1)
-									page_slider.value = currentIndex+1
-							}
-						}
-						Button {
-							Layout.alignment: Qt.AlignRight
-							text: "+"
-							font.pointSize: 19
-							onClicked: pagesTumbler.currentIndex += 1
-						}
-					}
+					horizontalAlignment: Text.AlignHCenter
+					text: gettext.tr("Page") + " " + pagesLoader.slider.value + "/" + (pdf_numberOfPages)
+					font.pointSize: 19
+					color: Theme.palette.normal.foregroundText
 				}
 				RowLayout {
 					width: parent.width
-					anchors.bottom: parent.bottom
-					Slider {
-						id: page_slider
-						Layout.fillWidth: true
-						from: 1
-						to: pdf_numberOfPages
-						stepSize: 1
-						value: pdf_pageNumber
-						onValueChanged: {
-							if (pagesTumbler.currentIndex != value-1)
-								pagesTumbler.currentIndex = value-1
-							pdf_newPage = value;
+					Button {
+						Layout.alignment: Qt.AlignLeft
+						text: "-"
+						font.pointSize: 19
+						onClicked: pagesTumbler.currentIndex -= 1
+					}
+					Tumbler {
+						Layout.alignment: Qt.AlignHCenter
+						id: pagesTumbler
+						rotation: -90
+						wrap: false
+						model: pagesTumblerModel
+						delegate: Text {
+							text: model.num
+							rotation: 90
+							color: Theme.palette.normal.foregroundText
+							font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
+							font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
+							width: units.dp(60)
+							height: units.dp(60)
+							horizontalAlignment: Text.AlignHCenter
+							verticalAlignment: Text.AlignVCenter
 						}
-						snapMode: Slider.SnapAlways
+						onCurrentIndexChanged: {
+							if (pagesLoader.slider.value != currentIndex+1)
+								pagesLoader.slider.value = currentIndex+1;
+						}
 					}
-					Text {
-						width: units.dp(50)
-						text: Math.floor(100 * page_slider.value / pdf_numberOfPages) + "%"
-						color: Theme.palette.normal.foregroundText
+					Button {
+						Layout.alignment: Qt.AlignRight
+						text: "+"
+						font.pointSize: 19
+						onClicked: pagesTumbler.currentIndex += 1
 					}
+				}
+			}
+			RowLayout {
+				id: sliderRow
+				width: parent.width
+				anchors.bottom: parent.bottom
+				Slider {
+					id: pageSlider
+					Layout.fillWidth: true
+					from: 1
+					to: pdf_numberOfPages
+					stepSize: 1
+					value: pdf_pageNumber
+					onValueChanged: {
+						if (pagesTumbler.currentIndex != value-1)
+							pagesTumbler.currentIndex = value-1;
+					}
+					snapMode: Slider.SnapAlways
+				}
+				Text {
+					width: units.dp(50)
+					text: Math.floor(100 * pageSlider.value / pdf_numberOfPages) + "%"
+					color: Theme.palette.normal.foregroundText
 				}
 			}
 		}
@@ -388,23 +404,6 @@ Page {
 			}
         }
 	}
-    
-    // Stuff
-    
-    property alias url: bookWebView.url
-    property var currentChapter: null
-    property var history: new History.History(updateNavButtons)
-    property bool navjump: false
-    property bool canBack: false
-    property bool canForward: false
-    property bool isBookReady: false
-    property bool doPageChangeAsSoonAsReady: false
-    
-    property string book_componentId;
-	property real book_percent;
-	
-	property int pdf_pageNumber;
-	property int pdf_numberOfPages;
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Right || event.key == Qt.Key_Down || event.key == Qt.Key_Space
@@ -421,10 +420,8 @@ Page {
     }
 
     onVisibleChanged: {
-        if (visible == false)
-			bookPage.destroy();
-        else
-            bookStyles.loadForBook();
+		if(visible)
+			bookStyles.loadForBook();
     }
 
     BusyIndicator {
@@ -461,8 +458,8 @@ Page {
 				if(!isBookReady) {
 					doPageChangeAsSoonAsReady = true;
 				} else {
-					bookLoadingCompleted()
-					bookPage.updateSavedPage()
+					bookLoadingCompleted();
+					bookPage.updateSavedPage();
 				}
 			} else if(msg[0] == "startLoading") {
 				bookLoadingStart();
@@ -472,8 +469,8 @@ Page {
 					bookPage.updateSavedPage();
 					doPageChangeAsSoonAsReady = false;
 				}
-				bookLoadingCompleted()
-				openControls()
+				bookLoadingCompleted();
+				openControls();
 			} else if(msg[0] == "setContent") {
 				contentsListModel.clear();
 				if(msg.length > 2)
@@ -491,9 +488,12 @@ Page {
 			} else if(msg[0] == "componentId") {
 				book_componentId = msg[1];
 			} else if(msg[0] == "pageNumber") {
-				pdf_pageNumber = msg[1];
+				pdf_pageNumber = Number(msg[1]);
 			} else if(msg[0] == "numberOfPages") {
 				pdf_numberOfPages = Number(msg[1]);
+				pagesTumblerModel.clear();
+				for (var i = 1; i <= pdf_numberOfPages; i += 1)
+					pagesTumblerModel.append({"num": (i)});
 			} else if(msg[0] == "ok") {
 				bookLoadingCompleted();
 			} else if(msg[0] == "monocle:notfound") {

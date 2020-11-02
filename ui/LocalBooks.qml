@@ -983,7 +983,7 @@ Page {
 			RowLayout {
 				anchors.fill: parent
 				Label {
-					text: gettext.tr("Default Book Location")
+					text: gettext.tr("Settings")
 					font.pixelSize: units.dp(27)
 					color: theme.palette.normal.backgroundText
 					elide: Label.ElideRight
@@ -1010,10 +1010,18 @@ Page {
 			spacing: units.dp(20)
 			
 			Label {
+				text: gettext.tr("Default Book Location")
+				color: theme.palette.normal.backgroundText
+				width: parent.width
+				wrapMode: Text.WordWrap
+			}
+			
+			Label {
 				text: gettext.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
 							"from accessing most of your home directory.  Ebooks should be put in " +
 							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
 				color: theme.palette.normal.backgroundText
+				anchors.leftMargin: units.dp(15);
 				width: parent.width
 				wrapMode: Text.WordWrap
 			}

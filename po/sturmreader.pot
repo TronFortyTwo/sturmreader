@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-10-29 16:59+0000\n"
+"POT-Creation-Date: 2020-11-02 11:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ui/BookPage.qml:66
+#: ui/BookPage.qml:85
 msgid "Contents"
 msgstr ""
 
-#: ui/BookPage.qml:80
+#: ui/BookPage.qml:99
 msgid "Outline"
 msgstr ""
 
-#: ui/BookPage.qml:88
+#: ui/BookPage.qml:107
 msgid "Pages"
 msgstr ""
 
-#: ui/BookPage.qml:116 ui/BookPage.qml:168
+#: ui/BookPage.qml:135 ui/BookPage.qml:194
 msgid "Page"
 msgstr ""
 
-#: ui/BookPage.qml:140
+#: ui/BookPage.qml:159
 msgid "No outline available"
 msgstr ""
 
@@ -166,7 +166,7 @@ msgstr ""
 msgid "Swipe to Delete"
 msgstr ""
 
-#: ui/LocalBooks.qml:890 ui/LocalBooks.qml:986
+#: ui/LocalBooks.qml:890 ui/LocalBooks.qml:1013
 msgid "Default Book Location"
 msgstr ""
 
@@ -189,7 +189,7 @@ msgid "File Exists"
 msgstr ""
 
 #. / Read the books in the given directory again. /
-#: ui/LocalBooks.qml:933 ui/LocalBooks.qml:1024
+#: ui/LocalBooks.qml:933 ui/LocalBooks.qml:1032
 msgid "Reload Directory"
 msgstr ""
 
@@ -206,14 +206,18 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ui/LocalBooks.qml:1013
+#: ui/LocalBooks.qml:986
+msgid "Settings"
+msgstr ""
+
+#: ui/LocalBooks.qml:1020
 msgid ""
 "Sturm Reader seems to be operating under AppArmor restrictions that prevent "
 "it from accessing most of your home directory.  Ebooks should be put in <i>"
 "%1</i> for Sturm Reader to read them."
 msgstr ""
 
-#: ui/LocalBooks.qml:1036
+#: ui/LocalBooks.qml:1044
 msgid "Use legacy PDF viewer"
 msgstr ""
 

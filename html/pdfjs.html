@@ -184,7 +184,7 @@ function tapPageTurn(ev) {
 		moveToPageRelative(-1);
 }
 
-// direction of the current pan movement, can be 'l', 'r' o 'n'.
+// direction of the current pan movement, can be 'l', 'r' or 'n'.
 var panDirection = ""
 // X of the current pan movement start point
 var panDeltaX = 0
@@ -197,16 +197,17 @@ function panPageTurn(ev) {
 	panDeltaX += ev.deltaX;
 	
 	if(ev.offsetDirection == Hammer.DIRECTION_LEFT)
-		panDirection = panDirection == "" ? "l" : "l"//"n"
+		panDirection = panDirection == "" ? "l" : "n";
 	else if(ev.offsetDirection == Hammer.DIRECTION_RIGHT)
-		panDirection = panDirection == "" ? "r" : "r"//"n"
-	
+		panDirection = panDirection == "" ? "r" : "n";
+	else
+		panDirection = "n";
 	
 	if(panDirection != "" && ev.isFinal) {
 		
 		console.log(panDeltaX);
 		
-		if( Math.abs(panDeltaX) > window.visualViewport.width * 0.25)
+		//if( Math.abs(panDeltaX) > window.visualViewport.width * 0.25)
 			moveToPageRelative( panDirection == "l" ? 1 : -1);
 		
 		panDeltaX = 0;
@@ -259,23 +260,24 @@ window.onload = function() {
 	
 	outline = [];
 	
-	mc = new Hammer.Manager(document);
+	mc = new Hammer.Manager(document.getElementById("container"));
 	
 	// initialize gestures
-	var Swipe = new Hammer.Swipe();
+	//var Swipe = new Hammer.Swipe();
+	//var Pinch = new Hammer.Pinch();
 	var Tap = new Hammer.Tap();
-	var Pan = new Hammer.Pan();
+	var Press = new Hammer.Press();
+	//var Pan = new Hammer.Pan({direction: Hammer.DIRECTION_HORIZONTAL, threshold: window.visualViewport.width * 0.4});
 	
 	// Add the recognizer to the manager
-	mc.add(Swipe);
+	//mc.add(Swipe);
+	mc.add(Press);
 	mc.add(Tap);
-	mc.add(Pan);
+	//mc.add(Pan);
+	//mc.add(Pinch);
 	
-	// tap to move instanlty by one page
 	mc.on("tap press", (ev) => tapPageTurn(ev) );
-	//mc.on("panright", (ev) => panRightPageTurn(ev) );
-	//mc.on("panleft", (ev) => panLeftPageTurn(ev) );
-	mc.on("pan", (ev) => panPageTurn(ev) );
+	//mc.on("pan", (ev) => panPageTurn(ev) );
 	
 	// load saved page or open from the beginning
 	if(SAVED_PLACE && SAVED_PLACE.pageNumber)
@@ -343,9 +345,11 @@ window.onresize = function() {
 </head>
 
 <body>
-	<canvas class="page" id="fast-canvas"></canvas>
-	<canvas class="page" id="slow-canvas"></canvas>
-	<canvas class="page" id="next-canvas"></canvas>
+	<div id="container">
+		<canvas class="page" id="fast-canvas"></canvas>
+		<canvas class="page" id="slow-canvas"></canvas>
+		<canvas class="page" id="next-canvas"></canvas>
+	</div>
 </body>
 
 </html>
