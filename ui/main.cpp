@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName("sturmreader.emanuelesorce");
-
+	
 	Gettext gt;
 	
 	qDebug() << "Starting";

@@ -26,7 +26,7 @@ Page {
 	property bool wide: false
 	property string bookdir: ""
 	property bool readablehome: false
-	property string defaultdirname: gettext.tr("Books")
+	property string defaultdirname: "Books"
 	property double gridmargin: units.dp(10)
 	property double mingridwidth: units.dp(150)
 	property bool reloading: false
@@ -1000,7 +1000,7 @@ Page {
 		height: Math.min(parent.height*0.9, settingsDisabledColumn.height + settingsDisabledHeader.height + units.dp(50))
 		
 		modal: true
-		standardButtons: Dialog.Save
+		standardButtons: Dialog.Ok
 		
 		/*/ A path on the file system. /*/
 		Column {
@@ -1047,8 +1047,8 @@ Page {
 					wrapMode: Text.Wrap
 				}
 				Switch {
-					checked: server.legacy_pdf
-					onClicked: server.legacy_pdf = checked
+					checked: appsettings.legacy_pdf
+					onClicked: appsettings.legacy_pdf = !appsettings.legacy_pdf
 				}
 			}
 		}

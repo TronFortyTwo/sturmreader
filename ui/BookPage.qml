@@ -105,7 +105,7 @@ Page {
 				}
 				TabButton {
 					text: gettext.tr("Pages")
-					visible: server.reader.pictureBook && !server.legacy_pdf
+					visible: server.reader.pictureBook && !appsettings.legacy_pdf
 					onClicked: {
 						outlineLoader.visible = false;
 						pagesLoader.visible = true;
@@ -974,7 +974,7 @@ Page {
 			// monocle
 			componentId: book_componentId,
 			percent: Number(book_percent),
-			// pdf
+			// pdfjs
 			pageNumber: pdf_pageNumber
 		})
 		pageMetric.turnPage()

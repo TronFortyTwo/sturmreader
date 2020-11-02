@@ -42,6 +42,18 @@ ApplicationWindow {
     width: units.dp(800)
     height: units.dp(600)
 	
+	
+	Settings {
+		id: appsettings
+		category: "appsettings"
+		property alias x: mainView.x
+		property alias y: mainView.y
+		property alias width: mainView.width
+		property alias height: mainView.height
+		property alias sort: localBooks.sort
+		property bool legacy_pdf: true
+	}
+	
     FileSystem {
         id: filesystem
     }
@@ -116,17 +128,6 @@ ApplicationWindow {
             tx.executeSql("INSERT OR REPLACE INTO Settings(key, value) VALUES(?, ?)", [key, value])
         })
     }
-
-	Settings {
-		id: appsettings
-		category: "appsettings"
-		property alias x: mainView.x
-		property alias y: mainView.y
-		property alias width: mainView.width
-		property alias height: mainView.height
-		property alias sort: localBooks.sort
-		property alias legacy_pdf: server.legacy_pdf
-	}
 
     function getBookSetting(key) {
         if (server.reader.hash() == "")
