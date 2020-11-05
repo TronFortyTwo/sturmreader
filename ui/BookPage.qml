@@ -105,7 +105,7 @@ Page {
 				}
 				TabButton {
 					text: gettext.tr("Pages")
-					visible: server.reader.pictureBook && !appsettings.legacy_pdf
+					visible: server.reader.pictureBook && !appsettings.legacypdf
 					onClicked: {
 						outlineLoader.visible = false;
 						pagesLoader.visible = true;

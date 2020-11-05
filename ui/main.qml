@@ -14,7 +14,6 @@ import QtQuick.Window 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
-import Qt.labs.settings 1.0
 import File 1.0
 
 import Units 1.0
@@ -42,16 +41,34 @@ ApplicationWindow {
     width: units.dp(800)
     height: units.dp(600)
 	
-	
-	Settings {
+	// Our own setting store since QSettings is unreliable
+	QtObject {
 		id: appsettings
-		category: "appsettings"
-		property alias x: mainView.x
-		property alias y: mainView.y
-		property alias width: mainView.width
-		property alias height: mainView.height
+		
 		property alias sort: localBooks.sort
-		property bool legacy_pdf: true
+		onSortChanged: { setSetting( "appconfig_sort", appsettings.sort ); }
+		
+		property bool legacypdf
+		onLegacypdfChanged: { setSetting( "appconfig_legacypdf", appsettings.legacypdf ); }
+		
+		function save() {
+			setSetting( "appconfig_sort", appsettings.sort );
+			setSetting( "appconfig_legacypdf", appsettings.legacypdf );
+		}
+		
+		Component.onCompleted: {
+			
+			var data = {
+				sort: getSetting("appconfig_sort"),
+				legacypdf: getSetting("appconfig_legacypdf")
+			}
+			
+			if(data.sort) appsettings.sort = data.sort;
+			if(data.legacypdf) appsettings.legacypdf = data.legacypdf;
+		}
+		Component.onDestruction: {
+			save();
+		}
 	}
 	
     FileSystem {
@@ -195,16 +212,7 @@ ApplicationWindow {
 					localBooks.addFile(filePath)
 			}
 		}
-        
-		/*
-        onWidthChanged.connect(sizeChanged)
-        onHeightChanged.connect(sizeChanged)
-        var size = JSON.parse(getSetting("winsize"))
-        if (size != null) {
-            width = size[0]
-            height = size[1]
-        }*/
 		
-        localBooks.onMainCompleted()
+        localBooks.onMainCompleted();
     }
 }

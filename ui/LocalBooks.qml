@@ -1047,8 +1047,13 @@ Page {
 					wrapMode: Text.Wrap
 				}
 				Switch {
-					checked: appsettings.legacy_pdf
-					onClicked: appsettings.legacy_pdf = !appsettings.legacy_pdf
+					id: legacypdfSwitch
+					onClicked: appsettings.legacypdf = checked
+					Component.onCompleted: legacypdfSwitch.checked = appsettings.legacypdf
+					Connections {
+						target: appsettings
+						onLegacypdfChanged: legacypdfSwitch.checked = appsettings.legacypdf
+					}
 				}
 			}
 		}
