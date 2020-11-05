@@ -42,6 +42,7 @@ ApplicationWindow {
     height: units.dp(600)
 	
 	// Our own setting store since QSettings is unreliable
+	// TODO: store window position and size
 	QtObject {
 		id: appsettings
 		
@@ -49,26 +50,23 @@ ApplicationWindow {
 		onSortChanged: { setSetting( "appconfig_sort", appsettings.sort ); }
 		
 		property bool legacypdf
+		
 		onLegacypdfChanged: { setSetting( "appconfig_legacypdf", appsettings.legacypdf ); }
 		
-		function save() {
-			setSetting( "appconfig_sort", appsettings.sort );
-			setSetting( "appconfig_legacypdf", appsettings.legacypdf );
+		Component.onCompleted: {
+			var csort = getSetting("appconfig_sort");
+			var clegacypdf = getSetting("appconfig_legacypdf");
+			
+			if(csort) appsettings.sort = csort;
+			if(clegacypdf) {
+				clegacypdf = clegacypdf == "true" ? true : false;
+				appsettings.legacypdf = clegacypdf;
+			}
+			// by default, use the legacy viewer
+			else
+				appsettings.legacypdf = true;
 		}
 		
-		Component.onCompleted: {
-			
-			var data = {
-				sort: getSetting("appconfig_sort"),
-				legacypdf: getSetting("appconfig_legacypdf")
-			}
-			
-			if(data.sort) appsettings.sort = data.sort;
-			if(data.legacypdf) appsettings.legacypdf = data.legacypdf;
-		}
-		Component.onDestruction: {
-			save();
-		}
 	}
 	
     FileSystem {

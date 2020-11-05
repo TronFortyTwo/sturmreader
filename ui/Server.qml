@@ -53,7 +53,7 @@ HttpServer {
     onNewRequest: { // request, response
 		// new pdf reader
 		if (request.path == "/PDF") {
-			if(appsettings.legacy_pdf)
+			if(appsettings.legacypdf)
 				return static_file("../html/monocle.html", response)
 			else
 				return static_file("../html/pdfjs.html", response)

@@ -1049,10 +1049,9 @@ Page {
 				Switch {
 					id: legacypdfSwitch
 					onClicked: appsettings.legacypdf = checked
-					Component.onCompleted: legacypdfSwitch.checked = appsettings.legacypdf
-					Connections {
-						target: appsettings
-						onLegacypdfChanged: legacypdfSwitch.checked = appsettings.legacypdf
+					onVisibleChanged: {
+						console.log('ping');
+						checked = appsettings.legacypdf;
 					}
 				}
 			}
