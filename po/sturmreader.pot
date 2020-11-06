@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-11-06 16:49+0000\n"
+"POT-Creation-Date: 2020-11-06 18:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,40 +38,40 @@ msgstr ""
 msgid "No outline available"
 msgstr ""
 
-#: ui/BookPage.qml:690
+#: ui/BookPage.qml:684
 msgid "Book Settings"
 msgstr ""
 
-#: ui/BookPage.qml:788 ui/BookPage.qml:796
+#: ui/BookPage.qml:782 ui/BookPage.qml:790
 msgid "Default Font"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:809
+#: ui/BookPage.qml:803
 msgid "Font Scaling"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:834
+#: ui/BookPage.qml:828
 msgid "Line Height"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:859
+#: ui/BookPage.qml:853
 msgid "Margins"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/BookPage.qml:883
+#: ui/BookPage.qml:877
 msgid "Make Default"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/BookPage.qml:891
+#: ui/BookPage.qml:885
 msgid "Load Defaults"
 msgstr ""
 
-#: ui/BookPage.qml:899
+#: ui/BookPage.qml:893
 msgid "Close"
 msgstr ""
 
@@ -109,7 +109,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: ui/LocalBooks.qml:123 ui/LocalBooks.qml:890
+#: ui/LocalBooks.qml:123 ui/LocalBooks.qml:888
 msgid "Welcome to Sturm Reader!"
 msgstr ""
 
@@ -153,20 +153,20 @@ msgstr ""
 
 #. / A control can be dragged to delete a file.  The deletion occurs /
 #. / when the user releases the control. /
-#: ui/LocalBooks.qml:860
+#: ui/LocalBooks.qml:858
 msgid "Release to Delete"
 msgstr ""
 
 #. / A control can be dragged to delete a file. /
-#: ui/LocalBooks.qml:862
+#: ui/LocalBooks.qml:860
 msgid "Swipe to Delete"
 msgstr ""
 
-#: ui/LocalBooks.qml:890 ui/LocalBooks.qml:1013
+#: ui/LocalBooks.qml:888 ui/LocalBooks.qml:1011
 msgid "Default Book Location"
 msgstr ""
 
-#: ui/LocalBooks.qml:907
+#: ui/LocalBooks.qml:905
 msgid ""
 "Enter the folder in your home directory where your ebooks are or should be "
 "stored.\n"
@@ -175,45 +175,45 @@ msgid ""
 msgstr ""
 
 #. / Create a new directory from path given. /
-#: ui/LocalBooks.qml:924
+#: ui/LocalBooks.qml:922
 msgid "Create Directory"
 msgstr ""
 
 #. / File exists with path given. /
-#: ui/LocalBooks.qml:928
+#: ui/LocalBooks.qml:926
 msgid "File Exists"
 msgstr ""
 
 #. / Read the books in the given directory again. /
-#: ui/LocalBooks.qml:933 ui/LocalBooks.qml:1032
+#: ui/LocalBooks.qml:931 ui/LocalBooks.qml:1030
 msgid "Reload Directory"
 msgstr ""
 
 #. / Use directory specified to store books. /
-#: ui/LocalBooks.qml:936
+#: ui/LocalBooks.qml:934
 msgid "Use Directory"
 msgstr ""
 
-#: ui/LocalBooks.qml:951
+#: ui/LocalBooks.qml:949
 msgid "Please wait..."
 msgstr ""
 
-#: ui/LocalBooks.qml:970
+#: ui/LocalBooks.qml:968
 msgid "Cancel"
 msgstr ""
 
-#: ui/LocalBooks.qml:986
+#: ui/LocalBooks.qml:984
 msgid "Settings"
 msgstr ""
 
-#: ui/LocalBooks.qml:1020
+#: ui/LocalBooks.qml:1018
 msgid ""
 "Sturm Reader seems to be operating under AppArmor restrictions that prevent "
 "it from accessing most of your home directory.  Ebooks should be put in <i>"
 "%1</i> for Sturm Reader to read them."
 msgstr ""
 
-#: ui/LocalBooks.qml:1044
+#: ui/LocalBooks.qml:1042
 msgid "Use legacy PDF viewer"
 msgstr ""
 

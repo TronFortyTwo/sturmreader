@@ -263,18 +263,12 @@ window.onload = function() {
 	mc = new Hammer.Manager(document.getElementById("container"));
 	
 	// initialize gestures
-	//var Swipe = new Hammer.Swipe();
-	//var Pinch = new Hammer.Pinch();
 	var Tap = new Hammer.Tap();
 	var Press = new Hammer.Press();
-	//var Pan = new Hammer.Pan({direction: Hammer.DIRECTION_HORIZONTAL, threshold: window.visualViewport.width * 0.4});
 	
 	// Add the recognizer to the manager
-	//mc.add(Swipe);
 	mc.add(Press);
 	mc.add(Tap);
-	//mc.add(Pan);
-	//mc.add(Pinch);
 	
 	mc.on("tap press", (ev) => tapPageTurn(ev) );
 	//mc.on("pan", (ev) => panPageTurn(ev) );

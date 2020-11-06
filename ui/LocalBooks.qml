@@ -7,7 +7,7 @@
  * This file is part of Sturm Reader and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
  */
-import QtQuick 2.9
+import QtQuick 2.12
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
@@ -802,18 +802,16 @@ Page {
 		header: ToolBar {
 			width: parent.width
 			height: titleLabel.height + units.dp(10)
-			RowLayout {
-				anchors.fill: parent
-				Label {
-					anchors.centerIn: parent
-					id: titleLabel
-					font.pixelSize: units.dp(27)
-					color: theme.palette.normal.backgroundText
-					wrapMode: Text.Wrap
-					horizontalAlignment: Qt.AlignHCenter
-					verticalAlignment: Qt.AlignVCenter
-					Layout.fillWidth: true
-				}
+			Label {
+				width: parent.width
+				anchors.verticalCenter: parent.verticalCenter
+				id: titleLabel
+				font.pixelSize: units.dp(27)
+				color: theme.palette.normal.backgroundText
+				wrapMode: Text.Wrap
+				horizontalAlignment: Qt.AlignHCenter
+				verticalAlignment: Qt.AlignVCenter
+				Layout.fillWidth: true
 			}
 		}
 		

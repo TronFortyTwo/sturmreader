@@ -37,7 +37,7 @@ Page {
 	property real book_percent;
 	
 	property int pdf_pageNumber;
-	property int pdf_numberOfPages;
+	property int pdf_numberOfPages: 0;
     
     signal contentOpened()
 
@@ -258,140 +258,134 @@ Page {
 	Drawer {
 		id: controls
 		width: parent.width
-		height: controlLoader.height
+		height: controlRect.height
 		edge: Qt.BottomEdge
 		modal: false
 		
 		// is turned on by turnControlsOn()
 		interactive: false
 		
-		Loader {
-            id: controlLoader
-            asynchronous: true
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: parent.top
-            }
-			sourceComponent: Rectangle {
-				
-				antialiasing: false
-				color: theme.palette.normal.background
-				
+		Rectangle {
+			
+			id: controlRect
+			
+			antialiasing: false
+			color: theme.palette.normal.background
+			
+			anchors.left: parent.left
+			anchors.right: parent.right
+			anchors.top: parent.top
+			height: childrenRect.height
+			width: parent.width
+			
+			// relaxed layout uses more space, nicer on wider screens
+			// there is one button more on the right, so we check there
+			property bool relaxed_layout: width * 0.5 >= jump_button.width + content_button.width + settings_button.width
+			
+			// reduce button size when even not relaxed layout not enought
+			// 7 is the number of buttons
+			// Not 100% accurate alghorithm, but this convers just edge cases (very small phone display)
+			property int max_button_size: width / 7 - units.dp(1)
+			
+			FloatingButton {
+				id: home_button
 				anchors.left: parent.left
+				max_size: controlRect.max_button_size
+				buttons: [
+					Action {
+						iconName: "go-home"
+						onTriggered: {
+							// turn stuff off and exit
+							closeContent()
+							closeControls()
+							turnControlsOff()
+							pageStack.pop()
+							mainView.title = mainView.defaultTitle
+						}
+					}
+				]
+			}
+			FloatingButton {
+				id: history_button
+				anchors.right: jump_button.left
+				max_size: controlRect.max_button_size
+				buttons: [
+					Action {
+						iconName: "undo"
+						enabled: canBack
+						onTriggered: {
+							var locus = history.goBackward()
+							if (locus !== null) {
+								navjump = true;
+								bookLoadingStart()
+								bookWebView.runJavaScript("moveToLocus(" + locus + ")");
+							}
+						}
+					},
+					Action {
+						iconName: "redo"
+						enabled: canForward
+						onTriggered: {
+							var locus = history.goForward()
+							if (locus !== null) {
+								navjump = true;
+								bookLoadingStart()
+								bookWebView.runJavaScript("moveToLocus(" + locus + ")");
+							}
+						}
+					}
+				]
+			}
+			FloatingButton {
+				id: jump_button
+				anchors.right: content_button.left
+				anchors.rightMargin: controlRect.relaxed_layout ? parent.width * 0.5 - content_button.width - settings_button.width - width : 0
+				max_size: controlRect.max_button_size
+				
+				buttons: [
+					Action {
+						iconName: "go-previous"
+						onTriggered: {
+							bookLoadingStart()
+							bookWebView.runJavaScript("moveToPageRelative(-10)");
+						}
+					},
+					Action {
+						iconName: "go-next"
+						onTriggered: {
+							bookLoadingStart()
+							bookWebView.runJavaScript("moveToPageRelative(10)");
+						}
+					}
+				]
+			}
+			FloatingButton {
+				id: content_button
+				anchors.right: settings_button.left
+				max_size: controlRect.max_button_size
+				buttons: [
+					Action {
+						iconName: "book"
+						onTriggered: {
+							openContent()
+							closeControls()
+						}
+					}
+				]
+			}
+			FloatingButton {
+				id: settings_button
 				anchors.right: parent.right
-				height: childrenRect.height
-				width: parent.width
-				
-				// relaxed layout uses more space, nicer on wider screens
-				// there is one button more on the right, so we check there
-				property bool relaxed_layout: width * 0.5 >= jump_button.width + content_button.width + settings_button.width
-				
-				// reduce button size when even not relaxed layout not enought
-				// 7 is the number of buttons
-				// Not 100% accurate alghorithm, but this convers just edge cases (very small phone display)
-				property int max_button_size: width / 7 - units.dp(1)
-				
-				FloatingButton {
-					id: home_button
-					anchors.left: parent.left
-					max_size: max_button_size
-					buttons: [
-						Action {
-							iconName: "go-home"
-							onTriggered: {
-								// turn stuff off and exit
-								closeContent()
-								closeControls()
-								turnControlsOff()
-								pageStack.pop()
-								mainView.title = mainView.defaultTitle
-							}
+				max_size: controlRect.max_button_size
+				buttons: [
+					Action {
+						iconName: "settings"
+						onTriggered: {
+							stylesDialog.open()
+							closeControls()
 						}
-					]
-				}
-				FloatingButton {
-					id: history_button
-					anchors.right: jump_button.left
-					max_size: max_button_size
-					buttons: [
-						Action {
-							iconName: "undo"
-							enabled: canBack
-							onTriggered: {
-								var locus = history.goBackward()
-								if (locus !== null) {
-									navjump = true;
-									bookLoadingStart()
-									bookWebView.runJavaScript("moveToLocus(" + locus + ")");
-								}
-							}
-						},
-						Action {
-							iconName: "redo"
-							enabled: canForward
-							onTriggered: {
-								var locus = history.goForward()
-								if (locus !== null) {
-									navjump = true;
-									bookLoadingStart()
-									bookWebView.runJavaScript("moveToLocus(" + locus + ")");
-								}
-							}
-						}
-					]
-				}
-				FloatingButton {
-					id: jump_button
-					anchors.right: content_button.left
-					anchors.rightMargin: relaxed_layout ? parent.width * 0.5 - content_button.width - settings_button.width - width : 0
-					max_size: max_button_size
-					
-					buttons: [
-						Action {
-							iconName: "go-previous"
-							onTriggered: {
-								bookLoadingStart()
-								bookWebView.runJavaScript("moveToPageRelative(-10)");
-							}
-						},
-						Action {
-							iconName: "go-next"
-							onTriggered: {
-								bookLoadingStart()
-								bookWebView.runJavaScript("moveToPageRelative(10)");
-							}
-						}
-					]
-				}
-				FloatingButton {
-					id: content_button
-					anchors.right: settings_button.left
-					max_size: max_button_size
-					buttons: [
-						Action {
-							iconName: "book"
-							onTriggered: {
-								openContent()
-								closeControls()
-							}
-						}
-					]
-				}
-				FloatingButton {
-					id: settings_button
-					anchors.right: parent.right
-					max_size: max_button_size
-					buttons: [
-						Action {
-							iconName: "settings"
-							onTriggered: {
-								stylesDialog.open()
-								closeControls()
-							}
-						}
-					]
-				}
+					}
+				]
 			}
         }
 	}
@@ -699,7 +693,7 @@ Page {
 				BusyIndicator {
 					width: height
 					height: units.dp(25)
-					anchors.right: parent.right
+					Layout.rightMargin: units.dp(0)
 					opacity: loadingIndicator.opacity
 					running: opacity != 0
 				}
