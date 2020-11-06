@@ -870,7 +870,7 @@ Gala.dispatch = function (elem, evtType, data, cancelable) {
 	// launch events to the QML handler
 	// for some types of event we have special handlers
 	if(evtType == "monocle:link:external")
-		console.log(evtType + " " + data.link + " " + data.href);
+		console.log(evtType + " " + data.link);
 	else
 		console.log(evtType);
 		
