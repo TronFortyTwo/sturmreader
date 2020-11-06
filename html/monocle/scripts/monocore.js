@@ -867,8 +867,12 @@ Gala.deafen = function (elem, evtType, fn, useCapture) {
 //
 Gala.dispatch = function (elem, evtType, data, cancelable) {
   
-	// launch events to log
-	console.log(evtType)
+	// launch events to the QML handler
+	// for some types of event we have special handlers
+	if(evtType == "monocle:link:external")
+		console.log(evtType + " " + data.link + " " + data.href);
+	else
+		console.log(evtType);
 		
   elem = Gala.$(elem);
   var evt;

@@ -176,15 +176,6 @@ Page {
 				spacing: units.dp(15)
 				
 				onVisibleChanged: {
-					// repopulate
-					//if (pagesTumblerModel.count != pdf_numberOfPages) {
-					//	pagesTumblerModel.clear();
-					//	for (var i = 1; i <= pdf_numberOfPages; i += 1)
-					//		pagesTumblerModel.append({"num": (i)});
-					//}
-					//if (pagesLoader.slider.to != pdf_numberOfPages)
-					//	pagesLoader.slider.to = pdf_numberOfPages;
-					
 					pagesLoader.slider.value = pdf_pageNumber;
 				}
 				
@@ -497,11 +488,13 @@ Page {
 			} else if(msg[0] == "ok") {
 				bookLoadingCompleted();
 			} else if(msg[0] == "monocle:notfound") {
-				// This is caused by a bug - we prevent the app from freeze in loading at least
+				// This is caused by some bug - we prevent the app from freeze in loading at least
 				bookLoadingCompleted()
-			}
+			} else if(msg[0] == "monocle:link:external") {
+				var comp_id = msg[1].split("127.0.0.1:" + server.port + "/")[1];
+				runJavaScript("moveToChapter('" + comp_id + "')");
 			// debug messages
-			else if(msg[0] == "#") {}
+			} else if(msg[0] == "#") {}
 			// not handled messages
 			else console.log("ignored");
 		}

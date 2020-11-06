@@ -1050,7 +1050,6 @@ Page {
 					id: legacypdfSwitch
 					onClicked: appsettings.legacypdf = checked
 					onVisibleChanged: {
-						console.log('ping');
 						checked = appsettings.legacypdf;
 					}
 				}
