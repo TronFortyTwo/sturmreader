@@ -1,12 +1,11 @@
 /* Copyright 2015 Robert Schroll
- *
+ * Copyright 2020 Emanuele Sorce emanuele.sorce@hotmail.com
+ * 
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
  */
 
 import QtQuick 2.9
-import Epub 1.0
-
 
 Item {
     id: reader
@@ -17,17 +16,17 @@ Item {
     property var currentReader: {
         switch (fileType) {
 			case "EPUB":
-				return epub
+				return epubreader
 			case "CBZ":
-				return cbz
+				return cbzreader
 			case "PDF":
-				return pdf
+				return pdfreader
 			default:
 				return undefined
         }
     }
     property string filename: ""
-    property bool pictureBook: currentReader !== epub
+    property bool pictureBook: currentReader !== epubreader
     property string error: {
         if (currentReader === undefined)
             return gettext.tr("Could not determine file type.\n\n" +
@@ -37,21 +36,19 @@ Item {
                            "Although it appears to be a %1 file, it could not be parsed by Sturm Reader.").arg(fileType)
     }
 
-    EpubReader {
-        id: epub
+    Connections {
+        target: epubreader
         onContentsReady: reader.contentsReady(contents)
     }
 
-    CBZReader {
-        id: cbz
+    Connections {
+        target: cbzreader
         onContentsReady: reader.contentsReady(contents)
     }
 
-    PDFReader {
-        id: pdf
+    Connections {
+        target: pdfreader
         onContentsReady: reader.contentsReady(contents)
-        width: mainView.width
-        height: mainView.height
     }
 
     function load(fn) {
@@ -85,4 +82,9 @@ Item {
     function getCoverInfo(thumbsize, fullsize) {
         return currentReader.getCoverInfo(thumbsize, fullsize)
     }
+    
+    Component.onCompleted: {
+		pdfreader.width = mainView.width;
+		pdfreader.height = mainView.height;
+	}
 }

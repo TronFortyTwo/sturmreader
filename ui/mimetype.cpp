@@ -1,12 +1,6 @@
-#ifndef MIMETYPE_H
-#define MIMETYPE_H
+#include "mimetype.h"
 
-#include <QString>
-#include <QStringList>
-#include <QHash>
-
-// http://stackoverflow.com/questions/6576036/initialise-global-key-value-hash
-typedef QHash<QString, QString> StringHash;
+const StringHash MIMETYPES = initMimeTypes();
 
 StringHash initMimeTypes()
 {
@@ -26,10 +20,6 @@ StringHash initMimeTypes()
     return hash;
 }
 
-const StringHash MIMETYPES = initMimeTypes();
-
 QString guessMimeType(const QString &filename) {
     return MIMETYPES.value(filename.split('.').last(), "application/octet-stream");
 }
-
-#endif // MIMETYPE_H

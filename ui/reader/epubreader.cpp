@@ -15,7 +15,7 @@
 #include "quazip/quazip.h"
 #include "quazip/quazipfile.h"
 #include "../qhttpserver/qhttpresponse.h"
-#include "../mimetype/mimetype.h"
+#include "../mimetype.h"
 
 QString resolveRelativePath(QString relto, QString path)
 {

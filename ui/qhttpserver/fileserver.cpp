@@ -6,7 +6,7 @@
 
 #include "fileserver.h"
 #include <QFile>
-#include <../mimetype/mimetype.h>
+#include "../mimetype.h"
 
 void FileServer::serve(const QString &filename, QHttpResponse *response)
 {

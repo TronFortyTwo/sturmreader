@@ -11,8 +11,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wa
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-#set(UBUNTU_PROJECT_TYPE "ClickApp" CACHE INTERNAL "Tells QtCreator this is a Click application project")
-
 # Standard install paths
 include(GNUInstallDirs)
 include(FindPkgConfig)
@@ -34,6 +32,7 @@ endif(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
 
 # Scan the default include directories to find packages that will be needed for building plugins
 find_package(Qt5Core REQUIRED Qt5Qml Qt5Quick Qt5Xml Qt5Gui Qt5Network)
+find_package(ZLIB)
 
 file(GLOB I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
@@ -78,6 +77,5 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_
 install(FILES ${ICON_FILE} DESTINATION ${DATA_DIR})
 
 # Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory
-add_subdirectory(epubreader)
 add_subdirectory(ui)
 add_subdirectory(po)

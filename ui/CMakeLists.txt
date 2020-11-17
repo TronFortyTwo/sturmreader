@@ -55,16 +55,33 @@ add_executable(sturmreader
 	units.cpp
 	fontlister.cpp
 	filesystem.cpp
+	mimetype.cpp
 	qhttpserver/qhttpserver.cpp
 	qhttpserver/fileserver.cpp
 	qhttpserver/qhttpconnection.cpp
 	qhttpserver/qhttprequest.cpp
 	qhttpserver/qhttpresponse.cpp
 	qhttpserver/http-parser/http_parser.c
+	reader/epubreader.cpp
+	reader/cbzreader.cpp
+	reader/pdfreader.cpp
+	reader/quazip/JlCompress.cpp
+	reader/quazip/qioapi.cpp
+	reader/quazip/quacrc32.cpp
+	reader/quazip/quaadler32.cpp
+	reader/quazip/quazip.cpp
+	reader/quazip/quazipfile.cpp
+	reader/quazip/quagzipfile.cpp
+	reader/quazip/quazipfileinfo.cpp
+	reader/quazip/quaziodevice.cpp
+	reader/quazip/quazipnewinfo.cpp
+	reader/quazip/unzip.c
+	reader/quazip/zip.c
 	${QT_RESOURCES} )
-qt5_use_modules(sturmreader Gui Qml Quick QuickControls2)
-install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
+qt5_use_modules(sturmreader Gui Qml Quick Xml QuickControls2)
+target_link_libraries(sturmreader poppler-qt5 ZLIB::ZLIB)
 
+install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
 add_custom_command(OUTPUT qml/Textures.qml
     COMMAND ./qml/encoder.sh ${IMAGE_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/qml/Textures.qml

@@ -37,6 +37,9 @@
 #include "qhttpserver/fileserver.h"
 #include "qhttpserver/qhttprequest.h"
 #include "qhttpserver/qhttpresponse.h"
+#include "reader/epubreader.h"
+#include "reader/cbzreader.h"
+#include "reader/pdfreader.h"
 
 // =================
 // Launcher function
@@ -55,6 +58,9 @@ int main(int argc, char *argv[])
 	FileSystem fs;
 	QHttpServer http_server;
 	FileServer file_server;
+	EpubReader epub;
+	PDFReader pdf;
+	CBZReader cbz;
 	
 	qDebug() << "Starting";
 
@@ -67,7 +73,10 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("fileserver", &file_server);
 	engine.rootContext()->setContextProperty("httpserver", &http_server);
 	qmlRegisterUncreatableType<QHttpRequest>("HttpUtils", 1, 0, "HttpRequest", "Do not create HttpRequest directly");
-    qmlRegisterUncreatableType<QHttpResponse>("HttpUtils", 1, 0, "HttpResponse", "Do not create HttpResponse directly");
+	qmlRegisterUncreatableType<QHttpResponse>("HttpUtils", 1, 0, "HttpResponse", "Do not create HttpResponse directly");
+	engine.rootContext()->setContextProperty("epubreader", &epub);
+	engine.rootContext()->setContextProperty("pdfreader", &pdf);
+	engine.rootContext()->setContextProperty("cbzreader", &cbz);
 	
 	engine.load("ui/qml/Main.qml");
 	
