@@ -49,7 +49,19 @@ set(IMAGE_SRC
     qml/images/stainedpaper_tiled.jpg
 )
 
-add_executable(sturmreader main.cpp gettext.cpp units.cpp fontlister.cpp filesystem.cpp ${QT_RESOURCES})
+add_executable(sturmreader
+	main.cpp
+	gettext.cpp
+	units.cpp
+	fontlister.cpp
+	filesystem.cpp
+	qhttpserver/qhttpserver.cpp
+	qhttpserver/fileserver.cpp
+	qhttpserver/qhttpconnection.cpp
+	qhttpserver/qhttprequest.cpp
+	qhttpserver/qhttpresponse.cpp
+	qhttpserver/http-parser/http_parser.c
+	${QT_RESOURCES} )
 qt5_use_modules(sturmreader Gui Qml Quick QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 

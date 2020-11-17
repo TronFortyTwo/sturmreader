@@ -10,24 +10,21 @@
  */
 
 import QtQuick 2.9
-import HttpServer 1.0
 
-HttpServer {
+import HttpUtils 1.0
+
+Item {
     id: server
     
     property int port: 5000
     
     Component.onCompleted: {
-        while (!listen("127.0.0.1", port))
+        while (!httpserver.listen("127.0.0.1", port))
             port += 1
     }
 
     property var reader: Reader {
         id: reader
-    }
-
-    property var fileserver: FileServer {
-        id: fileserver
     }
 
     function static_file(path, response) {
@@ -50,30 +47,34 @@ HttpServer {
         response.end()
     }
     
-    onNewRequest: { // request, response
-		// new pdf reader
-		if (request.path == "/PDF") {
-			if(appsettings.legacypdf)
-				return static_file("../html/monocle.html", response)
-			else
-				return static_file("../html/pdfjs.html", response)
-		}
-        // the monocle reader
-		if (request.path == "/EPUB")
-            return static_file("../html/monocle.html", response)
-		// TODO: CBZ is more pdf than epub, use somehow the pdfjs reader
-		if (request.path == "/CBZ")
-            return static_file("../html/monocle.html", response)
+    Connections {
+		target: httpserver
 		
-		if (request.path == "/book.pdf")
-			return static_file(reader.filename, response)
+		onNewRequest: { // request, response
+			// new pdf reader
+			if (request.path == "/PDF") {
+				if(appsettings.legacypdf)
+					return static_file("../html/monocle.html", response)
+				else
+					return static_file("../html/pdfjs.html", response)
+			}
+			// the monocle reader
+			if (request.path == "/EPUB")
+				return static_file("../html/monocle.html", response)
+			// TODO: CBZ is more pdf than epub, use somehow the pdfjs reader
+			if (request.path == "/CBZ")
+				return static_file("../html/monocle.html", response)
 			
-        if (request.path == "/.bookdata.js")
-            return reader.serveBookData(response)
-        if (request.path == "/.defaults.js")
-            return defaults(response)
-        if (request.path[1] == ".")
-            return static_file("../html/" + request.path.slice(2), response)
-        return reader.serveComponent(request.path.slice(1), response)
-    }
+			if (request.path == "/book.pdf")
+				return static_file(reader.filename, response)
+				
+			if (request.path == "/.bookdata.js")
+				return reader.serveBookData(response)
+			if (request.path == "/.defaults.js")
+				return defaults(response)
+			if (request.path[1] == ".")
+				return static_file("../html/" + request.path.slice(2), response)
+			return reader.serveComponent(request.path.slice(1), response)
+		}
+	}
 }

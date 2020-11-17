@@ -33,6 +33,10 @@
 #include "units.h"
 #include "fontlister.h"
 #include "filesystem.h"
+#include "qhttpserver/qhttpserver.h"
+#include "qhttpserver/fileserver.h"
+#include "qhttpserver/qhttprequest.h"
+#include "qhttpserver/qhttpresponse.h"
 
 // =================
 // Launcher function
@@ -49,6 +53,8 @@ int main(int argc, char *argv[])
 	Units un;
 	FontLister fl;
 	FileSystem fs;
+	QHttpServer http_server;
+	FileServer file_server;
 	
 	qDebug() << "Starting";
 
@@ -58,6 +64,10 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("portable_units", &un);
 	engine.rootContext()->setContextProperty("qtfontlist", &fl);
 	engine.rootContext()->setContextProperty("filesystem", &fs);
+	engine.rootContext()->setContextProperty("fileserver", &file_server);
+	engine.rootContext()->setContextProperty("httpserver", &http_server);
+	qmlRegisterUncreatableType<QHttpRequest>("HttpUtils", 1, 0, "HttpRequest", "Do not create HttpRequest directly");
+    qmlRegisterUncreatableType<QHttpResponse>("HttpUtils", 1, 0, "HttpResponse", "Do not create HttpResponse directly");
 	
 	engine.load("ui/qml/Main.qml");
 	
