@@ -49,7 +49,7 @@ set(IMAGE_SRC
     qml/images/stainedpaper_tiled.jpg
 )
 
-add_executable(sturmreader main.cpp gettext.cpp units.cpp fontlister.cpp ${QT_RESOURCES})
+add_executable(sturmreader main.cpp gettext.cpp units.cpp fontlister.cpp filesystem.cpp ${QT_RESOURCES})
 qt5_use_modules(sturmreader Gui Qml Quick QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
@@ -63,3 +63,5 @@ add_custom_target(MakeTextures ALL DEPENDS qml/Textures.qml)
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${DATA_DIR}
     PATTERN "[Cc][Mm]ake*" EXCLUDE)
+
+add_subdirectory(html)

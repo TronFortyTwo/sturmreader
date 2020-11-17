@@ -14,8 +14,6 @@ import QtQuick.Window 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
-import File 1.0
-
 import "not-portable"
 
 ApplicationWindow {
@@ -70,10 +68,6 @@ ApplicationWindow {
 		}
 		
 	}
-	
-    FileSystem {
-        id: filesystem
-    }
 
     StackView {
         id: pageStack

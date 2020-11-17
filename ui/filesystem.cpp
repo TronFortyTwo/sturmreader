@@ -102,3 +102,5 @@ QString FileSystem::fileType(const QString &filename) {
 bool FileSystem::remove(const QString &filename) {
     return QFile::remove(filename);
 }
+
+#include "filesystem.moc"
