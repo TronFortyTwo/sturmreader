@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2020 emanuele.sorce@hotmail.com
+ * Copyright (C) 2020 Emanuele Sorce emanuele.sorce@hotmail.com
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
  *
- * test is distributed in the hope that it will be useful,
+ * Sturm Reader is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -15,31 +15,14 @@
  */
  
 #include <QObject>
-#include <QGuiApplication>
-#include <QCoreApplication>
-#include <QUrl>
-#include <QString>
-#include <QDebug>
-#include <QQmlApplicationEngine>
-#include <QQuickStyle>
 #include <QtQml>
 
-class Gettext : public QObject
+class Units : public QObject
 {
 Q_OBJECT
 
 public:
-
-	explicit Gettext(QObject* parent = 0);
-	//virtual ~Gettext(){}
 	
 	Q_INVOKABLE
-	QString tr(const QString& text) const;
-	
-	Q_INVOKABLE
-	QString tr(const QString& singular, const QString& plural, int n) const;
-	
-	void setDomain(const QString& domain);
-	
-	//Q_DISABLE_COPY(Gettext)
+	int dp(double value) const;
 };

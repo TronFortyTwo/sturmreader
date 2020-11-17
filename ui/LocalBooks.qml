@@ -15,8 +15,6 @@ import QtQuick.Layouts 1.3
 
 import "components"
 
-import Units 1.0
-
 Page {
 	id: localBooks
 
@@ -27,8 +25,8 @@ Page {
 	property string bookdir: ""
 	property bool readablehome: false
 	property string defaultdirname: "Books"
-	property double gridmargin: units.dp(10)
-	property double mingridwidth: units.dp(150)
+	property double gridmargin: scaling.dp(10)
+	property double mingridwidth: scaling.dp(150)
 	property bool reloading: false
 	
     background: Rectangle {
@@ -40,15 +38,15 @@ Page {
 		ToolBar {
 			width: parent.width
 			RowLayout {
-				spacing: units.dp(2)
+				spacing: scaling.dp(2)
 				anchors.top: parent.top
 				anchors.right: parent.right
 				anchors.bottom: parent.bottom
-				width: parent.width - units.dp(10)
+				width: parent.width - scaling.dp(10)
 				
 				Label {
 					text: gettext.tr("Library")
-					font.pixelSize: units.dp(22)
+					font.pixelSize: scaling.dp(22)
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignLeft
 					verticalAlignment: Qt.AlignVCenter
@@ -56,7 +54,7 @@ Page {
 				}
 				
 				ToolButton {
-					padding: units.dp(7)
+					padding: scaling.dp(7)
 					contentItem: Icon {
 						anchors.centerIn: parent
 						name: "add"
@@ -66,7 +64,7 @@ Page {
 				}
 				
 				ToolButton {
-					padding: units.dp(7)
+					padding: scaling.dp(7)
 					contentItem: Icon {
 						anchors.centerIn: parent
 						name: "info"
@@ -76,7 +74,7 @@ Page {
 				}
 				
 				ToolButton {
-					padding: units.dp(7)
+					padding: scaling.dp(7)
 					contentItem: Icon {
 						anchors.centerIn: parent
 						name: "settings"
@@ -112,7 +110,7 @@ Page {
         adjustViews(false)
     }
     onWidthChanged: {
-        wide = (width > units.dp(800))
+        wide = (width > scaling.dp(800))
         widthAnimation.enabled = false
         adjustViews(true)  // True to allow author's list if necessary
         widthAnimation.enabled = true
@@ -227,7 +225,7 @@ Page {
             localBooks.needsort = true
             var title, author, authorsort, cover, fullcover, hash
             if (coverReader.load(res.rows.item(0).filename)) {
-                var coverinfo = coverReader.getCoverInfo(units.dp(40), 2*mingridwidth)
+                var coverinfo = coverReader.getCoverInfo(scaling.dp(40), 2*mingridwidth)
                 title = coverinfo.title
                 if (title == "ZZZnone")
                     title = res.rows.item(0).title
@@ -533,7 +531,7 @@ Page {
 			width: parent.width
 			contentItem: Item {
 				implicitWidth: parent.width
-				implicitHeight: units.dp(42)
+				implicitHeight: scaling.dp(42)
 				Image {
 					id: titleDelegateImage
 					anchors.left: parent.left
@@ -542,7 +540,7 @@ Page {
 							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
 							model.cover == "ZZZerror" ? "images/error_cover.svg" :
 								model.cover
-					width: units.dp(24)
+					width: scaling.dp(24)
 					asynchronous: true
 					sourceSize.height: height
 					sourceSize.width: width
@@ -553,21 +551,21 @@ Page {
 					height: parent.height
 					anchors.verticalCenter: parent.verticalCenter
 					anchors.left: titleDelegateImage.right
-					anchors.leftMargin: units.dp(20)
+					anchors.leftMargin: scaling.dp(20)
 					anchors.right: parent.right
-					spacing: units.dp(5)
+					spacing: scaling.dp(5)
 					Text {
 						width: parent.width
 						text: model.title
 						color: theme.palette.normal.backgroundText
-						font.pointSize: units.dp(12)
+						font.pointSize: scaling.dp(12)
 						elide: Text.ElideRight
 					}
 					Text {
 						width: parent.width
 						text: model.author
 						color: theme.palette.normal.backgroundText
-						font.pointSize: units.dp(9)
+						font.pointSize: scaling.dp(9)
 						elide: Text.ElideRight
 					}
 				}
@@ -598,7 +596,7 @@ Page {
 			width: parent.width
 			contentItem: Item {
 				implicitWidth: parent.width
-				implicitHeight: units.dp(42)
+				implicitHeight: scaling.dp(42)
 				Image {
 					id: authorDelegateImage
 					anchors.left: parent.left
@@ -608,7 +606,7 @@ Page {
 							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
 							model.cover == "ZZZerror" ? "images/error_cover.svg" :
 							model.cover
-					width: units.dp(24)
+					width: scaling.dp(24)
 					sourceSize.height: height
 					sourceSize.width: width
 					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
@@ -618,19 +616,19 @@ Page {
 					height: parent.height
 					anchors.verticalCenter: parent.verticalCenter
 					anchors.left: authorDelegateImage.right
-					anchors.leftMargin: units.dp(20)
+					anchors.leftMargin: scaling.dp(20)
 					anchors.right: parent.right
-					spacing: units.dp(5)
+					spacing: scaling.dp(5)
 					Text {
 						text: model.author || gettext.tr("Unknown Author")
 						color: theme.palette.normal.backgroundText
-						font.pointSize: units.dp(12)
+						font.pointSize: scaling.dp(12)
 					}
 					Text {
 						text: (model.count > 1) ? gettext.tr("%1 Book", "%1 Books", model.count).arg(model.count)
 								: model.title
 						color: theme.palette.normal.backgroundText
-						font.pointSize: units.dp(9)
+						font.pointSize: scaling.dp(9)
 					}
 				}
 			}
@@ -720,14 +718,14 @@ Page {
 
         Column {
             anchors.centerIn: parent
-            spacing: units.dp(16)
-            width: Math.min(units.dp(400), parent.width - units.dp(8))
+            spacing: scaling.dp(16)
+            width: Math.min(scaling.dp(400), parent.width - scaling.dp(8))
 
             Text {
                 id: noBooksLabel
 				anchors.horizontalCenter: parent.horizontalCenter
                 text: gettext.tr("No Books in Library")
-                font.pixelSize: units.dp(30)
+                font.pixelSize: scaling.dp(30)
 				horizontalAlignment: Text.AlignHCenter
 				width: parent.width
 				wrapMode: Text.Wrap
@@ -788,8 +786,8 @@ Page {
 		visible: false	
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
-		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + units.dp(100))
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, scaling.dp(300)))
+		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + scaling.dp(100))
 		
 		modal: true
 		standardButtons: Dialog.Close
@@ -801,12 +799,12 @@ Page {
 		
 		header: ToolBar {
 			width: parent.width
-			height: titleLabel.height + units.dp(10)
+			height: titleLabel.height + scaling.dp(10)
 			Label {
 				width: parent.width
 				anchors.verticalCenter: parent.verticalCenter
 				id: titleLabel
-				font.pixelSize: units.dp(27)
+				font.pixelSize: scaling.dp(27)
 				color: theme.palette.normal.backgroundText
 				wrapMode: Text.Wrap
 				horizontalAlignment: Qt.AlignHCenter
@@ -839,14 +837,14 @@ Page {
 					left: infoCover.right
 					right: parent.right
 					top: parent.top
-					leftMargin: units.dp(18)
+					leftMargin: scaling.dp(18)
 				}
-				spacing: units.dp(20)
+				spacing: scaling.dp(20)
 				Text {
 					id: filenameLabel
 					width: parent.width
 					horizontalAlignment: Text.AlignLeft
-					font.pixelSize: units.dp(12)
+					font.pixelSize: scaling.dp(12)
 					color: theme.palette.normal.backgroundText
 					wrapMode: Text.WrapAnywhere
 				}
@@ -875,8 +873,8 @@ Page {
 		
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
-		height: Math.min(parent.height*0.9, units.dp(600))
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, scaling.dp(300)))
+		height: Math.min(parent.height*0.9, scaling.dp(600))
 		
 		modal: true
 		
@@ -886,7 +884,7 @@ Page {
 				anchors.fill: parent
 				Label {
 					text: firststart ? gettext.tr("Welcome to Sturm Reader!") : gettext.tr("Default Book Location")
-					font.pixelSize: units.dp(27)
+					font.pixelSize: scaling.dp(27)
 					color: theme.palette.normal.backgroundText
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignHCenter
@@ -898,7 +896,7 @@ Page {
 		
 		ColumnLayout {
 			
-			spacing: units.dp(20)
+			spacing: scaling.dp(20)
 			
 			/*/ Text precedes an entry for a file path. /*/
 			Text {
@@ -982,7 +980,7 @@ Page {
 				anchors.fill: parent
 				Label {
 					text: gettext.tr("Settings")
-					font.pixelSize: units.dp(27)
+					font.pixelSize: scaling.dp(27)
 					color: theme.palette.normal.backgroundText
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignHCenter
@@ -994,8 +992,8 @@ Page {
 		
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, units.dp(300)))
-		height: Math.min(parent.height*0.9, settingsDisabledColumn.height + settingsDisabledHeader.height + units.dp(50))
+		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, scaling.dp(300)))
+		height: Math.min(parent.height*0.9, settingsDisabledColumn.height + settingsDisabledHeader.height + scaling.dp(50))
 		
 		modal: true
 		standardButtons: Dialog.Ok
@@ -1005,7 +1003,7 @@ Page {
 			id: settingsDisabledColumn
 			
 			width: parent.width
-			spacing: units.dp(20)
+			spacing: scaling.dp(20)
 			
 			Label {
 				text: gettext.tr("Default Book Location")
@@ -1019,7 +1017,7 @@ Page {
 							"from accessing most of your home directory.  Ebooks should be put in " +
 							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
 				color: theme.palette.normal.backgroundText
-				anchors.leftMargin: units.dp(15);
+				anchors.leftMargin: scaling.dp(15);
 				width: parent.width
 				wrapMode: Text.WordWrap
 			}

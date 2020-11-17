@@ -11,7 +11,6 @@ import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 
-import Units 1.0
 
 Item {
     id: floatingButton
@@ -19,11 +18,11 @@ Item {
     property real margin_to_size_ratio: 0.1
     
     // the size recommended for the button
-    property int best_size: units.dp(45)
+    property int best_size: scaling.dp(45)
 	// the size of the margin
     property int margin: size * margin_to_size_ratio
     // the maximum size allowed for the component
-	property int max_size: units.dp(100)
+	property int max_size: scaling.dp(100)
 	// the button size
 	property int size: Math.min(best_size, max_size / (1 + 2*margin_to_size_ratio))
     
@@ -47,7 +46,7 @@ Item {
             color: Theme.palette.normal.overlay
             border {
                 color: Theme.palette.normal.base
-                width: units.dp(1)
+                width: scaling.dp(1)
             }
 
             Row {

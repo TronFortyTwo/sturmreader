@@ -14,7 +14,6 @@ import QtQuick.Layouts 1.3
 import QtWebEngine 1.10
 
 import FontList 1.0
-import Units 1.0
 
 import "components"
 import "not-portable"
@@ -67,8 +66,8 @@ Page {
     
 	Dialog {
 		id: content
-		width: Math.min(parent.width, units.dp(750))
-		height: Math.max(parent.height * 0.75, Math.min(parent.height, units.dp(500)))
+		width: Math.min(parent.width, scaling.dp(750))
+		height: Math.max(parent.height * 0.75, Math.min(parent.height, scaling.dp(500)))
 		y: (parent.height - height) * 0.5
 		x: (parent.width - width) * 0.5
 		dim: true
@@ -83,7 +82,7 @@ Page {
 					anchors.fill: parent
 					Label {
 						text: gettext.tr("Contents")
-						font.pixelSize: units.dp(27)
+						font.pixelSize: scaling.dp(27)
 						color: theme.palette.normal.backgroundText
 						elide: Label.ElideRight
 						horizontalAlignment: Qt.AlignHCenter
@@ -170,10 +169,10 @@ Page {
 			
 			Column {
 				width: parent.width
-				anchors.leftMargin: units.dp(10)
-				anchors.rightMargin: units.dp(10)
+				anchors.leftMargin: scaling.dp(10)
+				anchors.rightMargin: scaling.dp(10)
 				
-				spacing: units.dp(15)
+				spacing: scaling.dp(15)
 				
 				onVisibleChanged: {
 					pagesLoader.slider.value = pdf_pageNumber;
@@ -206,8 +205,8 @@ Page {
 							color: Theme.palette.normal.foregroundText
 							font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
 							font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
-							width: units.dp(60)
-							height: units.dp(60)
+							width: scaling.dp(60)
+							height: scaling.dp(60)
 							horizontalAlignment: Text.AlignHCenter
 							verticalAlignment: Text.AlignVCenter
 						}
@@ -242,7 +241,7 @@ Page {
 					snapMode: Slider.SnapAlways
 				}
 				Text {
-					width: units.dp(50)
+					width: scaling.dp(50)
 					text: Math.floor(100 * pageSlider.value / pdf_numberOfPages) + "%"
 					color: Theme.palette.normal.foregroundText
 				}
@@ -285,7 +284,7 @@ Page {
 			// reduce button size when even not relaxed layout not enought
 			// 7 is the number of buttons
 			// Not 100% accurate alghorithm, but this convers just edge cases (very small phone display)
-			property int max_button_size: width / 7 - units.dp(1)
+			property int max_button_size: width / 7 - scaling.dp(1)
 			
 			FloatingButton {
 				id: home_button
@@ -608,7 +607,7 @@ Page {
 
         Component.onCompleted: {
             var targetwidth = 60
-            var widthgu = width/units.dp(8)
+            var widthgu = width/scaling.dp(8)
             if (widthgu > targetwidth)
                 // Set the margins to give us the target width, but no more than 30%.
                 defaults.margin = Math.round(Math.min(50 * (1 - targetwidth/widthgu), 30))
@@ -670,8 +669,8 @@ Page {
 		
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
-		width: Math.min(parent.width, Math.max(parent.width * 0.5, units.dp(450)))
-		height: Math.min(parent.height*0.9, stylesFlickable.contentHeight + stylesToolbar.height + units.dp(50))
+		width: Math.min(parent.width, Math.max(parent.width * 0.5, scaling.dp(450)))
+		height: Math.min(parent.height*0.9, stylesFlickable.contentHeight + stylesToolbar.height + scaling.dp(50))
 		
 		modal: true
 		
@@ -682,7 +681,7 @@ Page {
 				anchors.fill: parent
 				Label {
 					text: gettext.tr("Book Settings")
-					font.pixelSize: units.dp(27)
+					font.pixelSize: scaling.dp(27)
 					color: theme.palette.normal.backgroundText
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignHCenter
@@ -692,8 +691,8 @@ Page {
 				
 				BusyIndicator {
 					width: height
-					height: units.dp(25)
-					Layout.rightMargin: units.dp(0)
+					height: scaling.dp(25)
+					Layout.rightMargin: scaling.dp(0)
 					opacity: loadingIndicator.opacity
 					running: opacity != 0
 				}
@@ -719,7 +718,7 @@ Page {
 				width: parent.width
 				anchors.centerIn: parent.center
 				
-				spacing: units.dp(20)
+				spacing: scaling.dp(20)
 				
 				ComboBox {
 					anchors.horizontalCenter: parent.horizontalCenter

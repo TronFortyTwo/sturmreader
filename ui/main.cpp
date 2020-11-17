@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2020 emanuele.sorce@hotmail.com
+ * Copyright (C) 2020 Emanuele Sorce emanuele.sorce@hotmail.com
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
  *
- * test is distributed in the hope that it will be useful,
+ * Sturm Reader is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -30,6 +30,7 @@
 #include <libintl.h>
 
 #include "gettext.h"
+#include "units.h"
 
 // =================
 // Launcher function
@@ -43,11 +44,13 @@ int main(int argc, char *argv[])
 	app->setApplicationName("sturmreader.emanuelesorce");
 	
 	Gettext gt;
+	Units un;
 	
 	qDebug() << "Starting";
 
 	QQmlApplicationEngine engine;
 	engine.rootContext()->setContextProperty("gettext", &gt);
+	engine.rootContext()->setContextProperty("portable_units", &un);
 	engine.load("ui/main.qml");
 	
 	return app->exec();

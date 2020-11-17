@@ -6,7 +6,6 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import Units 1.0
 
 Rectangle {
     id: swipeControl
@@ -15,8 +14,8 @@ Rectangle {
     width: parent.width
     clip: true
 
-    property double lineWidth: units.dp(1)
-    property double marginWidth: units.dp(15)
+    property double lineWidth: scaling.dp(1)
+    property double marginWidth: scaling.dp(15)
     property double threshold: 0.5
     property string actionText: ""
     property string notificationText: ""
@@ -78,9 +77,9 @@ Rectangle {
 			asynchronous: true
 			anchors {
 				top: parent.top
-				topMargin: units.dp(5)
+				topMargin: scaling.dp(5)
 				bottom: parent.bottom
-				bottomMargin: units.dp(5)
+				bottomMargin: scaling.dp(5)
 				right: parent.right
 			}
 			width: height

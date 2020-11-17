@@ -16,8 +16,6 @@ import QtQuick.Layouts 1.3
 
 import File 1.0
 
-import Units 1.0
-
 import "components"
 import "not-portable"
 
@@ -38,8 +36,13 @@ ApplicationWindow {
 	}
 	property var bookPage: null
     
-    width: units.dp(800)
-    height: units.dp(600)
+	width: scaling.dp(800)
+	height: scaling.dp(600)
+	
+	// for dp scaling support
+	Scaling {
+		id: scaling
+	}
 	
 	// Our own setting store since QSettings is unreliable
 	// TODO: store window position and size

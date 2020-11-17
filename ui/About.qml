@@ -10,8 +10,6 @@ import QtQuick.Layouts 1.3
 
 import "components"
 
-import Units 1.0
-
 Page {
 	id: bookSources
 	
@@ -19,11 +17,11 @@ Page {
 		id: aboutheader
 		width: parent.width
 		RowLayout {
-			spacing: units.dp(10)
+			spacing: scaling.dp(10)
 			anchors.fill: parent
 			
 			ToolButton {
-				padding: units.dp(7)
+				padding: scaling.dp(7)
 				contentItem: Icon {
 					anchors.centerIn: parent
 					name: "go-previous"
@@ -34,7 +32,7 @@ Page {
 			
 			Label {
 				text: gettext.tr("About")
-				font.pixelSize: units.dp(22)
+				font.pixelSize: scaling.dp(22)
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
@@ -47,7 +45,7 @@ Page {
 	Flickable {
 		id: flickable
 		anchors.fill: parent
-		contentHeight:  layout.height + units.dp(80)
+		contentHeight:  layout.height + scaling.dp(80)
 		contentWidth: parent.width
 		ScrollBar.vertical: ScrollBar { }
 		
@@ -61,7 +59,7 @@ Page {
 			width: parent.width
 			
 			Item {
-				height: units.dp(30)
+				height: scaling.dp(30)
 			}
 			
 			Image {

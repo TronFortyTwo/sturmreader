@@ -31,8 +31,8 @@ import QtQuick 2.9
  *  Example:
  *  \code
  *  Icon {
- *      width: units.dp(48)
- *      height: units.dp(48)
+ *      width: 48
+ *      height: 48
  *      name: "go-previous"
  *  }
  *  \endcode
@@ -40,8 +40,8 @@ import QtQuick 2.9
  *  Example of colorization:
  *  \code
  *  Icon {
- *      width: units.dp(48)
- *      height: units.dp(48)
+ *      width: 48
+ *      height: 48
  *      name: "go-previous"
  *      color: "red"
  *  }

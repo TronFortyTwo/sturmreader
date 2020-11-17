@@ -13,7 +13,8 @@ set(UI_SRC_FILES
 	main.qml
 	Reader.qml
 	Server.qml
-
+	Scaling.qml
+	
 	not-portable/Metrics.qml
 	not-portable/Importer.qml
 
@@ -49,7 +50,7 @@ set(IMAGE_SRC
     images/stainedpaper_tiled.jpg
 )
 
-add_executable(sturmreader main.cpp gettext.cpp ${QT_RESOURCES})
+add_executable(sturmreader main.cpp gettext.cpp units.cpp ${QT_RESOURCES})
 qt5_use_modules(sturmreader Gui Qml Quick QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 

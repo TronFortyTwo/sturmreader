@@ -31,12 +31,12 @@ Page {
 	header: ToolBar {
 		width: parent.width
 		RowLayout {
-			spacing: units.dp(10)
+			spacing: scaling.dp(10)
 			anchors.fill: parent
 			
 			Label {
 				text: gettext.tr("Importing books...")
-				font.pixelSize: units.dp(22)
+				font.pixelSize: scaling.dp(22)
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
@@ -45,7 +45,7 @@ Page {
 			}
 			
 			ToolButton {
-				padding: units.dp(7)
+				padding: scaling.dp(7)
 				contentItem: Icon {
 					anchors.centerIn: parent
 					name: importing ? "refresh" : "ok"
@@ -70,16 +70,16 @@ Page {
 			width: parent.width
 			contentItem: Item {
 				implicitWidth: parent.width
-				implicitHeight: units.dp(42)
+				implicitHeight: scaling.dp(42)
 				Column {
 					anchors.left: parent.left
 					anchors.right: parent.right
 					anchors.verticalCenter: parent.verticalCenter
-					spacing: units.dp(5)
+					spacing: scaling.dp(5)
 					Text {
 						text: model.item.url.toString().split("/").pop()
 						color: theme.palette.normal.backgroundText
-						font.pointSize: units.dp(12)
+						font.pointSize: scaling.dp(12)
 					}
 					Text {
 						text: {
@@ -97,7 +97,7 @@ Page {
 							}
 						}
 						color: theme.palette.normal.backgroundText
-						font.pointSize: units.dp(9)
+						font.pointSize: scaling.dp(9)
 					}
 				}
 			}
