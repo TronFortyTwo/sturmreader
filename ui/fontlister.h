@@ -4,7 +4,7 @@
  * the GPL. See the file COPYING for full details.
  */
 
-#ifndef FONTlISTER_H
+#ifndef FONTLISTER_H
 #define FONTLISTER_H
 
 #include <QObject>

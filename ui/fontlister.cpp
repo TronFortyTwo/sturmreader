@@ -4,11 +4,14 @@
  * the GPL. See the file COPYING for full details.
  */
 
-#include "fontlisterplugin.h"
 #include "fontlister.h"
-#include <qqml.h>
+#include <QFontDatabase>
+#include <QStringList>
 
-void FontListerPlugin::registerTypes(const char *uri)
+QStringList FontLister::families() const
 {
-    qmlRegisterType<FontLister>(uri, 1, 0, "FontLister");
+    QFontDatabase fonts;
+    return fonts.families();
 }
+
+#include "fontlister.moc"

@@ -31,6 +31,7 @@
 
 #include "gettext.h"
 #include "units.h"
+#include "fontlister.h"
 
 // =================
 // Launcher function
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
 	
 	Gettext gt;
 	Units un;
+	FontLister fo;
 	
 	qDebug() << "Starting";
 
@@ -52,6 +54,7 @@ int main(int argc, char *argv[])
 	
 	engine.rootContext()->setContextProperty("gettext", &gt);
 	engine.rootContext()->setContextProperty("portable_units", &un);
+	engine.rootContext()->setContextProperty("qtfontlist", &fo);
 	
 	engine.load("ui/qml/Main.qml");
 	

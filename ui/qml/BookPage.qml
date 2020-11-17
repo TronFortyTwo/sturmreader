@@ -13,8 +13,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtWebEngine 1.10
 
-import FontList 1.0
-
 import "not-portable"
 
 import "historystack.js" as History
@@ -34,7 +32,7 @@ Page {
 	property string book_componentId;
 	property real book_percent;
 	
-	property int pdf_pageNumber;
+	property int pdf_pageNumber: 0;
 	property int pdf_numberOfPages: 0;
     
     signal contentOpened()
@@ -629,13 +627,13 @@ Page {
         return bookStyles.asObject()
     }
 
-    FontLister {
+    QtObject {
         id: fontLister
 
         property var fontList: ["Default", "Bitstream Charter", "Ubuntu", "URW Bookman L", "URW Gothic L"]
 
         Component.onCompleted: {
-            var familyList = families()
+            var familyList = qtfontlist.families()
             var possibleFamilies = [["Droid Serif", "Nimbus Roman No9 L", "FreeSerif"],
                                     ["Droid Sans", "Nimbus Sans L", "FreeSans"]]
             for (var j=0; j<possibleFamilies.length; j++) {

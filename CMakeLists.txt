@@ -11,7 +11,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wa
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(UBUNTU_PROJECT_TYPE "ClickApp" CACHE INTERNAL "Tells QtCreator this is a Click application project")
+#set(UBUNTU_PROJECT_TYPE "ClickApp" CACHE INTERNAL "Tells QtCreator this is a Click application project")
 
 # Standard install paths
 include(GNUInstallDirs)
@@ -78,10 +78,9 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_
 install(FILES ${ICON_FILE} DESTINATION ${DATA_DIR})
 
 # Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory
+add_subdirectory(ui/html)
 add_subdirectory(epubreader)
 add_subdirectory(filesystem)
-add_subdirectory(fontlister)
-add_subdirectory(html)
 add_subdirectory(qhttpserver)
 add_subdirectory(ui)
 add_subdirectory(po)
