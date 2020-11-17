@@ -15,7 +15,6 @@ import QtWebEngine 1.10
 
 import FontList 1.0
 
-import "components"
 import "not-portable"
 
 import "historystack.js" as History

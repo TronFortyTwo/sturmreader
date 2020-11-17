@@ -4,40 +4,39 @@ set(CMAKE_AUTOMOC ON)
 
 set(UI_SRC_FILES
 
-	About.qml
-	BookPage.qml
-	DefaultCover.qml
-	historystack.js
-	ImportPage.qml
-	LocalBooks.qml
-	main.qml
-	Reader.qml
-	Server.qml
-	Scaling.qml
+	qml/About.qml
+	qml/BookPage.qml
+	qml/DefaultCover.qml
+	qml/historystack.js
+	qml/ImportPage.qml
+	qml/LocalBooks.qml
+	qml/Main.qml
+	qml/Reader.qml
+	qml/Server.qml
+	qml/Scaling.qml
+	qml/FloatingButton.qml
+	qml/SwipeControl.qml
+	qml/Action.qml
+	qml/Icon.qml
 	
-	not-portable/Metrics.qml
-	not-portable/Importer.qml
+	qml/not-portable/Metrics.qml
+	qml/not-portable/Importer.qml
 
-	components/FloatingButton.qml
-	components/SwipeControl.qml
-	components/Action.qml
-	components/Icon.qml
+	qml/images/error_cover.svg
+	qml/images/error_cover_full.svg
 
-	images/error_cover.svg
-	images/error_cover_full.svg
-
-	Icons/add.svg
-	Icons/book.svg
-	Icons/go-home.svg
-	Icons/go-next.svg
-	Icons/go-previous.svg
-	Icons/info.svg
-	Icons/ok.svg
-	Icons/redo.svg
-	Icons/refresh.svg
-	Icons/settings.svg
-	Icons/undo.svg
-	Icons/COPYING
+	qml/Icons/add.svg
+	qml/Icons/book.svg
+	qml/Icons/go-home.svg
+	qml/Icons/go-next.svg
+	qml/Icons/go-previous.svg
+	qml/Icons/info.svg
+	qml/Icons/ok.svg
+	qml/Icons/redo.svg
+	qml/Icons/refresh.svg
+	qml/Icons/settings.svg
+	qml/Icons/undo.svg
+	qml/Icons/COPYING
 )
 
 if(${OUT_OF_TREE_BUILD})
@@ -47,7 +46,7 @@ if(${OUT_OF_TREE_BUILD})
 endif(${OUT_OF_TREE_BUILD})
 
 set(IMAGE_SRC
-    images/stainedpaper_tiled.jpg
+    qml/images/stainedpaper_tiled.jpg
 )
 
 add_executable(sturmreader main.cpp gettext.cpp units.cpp ${QT_RESOURCES})
@@ -55,12 +54,12 @@ qt5_use_modules(sturmreader Gui Qml Quick QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
 
-add_custom_command(OUTPUT Textures.qml
-    COMMAND ./encoder.sh ${IMAGE_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/Textures.qml
+add_custom_command(OUTPUT qml/Textures.qml
+    COMMAND ./qml/encoder.sh ${IMAGE_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/qml/Textures.qml
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS ${IMAGE_SRC}
 )
-add_custom_target(MakeTextures ALL DEPENDS Textures.qml)
+add_custom_target(MakeTextures ALL DEPENDS qml/Textures.qml)
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${DATA_DIR}
     PATTERN "[Cc][Mm]ake*" EXCLUDE)

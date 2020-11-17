@@ -79,7 +79,7 @@ Item {
         sourceSize.height: height
 
         //readonly property string rtl: Qt.application.layoutDirection == Qt.RightToLeft ? "-rtl" : ""
-        source: iconRoot.name ? "../Icons/" + iconRoot.name + ".svg" : ""
+        source: iconRoot.name ? "./Icons/" + iconRoot.name + ".svg" : ""
     }
 
     ShaderEffect {

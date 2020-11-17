@@ -73,7 +73,7 @@ Rectangle {
         }
 		
 		Image {
-			source: "../Icons/go-next.svg"
+			source: "Icons/go-next.svg"
 			asynchronous: true
 			anchors {
 				top: parent.top

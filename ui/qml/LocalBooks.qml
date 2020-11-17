@@ -7,13 +7,11 @@
  * This file is part of Sturm Reader and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
  */
-import QtQuick 2.12
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-
-import "components"
 
 Page {
 	id: localBooks

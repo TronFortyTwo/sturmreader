@@ -49,9 +49,11 @@ int main(int argc, char *argv[])
 	qDebug() << "Starting";
 
 	QQmlApplicationEngine engine;
+	
 	engine.rootContext()->setContextProperty("gettext", &gt);
 	engine.rootContext()->setContextProperty("portable_units", &un);
-	engine.load("ui/main.qml");
+	
+	engine.load("ui/qml/Main.qml");
 	
 	return app->exec();
 }

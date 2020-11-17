@@ -37,10 +37,10 @@ find_package(Qt5Core REQUIRED Qt5Qml Qt5Quick Qt5Xml Qt5Gui Qt5Network)
 
 file(GLOB I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
-     ui/*.qml )
+     ui/qml/*.qml )
 #${DESKTOP_FILE}.tr)
 # DefaultCover.qml doesn't have any translatable strings, but it does confuse xgettext.
-list(REMOVE_ITEM I18N_SRC_FILES ui/DefaultCover.qml)
+list(REMOVE_ITEM I18N_SRC_FILES ui/qml/DefaultCover.qml)
 
 if(CLICK_MODE)
     # Find out the architecture for package building

@@ -16,7 +16,6 @@ import QtQuick.Layouts 1.3
 
 import File 1.0
 
-import "components"
 import "not-portable"
 
 ApplicationWindow {

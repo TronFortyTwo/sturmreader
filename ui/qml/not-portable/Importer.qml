@@ -16,7 +16,6 @@ import QtQuick.Layouts 1.3
 import Ubuntu.Content 1.3 as UUITK
 import Ubuntu.Components 1.3 as UUITK
 
-import "../components"
 import ".."
 
 //import "components"

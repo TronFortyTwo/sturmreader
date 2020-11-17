@@ -8,8 +8,6 @@ import QtQuick.Controls 2.2
 import QtQuick 2.9
 import QtQuick.Layouts 1.3
 
-import "components"
-
 Page {
 	id: bookSources
 	
@@ -66,7 +64,7 @@ Page {
 				anchors.horizontalCenter: parent.horizontalCenter
 				height: width
 				width: Math.min(parent.width/2, parent.height/3)
-				source: Qt.resolvedUrl("../sturmreader.svg")
+				source: Qt.resolvedUrl("../../sturmreader.svg")
 			}
 			
 			Text {

@@ -4,7 +4,7 @@
  * the GPL. See the file COPYING for full details.
  */
 
-import QtQuick 2.12
+import QtQuick 2.9
  
 // This implements resolution indipendent scaling (using dp). If on Ubuntu Touch we use the system units.dp(), if not we use our own implementation
 
@@ -25,7 +25,10 @@ QtObject {
 	
 	Component.onCompleted: {
 		// if ut units.dp() exists, use that
-		if(units && units.dp)
+		if(units && units.dp) {
+			console.log("Scaling implementation: Ubuntu Touch");
 			dp = units.dp;
+		}
+		else console.log("Scaling implementation: portable");
 	}
 }
