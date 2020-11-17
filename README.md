@@ -1,9 +1,9 @@
 [![Donate](https://img.shields.io/badge/PayPal-Donate%20to%20Author-blue.svg)](https://www.paypal.me/emanuele42)
 [![OpenStore](https://img.shields.io/badge/Install%20from-OpenStore-000000.svg)](https://open-store.io/app/sturmreader.emanuelesorce)
 
-Ebook Reader for Linux
-=======================
-Sturm reader is an ebook reader for Linux.  It's built now for Ubuntu Touch.
+Ebook Reader for Mobile Linux
+=============================
+Sturm reader is an ebook reader for Linux focused on touch and portable devices.  It's built now for Ubuntu Touch.
 It has features to style the book.
 It features full support for Epub files and preliminary support for PDF and CBZ files.
 
