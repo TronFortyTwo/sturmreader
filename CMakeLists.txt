@@ -28,9 +28,9 @@ set(ICON_FILE sturmreader.svg)
 
 # Check if build is out of source tree and sets boolean value
 set(OUT_OF_TREE_BUILD true)
-if(${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR})
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
     set(OUT_OF_TREE_BUILD false)
-endif(${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR})
+endif(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
 
 # Scan the default include directories to find packages that will be needed for building plugins
 find_package(Qt5Core REQUIRED Qt5Qml Qt5Quick Qt5Xml Qt5Gui Qt5Network)
@@ -55,7 +55,6 @@ if(CLICK_MODE)
     set(DATA_DIR /)
     set(DESKTOP_DIR ${DATA_DIR})
     set(ICON ${ICON_FILE})
-    #set(EXEC "qmlscene --no-scaling -style suru -I ./ ui/main.qml --appargs=\"%f\"")
     set(EXEC "./sturmreader --appargs=\"%f\"")
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/manifest.json DESTINATION ${DATA_DIR})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/contenthub.json DESTINATION ${DATA_DIR})
