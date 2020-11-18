@@ -14,8 +14,6 @@ import QtQuick.Window 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
-import "not-portable"
-
 ApplicationWindow {
     // objectName for functional testing purposes (autopilot-qt5)
     objectName: "mainView"

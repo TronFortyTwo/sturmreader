@@ -18,9 +18,11 @@ set(UI_SRC_FILES
 	qml/SwipeControl.qml
 	qml/Action.qml
 	qml/Icon.qml
+	qml/Importer.qml
+	qml/Importer-ut.qml
+	qml/Importer-portable.qml
 	
-	qml/not-portable/Metrics.qml
-	qml/not-portable/Importer.qml
+	qml/ubuntu-touch/Metrics.qml
 
 	qml/images/error_cover.svg
 	qml/images/error_cover_full.svg
