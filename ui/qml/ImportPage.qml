@@ -112,22 +112,22 @@ Page {
         interval: 10
         onTriggered: {
             for (var i=0; i<importPage.bookList.count; i++) {
-                var item = importPage.bookList.get(i)
-                if (item.state == importState.new) {
-                    var filename = item.item.url.toString().slice(7)
+                var book = importPage.bookList.get(i)
+                if (book.state == importState.new) {
+                    var filename = book.item.url.toString().slice(7)
                     if (importPage.reader.load(filename)) {
                         localBooks.inDatabase(
                                     importPage.reader.hash(),
-                                    (function (item) {
+                                    (function (book) {
                                         return function (currentfilename) {
-                                            item.importName = currentfilename
-                                            item.state = importState.exists
+                                            book.importName = currentfilename
+                                            book.state = importState.exists
                                         }
-                                    })(item),
-                                    doImport(filename, item))
+                                    })(book),
+                                    doImport(filename, book))
                     } else {
-                        item.state = importState.error
-                        item.error = importPage.reader.error
+                        book.state = importState.error
+                        book.error = importPage.reader.error
                     }
                     break
                 }
@@ -159,7 +159,7 @@ Page {
         }
     }
 	
-	function doImport(filename, item) {
+	function doImport(filename, book) {
         return function () {
             var components = filename.split("/").pop().split(".")
             var ext = components.pop()
@@ -171,10 +171,14 @@ Page {
                 i += 1
                 newfilename = basename + "(" + i + ")." + ext
             }
-            item.item.move(dir, newfilename)
-            item.importName = dir + "/" + newfilename
+            if(typeof book.item.move !== 'undefined')
+				book.item.move(dir, newfilename)
+            else {
+				console.log('Moving ' + book.item.url + ' in ' + dir + ' as ' + newfilename);
+			}
+			book.importName = dir + "/" + newfilename
             localBooks.addFile(item.importName, true)
-            item.state = importState.imported
+            book.state = importState.imported
         }
     }
 }

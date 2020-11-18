@@ -53,6 +53,9 @@ int main(int argc, char *argv[])
 
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName(app_name);
+	app->setOrganizationName(QString("emanuelesorce"));
+	app->setOrganizationDomain(QString("emanuelesorce.com"));
+
 	
 	Gettext gt;
 	Units un;

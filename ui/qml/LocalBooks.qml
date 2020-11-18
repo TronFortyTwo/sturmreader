@@ -58,7 +58,7 @@ Page {
 						name: "add"
 						color: Theme.palette.normal.baseText
 					}
-					onClicked: pageStack.push(importer.pickerPage)
+					onClicked: importer.pick()
 				}
 				
 				ToolButton {
@@ -745,7 +745,7 @@ Page {
 				anchors.horizontalCenter: parent.horizontalCenter
                 highlighted: true
                 width: parent.width
-                onClicked: pageStack.push(importer.pickerPage)
+                onClicked: importer.pick()
             }
 
             Button {

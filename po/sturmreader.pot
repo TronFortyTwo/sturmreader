@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-11-18 13:47+0100\n"
+"POT-Creation-Date: 2020-11-18 15:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,7 +146,11 @@ msgstr ""
 msgid "Error: %1"
 msgstr ""
 
-#: ui/qml/ImporterUT.qml:48
+#: ui/qml/ImporterPortable.qml:24
+msgid "Choose the books to import"
+msgstr ""
+
+#: ui/qml/ImporterUT.qml:51
 msgid "Import books from"
 msgstr ""
 

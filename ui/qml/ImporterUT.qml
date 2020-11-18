@@ -19,9 +19,12 @@ import Ubuntu.Components 1.3 as UUITK
 Item {
     id: importer
     property var activeTransfer: null
-    property var pickerPage: picker
     property Item importPage: null
 
+	function pick(){
+		pageStack.push(picker);
+	}
+    
     Connections {
         target: UUITK.ContentHub
         onImportRequested: {
