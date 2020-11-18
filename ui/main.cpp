@@ -46,11 +46,13 @@
 // =================
 int main(int argc, char *argv[])
 {
+	QString app_name = "sturmreader.emanuelesorce";
+	
 	//QApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
 	QQuickStyle::setStyle("Suru");
 
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
-	app->setApplicationName("sturmreader.emanuelesorce");
+	app->setApplicationName(app_name);
 	
 	Gettext gt;
 	Units un;
@@ -78,12 +80,29 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("pdfreader", &pdf);
 	engine.rootContext()->setContextProperty("cbzreader", &cbz);
 	
-	// Those are QML types that may or may not be available since heavy UT dependecy. If not, use portable versions
-	if( -1 == qmlRegisterType(QUrl("file:./ui/qml/ImporterUT.qml"), "Importer", 1, 0, "Importer") )
-		qmlRegisterType(QUrl("file:./ui/qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
-	if( -1 == qmlRegisterType(QUrl("file:./ui/qml/MetricsUT.qml"), "Metrics", 1, 0, "Metrics") )
-		qmlRegisterType(QUrl("file:./ui/qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");
+	// Test if we are on ubuntu touch
+	bool ubuntu_touch = false;
+	
+	QStringList import_path_list = engine.importPathList();
+	for (int i = 0; i < import_path_list.size(); ++i) {
+		QString import_path = import_path_list.at(i);
 		
+		if( import_path.contains("/opt/click.ubuntu.com/" + app_name) ) {
+			ubuntu_touch = true;
+			break;
+		}
+	}
+	
+	qDebug() << "Ubuntu Touch imports found: " << (ubuntu_touch ? "Yes" : "No");
+	
+	if(ubuntu_touch) {
+		qmlRegisterType(QUrl("file:./ui/qml/ImporterUT.qml"), "Importer", 1, 0, "Importer");
+		qmlRegisterType(QUrl("file:./ui/qml/MetricsUT.qml"), "Metrics", 1, 0, "Metrics");
+	} else { // portable
+		qmlRegisterType(QUrl("file:./ui/qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
+		qmlRegisterType(QUrl("file:./ui/qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");
+	}
+
 	engine.load("ui/qml/Main.qml");
 	
 	return app->exec();

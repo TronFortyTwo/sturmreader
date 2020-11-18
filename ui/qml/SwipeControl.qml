@@ -9,7 +9,7 @@ import QtQuick.Controls 2.2
 
 Rectangle {
     id: swipeControl
-    color: actionColor
+    color: theme.palette.normal.negative
     height: actionLabel.height + 2 * marginWidth
     width: parent.width
     clip: true
@@ -20,7 +20,6 @@ Rectangle {
     property string actionText: ""
     property string notificationText: ""
     property color sliderColor: theme.palette.normal.foreground
-    property color actionColor: theme.palette.normal.negative
 
     signal triggered
 
@@ -68,7 +67,7 @@ Rectangle {
         Label {
             id: notificationLabel
             anchors.centerIn: parent
-            color: swipeControl.actionColor
+            color: theme.palette.normal.negative
             text: swipeControl.notificationText
         }
 		

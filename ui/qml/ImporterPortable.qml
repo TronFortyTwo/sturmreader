@@ -9,12 +9,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
 Item {
-    id: importer
-    property var activeTransfer: null
-    property var pickerPage: picker
-    
-    ImportPage {
-		id: importPage
-		visible: false
-	}
+	id: importer
+	property var activeTransfer: null
+	property var pickerPage: picker
+	property Item importPage: null
 }
