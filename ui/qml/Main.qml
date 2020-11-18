@@ -14,6 +14,8 @@ import QtQuick.Window 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
+import Importer 1.0
+
 ApplicationWindow {
     // objectName for functional testing purposes (autopilot-qt5)
     objectName: "mainView"
@@ -95,9 +97,15 @@ ApplicationWindow {
         id: server
     }
 
-    Importer {
-        id: importer
-    }
+	Importer {
+		id: importer
+		importPage: import_page
+	}
+	
+	ImportPage {
+		id: import_page
+		visible: false
+	}
 
     function loadFile(filename) {
         if (server.reader.load(filename)) {

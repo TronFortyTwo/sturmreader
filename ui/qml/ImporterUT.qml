@@ -20,12 +20,13 @@ Item {
     id: importer
     property var activeTransfer: null
     property var pickerPage: picker
+    property Item importPage: null
 
     Connections {
         target: UUITK.ContentHub
         onImportRequested: {
             activeTransfer = transfer
-            if (activeTransfer.state === UUITK.ContentTransfer.Charged)
+            if (activeTransfer.state === UUITK.ContentTransfer.Charged && importPage !== null)
                 importPage.importItems(activeTransfer.items)
         }
     }
@@ -33,15 +34,10 @@ Item {
     Connections {
         target: activeTransfer
         onStateChanged: {
-            if (activeTransfer.state === UUITK.ContentTransfer.Charged)
+            if (activeTransfer.state === UUITK.ContentTransfer.Charged && importPage !== null)
                 importPage.importItems(activeTransfer.items)
         }
     }
-    
-    ImportPage {
-		id: importPage
-		visible: false
-	}
 
     UUITK.Page {
         id: picker

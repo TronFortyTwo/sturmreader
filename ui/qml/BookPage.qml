@@ -13,6 +13,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtWebEngine 1.10
 
+import Metrics 1.0
+
 import "historystack.js" as History
 
 Page {

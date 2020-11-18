@@ -25,10 +25,13 @@ QtObject {
 	
 	Component.onCompleted: {
 		// if ut units.dp() exists, use that
-		if(units && units.dp) {
-			console.log("Scaling implementation: Ubuntu Touch");
-			dp = units.dp;
+		if(typeof units !== 'undefined') {
+			if(typeof units.dp !== 'undefined') {
+				console.log("Scaling implementation: Ubuntu Touch");
+				dp = units.dp;
+				return;
+			}
 		}
-		else console.log("Scaling implementation: portable");
+		console.log("Scaling implementation: portable");
 	}
 }

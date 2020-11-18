@@ -18,12 +18,10 @@ set(UI_SRC_FILES
 	qml/SwipeControl.qml
 	qml/Action.qml
 	qml/Icon.qml
-	qml/Importer.qml
-	qml/Importer-ut.qml
-	qml/Importer-portable.qml
-	qml/Metrics.qml
-	qml/Metrics-ut.qml
-	qml/Metrics-portable.qml
+	qml/ImporterUT.qml
+	qml/ImporterPortable.qml
+	qml/MetricsUT.qml
+	qml/MetricsPortable.qml
 
 	qml/images/error_cover.svg
 	qml/images/error_cover_full.svg
