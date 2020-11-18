@@ -21,8 +21,9 @@ set(UI_SRC_FILES
 	qml/Importer.qml
 	qml/Importer-ut.qml
 	qml/Importer-portable.qml
-	
-	qml/ubuntu-touch/Metrics.qml
+	qml/Metrics.qml
+	qml/Metrics-ut.qml
+	qml/Metrics-portable.qml
 
 	qml/images/error_cover.svg
 	qml/images/error_cover_full.svg

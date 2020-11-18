@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-11-18 01:07+0100\n"
+"POT-Creation-Date: 2020-11-18 01:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,60 +65,60 @@ msgstr ""
 msgid "❤Donate❤"
 msgstr ""
 
-#: ui/qml/BookPage.qml:81
+#: ui/qml/BookPage.qml:79
 msgid "Contents"
 msgstr ""
 
-#: ui/qml/BookPage.qml:95
+#: ui/qml/BookPage.qml:93
 msgid "Outline"
 msgstr ""
 
-#: ui/qml/BookPage.qml:103
+#: ui/qml/BookPage.qml:101
 msgid "Pages"
 msgstr ""
 
-#: ui/qml/BookPage.qml:131 ui/qml/BookPage.qml:181
+#: ui/qml/BookPage.qml:129 ui/qml/BookPage.qml:179
 msgid "Page"
 msgstr ""
 
-#: ui/qml/BookPage.qml:155
+#: ui/qml/BookPage.qml:153
 msgid "No outline available"
 msgstr ""
 
-#: ui/qml/BookPage.qml:680
+#: ui/qml/BookPage.qml:678
 msgid "Book Settings"
 msgstr ""
 
-#: ui/qml/BookPage.qml:778 ui/qml/BookPage.qml:786
+#: ui/qml/BookPage.qml:776 ui/qml/BookPage.qml:784
 msgid "Default Font"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:799
+#: ui/qml/BookPage.qml:797
 msgid "Font Scaling"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:824
+#: ui/qml/BookPage.qml:822
 msgid "Line Height"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:849
+#: ui/qml/BookPage.qml:847
 msgid "Margins"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:873
+#: ui/qml/BookPage.qml:871
 msgid "Make Default"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:881
+#: ui/qml/BookPage.qml:879
 msgid "Load Defaults"
 msgstr ""
 
-#: ui/qml/BookPage.qml:889
+#: ui/qml/BookPage.qml:887
 msgid "Close"
 msgstr ""
 
@@ -276,6 +276,14 @@ msgstr ""
 
 #: ui/qml/Main.qml:83
 msgid "Error Opening File"
+msgstr ""
+
+#: ui/qml/Metrics-ut.qml:13
+msgid "Pages read today: %1"
+msgstr ""
+
+#: ui/qml/Metrics-ut.qml:14
+msgid "No pages read today"
 msgstr ""
 
 #: ui/qml/Reader.qml:32
