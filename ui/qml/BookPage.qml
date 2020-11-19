@@ -80,7 +80,7 @@ Page {
 					Label {
 						text: gettext.tr("Contents")
 						font.pixelSize: scaling.dp(27)
-						color: theme.palette.normal.backgroundText
+						color: colors.text
 						elide: Label.ElideRight
 						horizontalAlignment: Qt.AlignHCenter
 						verticalAlignment: Qt.AlignVCenter
@@ -153,7 +153,7 @@ Page {
 				anchors.centerIn: parent
 				visible: contentsListModel.count == 0
 				text: gettext.tr("No outline available")
-				color: Theme.palette.normal.foregroundText
+				color: colors.textFore
 			}
 		}
 		
@@ -180,7 +180,7 @@ Page {
 					horizontalAlignment: Text.AlignHCenter
 					text: gettext.tr("Page") + " " + pagesLoader.slider.value + "/" + (pdf_numberOfPages)
 					font.pointSize: 19
-					color: Theme.palette.normal.foregroundText
+					color: colors.textFore
 				}
 				RowLayout {
 					width: parent.width
@@ -199,7 +199,7 @@ Page {
 						delegate: Text {
 							text: model.num
 							rotation: 90
-							color: Theme.palette.normal.foregroundText
+							color: colors.textFore
 							font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
 							font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
 							width: scaling.dp(60)
@@ -240,7 +240,7 @@ Page {
 				Text {
 					width: scaling.dp(50)
 					text: Math.floor(100 * pageSlider.value / pdf_numberOfPages) + "%"
-					color: Theme.palette.normal.foregroundText
+					color: colors.textFore
 				}
 			}
 		}
@@ -266,7 +266,7 @@ Page {
 			id: controlRect
 			
 			antialiasing: false
-			color: theme.palette.normal.background
+			color: colors.background
 			
 			anchors.left: parent.left
 			anchors.right: parent.right
@@ -679,7 +679,7 @@ Page {
 				Label {
 					text: gettext.tr("Book Settings")
 					font.pixelSize: scaling.dp(27)
-					color: theme.palette.normal.backgroundText
+					color: colors.text
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
@@ -785,7 +785,7 @@ Page {
 						contentItem: Text {
 							text: (modelData == "Default") ? gettext.tr("Default Font") : modelData
 							font.family: modelData
-							color: theme.palette.normal.foregroundText
+							color: colors.textFore
 						}
 					}
 				}
@@ -797,7 +797,7 @@ Page {
 					Text {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Font Scaling")
-						color: theme.palette.normal.foregroundText
+						color: colors.textFore
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
 						width: stylesDialog.labelwidth
@@ -822,7 +822,7 @@ Page {
 					Text {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Line Height")
-						color: theme.palette.normal.foregroundText
+						color: colors.textFore
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
 						width: stylesDialog.labelwidth
@@ -847,7 +847,7 @@ Page {
 					Text {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Margins")
-						color: theme.palette.normal.foregroundText
+						color: colors.textFore
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
 						width: stylesDialog.labelwidth

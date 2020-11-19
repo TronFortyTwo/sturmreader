@@ -22,6 +22,7 @@ set(UI_SRC_FILES
 	qml/ImporterPortable.qml
 	qml/MetricsUT.qml
 	qml/MetricsPortable.qml
+	qml/Colors.qml
 
 	qml/images/error_cover.svg
 	qml/images/error_cover_full.svg

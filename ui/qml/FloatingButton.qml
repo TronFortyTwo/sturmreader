@@ -43,9 +43,9 @@ Item {
             width: childrenRect.width
             height: size
             radius: size/2
-            color: Theme.palette.normal.overlay
+            color: colors.overlay
             border {
-                color: Theme.palette.normal.base
+                color: colors.itemDetail
                 width: scaling.dp(1)
             }
 
@@ -67,7 +67,7 @@ Item {
 							}
 							width: parent.width * 0.6
 							height: parent.height * 0.6
-							color: Theme.palette.normal.overlayText
+							color: colors.textOver
 							name: modelData.iconName
 							opacity: modelData.enabled ? 1.0 : 0.35
 						}

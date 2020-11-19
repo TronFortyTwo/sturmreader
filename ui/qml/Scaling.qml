@@ -32,6 +32,6 @@ QtObject {
 				return;
 			}
 		}
-		console.log("Scaling implementation: portable");
+		console.log("Scaling implementation: Portable");
 	}
 }

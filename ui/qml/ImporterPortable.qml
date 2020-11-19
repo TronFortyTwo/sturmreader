@@ -11,7 +11,6 @@ import QtQuick.Dialogs 1.3
 
 Item {
 	id: importer
-	property var activeTransfer: null
 	property Item importPage: null
 	
 	function pick(){

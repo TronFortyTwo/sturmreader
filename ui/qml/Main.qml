@@ -68,7 +68,13 @@ ApplicationWindow {
 		}
 		
 	}
-
+	
+	// portable palette
+	Colors {
+		id: colors
+	}
+	
+	
     StackView {
         id: pageStack
 		anchors.fill: parent

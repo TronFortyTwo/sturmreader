@@ -28,7 +28,7 @@ Page {
 	property bool reloading: false
 	
     background: Rectangle {
-		color: Theme.palette.normal.background
+		color: colors.background
 	}
     
     header: Column {
@@ -56,7 +56,7 @@ Page {
 					contentItem: Icon {
 						anchors.centerIn: parent
 						name: "add"
-						color: Theme.palette.normal.baseText
+						color: colors.item
 					}
 					onClicked: importer.pick()
 				}
@@ -66,7 +66,7 @@ Page {
 					contentItem: Icon {
 						anchors.centerIn: parent
 						name: "info"
-						color: Theme.palette.normal.baseText
+						color: colors.item
 					}
 					onClicked: pageStack.push("About.qml")
 				}
@@ -76,7 +76,7 @@ Page {
 					contentItem: Icon {
 						anchors.centerIn: parent
 						name: "settings"
-						color: Theme.palette.normal.baseText
+						color: colors.item
 					}
 					onClicked: {
 						if (localBooks.readablehome)
@@ -504,7 +504,7 @@ Page {
                 radius: 12
                 samples: 12
                 source: image
-                color: Qt.tint(Theme.palette.normal.background, "#65666666")
+                color: Qt.tint(colors.background, "#65666666")
                 verticalOffset: height * 0.025
                 horizontalOffset: width * 0.025
             }
@@ -555,14 +555,14 @@ Page {
 					Text {
 						width: parent.width
 						text: model.title
-						color: theme.palette.normal.backgroundText
+						color: colors.text
 						font.pointSize: scaling.dp(12)
 						elide: Text.ElideRight
 					}
 					Text {
 						width: parent.width
 						text: model.author
-						color: theme.palette.normal.backgroundText
+						color: colors.text
 						font.pointSize: scaling.dp(9)
 						elide: Text.ElideRight
 					}
@@ -619,13 +619,13 @@ Page {
 					spacing: scaling.dp(5)
 					Text {
 						text: model.author || gettext.tr("Unknown Author")
-						color: theme.palette.normal.backgroundText
+						color: colors.text
 						font.pointSize: scaling.dp(12)
 					}
 					Text {
 						text: (model.count > 1) ? gettext.tr("%1 Book", "%1 Books", model.count).arg(model.count)
 								: model.title
-						color: theme.palette.normal.backgroundText
+						color: colors.text
 						font.pointSize: scaling.dp(9)
 					}
 				}
@@ -803,7 +803,7 @@ Page {
 				anchors.verticalCenter: parent.verticalCenter
 				id: titleLabel
 				font.pixelSize: scaling.dp(27)
-				color: theme.palette.normal.backgroundText
+				color: colors.text
 				wrapMode: Text.Wrap
 				horizontalAlignment: Qt.AlignHCenter
 				verticalAlignment: Qt.AlignVCenter
@@ -843,7 +843,7 @@ Page {
 					width: parent.width
 					horizontalAlignment: Text.AlignLeft
 					font.pixelSize: scaling.dp(12)
-					color: theme.palette.normal.backgroundText
+					color: colors.text
 					wrapMode: Text.WrapAnywhere
 				}
 				SwipeControl {
@@ -883,7 +883,7 @@ Page {
 				Label {
 					text: firststart ? gettext.tr("Welcome to Sturm Reader!") : gettext.tr("Default Book Location")
 					font.pixelSize: scaling.dp(27)
-					color: theme.palette.normal.backgroundText
+					color: colors.text
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
@@ -901,7 +901,7 @@ Page {
 				text: gettext.tr("Enter the folder in your home directory where your ebooks are or " +
 							"should be stored.\n\nChanging this value will not affect existing " +
 							"books in your library.")
-				color: theme.palette.normal.backgroundText
+				color: colors.text
 			}
 	
 			TextField {
@@ -979,7 +979,7 @@ Page {
 				Label {
 					text: gettext.tr("Settings")
 					font.pixelSize: scaling.dp(27)
-					color: theme.palette.normal.backgroundText
+					color: colors.text
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
@@ -1005,7 +1005,7 @@ Page {
 			
 			Label {
 				text: gettext.tr("Default Book Location")
-				color: theme.palette.normal.backgroundText
+				color: colors.text
 				width: parent.width
 				wrapMode: Text.WordWrap
 			}
@@ -1014,7 +1014,7 @@ Page {
 				text: gettext.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
 							"from accessing most of your home directory.  Ebooks should be put in " +
 							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
-				color: theme.palette.normal.backgroundText
+				color: colors.text
 				anchors.leftMargin: scaling.dp(15);
 				width: parent.width
 				wrapMode: Text.WordWrap
@@ -1037,7 +1037,7 @@ Page {
 				Label {
 					text: gettext.tr("Use legacy PDF viewer")
 					Layout.fillWidth: true
-					color: theme.palette.normal.backgroundText
+					color: colors.text
 					wrapMode: Text.Wrap
 				}
 				Switch {

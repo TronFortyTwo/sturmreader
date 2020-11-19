@@ -105,8 +105,11 @@ bool FileSystem::remove(const QString &filename) {
     return QFile::remove(filename);
 }
 
+#include <QDebug>
 bool FileSystem::copy(const QString& source, const QString& dest) {
-	return QFile::copy(source, dest);
+	bool co = QFile::copy(source, dest);
+	qDebug() << "Copy from " << source << " to " << dest << ( co ? ": success" : ": failed");
+	return co;
 }
 
 #include "filesystem.moc"

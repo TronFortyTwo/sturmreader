@@ -47,7 +47,7 @@ Page {
 				contentItem: Icon {
 					anchors.centerIn: parent
 					name: importing ? "refresh" : "ok"
-					color: Theme.palette.normal.baseText
+					color: colors.item
 				}
 				onClicked: {
 					if (!importing) {
@@ -76,7 +76,7 @@ Page {
 					spacing: scaling.dp(5)
 					Text {
 						text: model.item.url.toString().split("/").pop()
-						color: theme.palette.normal.backgroundText
+						color: colors.text
 						font.pointSize: scaling.dp(12)
 					}
 					Text {
@@ -94,7 +94,7 @@ Page {
 									return gettext.tr("Error: %1").arg(model.error.split("\n\n")[0])
 							}
 						}
-						color: theme.palette.normal.backgroundText
+						color: colors.text
 						font.pointSize: scaling.dp(9)
 					}
 				}
@@ -172,17 +172,19 @@ Page {
                 newfilename = basename + "(" + i + ")." + ext
             }
             
+			book.importName = dir + "/" + newfilename;
+            
             if(typeof book.item.move !== 'undefined')
 				var copy_success = book.item.move(dir, newfilename)
             else
-				var copy_success = filesystem.copy(book.item.url, dir + "/" + newfilename);
-			
-			book.importName = dir + "/" + newfilename;
+				var copy_success = filesystem.copy(book.item.url, /*"file://" + */book.importName);
 			
 			if(copy_success) {
+				book.item.url = "file://" + book.importName;
 				localBooks.addFile(book.importName, true);
 				book.state = importState.imported;
 			} else {
+				console.log("importing file '" + book.item.url + "' failed");
 				book.state = importState.error;
 			}
         }
