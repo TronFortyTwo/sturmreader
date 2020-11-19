@@ -171,14 +171,20 @@ Page {
                 i += 1
                 newfilename = basename + "(" + i + ")." + ext
             }
+            
             if(typeof book.item.move !== 'undefined')
-				book.item.move(dir, newfilename)
-            else {
-				console.log('Moving ' + book.item.url + ' in ' + dir + ' as ' + newfilename);
+				var copy_success = book.item.move(dir, newfilename)
+            else
+				var copy_success = filesystem.copy(book.item.url, dir + "/" + newfilename);
+			
+			book.importName = dir + "/" + newfilename;
+			
+			if(copy_success) {
+				localBooks.addFile(book.importName, true);
+				book.state = importState.imported;
+			} else {
+				book.state = importState.error;
 			}
-			book.importName = dir + "/" + newfilename
-            localBooks.addFile(item.importName, true)
-            book.state = importState.imported
         }
     }
 }

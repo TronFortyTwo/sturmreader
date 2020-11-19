@@ -1,5 +1,7 @@
 /* Copyright 2013, 2015 Robert Schroll
  *
+ * Copyright 2020 Emanuele Sorce
+ * 
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
  */
@@ -24,6 +26,7 @@ public:
     Q_INVOKABLE QStringList listDir(const QString &dirname, const QStringList &filters);
     Q_INVOKABLE QString fileType(const QString &filename);
     Q_INVOKABLE bool remove(const QString &filename);
+	Q_INVOKABLE bool copy(const QString& source, const QString& dest);
 };
 
 #endif // FILESYSTEM_H

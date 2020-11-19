@@ -1,5 +1,7 @@
 /* Copyright 2013-2015 Robert Schroll
  *
+ * Copyright 2020 Emanuele Sorce
+ * 
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
  */
@@ -101,6 +103,10 @@ QString FileSystem::fileType(const QString &filename) {
 
 bool FileSystem::remove(const QString &filename) {
     return QFile::remove(filename);
+}
+
+bool FileSystem::copy(const QString& source, const QString& dest) {
+	return QFile::copy(source, dest);
 }
 
 #include "filesystem.moc"
