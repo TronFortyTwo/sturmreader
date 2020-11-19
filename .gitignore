@@ -8,5 +8,5 @@ click
 ui/Textures.qml
 .excludes
 *~
-build
+buil*
 .clickable/
