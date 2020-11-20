@@ -31,7 +31,7 @@ Page {
 			
 			Label {
 				text: gettext.tr("Settings")
-				font.pixelSize: scaling.dp(22)
+				font.pointSize: 22
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter

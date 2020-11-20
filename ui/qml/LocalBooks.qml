@@ -44,7 +44,7 @@ Page {
 				
 				Label {
 					text: gettext.tr("Library")
-					font.pixelSize: scaling.dp(22)
+					font.pointSize: 22
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignLeft
 					verticalAlignment: Qt.AlignVCenter
@@ -551,14 +551,14 @@ Page {
 						width: parent.width
 						text: model.title
 						color: colors.text
-						font.pointSize: scaling.dp(12)
+						font.pointSize: 12
 						elide: Text.ElideRight
 					}
 					Text {
 						width: parent.width
 						text: model.author
 						color: colors.text
-						font.pointSize: scaling.dp(9)
+						font.pointSize: 9
 						elide: Text.ElideRight
 					}
 				}
@@ -718,7 +718,7 @@ Page {
                 id: noBooksLabel
 				anchors.horizontalCenter: parent.horizontalCenter
                 text: gettext.tr("No Books in Library")
-                font.pixelSize: scaling.dp(30)
+                font.pointSize: 30
 				horizontalAlignment: Text.AlignHCenter
 				width: parent.width
 				wrapMode: Text.Wrap
@@ -797,7 +797,7 @@ Page {
 				width: parent.width
 				anchors.verticalCenter: parent.verticalCenter
 				id: titleLabel
-				font.pixelSize: scaling.dp(27)
+				font.pointSize: 27
 				color: colors.text
 				wrapMode: Text.Wrap
 				horizontalAlignment: Qt.AlignHCenter
@@ -837,7 +837,7 @@ Page {
 					id: filenameLabel
 					width: parent.width
 					horizontalAlignment: Text.AlignLeft
-					font.pixelSize: scaling.dp(12)
+					font.pointSize: 12
 					color: colors.text
 					wrapMode: Text.WrapAnywhere
 				}
@@ -858,192 +858,4 @@ Page {
 			}
 		}
 	}
-	
-	/*
-	Dialog {
-		id: settingsDialog
-		
-		property string homepath: filesystem.homePath() + "/"
-		
-		x: Math.round((parent.width - width) / 2)
-        y: Math.round((parent.height - height) / 2)
-		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, scaling.dp(300)))
-		height: Math.min(parent.height*0.9, scaling.dp(600))
-		
-		modal: true
-		
-		header: ToolBar {
-			width: parent.width
-			RowLayout {
-				anchors.fill: parent
-				Label {
-					text: firststart ? gettext.tr("Welcome to Sturm Reader!") : gettext.tr("Default Book Location")
-					font.pixelSize: scaling.dp(27)
-					color: colors.text
-					elide: Label.ElideRight
-					horizontalAlignment: Qt.AlignHCenter
-					verticalAlignment: Qt.AlignVCenter
-					Layout.fillWidth: true
-				}
-			}
-		}
-		
-		ColumnLayout {
-			
-			spacing: scaling.dp(20)
-			
-			// Text precedes an entry for a file path.
-			Text {
-				text: gettext.tr("Enter the folder in your home directory where your ebooks are or " +
-							"should be stored.\n\nChanging this value will not affect existing " +
-							"books in your library.")
-				color: colors.text
-			}
-	
-			TextField {
-				id: pathfield
-				text: {
-					if (bookdir.substring(0, settingsDialog.length) == settingsDialog.homepath)
-						return bookdir.substring(settingsDialog.homepath.length)
-					return bookdir
-				}
-				onTextChanged: {
-					var status = filesystem.exists(settingsDialog.homepath + pathfield.text)
-					if (status == 0) {
-						// Create a new directory from path given. //
-						useButton.text = gettext.tr("Create Directory")
-						useButton.enabled = true
-					} else if (status == 1) {
-						// File exists with path given. //
-						useButton.text = gettext.tr("File Exists")
-						useButton.enabled = false
-					} else if (status == 2) {
-						if (settingsDialog.homepath + pathfield.text == bookdir && !firststart)
-							// Read the books in the given directory again. //
-							useButton.text = gettext.tr("Reload Directory")
-						else
-							// Use directory specified to store books. //
-							useButton.text = gettext.tr("Use Directory")
-						useButton.enabled = true
-					}
-				}
-			}
-
-			Button {
-				id: useButton
-				onClicked: {
-					var status = filesystem.exists(settingsDialog.homepath + pathfield.text)
-					if (status != 1) { // Should always be true
-						if (status == 0)
-							filesystem.makeDir(settingsDialog.homepath + pathfield.text)
-						setBookDir(settingsDialog.homepath + pathfield.text)
-						useButton.enabled = false
-						useButton.text = gettext.tr("Please wait...")
-						cancelButton.enabled = false
-						unblocker.start()
-					}
-				}
-			}
-
-			Timer {
-				id: unblocker
-				interval: 10
-				onTriggered: {
-					readBookDir()
-					settingsDialog.close()
-					firststart = false
-				}
-			}
-
-			Button {
-				id: cancelButton
-				text: gettext.tr("Cancel")
-				visible: !firststart
-				onClicked: settingsDialog.close()
-			}
-		}
-	}*/
-	
-	/*
-    Dialog {
-		id: settingsDisabledDialog
-		
-		header: ToolBar {
-			id: settingsDisabledHeader
-			width: parent.width
-			RowLayout {
-				anchors.fill: parent
-				Label {
-					text: gettext.tr("Settings")
-					font.pixelSize: scaling.dp(27)
-					color: colors.text
-					elide: Label.ElideRight
-					horizontalAlignment: Qt.AlignHCenter
-					verticalAlignment: Qt.AlignVCenter
-					Layout.fillWidth: true
-				}
-			}
-		}
-		
-		x: Math.round((parent.width - width) / 2)
-        y: Math.round((parent.height - height) / 2)
-		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, scaling.dp(300)))
-		height: Math.min(parent.height*0.9, settingsDisabledColumn.height + settingsDisabledHeader.height + scaling.dp(50))
-		
-		modal: true
-		standardButtons: Dialog.Ok
-		
-		Column {
-			id: settingsDisabledColumn
-			
-			width: parent.width
-			spacing: scaling.dp(20)
-			
-			Label {
-				text: gettext.tr("Default Book Location")
-				color: colors.text
-				width: parent.width
-				wrapMode: Text.WordWrap
-			}
-			
-			Label {
-				text: gettext.tr("Sturm Reader seems to be operating under AppArmor restrictions that prevent it " +
-							"from accessing most of your home directory.  Ebooks should be put in " +
-							"<i>%1</i> for Sturm Reader to read them.").arg(bookdir)
-				color: colors.text
-				anchors.leftMargin: scaling.dp(15);
-				width: parent.width
-				wrapMode: Text.WordWrap
-			}
-			
-			Button {
-				width: parent.width * 0.7
-				anchors.horizontalCenter: parent.horizontalCenter
-				text: gettext.tr("Reload Directory")
-				// We don't bother with the Timer trick here since we don't get this dialog on
-				// first launch, so we shouldn't have too many books added to the library when
-				// this button is clicked.
-				onClicked: {
-					settingsDisabledDialog.close()
-					readBookDir()
-				}
-			}
-			
-			RowLayout {
-				Label {
-					text: gettext.tr("Use legacy PDF viewer")
-					Layout.fillWidth: true
-					color: colors.text
-					wrapMode: Text.Wrap
-				}
-				Switch {
-					id: legacypdfSwitch
-					onClicked: appsettings.legacypdf = checked
-					onVisibleChanged: {
-						checked = appsettings.legacypdf;
-					}
-				}
-			}
-		}
-	}*/
 }
