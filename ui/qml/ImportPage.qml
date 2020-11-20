@@ -114,7 +114,8 @@ Page {
             for (var i=0; i<importPage.bookList.count; i++) {
                 var book = importPage.bookList.get(i)
                 if (book.state == importState.new) {
-                    var filename = book.item.url.toString().slice(7)
+					// remove 'file://' from the filename
+					var filename = book.item.url.toString().slice(7)
                     if (importPage.reader.load(filename)) {
                         localBooks.inDatabase(
                                     importPage.reader.hash(),
@@ -177,10 +178,10 @@ Page {
             if(typeof book.item.move !== 'undefined')
 				var copy_success = book.item.move(dir, newfilename)
             else
-				var copy_success = filesystem.copy(book.item.url, /*"file://" + */book.importName);
+				var copy_success = filesystem.copy(book.item.url.toString().slice(7), book.importName);
 			
 			if(copy_success) {
-				book.item.url = "file://" + book.importName;
+				book.item.url = book.importName;
 				localBooks.addFile(book.importName, true);
 				book.state = importState.imported;
 			} else {

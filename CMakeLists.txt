@@ -6,7 +6,7 @@ set(APPARMOR_FILE apparmor/sturmreader.json)
 set(DESKTOP_NAME "Sturm Reader")
 
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fno-permissive -pedantic -Wall -Wextra -fPIC")
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

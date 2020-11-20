@@ -86,6 +86,12 @@ QStringList FileSystem::listDir(const QString &dirname, const QStringList &filte
  * Guess at the type of a file from its magic number.
  */
 QString FileSystem::fileType(const QString &filename) {
+	
+	int file_status = exists(filename);
+	
+	if(file_status == 2) return "directory";
+	else if(file_status == 0) return "not existent";
+	
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly))
         return "unreadable";
@@ -106,10 +112,29 @@ bool FileSystem::remove(const QString &filename) {
 }
 
 #include <QDebug>
+//#include <filesystem>
+
 bool FileSystem::copy(const QString& source, const QString& dest) {
-	bool co = QFile::copy(source, dest);
-	qDebug() << "Copy from " << source << " to " << dest << ( co ? ": success" : ": failed");
-	return co;
+	
+// 	bool success = std::filesystem::copy_file(source.toStdString(), dest.toStdString(), std::filesystem::copy_options::update_existing);
+// 	
+// 	if (!success) {
+// 		//qDebug() << "Copy error: " << source_file.error();
+// 		qDebug() << "Source: " << source;
+// 		qDebug() << "Dest: " << dest;
+// 		return false;
+// 	}
+// 	return success;
+// 	
+	QFile source_file(source);
+	
+	if (!source_file.copy(dest)) {
+		qDebug() << "Copy error: " << source_file.error();
+		qDebug() << "Source: " << source;
+		qDebug() << "Dest: " << dest;
+		return false;
+	}
+	return true;
 }
 
 #include "filesystem.moc"

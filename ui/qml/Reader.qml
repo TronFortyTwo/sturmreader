@@ -13,28 +13,13 @@ Item {
     signal contentsReady(var contents)
 
     property string fileType: ""
-    property var currentReader: {
-        switch (fileType) {
-			case "EPUB":
-				return epubreader
-			case "CBZ":
-				return cbzreader
-			case "PDF":
-				return pdfreader
-			default:
-				return undefined
-        }
-    }
+    property var currentReader: undefined
+	
     property string filename: ""
     property bool pictureBook: currentReader !== epubreader
-    property string error: {
-        if (currentReader === undefined)
-            return gettext.tr("Could not determine file type.\n\n" +
-                           "Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM.")
-        else
-            return gettext.tr("Could not parse file.\n\n" +
-                           "Although it appears to be a %1 file, it could not be parsed by Sturm Reader.").arg(fileType)
-    }
+	property string error: currentReader === undefined ?
+		gettext.tr("Could not determine file type.\n\nRemember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."):
+		gettext.tr("Could not parse file.\n\nAlthough it appears to be a %1 file, it could not be parsed by Sturm Reader.").arg(fileType)
 
     Connections {
         target: epubreader
@@ -52,11 +37,18 @@ Item {
     }
 
     function load(fn) {
-		filename = fn
-        fileType = filesystem.fileType(filename)
-        if (currentReader === undefined)
-            return false
-        return currentReader.load(filename)
+		filename = fn;
+		fileType = filesystem.fileType(filename);
+		
+		currentReader = fileType == "EPUB" ? epubreader :
+						fileType == "PDF" ? pdfreader :
+						fileType == "CBZ" ? cbzreader : undefined;
+		
+		console.log("fileType: " + fileType);
+		
+		if (currentReader === undefined)
+			return false;
+		return currentReader.load(filename);
     }
 
     function hash() {
