@@ -18,7 +18,7 @@ Item {
     property real margin_to_size_ratio: 0.1
     
     // the size recommended for the button
-    property int best_size: scaling.dp(45)
+    property int best_size: scaling.dp(60)
 	// the size of the margin
     property int margin: size * margin_to_size_ratio
     // the maximum size allowed for the component

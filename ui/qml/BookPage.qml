@@ -626,27 +626,7 @@ Page {
     function getBookStyles() {
         return bookStyles.asObject()
     }
-
-    QtObject {
-        id: fontLister
-
-        property var fontList: ["Default", "Bitstream Charter", "Ubuntu", "URW Bookman L", "URW Gothic L"]
-
-        Component.onCompleted: {
-            var familyList = qtfontlist.families()
-            var possibleFamilies = [["Droid Serif", "Nimbus Roman No9 L", "FreeSerif"],
-                                    ["Droid Sans", "Nimbus Sans L", "FreeSans"]]
-            for (var j=0; j<possibleFamilies.length; j++) {
-                for (var i=0; i<possibleFamilies[j].length; i++) {
-                    if (familyList.indexOf(possibleFamilies[j][i]) >= 0) {
-                        fontList.splice(2, 0, possibleFamilies[j][i])
-                        break
-                    }
-                }
-            }
-        }
-    }
-
+    
     FontLoader {
         source: Qt.resolvedUrl("../html/fonts/Bitstream Charter.ttf")
     }
@@ -657,6 +637,27 @@ Page {
 
     FontLoader {
         source: Qt.resolvedUrl("../html/fonts/URW Gothic L.ttf")
+    }
+
+    QtObject {
+        id: fontLister
+
+        property var fontList: ["Default", "Bitstream Charter", "Ubuntu", "URW Bookman L", "URW Gothic L"]
+
+        Component.onCompleted: {
+            var familyList = qtfontlist.families()
+			
+            var possibleFamilies = [["Droid Serif", "Nimbus Roman No9 L", "FreeSerif"],
+                                   ["Droid Sans", "Nimbus Sans L", "FreeSans"]]
+            for (var j=0; j<possibleFamilies.length; j++) {
+                for (var i=0; i<possibleFamilies[j].length; i++) {
+                    if (familyList.indexOf(possibleFamilies[j][i]) >= 0) {
+                        fontList.splice(2, 0, possibleFamilies[j][i])
+						break
+                    }
+                }
+            }
+        }
     }
 
     Dialog {
@@ -858,8 +859,8 @@ Page {
 						id: marginSlider
 						width: parent.width - stylesDialog.labelwidth
 						from: 0
-						to: 30
-						stepSize: 3
+						to: 24
+						stepSize: 2
 						snapMode: Slider.SnapAlways
 						function formatValue(v) { return Math.round(v) + "%" }
 						onValueChanged: bookStyles.margin = value

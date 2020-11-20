@@ -524,7 +524,7 @@ Page {
 			width: parent.width
 			contentItem: Item {
 				implicitWidth: parent.width
-				implicitHeight: scaling.dp(42)
+				implicitHeight: titleDelegateColumn.height
 				Image {
 					id: titleDelegateImage
 					anchors.left: parent.left
@@ -533,7 +533,7 @@ Page {
 							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
 							model.cover == "ZZZerror" ? "images/error_cover.svg" :
 								model.cover
-					width: scaling.dp(24)
+					height: parent.height * 0.9
 					asynchronous: true
 					sourceSize.height: height
 					sourceSize.width: width
@@ -541,24 +541,24 @@ Page {
 					visible: model.filename != "ZZZback" || !wide
 				}
 				Column {
-					height: parent.height
+					id: titleDelegateColumn
 					anchors.verticalCenter: parent.verticalCenter
-					anchors.left: titleDelegateImage.right
-					anchors.leftMargin: scaling.dp(20)
+					anchors.left: parent.left
+					anchors.leftMargin: parent.height * 1.5
 					anchors.right: parent.right
 					spacing: scaling.dp(5)
-					Text {
+					Label {
 						width: parent.width
 						text: model.title
 						color: colors.text
-						font.pointSize: 12
+						font.pointSize: 16
 						elide: Text.ElideRight
 					}
-					Text {
+					Label {
 						width: parent.width
 						text: model.author
 						color: colors.text
-						font.pointSize: 9
+						font.pointSize: 13
 						elide: Text.ElideRight
 					}
 				}

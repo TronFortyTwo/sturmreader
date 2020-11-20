@@ -11,7 +11,7 @@ import QtQuick 2.9
 QtObject {
 	
 	// this to force portable scaling
-	property bool force_portable: false
+	property bool force_portable: true
 	
 	// this is the best between dp_ut and dp_portable (defaults to portable one)
 	property var dp: dp_portable
