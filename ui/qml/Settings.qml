@@ -107,41 +107,37 @@ Page {
 						width: parent.width * 0.95
 						text: localBooks.bookdir
 						onTextChanged: {
-							useButton.visible = (pathfield.text != localBooks.bookdir);
-							var status = filesystem.exists(settings.homepath + pathfield.text);
+							var status = filesystem.exists(pathfield.text);
 							if (status == 0) {
 								/*/ Create a new directory from path given. /*/
-								useButton.text = gettext.tr("Create Directory")
-								useButton.enabled = true
+								useButton.text = gettext.tr("Create Directory");
+								useButton.enabled = true;
 							} else if (status == 1) {
 								/*/ File exists with path given. /*/
-								useButton.text = gettext.tr("File Exists")
-								useButton.enabled = false
+								useButton.text = gettext.tr("File Exists");
+								useButton.enabled = false;
 							} else if (status == 2) {
-								if (settings.homepath + pathfield.text == localBooks.bookdir && !firststart)
+								if (pathfield.text == localBooks.bookdir && !localBooks.firststart)
 									/*/ Read the books in the given directory again. /*/
 									useButton.text = gettext.tr("Reload Directory")
 								else
 									/*/ Use directory specified to store books. /*/
 									useButton.text = gettext.tr("Use Directory")
-								useButton.enabled = true
+								useButton.enabled = true;
 							}
 						}
 					}
 					Button {
 						id: useButton
 						width: parent.width * 0.95
-						visible: false
 						anchors.horizontalCenter: parent.horizontalCenter
 						onClicked: {
-							var status = filesystem.exists(settings.homepath + pathfield.text)
+							var status = filesystem.exists(pathfield.text)
 							if (status != 1) { // Should always be true
 								if (status == 0)
-									filesystem.makeDir(settings.homepath + pathfield.text)
-								setBookDir(settings.homepath + pathfield.text)
+									filesystem.makeDir(pathfield.text)
+								localBooks.setBookDir(pathfield.text)
 								useButton.enabled = false
-								useButton.text = gettext.tr("Please wait...")
-								cancelButton.enabled = false
 								unblocker.start()
 							}
 						}
@@ -152,7 +148,7 @@ Page {
 						interval: 10
 						onTriggered: {
 							localBooks.readBookDir()
-							firststart = false
+							localBooks.firststart = false
 						}
 					}
 				}
