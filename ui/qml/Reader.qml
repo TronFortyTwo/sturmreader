@@ -21,20 +21,20 @@ Item {
 		gettext.tr("Could not determine file type.\n\nRemember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."):
 		gettext.tr("Could not parse file.\n\nAlthough it appears to be a %1 file, it could not be parsed by Sturm Reader.").arg(fileType)
 
-    Connections {
-        target: epubreader
-        onContentsReady: reader.contentsReady(contents)
-    }
+	Connections {
+		target: epubreader
+		onContentsReady: { reader.contentsReady(contents) }
+	}
 
-    Connections {
-        target: cbzreader
-        onContentsReady: reader.contentsReady(contents)
-    }
+	Connections {
+		target: cbzreader
+		onContentsReady: { reader.contentsReady(contents) }
+	}
 
-    Connections {
-        target: pdfreader
-        onContentsReady: reader.contentsReady(contents)
-    }
+	Connections {
+		target: pdfreader
+		onContentsReady: { reader.contentsReady(contents) }
+	}
 
     function load(fn) {
 		filename = fn;

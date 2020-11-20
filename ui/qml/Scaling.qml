@@ -10,6 +10,9 @@ import QtQuick 2.9
 
 QtObject {
 	
+	// this to force portable scaling
+	property bool force_portable: false
+	
 	// this is the best between dp_ut and dp_portable (defaults to portable one)
 	property var dp: dp_portable
 	
@@ -25,12 +28,10 @@ QtObject {
 	
 	Component.onCompleted: {
 		// if ut units.dp() exists, use that
-		if(typeof units !== 'undefined') {
-			if(typeof units.dp !== 'undefined') {
-				console.log("Scaling implementation: Ubuntu Touch");
-				dp = units.dp;
-				return;
-			}
+		if(!force_portable && typeof units !== 'undefined' && typeof units.dp !== 'undefined') {
+			console.log("Scaling implementation: Ubuntu Touch");
+			dp = units.dp;
+			return;
 		}
 		console.log("Scaling implementation: Portable");
 	}

@@ -78,12 +78,7 @@ Page {
 						name: "settings"
 						color: colors.item
 					}
-					onClicked: {
-						if (localBooks.readablehome)
-							settingsDialog.open()
-						else
-							settingsDisabledDialog.open()
-					}
+					onClicked: pageStack.push("Settings.qml")
 				}
 			}
 		}
@@ -863,8 +858,9 @@ Page {
 			}
 		}
 	}
-
-   Dialog {
+	
+	/*
+	Dialog {
 		id: settingsDialog
 		
 		property string homepath: filesystem.homePath() + "/"
@@ -896,7 +892,7 @@ Page {
 			
 			spacing: scaling.dp(20)
 			
-			/*/ Text precedes an entry for a file path. /*/
+			// Text precedes an entry for a file path.
 			Text {
 				text: gettext.tr("Enter the folder in your home directory where your ebooks are or " +
 							"should be stored.\n\nChanging this value will not affect existing " +
@@ -914,19 +910,19 @@ Page {
 				onTextChanged: {
 					var status = filesystem.exists(settingsDialog.homepath + pathfield.text)
 					if (status == 0) {
-						/*/ Create a new directory from path given. /*/
+						// Create a new directory from path given. //
 						useButton.text = gettext.tr("Create Directory")
 						useButton.enabled = true
 					} else if (status == 1) {
-						/*/ File exists with path given. /*/
+						// File exists with path given. //
 						useButton.text = gettext.tr("File Exists")
 						useButton.enabled = false
 					} else if (status == 2) {
 						if (settingsDialog.homepath + pathfield.text == bookdir && !firststart)
-							/*/ Read the books in the given directory again. /*/
+							// Read the books in the given directory again. //
 							useButton.text = gettext.tr("Reload Directory")
 						else
-							/*/ Use directory specified to store books. /*/
+							// Use directory specified to store books. //
 							useButton.text = gettext.tr("Use Directory")
 						useButton.enabled = true
 					}
@@ -966,8 +962,9 @@ Page {
 				onClicked: settingsDialog.close()
 			}
 		}
-	}
-
+	}*/
+	
+	/*
     Dialog {
 		id: settingsDisabledDialog
 		
@@ -996,7 +993,6 @@ Page {
 		modal: true
 		standardButtons: Dialog.Ok
 		
-		/*/ A path on the file system. /*/
 		Column {
 			id: settingsDisabledColumn
 			
@@ -1049,5 +1045,5 @@ Page {
 				}
 			}
 		}
-	}
+	}*/
 }

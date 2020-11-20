@@ -50,7 +50,7 @@ Item {
     Connections {
 		target: httpserver
 		
-		onNewRequest: { // request, response
+		onNewRequest: {
 			// new pdf reader
 			if (request.path == "/PDF") {
 				if(appsettings.legacypdf)

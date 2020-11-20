@@ -14,16 +14,17 @@ QtObject {
 	
 	// TODO: this is really bad actually
 	
-	property color background: "white"
-	property color foreground: "white"
+	property color background: "#FFFFFF"
+	property color foreground: "#F7F7F7"
 	property color item: "black"
-	property color text: "black"
+	property color text: "#111111"
 	property color textFore: "black"
 	property color textOver: "black"
 	property color overlay: "white"
 	property color shadow: "black"
 	property color itemDetail: "black"
-	property color negative: "red"
+	property color negative: "#C7162B"
+	property color positive: "#0E8420"
 	
 	Component.onCompleted: {
 		
@@ -45,6 +46,7 @@ QtObject {
 			itemDetail = Theme.palette.normal.base;
 			textOver = Theme.palette.normal.overlayText;
 			negative = Theme.palette.normal.negative;
+			positive = Theme.palette.normal.positive;
 		}
 		else
 			console.log("Color palette: Portable");

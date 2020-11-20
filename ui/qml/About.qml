@@ -9,8 +9,6 @@ import QtQuick 2.9
 import QtQuick.Layouts 1.3
 
 Page {
-	id: bookSources
-	
 	header: ToolBar {
 		id: aboutheader
 		width: parent.width

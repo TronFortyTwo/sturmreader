@@ -23,6 +23,7 @@ set(UI_SRC_FILES
 	qml/MetricsUT.qml
 	qml/MetricsPortable.qml
 	qml/Colors.qml
+	qml/Settings.qml
 
 	qml/images/error_cover.svg
 	qml/images/error_cover_full.svg
