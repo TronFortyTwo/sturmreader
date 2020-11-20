@@ -105,13 +105,10 @@ Page {
 						id: pathfield
 						anchors.horizontalCenter: parent.horizontalCenter
 						width: parent.width * 0.95
-						text: {
-							if (localBooks.bookdir.substring(0, settings.length) == settings.homepath)
-								return localBooks.bookdir.substring(settings.homepath.length)
-							return localBooks.bookdir
-						}
+						text: localBooks.bookdir
 						onTextChanged: {
-							var status = filesystem.exists(settings.homepath + pathfield.text)
+							useButton.visible = (pathfield.text != localBooks.bookdir);
+							var status = filesystem.exists(settings.homepath + pathfield.text);
 							if (status == 0) {
 								/*/ Create a new directory from path given. /*/
 								useButton.text = gettext.tr("Create Directory")
@@ -134,6 +131,7 @@ Page {
 					Button {
 						id: useButton
 						width: parent.width * 0.95
+						visible: false
 						anchors.horizontalCenter: parent.horizontalCenter
 						onClicked: {
 							var status = filesystem.exists(settings.homepath + pathfield.text)

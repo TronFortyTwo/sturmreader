@@ -48,8 +48,8 @@ int main(int argc, char *argv[])
 {
 	QString app_name = "sturmreader.emanuelesorce";
 	
-	//QApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
 	QQuickStyle::setStyle("Suru");
+	QQuickStyle::setFallbackStyle("Material");
 
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName(app_name);

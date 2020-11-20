@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-11-20 12:38+0100\n"
+"POT-Creation-Date: 2020-11-20 12:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,7 +265,7 @@ msgid ""
 msgstr ""
 
 #. / Read the books in the given directory again. /
-#: ui/qml/Settings.qml:76 ui/qml/Settings.qml:126
+#: ui/qml/Settings.qml:76 ui/qml/Settings.qml:123
 msgid "Reload Directory"
 msgstr ""
 
@@ -276,24 +276,24 @@ msgid ""
 msgstr ""
 
 #. / Create a new directory from path given. /
-#: ui/qml/Settings.qml:117
+#: ui/qml/Settings.qml:114
 msgid "Create Directory"
 msgstr ""
 
 #. / File exists with path given. /
-#: ui/qml/Settings.qml:121
+#: ui/qml/Settings.qml:118
 msgid "File Exists"
 msgstr ""
 
 #. / Use directory specified to store books. /
-#: ui/qml/Settings.qml:129
+#: ui/qml/Settings.qml:126
 msgid "Use Directory"
 msgstr ""
 
-#: ui/qml/Settings.qml:145
+#: ui/qml/Settings.qml:143
 msgid "Please wait..."
 msgstr ""
 
-#: ui/qml/Settings.qml:165
+#: ui/qml/Settings.qml:163
 msgid "Use legacy PDF viewer"
 msgstr ""
