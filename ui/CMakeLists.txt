@@ -40,6 +40,8 @@ set(UI_SRC_FILES
 	qml/Icons/settings.svg
 	qml/Icons/undo.svg
 	qml/Icons/COPYING
+	
+	sturmreader.svg
 )
 
 if(${OUT_OF_TREE_BUILD})

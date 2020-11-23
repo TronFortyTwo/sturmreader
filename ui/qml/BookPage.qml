@@ -783,7 +783,8 @@ Page {
 					delegate: ItemDelegate {
 						highlighted: fontSelector.highlightedIndex === index
 						width: parent.width
-						contentItem: Text {
+						contentItem: Label {
+							verticalAlignment: Text.AlignVCenter
 							text: (modelData == "Default") ? gettext.tr("Default Font") : modelData
 							font.family: modelData
 							color: colors.textFore

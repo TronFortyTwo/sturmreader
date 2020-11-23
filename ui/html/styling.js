@@ -20,16 +20,17 @@ styleManager = {
             res += "font-family: '" + styles.fontFamily + "'; ";
         if (styles.lineHeight != "Default")
             res += "line-height: " + styles.lineHeight + "; ";
-        return styleManager.fontFaces() + res + "}";
+        
+		return styleManager.fontFaces() + res + "}";
     },
 
     updateOuter: function (styles) {
         var bumper = styles.bumper + "em + ";
         var outerCSS = "div.monelem_page { background: " + styles.background + "; } " +
-                "div.monelem_sheaf { left: -webkit-calc(" + bumper + styles.margin + "%); " +
-                "right: -webkit-calc(" + bumper + styles.margin + "%); " +
-                "top: -webkit-calc(" + bumper + DEFAULT_STYLES.marginv + "%); " +
-                "bottom: -webkit-calc(" + bumper + 2*DEFAULT_STYLES.marginv + "%); }";
+                "div.monelem_sheaf { left: calc(" + bumper + styles.margin + "%); " +
+                "right: calc(" + bumper + styles.margin + "%); " +
+                "top: calc(" + bumper + DEFAULT_STYLES.marginv + "%); " +
+                "bottom: calc(" + bumper + 2*DEFAULT_STYLES.marginv + "%); }";
         var styleElement = document.getElementById("appliedStyles");
         styleElement.replaceChild(document.createTextNode(outerCSS), styleElement.firstChild);
     },
@@ -52,8 +53,8 @@ styleManager = {
                     res += "@font-face { font-family: '" + family + "'; " +
                             "font-style: " + (i ? "italic" : "normal") +"; " +
                             "font-weight: " + (b ? "bold" : "normal") + "; " +
-                            "src: local('" + fontname + "'), url('/.fonts/" + fontname + ".ttf'); }\n"
-                }
+                            "src: local('" + fontname + "') url('/.fonts/" + fontname + ".ttf') format('truetype'); }\n"
+				}
             }
         }
         return res;

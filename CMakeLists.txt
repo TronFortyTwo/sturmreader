@@ -22,7 +22,7 @@ set(SUFFIX "")
 
 set(DESKTOP_FILE "sturmreader.desktop")
 set(APP_HARDCODE sturmreader)
-set(ICON_FILE sturmreader.svg)
+set(ICON_FILE "ui/sturmreader.svg")
 
 # Check if build is out of source tree and sets boolean value
 set(OUT_OF_TREE_BUILD true)
@@ -69,12 +69,10 @@ else(CLICK_MODE)
 endif(CLICK_MODE)
 
 #Copies specific individual files into the build directory
-#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sturmreader ${CMAKE_CURRENT_BINARY_DIR}/sturmreader @ONLY)
-configure_file(${DESKTOP_FILE}.in ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE})
 #configure_file(${DESKTOP_FILE}.tr ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE}.tr)
 #install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/sturmreader DESTINATION ${DATA_DIR})
+configure_file(${DESKTOP_FILE}.in ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_DIR})
-install(FILES ${ICON_FILE} DESTINATION ${DATA_DIR})
 
 # Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory
 add_subdirectory(ui)

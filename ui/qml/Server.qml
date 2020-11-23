@@ -72,7 +72,7 @@ Item {
 				return reader.serveBookData(response)
 			if (request.path == "/.defaults.js")
 				return defaults(response)
-			if (request.path[1] == ".")
+			if (request.path[0] == "/" && request.path[1] == ".")
 				return static_file("../html/" + request.path.slice(2), response)
 			return reader.serveComponent(request.path.slice(1), response)
 		}

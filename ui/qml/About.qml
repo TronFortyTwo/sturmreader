@@ -62,7 +62,7 @@ Page {
 				anchors.horizontalCenter: parent.horizontalCenter
 				height: width
 				width: Math.min(parent.width/2, parent.height/3)
-				source: Qt.resolvedUrl("../../sturmreader.svg")
+				source: Qt.resolvedUrl("../sturmreader.svg")
 			}
 			
 			Text {
