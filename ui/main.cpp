@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QLoggingCategory>
 
 #include <string>
 #include <locale>
@@ -46,6 +47,8 @@
 // =================
 int main(int argc, char *argv[])
 {
+	QLoggingCategory::setFilterRules("qt.qml.connections=false");
+	
 	QString app_name = "sturmreader.emanuelesorce";
 	
 	QQuickStyle::setStyle("Suru");
