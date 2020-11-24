@@ -274,6 +274,27 @@ Page {
             coverTimer.start()
         })
     }
+    
+    function openInfoDialog(book) {
+		infoDialog.open()
+        infoDialog.bookTitle = book.title
+        infoDialog.filename = book.filename
+
+        var dirs = ["/.local/share/%1", "/.local/share/ubuntu-download-manager/%1"]
+        for (var i=0; i<dirs.length; i++) {
+            var path = filesystem.homePath() + dirs[i].arg(Qt.application.name)
+            if (infoDialog.filename.slice(0, path.length) == path) {
+                infoDialog.allowDelete = true
+                break
+            }
+        }
+        if (book.cover == "ZZZerror")
+            infoDialog.coverSource = defaultCover.errorCover(book)
+        else if (!book.fullcover)
+            infoDialog.coverSource = defaultCover.missingCover(book)
+        else
+            infoDialog.coverSource = book.fullcover
+    }
 
     function refreshCover(filename) {
         var db = openDatabase()
@@ -304,6 +325,7 @@ Page {
     }
 
     function adjustViews(showAuthor) {
+		/*
         if (sort != 2 || perAuthorModel.count == 0)
             showAuthor = false  // Don't need to show authors' list
 
@@ -322,7 +344,7 @@ Page {
                 listview.topMargin = 0
                 perAuthorListView.topMargin = 0
             }
-        }
+        }*/
     }
 
     function loadBookDir() {
@@ -644,66 +666,68 @@ Page {
 		}
     }
 
-    ListView {
-        id: listview
-        x: 0
-
-        width: parent.width
-        height: parent.height
-
-        clip: true
-
-        model: bookModel
-
-        Behavior on x {
-            id: widthAnimation
-            NumberAnimation {
-                duration: 300
-                easing.type: Easing.OutQuad
-
-                onRunningChanged: {
-                    if (!running && perAuthorModel.needsclear) {
-                        perAuthorModel.clear()
-                        perAuthorModel.needsclear = false
-                    }
-                }
-            }
-        }
-        ScrollBar.vertical: ScrollBar { }
-    }
-
-    ListView {
-        id: perAuthorListView
-        anchors {
-			top: listview.top
-            left: listview.right
-            bottom: listview.bottom
-        }
-        width: wide ? parent.width / 2 : parent.width
-        clip: true
-
-        model: perAuthorModel
-        delegate: titleDelegate
+    SwipeView {
+		id: swiper
+		
+		anchors.fill: parent
+		
+		currentIndex: localBooks.sort
+    
+		Item {
+			GridView {
+				id: gridview
+			
+				anchors.fill: parent
+				anchors.leftMargin: gridmargin
+				anchors.rightMargin: gridmargin
         
-        ScrollBar.vertical: ScrollBar { }
-    }
+				clip: true
+				cellWidth: width / Math.floor(width/mingridwidth)
+				cellHeight: cellWidth*1.5
 
-    GridView {
-        id: gridview
+				model: bookModel
+				delegate: coverDelegate
         
-        anchors.fill: parent
-        anchors.leftMargin: gridmargin
-		anchors.rightMargin: gridmargin
-        
-        clip: true
-        cellWidth: width / Math.floor(width/mingridwidth)
-        cellHeight: cellWidth*1.5
+				ScrollBar.vertical: ScrollBar { }
+			}
+		}
+		
+    
+		ListView {
+			id: listview
 
-        model: bookModel
-        delegate: coverDelegate
+			clip: true
+
+			model: bookModel
+
+			Behavior on x {
+				id: widthAnimation
+				NumberAnimation {
+					duration: 300
+					easing.type: Easing.OutQuad
+
+					onRunningChanged: {
+						if (!running && perAuthorModel.needsclear) {
+							perAuthorModel.clear()
+							perAuthorModel.needsclear = false
+						}
+					}
+				}
+			}
+			ScrollBar.vertical: ScrollBar { }
+		}
+
+		ListView {
+			id: perAuthorListView
+			//width: wide ? parent.width / 2 : parent.width
+			clip: true
+
+			model: perAuthorModel
+			delegate: titleDelegate
         
-        ScrollBar.vertical: ScrollBar { }
-    }
+			ScrollBar.vertical: ScrollBar { }
+		}
+	}
 
     Item {
         anchors.fill: parent
@@ -750,28 +774,6 @@ Page {
                 onClicked: readBookDir()
             }
         }
-    }
-
-    
-    function openInfoDialog(book) {
-		infoDialog.open()
-        infoDialog.bookTitle = book.title
-        infoDialog.filename = book.filename
-
-        var dirs = ["/.local/share/%1", "/.local/share/ubuntu-download-manager/%1"]
-        for (var i=0; i<dirs.length; i++) {
-            var path = filesystem.homePath() + dirs[i].arg(Qt.application.name)
-            if (infoDialog.filename.slice(0, path.length) == path) {
-                infoDialog.allowDelete = true
-                break
-            }
-        }
-        if (book.cover == "ZZZerror")
-            infoDialog.coverSource = defaultCover.errorCover(book)
-        else if (!book.fullcover)
-            infoDialog.coverSource = defaultCover.missingCover(book)
-        else
-            infoDialog.coverSource = book.fullcover
     }
     
     Dialog {

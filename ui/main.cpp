@@ -47,13 +47,16 @@
 // =================
 int main(int argc, char *argv[])
 {
+	// This is to prevent deprecated connections sintax on 5.15,
+	// not yet supported on 5.9 or 5.12. When the minimum will be 5.15 we can remove this line
 	QLoggingCategory::setFilterRules("qt.qml.connections=false");
 	
-	QString app_name = "sturmreader.emanuelesorce";
-	
+	// Styling
 	QQuickStyle::setStyle("Suru");
 	QQuickStyle::setFallbackStyle("Material");
 
+	// Application
+	QString app_name = "sturmreader.emanuelesorce";
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName(app_name);
 	//app->setOrganizationName(QString("emanuelesorce"));
@@ -68,8 +71,6 @@ int main(int argc, char *argv[])
 	EpubReader epub;
 	PDFReader pdf;
 	CBZReader cbz;
-	
-	qDebug() << "Starting";
 
 	QQmlApplicationEngine engine;
 	
