@@ -24,6 +24,9 @@ set(UI_SRC_FILES
 	qml/MetricsPortable.qml
 	qml/Colors.qml
 	qml/Settings.qml
+	qml/CoverDelegate.qml
+	qml/TitleDelegate.qml
+	qml/AuthorDelegate.qml
 
 	qml/images/error_cover.svg
 	qml/images/error_cover_full.svg

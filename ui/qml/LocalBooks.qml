@@ -10,7 +10,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.LocalStorage 2.0
-import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
 Page {
@@ -26,6 +25,7 @@ Page {
 	property double gridmargin: scaling.dp(10)
 	property double mingridwidth: scaling.dp(150)
 	property bool reloading: false
+	property bool authorinside: false
 	
     background: Rectangle {
 		color: colors.background
@@ -100,12 +100,12 @@ Page {
     onSortChanged: {
         listBooks()
         perAuthorModel.clear()
-        adjustViews(false)
+        //adjustViews(false)
     }
     onWidthChanged: {
         wide = (width > scaling.dp(800))
         widthAnimation.enabled = false
-        adjustViews(true)  // True to allow author's list if necessary
+        //adjustViews(true)  // True to allow author's list if necessary
         widthAnimation.enabled = true
     }
     
@@ -163,7 +163,7 @@ Page {
             return
         }
 
-        listview.delegate = (localBooks.sort == 2) ? authorDelegate : titleDelegate
+		//listview.delegate = TitleDelegate{}
 
         bookModel.clear()
         var db = openDatabase()
@@ -196,6 +196,7 @@ Page {
             perAuthorModel.append({filename: "ZZZback", title: gettext.tr("Back"),
                                    author: "", cover: ""})
         })
+		authorinside = true;
     }
 
     function updateRead(filename) {
@@ -324,29 +325,6 @@ Page {
         reloading = false
     }
 
-    function adjustViews(showAuthor) {
-		/*
-        if (sort != 2 || perAuthorModel.count == 0)
-            showAuthor = false  // Don't need to show authors' list
-
-        if (sort == 0) {
-            listview.visible = false
-            gridview.visible = true
-        } else {
-            listview.visible = true
-            gridview.visible = false
-            if (!wide || sort != 2) {
-                listview.width = localBooks.width
-                listview.x = showAuthor ? -localBooks.width : 0
-            } else {
-                listview.width = localBooks.width / 2
-                listview.x = 0
-                listview.topMargin = 0
-                perAuthorListView.topMargin = 0
-            }
-        }*/
-    }
-
     function loadBookDir() {
         if (filesystem.readableHome()) {
             readablehome = true
@@ -449,230 +427,15 @@ Page {
     DefaultCover {
         id: defaultCover
 	}
-
-    Component {
-        id: coverDelegate
-        Item {
-            width: gridview.cellWidth
-            height: gridview.cellHeight
-
-            Item {
-                id: image
-                anchors.fill: parent
-
-                Image {
-                    anchors {
-                        fill: parent
-                        leftMargin: gridmargin
-                        rightMargin: gridmargin
-                        topMargin: 1.5*gridmargin
-                        bottomMargin: 1.5*gridmargin
-                    }
-                    fillMode: Image.PreserveAspectFit
-                    source: {
-                        if (model.cover == "ZZZerror")
-                            return defaultCover.errorCover(model)
-                        if (!model.fullcover)
-                            return defaultCover.missingCover(model)
-                        return model.fullcover
-                    }
-                    sourceSize.width: width
-                    sourceSize.height: height
-                    asynchronous: true
-
-                    Text {
-                        x: ((model.cover == "ZZZerror") ? 0.09375 : 0.125)*parent.width
-                        y: 0.0625*parent.width
-                        width: 0.8125*parent.width
-                        height: parent.height/2 - 0.125*parent.width
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        wrapMode: Text.Wrap
-                        elide: Text.ElideRight
-                        color: defaultCover.textColor(model)
-                        style: Text.Raised
-                        styleColor: defaultCover.highlightColor(model, defaultCover.hue(model))
-                        font.family: "URW Bookman L"
-						visible: !model.fullcover
-                        text: model.title
-                    }
-
-                    Text {
-                        x: ((model.cover == "ZZZerror") ? 0.09375 : 0.125)*parent.width
-                        y: parent.height/2 + 0.0625*parent.width
-                        width: 0.8125*parent.width
-                        height: parent.height/2 - 0.125*parent.width
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        wrapMode: Text.Wrap
-                        elide: Text.ElideRight
-                        color: defaultCover.textColor(model)
-                        style: Text.Raised
-                        styleColor: defaultCover.highlightColor(model, defaultCover.hue(model))
-                        font.family: "URW Bookman L"
-						visible: !model.fullcover
-                        text: model.author
-                    }
-                }
-            }
-
-            DropShadow {
-                anchors.fill: image
-                radius: 12
-                samples: 12
-                source: image
-                color: Qt.tint(colors.background, "#65666666")
-                verticalOffset: height * 0.025
-                horizontalOffset: width * 0.025
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    // Save copies now, since these get cleared by loadFile (somehow...)
-                    var filename = model.filename
-                    var pasterror = model.cover == "ZZZerror"
-                    if (loadFile(filename) && pasterror)
-                        refreshCover(filename)
-                }
-                onPressAndHold: openInfoDialog(model)
-            }
-        }
-    }
-
-    Component {
-        id: titleDelegate
-        ItemDelegate {
-			width: parent.width
-			contentItem: Item {
-				implicitWidth: parent.width
-				implicitHeight: titleDelegateColumn.height
-				Image {
-					id: titleDelegateImage
-					anchors.left: parent.left
-					anchors.verticalCenter: parent.verticalCenter
-					source: model.filename == "ZZZback" ? "image://theme/back" :
-							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
-							model.cover == "ZZZerror" ? "images/error_cover.svg" :
-								model.cover
-					height: parent.height * 0.9
-					asynchronous: true
-					sourceSize.height: height
-					sourceSize.width: width
-					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
-					visible: model.filename != "ZZZback" || !wide
-				}
-				Column {
-					id: titleDelegateColumn
-					anchors.verticalCenter: parent.verticalCenter
-					anchors.left: parent.left
-					anchors.leftMargin: parent.height * 1.5
-					anchors.right: parent.right
-					spacing: scaling.dp(5)
-					Label {
-						width: parent.width
-						text: model.title
-						color: colors.text
-						font.pointSize: 16
-						elide: Text.ElideRight
-					}
-					Label {
-						width: parent.width
-						text: model.author
-						color: colors.text
-						font.pointSize: 13
-						elide: Text.ElideRight
-					}
-				}
-			}
-			onClicked: {
-				if (model.filename == "ZZZback") {
-					perAuthorModel.needsclear = true
-					adjustViews(false)
-				} else {
-					// Save copies now, since these get cleared by loadFile (somehow...)
-					var filename = model.filename
-					var pasterror = model.cover == "ZZZerror"
-					if (loadFile(filename) && pasterror)
-						refreshCover(filename)
-				}
-			}
-			onPressAndHold: {
-				if (model.filename != "ZZZback")
-					openInfoDialog(model)
-			}
-		}
-    }
-
-    Component {
-        id: authorDelegate
-        
-        ItemDelegate {
-			width: parent.width
-			contentItem: Item {
-				implicitWidth: parent.width
-				implicitHeight: scaling.dp(42)
-				Image {
-					id: authorDelegateImage
-					anchors.left: parent.left
-					anchors.verticalCenter: parent.verticalCenter
-					source: model.count > 1 ? "image://theme/contact" :
-							model.filename == "ZZZback" ? "image://theme/back" :
-							model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
-							model.cover == "ZZZerror" ? "images/error_cover.svg" :
-							model.cover
-					width: scaling.dp(24)
-					sourceSize.height: height
-					sourceSize.width: width
-					//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
-					visible: model.filename != "ZZZback" || !wide
-				}
-				Column {
-					height: parent.height
-					anchors.verticalCenter: parent.verticalCenter
-					anchors.left: authorDelegateImage.right
-					anchors.leftMargin: scaling.dp(20)
-					anchors.right: parent.right
-					spacing: scaling.dp(5)
-					Text {
-						text: model.author || gettext.tr("Unknown Author")
-						color: colors.text
-						font.pointSize: scaling.dp(12)
-					}
-					Text {
-						text: (model.count > 1) ? gettext.tr("%1 Book", "%1 Books", model.count).arg(model.count)
-								: model.title
-						color: colors.text
-						font.pointSize: scaling.dp(9)
-					}
-				}
-			}
-			onClicked: {
-                if (model.count > 1) {
-                    listAuthorBooks(model.authorsort)
-                    adjustViews(true)
-                } else {
-                    // Save copies now, since these get cleared by loadFile (somehow...)
-                    var filename = model.filename
-                    var pasterror = model.cover == "ZZZerror"
-                    if (loadFile(filename) && pasterror)
-                        refreshCover(filename)
-                }
-            }
-            onPressAndHold: {
-                if (model.count == 1)
-                    openInfoDialog(model)
-            }
-		}
-    }
-
+	
     SwipeView {
 		id: swiper
 		
 		anchors.fill: parent
 		
 		currentIndex: localBooks.sort
-    
+		onCurrentIndexChanged: {localBooks.sort = currentIndex}
+		
 		Item {
 			GridView {
 				id: gridview
@@ -686,7 +449,7 @@ Page {
 				cellHeight: cellWidth*1.5
 
 				model: bookModel
-				delegate: coverDelegate
+				delegate: CoverDelegate{}
         
 				ScrollBar.vertical: ScrollBar { }
 			}
@@ -698,6 +461,9 @@ Page {
 
 			clip: true
 
+			delegate: TitleDelegate {
+				width: parent.width
+			}
 			model: bookModel
 
 			Behavior on x {
@@ -717,15 +483,35 @@ Page {
 			ScrollBar.vertical: ScrollBar { }
 		}
 
-		ListView {
-			id: perAuthorListView
-			//width: wide ? parent.width / 2 : parent.width
-			clip: true
+		Item {
+			ListView {
+				id: authorview
+				
+				visible: !authorinside
+				anchors.fill: parent
+				
+				clip: true
+				
+				model: bookModel
+				delegate: AuthorDelegate {
+					width: parent.width
+				}
+			}
+			
+			ListView {
+				id: perAuthorListView
+				//width: wide ? parent.width / 2 : parent.width
+				anchors.fill: parent
+				visible: !authorview.visible
+				clip: true
 
-			model: perAuthorModel
-			delegate: titleDelegate
-        
-			ScrollBar.vertical: ScrollBar { }
+				model: perAuthorModel
+				delegate: TitleDelegate {
+					width: parent.width
+				}
+
+				ScrollBar.vertical: ScrollBar { }
+			}
 		}
 	}
 
