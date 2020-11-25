@@ -18,7 +18,7 @@ Page {
 	property alias sort: sorttabs.currentIndex
 	property bool needsort: false
 	property bool firststart: false
-	property bool wide: false
+	property bool wide: width > scaling.dp(800)
 	property string bookdir: ""
 	property bool readablehome: false
 	property string defaultdirname: "Books"
@@ -100,13 +100,6 @@ Page {
     onSortChanged: {
         listBooks()
         perAuthorModel.clear()
-        //adjustViews(false)
-    }
-    onWidthChanged: {
-        wide = (width > scaling.dp(800))
-        widthAnimation.enabled = false
-        //adjustViews(true)  // True to allow author's list if necessary
-        widthAnimation.enabled = true
     }
     
     function onFirstStart(db) {
@@ -466,7 +459,7 @@ Page {
 			}
 			model: bookModel
 
-			Behavior on x {
+			/*Behavior on x {
 				id: widthAnimation
 				NumberAnimation {
 					duration: 300
@@ -479,7 +472,7 @@ Page {
 						}
 					}
 				}
-			}
+			}*/
 			ScrollBar.vertical: ScrollBar { }
 		}
 

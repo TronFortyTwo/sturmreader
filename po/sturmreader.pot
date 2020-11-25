@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-11-25 14:11+0000\n"
+"POT-Creation-Date: 2020-11-25 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,11 +142,11 @@ msgstr ""
 msgid "Choose the books to import"
 msgstr ""
 
-#: ui/qml/AuthorDelegate.qml:43
+#: ui/qml/AuthorDelegate.qml:44
 msgid "Unknown Author"
 msgstr ""
 
-#: ui/qml/AuthorDelegate.qml:48
+#: ui/qml/AuthorDelegate.qml:49
 msgid "%1 Book"
 msgid_plural "%1 Books"
 msgstr[0] ""
@@ -168,46 +168,46 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:114
+#: ui/qml/LocalBooks.qml:115
 msgid "Welcome to Sturm Reader!"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:196
+#: ui/qml/LocalBooks.qml:197
 msgid "Back"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:252
+#: ui/qml/LocalBooks.qml:253
 msgid "Could not open this book."
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:543
+#: ui/qml/LocalBooks.qml:544
 msgid "No Books in Library"
 msgstr ""
 
 #. / A path on the file system. /
-#: ui/qml/LocalBooks.qml:552
+#: ui/qml/LocalBooks.qml:553
 msgid ""
 "Sturm Reader could not find any books for your library, and will "
 "automatically find all epub files in <i>%1</i>.  Additionally, any book "
 "opened will be added to the library."
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:562
+#: ui/qml/LocalBooks.qml:563
 msgid "Get Books"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:570
+#: ui/qml/LocalBooks.qml:571
 msgid "Search Again"
 msgstr ""
 
 #. / A control can be dragged to delete a file.  The deletion occurs /
 #. / when the user releases the control. /
-#: ui/qml/LocalBooks.qml:650
+#: ui/qml/LocalBooks.qml:651
 msgid "Release to Delete"
 msgstr ""
 
 #. / A control can be dragged to delete a file. /
-#: ui/qml/LocalBooks.qml:652
+#: ui/qml/LocalBooks.qml:653
 msgid "Swipe to Delete"
 msgstr ""
 

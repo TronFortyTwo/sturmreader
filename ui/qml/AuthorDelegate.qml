@@ -14,6 +14,7 @@ import QtQuick.Layouts 1.3
 
 ItemDelegate {
 	
+	
 	contentItem: Item {
 		id: authorDelegateContentItem
 		implicitWidth: parent.width
