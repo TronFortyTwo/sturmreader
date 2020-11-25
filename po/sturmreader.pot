@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-11-25 14:32+0000\n"
+"POT-Creation-Date: 2020-11-25 18:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,19 +152,19 @@ msgid_plural "%1 Books"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ui/qml/LocalBooks.qml:46
+#: ui/qml/LocalBooks.qml:54
 msgid "Library"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:89
+#: ui/qml/LocalBooks.qml:97
 msgid "Recently Read"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:92
+#: ui/qml/LocalBooks.qml:100
 msgid "Title"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:95
+#: ui/qml/LocalBooks.qml:103
 msgid "Author"
 msgstr ""
 
@@ -172,42 +172,42 @@ msgstr ""
 msgid "Welcome to Sturm Reader!"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:197
+#: ui/qml/LocalBooks.qml:207
 msgid "Back"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:253
+#: ui/qml/LocalBooks.qml:261
 msgid "Could not open this book."
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:544
+#: ui/qml/LocalBooks.qml:570
 msgid "No Books in Library"
 msgstr ""
 
 #. / A path on the file system. /
-#: ui/qml/LocalBooks.qml:553
+#: ui/qml/LocalBooks.qml:579
 msgid ""
 "Sturm Reader could not find any books for your library, and will "
 "automatically find all epub files in <i>%1</i>.  Additionally, any book "
 "opened will be added to the library."
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:563
+#: ui/qml/LocalBooks.qml:589
 msgid "Get Books"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:571
+#: ui/qml/LocalBooks.qml:597
 msgid "Search Again"
 msgstr ""
 
 #. / A control can be dragged to delete a file.  The deletion occurs /
 #. / when the user releases the control. /
-#: ui/qml/LocalBooks.qml:651
+#: ui/qml/LocalBooks.qml:677
 msgid "Release to Delete"
 msgstr ""
 
 #. / A control can be dragged to delete a file. /
-#: ui/qml/LocalBooks.qml:653
+#: ui/qml/LocalBooks.qml:679
 msgid "Swipe to Delete"
 msgstr ""
 

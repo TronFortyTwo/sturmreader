@@ -27,6 +27,14 @@ Page {
 	property bool reloading: false
 	property bool authorinside: false
 	
+	// We only need to GROUP BY in the author sort, but this lets us use the same
+	// SQL logic for all three cases.
+	property string sorting_template: "SELECT filename, title, author, cover, fullcover, authorsort, count(*) FROM LocalBooks "
+	property string lastread_sorting: "GROUP BY filename ORDER BY lastread DESC, title ASC";
+	property string title_sorting: "GROUP BY filename ORDER BY title ASC";
+	property string author_sorting: "GROUP BY authorsort ORDER BY authorsort ASC";
+	
+	
     background: Rectangle {
 		color: colors.background
 	}
@@ -146,31 +154,40 @@ Page {
     }
     
     function listBooks() {
-        // We only need to GROUP BY in the author sort, but this lets us use the same
-        // SQL logic for all three cases.
-        var sort = ["GROUP BY filename ORDER BY lastread DESC, title ASC",
-                    "GROUP BY filename ORDER BY title ASC",
-                    "GROUP BY authorsort ORDER BY authorsort ASC"][localBooks.sort]
-        if (sort === undefined) {
-            console.log("Error: Undefined sorting: " + localBooks.sort)
-            return
-        }
-
-		//listview.delegate = TitleDelegate{}
-
-        bookModel.clear()
-        var db = openDatabase()
+		
+		gridModel.clear();
+		titleModel.clear();
+		authorModel.clear();
+		
+		var db = openDatabase()
         db.readTransaction(function (tx) {
-            var res = tx.executeSql("SELECT filename, title, author, cover, fullcover, authorsort, count(*) " +
-                                    "FROM LocalBooks " + sort)
+            var res = tx.executeSql(sorting_template + lastread_sorting)
             for (var i=0; i<res.rows.length; i++) {
                 var item = res.rows.item(i)
                 if (filesystem.exists(item.filename))
-                    bookModel.append({filename: item.filename, title: item.title,
+                    gridModel.append({filename: item.filename, title: item.title,
                                       author: item.author, cover: item.cover, fullcover: item.fullcover,
                                       authorsort: item.authorsort, count: item["count(*)"]})
             }
-        })
+			res = tx.executeSql(sorting_template + title_sorting)
+            for (var i=0; i<res.rows.length; i++) {
+                var item = res.rows.item(i)
+                if (filesystem.exists(item.filename))
+                    titleModel.append({filename: item.filename, title: item.title,
+                                      author: item.author, cover: item.cover, fullcover: item.fullcover,
+                                      authorsort: item.authorsort, count: item["count(*)"]})
+            }
+			res = tx.executeSql(sorting_template + author_sorting)
+            for (var i=0; i<res.rows.length; i++) {
+                var item = res.rows.item(i)
+                if (filesystem.exists(item.filename))
+                    authorModel.append({filename: item.filename, title: item.title,
+                                      author: item.author, cover: item.cover, fullcover: item.fullcover,
+                                      authorsort: item.authorsort, count: item["count(*)"]})
+            }
+		})
+		
+		
         localBooks.needsort = false
     }
 
@@ -186,9 +203,8 @@ Page {
                     perAuthorModel.append({filename: item.filename, title: item.title,
                                            author: item.author, cover: item.cover, fullcover: item.fullcover})
             }
-            perAuthorModel.append({filename: "ZZZback", title: gettext.tr("Back"),
-                                   author: "", cover: ""})
         })
+		perAuthorModel.append({filename: "ZZZback", title: gettext.tr("Back"), author: "", cover: ""})
 		authorinside = true;
     }
 
@@ -253,8 +269,28 @@ Page {
                           [title, author, authorsort, cover, fullcover, hash, res.rows.item(0).filename])
 
             if (localBooks.visible) {
-                for (var i=0; i<bookModel.count; i++) {
-                    var book = bookModel.get(i)
+                for (var i=0; i<gridModel.count; i++) {
+                    var book = gridModel.get(i)
+                    if (book.filename == res.rows.item(0).filename) {
+                        book.title = title
+                        book.author = author
+                        book.cover = cover
+                        book.fullcover = fullcover
+                        break
+                    }
+                }
+                for (var i=0; i<titleModel.count; i++) {
+                    var book = titleModel.get(i)
+                    if (book.filename == res.rows.item(0).filename) {
+                        book.title = title
+                        book.author = author
+                        book.cover = cover
+                        book.fullcover = fullcover
+                        break
+                    }
+                }
+                for (var i=0; i<authorModel.count; i++) {
+                    var book = authorModel.get(i)
                     if (book.filename == res.rows.item(0).filename) {
                         book.title = title
                         book.author = author
@@ -408,10 +444,22 @@ Page {
         onTriggered: localBooks.updateBookCover()
     }
     
-    ListModel {
-        id: bookModel
-    }
+	// contains the model for the grid view (recent books)
+	ListModel {
+		id: gridModel
+	}
 
+	// contains the model for the title view
+	ListModel {
+		id: titleModel
+	}
+    
+	// contains the model for the author view
+	ListModel {
+		id: authorModel
+	}
+    
+	// contains the model for the single author books view
     ListModel {
         id: perAuthorModel
         property bool needsclear: false
@@ -441,8 +489,8 @@ Page {
 				cellWidth: width / Math.floor(width/mingridwidth)
 				cellHeight: cellWidth*1.5
 
-				model: bookModel
-				delegate: CoverDelegate{}
+				model: gridModel
+				delegate: CoverDelegate { }
         
 				ScrollBar.vertical: ScrollBar { }
 			}
@@ -450,29 +498,15 @@ Page {
 		
     
 		ListView {
-			id: listview
+			id: titleview
 
 			clip: true
 
 			delegate: TitleDelegate {
 				width: parent.width
 			}
-			model: bookModel
+			model: titleModel
 
-			/*Behavior on x {
-				id: widthAnimation
-				NumberAnimation {
-					duration: 300
-					easing.type: Easing.OutQuad
-
-					onRunningChanged: {
-						if (!running && perAuthorModel.needsclear) {
-							perAuthorModel.clear()
-							perAuthorModel.needsclear = false
-						}
-					}
-				}
-			}*/
 			ScrollBar.vertical: ScrollBar { }
 		}
 
@@ -487,7 +521,7 @@ Page {
 				
 				clip: true
 				
-				model: bookModel
+				model: authorModel
 				delegate: AuthorDelegate {
 					width: parent.width
 				}
@@ -523,7 +557,7 @@ Page {
 
     Item {
         anchors.fill: parent
-        visible: bookModel.count == 0
+        visible: gridModel.count == 0
 
         Column {
             anchors.centerIn: parent
