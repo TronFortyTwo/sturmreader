@@ -33,16 +33,18 @@ ApplicationWindow {
 	}
 	property var bookPage: null
     
-	width: scaling.dp(800)
-	height: scaling.dp(600)
+	// portable palette
+	Colors { id: colors }
 	
 	// for dp scaling support
-	Scaling {
-		id: scaling
-	}
+	Scaling { id: scaling }
 	
 	// Our own setting store since QSettings is unreliable
 	// TODO: store window position and size
+	onWidthChanged: { setSetting( "appconfig_width", width)}
+	onHeightChanged: { setSetting( "appconfig_height", height)}
+	onXChanged: { setSetting("appconfig_x", x)}
+	onYChanged: { setSetting("appconfig_y", y)}
 	QtObject {
 		id: appsettings
 		
@@ -50,12 +52,15 @@ ApplicationWindow {
 		onSortChanged: { setSetting( "appconfig_sort", appsettings.sort ); }
 		
 		property bool legacypdf
-		
 		onLegacypdfChanged: { setSetting( "appconfig_legacypdf", appsettings.legacypdf ); }
 		
 		Component.onCompleted: {
 			var csort = getSetting("appconfig_sort");
 			var clegacypdf = getSetting("appconfig_legacypdf");
+			var cwidth = getSetting("appconfig_width");
+			var cheight = getSetting("appconfig_height");
+			var cx = getSetting("appconfig_x");
+			var cy = getSetting("appconfig_y");
 			
 			if(csort) appsettings.sort = csort;
 			if(clegacypdf) {
@@ -63,17 +68,23 @@ ApplicationWindow {
 				appsettings.legacypdf = clegacypdf;
 			}
 			// by default, use the legacy viewer
+			else appsettings.legacypdf = true;
+			
+			if(cwidth)
+				mainView.width = cwidth;
 			else
-				appsettings.legacypdf = true;
+				mainView.width = scaling.dp(800);
+			
+			if(cheight)
+				mainView.height = cheight;
+			else
+				mainView.height = scaling.dp(600);
+			
+			if(cx) mainView.x = cx;
+			if(cy) mainView.y = cy;
 		}
 		
 	}
-	
-	// portable palette
-	Colors {
-		id: colors
-	}
-	
 	
     StackView {
         id: pageStack
@@ -94,6 +105,7 @@ ApplicationWindow {
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
 		Label {
+			width: scaling.dp(400)
 			text: server.reader.error
 		}
 		standardButtons: Dialog.Ok
