@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-11-24 23:11+0000\n"
+"POT-Creation-Date: 2020-11-25 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -180,34 +180,34 @@ msgstr ""
 msgid "Could not open this book."
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:530
+#: ui/qml/LocalBooks.qml:543
 msgid "No Books in Library"
 msgstr ""
 
 #. / A path on the file system. /
-#: ui/qml/LocalBooks.qml:539
+#: ui/qml/LocalBooks.qml:552
 msgid ""
 "Sturm Reader could not find any books for your library, and will "
 "automatically find all epub files in <i>%1</i>.  Additionally, any book "
 "opened will be added to the library."
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:549
+#: ui/qml/LocalBooks.qml:562
 msgid "Get Books"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:557
+#: ui/qml/LocalBooks.qml:570
 msgid "Search Again"
 msgstr ""
 
 #. / A control can be dragged to delete a file.  The deletion occurs /
 #. / when the user releases the control. /
-#: ui/qml/LocalBooks.qml:637
+#: ui/qml/LocalBooks.qml:650
 msgid "Release to Delete"
 msgstr ""
 
 #. / A control can be dragged to delete a file. /
-#: ui/qml/LocalBooks.qml:639
+#: ui/qml/LocalBooks.qml:652
 msgid "Swipe to Delete"
 msgstr ""
 

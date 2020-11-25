@@ -487,8 +487,10 @@ Page {
 			ListView {
 				id: authorview
 				
-				visible: !authorinside
-				anchors.fill: parent
+				visible: wide || !authorinside
+				anchors.left: parent.left
+				height: parent.height
+				width: wide ? Math.floor(parent.width * 0.5) : parent.width
 				
 				clip: true
 				
@@ -500,9 +502,10 @@ Page {
 			
 			ListView {
 				id: perAuthorListView
-				//width: wide ? parent.width / 2 : parent.width
-				anchors.fill: parent
-				visible: !authorview.visible
+				height: parent.height
+				anchors.right: parent.right
+				width: wide ? Math.floor(parent.width * 0.5) : parent.width
+				visible: wide || !authorview.visible
 				clip: true
 
 				model: perAuthorModel
@@ -513,6 +516,16 @@ Page {
 				ScrollBar.vertical: ScrollBar { }
 			}
 		}
+	}
+	// Bottom page indicator for the swiper
+	PageIndicator {
+		id: indicator
+
+		count: swiper.count
+		currentIndex: swiper.currentIndex
+
+		anchors.bottom: swiper.bottom
+		anchors.horizontalCenter: swiper.horizontalCenter
 	}
 
     Item {

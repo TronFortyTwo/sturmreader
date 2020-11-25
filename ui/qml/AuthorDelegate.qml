@@ -15,8 +15,9 @@ import QtQuick.Layouts 1.3
 ItemDelegate {
 	
 	contentItem: Item {
+		id: authorDelegateContentItem
 		implicitWidth: parent.width
-		implicitHeight: scaling.dp(42)
+		implicitHeight: authorDelegateColumn.height
 		Image {
 			id: authorDelegateImage
 			anchors.left: parent.left
@@ -30,10 +31,9 @@ ItemDelegate {
 			sourceSize.height: height
 			sourceSize.width: width
 			//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
-			visible: model.filename != "ZZZback" || !wide
 		}
 		Column {
-			height: parent.height
+			id: authorDelegateColumn
 			anchors.verticalCenter: parent.verticalCenter
 			anchors.left: authorDelegateImage.right
 			anchors.leftMargin: scaling.dp(20)
