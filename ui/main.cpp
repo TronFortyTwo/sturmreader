@@ -51,16 +51,19 @@ int main(int argc, char *argv[])
 	// not yet supported on 5.9 or 5.12. When the minimum will be 5.15 we can remove this line
 	QLoggingCategory::setFilterRules("qt.qml.connections=false");
 	
-	// Styling
-	QQuickStyle::setStyle("Suru");
-	QQuickStyle::setFallbackStyle("Material");
-
 	// Application
 	QString app_name = "sturmreader.emanuelesorce";
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName(app_name);
 	//app->setOrganizationName(QString("emanuelesorce"));
 	//app->setOrganizationDomain(QString("emanuelesorce.com"));
+	
+	auto styles = QQuickStyle::availableStyles();
+	if(styles.contains("Suru")) QQuickStyle::setStyle("Suru");
+	else if(styles.contains("Fusion")) QQuickStyle::setStyle("Fusion");
+	else if(styles.contains("Material")) QQuickStyle::setStyle("Material");
+	else if(styles.contains("Universal")) QQuickStyle::setStyle("Universal");
+	
 	
 	Gettext gt;
 	Units un;
