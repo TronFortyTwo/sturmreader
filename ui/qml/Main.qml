@@ -40,7 +40,6 @@ ApplicationWindow {
 	Scaling { id: scaling }
 	
 	// Our own setting store since QSettings is unreliable
-	// TODO: store window position and size
 	onWidthChanged: { setSetting( "appconfig_width", width)}
 	onHeightChanged: { setSetting( "appconfig_height", height)}
 	onXChanged: { setSetting("appconfig_x", x)}

@@ -13,5 +13,3 @@ QStringList FontLister::families() const
     QFontDatabase fonts;
     return fonts.families();
 }
-
-#include "fontlister.moc"

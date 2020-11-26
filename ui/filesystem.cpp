@@ -136,5 +136,3 @@ bool FileSystem::copy(const QString& source, const QString& dest) {
 	}
 	return true;
 }
-
-#include "filesystem.moc"

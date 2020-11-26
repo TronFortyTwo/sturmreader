@@ -80,5 +80,3 @@ void Gettext::setDomain(const QString& domain) {
 	
 	bindtextdomain(domain.toUtf8(), locale_path.toUtf8());
 }
-
-#include "gettext.moc"

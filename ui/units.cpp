@@ -35,5 +35,3 @@ int Units::dp(double value) const
     // Based on 160 DPI as 1:1 to match Android
     return qRound(value * (dpi / 160.0) * screen->devicePixelRatio());
 }
-
-#include "units.moc"
