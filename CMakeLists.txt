@@ -31,8 +31,13 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
 endif(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
 
 # Scan the default include directories to find packages that will be needed for building plugins
-find_package(Qt5Core REQUIRED Qt5Qml Qt5Quick Qt5Xml Qt5Gui Qt5Network)
-find_package(ZLIB)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Quick REQUIRED)
+find_package(Qt5Qml REQUIRED)
+find_package(Qt5Xml REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5QuickControls2 REQUIRED)
+find_package(ZLIB REQUIRED)
 
 file(GLOB I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}

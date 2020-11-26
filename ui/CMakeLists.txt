@@ -86,8 +86,8 @@ add_executable(sturmreader
 	reader/quazip/unzip.c
 	reader/quazip/zip.c
 	${QT_RESOURCES} )
-qt5_use_modules(sturmreader Gui Qml Quick Xml QuickControls2)
-target_link_libraries(sturmreader poppler-qt5 ZLIB::ZLIB)
+	
+target_link_libraries(sturmreader poppler-qt5 ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Quick Qt5::QuickControls2)
 
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
