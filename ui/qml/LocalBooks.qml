@@ -503,7 +503,7 @@ Page {
 			clip: true
 
 			delegate: TitleDelegate {
-				width: parent.width
+				width: titleview.width
 			}
 			model: titleModel
 
@@ -523,7 +523,7 @@ Page {
 				
 				model: authorModel
 				delegate: AuthorDelegate {
-					width: parent.width
+					width: authorview.width
 				}
 			}
 			

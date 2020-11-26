@@ -54,7 +54,7 @@ Page {
 			
 			// APPARMOR
 			ItemDelegate {
-				visible: !localBooks.readablehome
+				visible: true //!localBooks.readablehome
 				width: parent.width
 				contentItem: Column {
 					width: parent.width
@@ -82,9 +82,9 @@ Page {
 				}
 			}
 			
-			// NOT APPARMOR
+			// NOT APPARMOR (Not stable yet, more testing is needed before enabling it)
 			ItemDelegate {
-				visible: localBooks.readablehome
+				visible: false//localBooks.readablehome
 				width: parent.width
 				
 				contentItem: Column {

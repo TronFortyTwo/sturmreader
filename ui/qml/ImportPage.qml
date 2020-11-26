@@ -34,7 +34,7 @@ Page {
 			
 			Label {
 				text: gettext.tr("Importing books...")
-				font.pixelSize: scaling.dp(22)
+				font.pointSize: 22
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
@@ -77,7 +77,7 @@ Page {
 					Text {
 						text: model.item.url.toString().split("/").pop()
 						color: colors.text
-						font.pointSize: scaling.dp(12)
+						font.pointSize: 16
 					}
 					Text {
 						text: {
@@ -95,7 +95,7 @@ Page {
 							}
 						}
 						color: colors.text
-						font.pointSize: scaling.dp(9)
+						font.pointSize: 13
 					}
 				}
 			}
