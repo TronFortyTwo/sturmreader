@@ -22,7 +22,7 @@ ItemDelegate {
 			id: titleDelegateImage
 			anchors.left: parent.left
 			anchors.verticalCenter: parent.verticalCenter
-			source: model.filename == "ZZZback" ? "image://theme/back" :
+			source: model.filename == "ZZZback" ? "Icons/go-previous.svg" :
 					model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
 					model.cover == "ZZZerror" ? "images/error_cover.svg" :
 						model.cover

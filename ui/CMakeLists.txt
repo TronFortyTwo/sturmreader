@@ -32,6 +32,7 @@ set(UI_SRC_FILES
 	qml/images/error_cover_full.svg
 
 	qml/Icons/add.svg
+	qml/Icons/avatar.svg
 	qml/Icons/book.svg
 	qml/Icons/go-home.svg
 	qml/Icons/go-next.svg

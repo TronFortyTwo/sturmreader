@@ -23,8 +23,8 @@ ItemDelegate {
 			id: authorDelegateImage
 			anchors.left: parent.left
 			anchors.verticalCenter: parent.verticalCenter
-			source: model.count > 1 ? "image://theme/contact" :
-					model.filename == "ZZZback" ? "image://theme/back" :
+			source: model.count > 1 ? "Icons/avatar.svg" :
+					model.filename == "ZZZback" ? "Icons/go-previous.svg" :
 					model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
 					model.cover == "ZZZerror" ? "images/error_cover.svg" :
 					model.cover
