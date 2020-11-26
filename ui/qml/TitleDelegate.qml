@@ -31,7 +31,7 @@ ItemDelegate {
 			sourceSize.height: height
 			sourceSize.width: width
 			//border: model.filename != "ZZZback" && model.cover != "ZZZerror"
-			visible: model.filename != "ZZZback" || !wide
+			//visible: model.filename != "ZZZback" || !wide
 		}
 		Column {
 			id: titleDelegateColumn
@@ -58,7 +58,6 @@ ItemDelegate {
 	}
 	onClicked: {
 		if (model.filename == "ZZZback") {
-			perAuthorModel.needsclear = true
 			authorinside = false;
 		} else {
 			// Save copies now, since these get cleared by loadFile (somehow...)

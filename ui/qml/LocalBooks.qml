@@ -108,6 +108,7 @@ Page {
     onSortChanged: {
         listBooks()
         perAuthorModel.clear()
+		authorinside = false
     }
     
     function onFirstStart(db) {
@@ -462,7 +463,6 @@ Page {
 	// contains the model for the single author books view
     ListModel {
         id: perAuthorModel
-        property bool needsclear: false
     }
 
     DefaultCover {
@@ -525,6 +525,8 @@ Page {
 				delegate: AuthorDelegate {
 					width: authorview.width
 				}
+				
+				ScrollBar.vertical: ScrollBar { }
 			}
 			
 			ListView {
@@ -537,7 +539,8 @@ Page {
 
 				model: perAuthorModel
 				delegate: TitleDelegate {
-					width: parent.width
+					width: perAuthorListView.width
+					visible: model.filename != "ZZZback" || !wide
 				}
 
 				ScrollBar.vertical: ScrollBar { }

@@ -103,8 +103,11 @@ ApplicationWindow {
 		visible: false
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
+		width: scaling.dp(300)
+		height: scaling.dp(300)
 		Label {
-			width: scaling.dp(400)
+			width: scaling.dp(300)
+			height: scaling.dp(300)
 			text: server.reader.error
 		}
 		standardButtons: Dialog.Ok
