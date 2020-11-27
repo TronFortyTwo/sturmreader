@@ -93,7 +93,7 @@ Page {
 	}
     
 	footer: ToolBar {
-		visible: coverTimer.running
+		visible: coverTimer.running || refreshTimer.running
 		width: parent.width
 		height: scaling.dp(45)
 		
@@ -380,27 +380,39 @@ Page {
             })
         }
         // refresh
-        readBookDir()
+        //readBookDir()
     }
 
     // We need to wait for main to be finished, so that the settings are available.
-    function onMainCompleted() {
-        // readBookDir() will trigger the loading of all files in the default directory
-        // into the library.
-        if (!firststart) {
-            loadBookDir()
-            readBookDir()
-        } else {
-            readablehome = filesystem.readableHome()
-            if (readablehome) {
-                setBookDir(filesystem.homePath() + "/" + defaultdirname)
-                settingsDialog.open()
-            } else {
-                setBookDir(filesystem.getDataDir(defaultdirname))
-                readBookDir()
-            }
-        }
-    }
+	function onMainCompleted() {
+		refreshTimer.start();
+	}
+    
+    Timer {
+		id: refreshTimer
+		repeat: false
+		interval: 0
+		running: false
+		triggeredOnStart: false
+		
+		onTriggered: {
+			// readBookDir() will trigger the loading of all files in the default directory
+			// into the library.
+			if (!firststart) {
+				loadBookDir()
+				readBookDir()
+			} else {
+				readablehome = filesystem.readableHome()
+				if (readablehome) {
+					setBookDir(filesystem.homePath() + "/" + defaultdirname)
+					settingsDialog.open()
+				} else {
+					setBookDir(filesystem.getDataDir(defaultdirname))
+					readBookDir()
+				}
+			}
+		}
+	}
 
     // If we need to resort, do it when hiding or showing this page
     onVisibleChanged: {
@@ -606,7 +618,7 @@ Page {
 
     Item {
         anchors.fill: parent
-        visible: gridModel.count == 0
+        visible: gridModel.count == 0 && !refreshTimer.running
 
         Column {
             anchors.centerIn: parent
