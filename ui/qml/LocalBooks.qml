@@ -106,10 +106,20 @@ Page {
 	}
     
     onSortChanged: {
-        listBooks()
-        perAuthorModel.clear()
-		authorinside = false
+		if(sort == 0)
+			gridModel.update();
+		else if(sort == 1)
+			titleModel.update();
+		else if(sort == 2)
+			authorModel.update();
+		authorinside = false;
     }
+    
+	// when closing perAuthor page reset model
+	onAuthorinsideChanged: {
+		if(!authorinside)
+			perAuthorModel.clear();
+	}
     
     function onFirstStart(db) {
         db.changeVersion(db.version, "1")
@@ -156,42 +166,14 @@ Page {
     
     function listBooks() {
 		
-		gridModel.clear();
-		titleModel.clear();
-		authorModel.clear();
+		gridModel.update();
+		titleModel.update();
+		authorModel.update();
 		
-		var db = openDatabase()
-        db.readTransaction(function (tx) {
-            var res = tx.executeSql(sorting_template + lastread_sorting)
-            for (var i=0; i<res.rows.length; i++) {
-                var item = res.rows.item(i)
-                if (filesystem.exists(item.filename))
-                    gridModel.append({filename: item.filename, title: item.title,
-                                      author: item.author, cover: item.cover, fullcover: item.fullcover,
-                                      authorsort: item.authorsort, count: item["count(*)"]})
-            }
-			res = tx.executeSql(sorting_template + title_sorting)
-            for (var i=0; i<res.rows.length; i++) {
-                var item = res.rows.item(i)
-                if (filesystem.exists(item.filename))
-                    titleModel.append({filename: item.filename, title: item.title,
-                                      author: item.author, cover: item.cover, fullcover: item.fullcover,
-                                      authorsort: item.authorsort, count: item["count(*)"]})
-            }
-			res = tx.executeSql(sorting_template + author_sorting)
-            for (var i=0; i<res.rows.length; i++) {
-                var item = res.rows.item(i)
-                if (filesystem.exists(item.filename))
-                    authorModel.append({filename: item.filename, title: item.title,
-                                      author: item.author, cover: item.cover, fullcover: item.fullcover,
-                                      authorsort: item.authorsort, count: item["count(*)"]})
-            }
-		})
-		
-		
-        localBooks.needsort = false
+		localBooks.needsort = false;
     }
-
+    
+    
     function listAuthorBooks(authorsort) {
         perAuthorModel.clear()
         var db = openDatabase()
@@ -448,16 +430,64 @@ Page {
 	// contains the model for the grid view (recent books)
 	ListModel {
 		id: gridModel
+		
+		function update() {
+			clear();
+			
+			var db = openDatabase()
+			db.readTransaction(function (tx) {
+				var res = tx.executeSql(sorting_template + lastread_sorting)
+				for (var i=0; i<res.rows.length; i++) {
+					var item = res.rows.item(i)
+					if (filesystem.exists(item.filename))
+						append({filename: item.filename, title: item.title,
+							author: item.author, cover: item.cover, fullcover: item.fullcover,
+							authorsort: item.authorsort, count: item["count(*)"]})
+				}
+			})
+		}
 	}
 
 	// contains the model for the title view
 	ListModel {
 		id: titleModel
+		
+		function update() {
+			clear();
+			
+			var db = openDatabase()
+			db.readTransaction(function (tx) {
+				var res = tx.executeSql(sorting_template + title_sorting)
+				for (var i=0; i<res.rows.length; i++) {
+					var item = res.rows.item(i)
+					if (filesystem.exists(item.filename))
+						append({filename: item.filename, title: item.title,
+							author: item.author, cover: item.cover, fullcover: item.fullcover,
+							authorsort: item.authorsort, count: item["count(*)"]})
+				}
+			})
+		}
 	}
     
 	// contains the model for the author view
 	ListModel {
 		id: authorModel
+		
+		function update() {
+			clear();
+			
+			var db = openDatabase()
+			db.readTransaction(function (tx) {
+				var res = tx.executeSql(sorting_template + author_sorting)
+				for (var i=0; i<res.rows.length; i++) {
+					var item = res.rows.item(i)
+					if (filesystem.exists(item.filename))
+						append({filename: item.filename, title: item.title,
+							author: item.author, cover: item.cover, fullcover: item.fullcover,
+							authorsort: item.authorsort, count: item["count(*)"]})
+				}
+			})
+		}
 	}
     
 	// contains the model for the single author books view
