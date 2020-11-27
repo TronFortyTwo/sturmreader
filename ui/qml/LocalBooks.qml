@@ -97,6 +97,32 @@ Page {
 		}
 	}
     
+	footer: Pane {
+		visible: coverTimer.running
+		width: parent.width
+		height: scaling.dp(45)
+		
+		BusyIndicator {
+			id: updatingIndicator
+			anchors.top: parent.top
+			anchors.left: parent.left
+			anchors.bottom: parent.bottom
+			width: height
+		}
+		
+		Label {
+			anchors.leftMargin: scaling.dp(20)
+			anchors.left: updatingIndicator.right
+			anchors.top: parent.top
+			anchors.right: parent.right
+			anchors.bottom: parent.bottom
+			id: updatingLabel
+			text: gettext.tr("Updating library...");
+			elide: Text.ElideRight
+			verticalAlignment: Text.AlignVCenter
+		}
+	}
+    
     onSortChanged: {
 		authorinside = false;
     }
@@ -161,7 +187,7 @@ Page {
     
     
     function listAuthorBooks(authorsort) {
-		perAuthorModel.update();
+		perAuthorModel.update(authorsort);
 		authorinside = true;
     }
 
@@ -175,12 +201,18 @@ Page {
             listBooks()
     }
 
+    // When there are new books in the library, this function takes the first of those books and extracts its data
+    // It uses a timer to read books gradually, one at a time.
     function updateBookCover() {
         var db = openDatabase()
         db.transaction(function (tx) {
             var res = tx.executeSql("SELECT filename, title FROM LocalBooks WHERE authorsort == 'zzznull'")
-            if (res.rows.length == 0)
-                return
+			if (res.rows.length == 0) {
+				// there are no more books unordered
+				// stop the loop - and refresh authors
+				authorModel.update();
+				return
+			}
 
             localBooks.needsort = true
             var title, author, authorsort, cover, fullcover, hash
@@ -225,8 +257,9 @@ Page {
                           "fullcover=?, hash=? WHERE filename=?",
                           [title, author, authorsort, cover, fullcover, hash, res.rows.item(0).filename])
 
+			// Search the book on all the views and update its data
             if (localBooks.visible) {
-                for (var i=0; i<gridModel.count; i++) {
+				for (var i=0; i<gridModel.count; i++) {
                     var book = gridModel.get(i)
                     if (book.filename == res.rows.item(0).filename) {
                         book.title = title
@@ -470,7 +503,7 @@ Page {
     ListModel {
         id: perAuthorModel
         
-        function update() {
+        function update(authorsort) {
 			clear()
 			
 			var db = openDatabase()
