@@ -25,10 +25,6 @@ Page {
 	property double gridmargin: scaling.dp(10)
 	property double mingridwidth: scaling.dp(150)
 	property bool authorinside: false
-	
-    background: Rectangle {
-		color: colors.background
-	}
     
     header: Column {
 		width: parent.width
@@ -96,29 +92,27 @@ Page {
 		}
 	}
     
-	footer: Pane {
+	footer: ToolBar {
 		visible: coverTimer.running
 		width: parent.width
 		height: scaling.dp(45)
 		
-		BusyIndicator {
-			id: updatingIndicator
-			anchors.top: parent.top
-			anchors.left: parent.left
-			anchors.bottom: parent.bottom
-			width: height
-		}
-		
-		Label {
-			anchors.leftMargin: scaling.dp(20)
-			anchors.left: updatingIndicator.right
-			anchors.top: parent.top
-			anchors.right: parent.right
-			anchors.bottom: parent.bottom
-			id: updatingLabel
-			text: gettext.tr("Updating library...");
-			elide: Text.ElideRight
-			verticalAlignment: Text.AlignVCenter
+		RowLayout {
+			anchors.fill: parent
+			spacing: scaling.dp(20)
+			BusyIndicator {
+				id: updatingIndicator
+				height: parent.height * 0.9
+				width: height
+			}
+			
+			Label {
+				id: updatingLabel
+				text: gettext.tr("Updating library...");
+				elide: Text.ElideRight
+				verticalAlignment: Text.AlignVCenter
+				Layout.fillWidth: true
+			}
 		}
 	}
     
