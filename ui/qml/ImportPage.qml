@@ -32,6 +32,12 @@ Page {
 			spacing: scaling.dp(10)
 			anchors.fill: parent
 			
+			BusyIndicator {
+				running: importing
+				height: parent.height * 0.9
+				width: height
+			}
+			
 			Label {
 				text: gettext.tr("Importing books...")
 				font.pointSize: 22
@@ -43,10 +49,11 @@ Page {
 			}
 			
 			ToolButton {
+				visible: !importing
 				padding: scaling.dp(7)
 				contentItem: Icon {
 					anchors.centerIn: parent
-					name: importing ? "refresh" : "ok"
+					name: "ok"
 					color: colors.item
 				}
 				onClicked: {

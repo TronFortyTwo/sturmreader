@@ -24,7 +24,6 @@ Page {
 	property string defaultdirname: "Books"
 	property double gridmargin: scaling.dp(10)
 	property double mingridwidth: scaling.dp(150)
-	property bool reloading: false
 	property bool authorinside: false
 	
     background: Rectangle {
@@ -337,11 +336,9 @@ Page {
     }
 
     function readBookDir() {
-        reloading = true
         addBookDir()
         listBooks()
         coverTimer.start()
-        reloading = false
     }
 
     function loadBookDir() {
