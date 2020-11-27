@@ -98,12 +98,6 @@ Page {
 	}
     
     onSortChanged: {
-		//if(sort == 0)
-		//	gridModel.update();
-		//else if(sort == 1)
-		//	titleModel.update();
-		//else if(sort == 2)
-		//	authorModel.update();
 		authorinside = false;
     }
     
@@ -167,19 +161,7 @@ Page {
     
     
     function listAuthorBooks(authorsort) {
-        perAuthorModel.clear()
-        var db = openDatabase()
-        db.readTransaction(function (tx) {
-            var res = tx.executeSql("SELECT filename, title, author, cover, fullcover FROM LocalBooks " +
-                                    "WHERE authorsort=? ORDER BY title ASC", [authorsort])
-            for (var i=0; i<res.rows.length; i++) {
-                var item = res.rows.item(i)
-                if (filesystem.exists(item.filename))
-                    perAuthorModel.append({filename: item.filename, title: item.title,
-                                           author: item.author, cover: item.cover, fullcover: item.fullcover})
-            }
-        })
-		perAuthorModel.append({filename: "ZZZback", title: gettext.tr("Back"), author: "", cover: ""})
+		perAuthorModel.update();
 		authorinside = true;
     }
 
@@ -487,6 +469,22 @@ Page {
 	// contains the model for the single author books view
     ListModel {
         id: perAuthorModel
+        
+        function update() {
+			clear()
+			
+			var db = openDatabase()
+			db.readTransaction(function (tx) {
+				var res = tx.executeSql("SELECT filename, title, author, cover, fullcover FROM LocalBooks WHERE authorsort=? ORDER BY title ASC", [authorsort])
+				for (var i=0; i<res.rows.length; i++) {
+					var item = res.rows.item(i)
+					if (filesystem.exists(item.filename))
+						append({filename: item.filename, title: item.title,
+										author: item.author, cover: item.cover, fullcover: item.fullcover})
+				}
+			})
+			append({filename: "ZZZback", title: gettext.tr("Back"), author: "", cover: ""})
+		}
     }
 
     DefaultCover {
@@ -591,7 +589,7 @@ Page {
             spacing: scaling.dp(16)
             width: Math.min(scaling.dp(400), parent.width - scaling.dp(8))
 
-            Text {
+            Label {
                 id: noBooksLabel
 				anchors.horizontalCenter: parent.horizontalCenter
                 text: gettext.tr("No Books in Library")
@@ -601,7 +599,7 @@ Page {
 				wrapMode: Text.Wrap
             }
 
-            Text {
+            Label {
                 /*/ A path on the file system. /*/
                 text: gettext.tr("Sturm Reader could not find any books for your library, and will " +
                               "automatically find all epub files in <i>%1</i>.  Additionally, any book " +
