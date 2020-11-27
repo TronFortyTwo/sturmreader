@@ -391,7 +391,7 @@ Page {
     Timer {
 		id: refreshTimer
 		repeat: false
-		interval: 0
+		interval: 1
 		running: false
 		triggeredOnStart: false
 		
