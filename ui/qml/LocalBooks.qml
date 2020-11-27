@@ -27,14 +27,6 @@ Page {
 	property bool reloading: false
 	property bool authorinside: false
 	
-	// We only need to GROUP BY in the author sort, but this lets us use the same
-	// SQL logic for all three cases.
-	property string sorting_template: "SELECT filename, title, author, cover, fullcover, authorsort, count(*) FROM LocalBooks "
-	property string lastread_sorting: "GROUP BY filename ORDER BY lastread DESC, title ASC";
-	property string title_sorting: "GROUP BY filename ORDER BY title ASC";
-	property string author_sorting: "GROUP BY authorsort ORDER BY authorsort ASC";
-	
-	
     background: Rectangle {
 		color: colors.background
 	}
@@ -106,12 +98,12 @@ Page {
 	}
     
     onSortChanged: {
-		if(sort == 0)
-			gridModel.update();
-		else if(sort == 1)
-			titleModel.update();
-		else if(sort == 2)
-			authorModel.update();
+		//if(sort == 0)
+		//	gridModel.update();
+		//else if(sort == 1)
+		//	titleModel.update();
+		//else if(sort == 2)
+		//	authorModel.update();
 		authorinside = false;
     }
     
@@ -436,7 +428,7 @@ Page {
 			
 			var db = openDatabase()
 			db.readTransaction(function (tx) {
-				var res = tx.executeSql(sorting_template + lastread_sorting)
+				var res = tx.executeSql("SELECT filename, title, author, cover, fullcover, authorsort, count(*) FROM LocalBooks GROUP BY filename ORDER BY lastread DESC, title ASC")
 				for (var i=0; i<res.rows.length; i++) {
 					var item = res.rows.item(i)
 					if (filesystem.exists(item.filename))
@@ -457,7 +449,9 @@ Page {
 			
 			var db = openDatabase()
 			db.readTransaction(function (tx) {
-				var res = tx.executeSql(sorting_template + title_sorting)
+				// We only need to GROUP BY in the author sort, but this lets us use the same
+				// SQL logic for all three cases.
+				var res = tx.executeSql("SELECT filename, title, author, cover, fullcover, authorsort, count(*) FROM LocalBooks GROUP BY filename ORDER BY title ASC")
 				for (var i=0; i<res.rows.length; i++) {
 					var item = res.rows.item(i)
 					if (filesystem.exists(item.filename))
@@ -478,7 +472,7 @@ Page {
 			
 			var db = openDatabase()
 			db.readTransaction(function (tx) {
-				var res = tx.executeSql(sorting_template + author_sorting)
+				var res = tx.executeSql("SELECT filename, title, author, cover, fullcover, authorsort, count(*) FROM LocalBooks GROUP BY authorsort ORDER BY authorsort ASC")
 				for (var i=0; i<res.rows.length; i++) {
 					var item = res.rows.item(i)
 					if (filesystem.exists(item.filename))
