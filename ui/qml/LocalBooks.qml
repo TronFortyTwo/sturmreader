@@ -108,7 +108,7 @@ Page {
 			
 			Label {
 				id: updatingLabel
-				text: gettext.tr("Updating library...");
+				text: refreshTimer.running ? gettext.tr("Loading library...") : gettext.tr("Processing books data...");
 				elide: Text.ElideRight
 				verticalAlignment: Text.AlignVCenter
 				Layout.fillWidth: true
