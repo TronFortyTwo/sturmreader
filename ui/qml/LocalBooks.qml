@@ -94,15 +94,15 @@ Page {
     
 	footer: ToolBar {
 		visible: coverTimer.running || refreshTimer.running
-		width: parent.width
-		height: scaling.dp(45)
+		
+		anchors.bottom: parent.bottom
 		
 		RowLayout {
-			anchors.fill: parent
 			spacing: scaling.dp(20)
+			
 			BusyIndicator {
 				id: updatingIndicator
-				height: parent.height * 0.9
+				height: scaling.dp(45)
 				width: height
 			}
 			
