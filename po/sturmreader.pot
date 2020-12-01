@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-12-01 18:38+0000\n"
+"POT-Creation-Date: 2020-12-01 20:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,16 +142,6 @@ msgstr ""
 msgid "Choose the books to import"
 msgstr ""
 
-#: ui/qml/AuthorDelegate.qml:43 ui/qml/LocalBooks.qml:607
-msgid "Unknown Author"
-msgstr ""
-
-#: ui/qml/AuthorDelegate.qml:48 ui/qml/LocalBooks.qml:608
-msgid "%1 Book"
-msgid_plural "%1 Books"
-msgstr[0] ""
-msgstr[1] ""
-
 #: ui/qml/LocalBooks.qml:41
 msgid "Library"
 msgstr ""
@@ -187,6 +177,16 @@ msgstr ""
 #: ui/qml/LocalBooks.qml:522
 msgid "Back"
 msgstr ""
+
+#: ui/qml/LocalBooks.qml:607
+msgid "Unknown Author"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:608
+msgid "%1 Book"
+msgid_plural "%1 Books"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ui/qml/LocalBooks.qml:696
 msgid "No Books in Library"

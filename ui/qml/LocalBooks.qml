@@ -723,7 +723,7 @@ Page {
                 text: gettext.tr("Search Again")
 				anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width
-                onClicked: readBookDir()
+                onClicked: refreshTimer.start();
             }
         }
     }
@@ -804,9 +804,10 @@ Page {
 					/*/ A control can be dragged to delete a file. /*/
 					notificationText: gettext.tr("Swipe to Delete")
 					onTriggered: {
-						filesystem.remove(infoDialog.filename)
 						infoDialog.close()
-						readBookDir()
+						filesystem.remove(infoDialog.filename)
+
+						refreshTimer.start();
 					}
 				}
 			}
