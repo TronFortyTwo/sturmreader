@@ -25,8 +25,7 @@ set(UI_SRC_FILES
 	qml/Colors.qml
 	qml/Settings.qml
 	qml/CoverDelegate.qml
-	qml/TitleDelegate.qml
-	qml/AuthorDelegate.qml
+	qml/SuperDelegate.qml
 
 	qml/images/error_cover.svg
 	qml/images/error_cover_full.svg

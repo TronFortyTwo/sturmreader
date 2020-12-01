@@ -533,7 +533,9 @@ Page {
 		anchors.fill: parent
 		
 		currentIndex: localBooks.sort
-		onCurrentIndexChanged: {localBooks.sort = currentIndex}
+		onCurrentIndexChanged: {
+			localBooks.sort = currentIndex
+		}
 		
 		Item {
 			GridView {
@@ -560,8 +562,28 @@ Page {
 
 			clip: true
 
-			delegate: TitleDelegate {
+			delegate: SuperDelegate {
 				width: titleview.width
+				image_source: model.filename == "ZZZback" ? "Icons/go-previous.svg" :
+					model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
+					model.cover == "ZZZerror" ? "images/error_cover.svg" : model.cover
+				main_text: model.title
+				sub_text: model.author
+				onClicked: {
+					if (model.filename == "ZZZback") {
+						authorinside = false;
+					} else {
+						// Save copies now, since these get cleared by loadFile (somehow...)
+						var filename = model.filename
+						var pasterror = model.cover == "ZZZerror"
+						if (loadFile(filename) && pasterror)
+							refreshCover(filename)
+					}
+				}
+				onPressAndHold: {
+					if (model.filename != "ZZZback")
+						openInfoDialog(model)
+				}
 			}
 			model: titleModel
 
@@ -580,8 +602,31 @@ Page {
 				clip: true
 				
 				model: authorModel
-				delegate: AuthorDelegate {
+				delegate: SuperDelegate {
 					width: authorview.width
+					main_text: model.author || gettext.tr("Unknown Author")
+					sub_text: (model.count > 1) ? gettext.tr("%1 Book", "%1 Books", model.count).arg(model.count) : model.title
+					image_source: model.count > 1 ? "Icons/avatar.svg" :
+						model.filename == "ZZZback" ? "Icons/go-previous.svg" :
+						model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
+						model.cover == "ZZZerror" ? "images/error_cover.svg" :
+						model.cover
+					onClicked: {
+						if (model.count > 1) {
+							listAuthorBooks(model.authorsort)
+							//adjustViews(true)
+						} else {
+							// Save copies now, since these get cleared by loadFile (somehow...)
+							var filename = model.filename
+							var pasterror = model.cover == "ZZZerror"
+							if (loadFile(filename) && pasterror)
+								refreshCover(filename)
+						}
+					}
+					onPressAndHold: {
+						if (model.count == 1)
+							openInfoDialog(model)
+					}
 				}
 				
 				ScrollBar.vertical: ScrollBar { }
@@ -596,9 +641,29 @@ Page {
 				clip: true
 
 				model: perAuthorModel
-				delegate: TitleDelegate {
+				delegate: SuperDelegate {
 					width: perAuthorListView.width
 					visible: model.filename != "ZZZback" || !wide
+					image_source: model.filename == "ZZZback" ? "Icons/go-previous.svg" :
+						model.cover == "ZZZnone" ? defaultCover.missingCover(model) :
+						model.cover == "ZZZerror" ? "images/error_cover.svg" : model.cover
+					main_text: model.title
+					sub_text: model.author
+					onClicked: {
+						if (model.filename == "ZZZback") {
+							authorinside = false;
+						} else {
+							// Save copies now, since these get cleared by loadFile (somehow...)
+							var filename = model.filename
+							var pasterror = model.cover == "ZZZerror"
+							if (loadFile(filename) && pasterror)
+								refreshCover(filename)
+						}
+					}
+					onPressAndHold: {
+						if (model.filename != "ZZZback")
+							openInfoDialog(model)
+					}
 				}
 
 				ScrollBar.vertical: ScrollBar { }
