@@ -752,7 +752,6 @@ Page {
 				anchors.verticalCenter: parent.verticalCenter
 				id: titleLabel
 				font.pointSize: 27
-				color: colors.text
 				wrapMode: Text.Wrap
 				horizontalAlignment: Qt.AlignHCenter
 				verticalAlignment: Qt.AlignVCenter
@@ -787,12 +786,11 @@ Page {
 					leftMargin: scaling.dp(18)
 				}
 				spacing: scaling.dp(20)
-				Text {
+				Label {
 					id: filenameLabel
 					width: parent.width
 					horizontalAlignment: Text.AlignLeft
 					font.pointSize: 12
-					color: colors.text
 					wrapMode: Text.WrapAnywhere
 				}
 				SwipeControl {

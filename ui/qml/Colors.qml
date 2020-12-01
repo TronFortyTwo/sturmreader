@@ -17,7 +17,6 @@ QtObject {
 	property color background: "#FFFFFF"
 	property color foreground: "#F7F7F7"
 	property color item: "black"
-	property color text: "#111111"
 	property color textFore: "black"
 	property color textOver: "black"
 	property color overlay: "white"
@@ -39,7 +38,6 @@ QtObject {
 			
 			background = Theme.palette.normal.background;
 			item = Theme.palette.normal.baseText;
-			text = Theme.palette.normal.backgroundText;
 			textFore = Theme.palette.normal.foregroundText;
 			overlay = Theme.palette.normal.overlay;
 			shadow = Theme.palette.normal.base;

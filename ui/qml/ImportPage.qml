@@ -81,12 +81,11 @@ Page {
 					anchors.right: parent.right
 					anchors.verticalCenter: parent.verticalCenter
 					spacing: scaling.dp(5)
-					Text {
+					Label {
 						text: model.item.url.toString().split("/").pop()
-						color: colors.text
 						font.pointSize: 16
 					}
-					Text {
+					Label {
 						text: {
 							switch (model.state) {
 								case importState.new:
@@ -101,7 +100,6 @@ Page {
 									return gettext.tr("Error: %1").arg(model.error.split("\n\n")[0])
 							}
 						}
-						color: colors.text
 						font.pointSize: 13
 					}
 				}

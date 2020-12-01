@@ -23,7 +23,7 @@ Rectangle {
 
     signal triggered
 
-    Text {
+    Label {
         id: actionLabel
         text: swipeControl.actionText
         anchors {

@@ -80,7 +80,6 @@ Page {
 					Label {
 						text: gettext.tr("Contents")
 						font.pixelSize: scaling.dp(27)
-						color: colors.text
 						elide: Label.ElideRight
 						horizontalAlignment: Qt.AlignHCenter
 						verticalAlignment: Qt.AlignVCenter
@@ -175,7 +174,7 @@ Page {
 					pagesLoader.slider.value = pdf_pageNumber;
 				}
 				
-				Text {
+				Label {
 					width: parent.width
 					horizontalAlignment: Text.AlignHCenter
 					text: gettext.tr("Page") + " " + pagesLoader.slider.value + "/" + (pdf_numberOfPages)
@@ -196,7 +195,7 @@ Page {
 						rotation: -90
 						wrap: false
 						model: pagesTumblerModel
-						delegate: Text {
+						delegate: Label {
 							text: model.num
 							rotation: 90
 							color: colors.textFore
@@ -237,7 +236,7 @@ Page {
 					}
 					snapMode: Slider.SnapAlways
 				}
-				Text {
+				Label {
 					width: scaling.dp(50)
 					text: Math.floor(100 * pageSlider.value / pdf_numberOfPages) + "%"
 					color: colors.textFore
@@ -680,7 +679,6 @@ Page {
 				Label {
 					text: gettext.tr("Book Settings")
 					font.pixelSize: scaling.dp(27)
-					color: colors.text
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
@@ -761,7 +759,7 @@ Page {
 					delegate: ItemDelegate {
 						highlighted: colorSelector.highlightedIndex === index
 						width: parent.width
-						contentItem: Text {
+						contentItem: Label {
 							text: stext
 							color: comboboxfore
 						}
@@ -796,7 +794,7 @@ Page {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
 					visible: !server.reader.pictureBook
-					Text {
+					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Font Scaling")
 						color: colors.textFore
@@ -821,7 +819,7 @@ Page {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
 					visible: !server.reader.pictureBook
-					Text {
+					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Line Height")
 						color: colors.textFore
@@ -846,7 +844,7 @@ Page {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
 					visible: !server.reader.pictureBook
-					Text {
+					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Margins")
 						color: colors.textFore

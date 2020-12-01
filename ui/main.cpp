@@ -60,10 +60,7 @@ int main(int argc, char *argv[])
 	
 	auto styles = QQuickStyle::availableStyles();
 	if(styles.contains("Suru")) QQuickStyle::setStyle("Suru");
-	else if(styles.contains("Fusion")) QQuickStyle::setStyle("Fusion");
 	else if(styles.contains("Material")) QQuickStyle::setStyle("Material");
-	else if(styles.contains("Universal")) QQuickStyle::setStyle("Universal");
-	
 	
 	Gettext gt;
 	Units un;

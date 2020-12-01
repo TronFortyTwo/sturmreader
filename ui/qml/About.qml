@@ -65,7 +65,7 @@ Page {
 				source: Qt.resolvedUrl("../sturmreader.svg")
 			}
 			
-			Text {
+			Label {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
 				font.pointSize: 30
@@ -73,40 +73,35 @@ Page {
 				horizontalAlignment: Text.AlignHCenter
 				wrapMode: Text.WordWrap
 				text: gettext.tr("Sturm Reader")
-				color: colors.text
 			}
 			
-			Text {
+			Label {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
-				color: colors.text
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				text: gettext.tr("Sturm (und Drang) Reader is an open source Ebook reader.<br>Community is what makes this app possible, so pull requests, translations, feedback and donations are very appreciated :)<br>This app Is a fork of the Beru app by Rshcroll, Thanks!<br>This app stands on the shoulder of various Open Source projects, see source code for licensing details");
 			}
 			
-			Text {
+			Label {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
-				color: colors.text
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				text: gettext.tr("A big thanks to all translators, beta-testers, and users<br/>in general who improve this app with their work and feedback")
 			}
 			
-			Text {
+			Label {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
-				color: colors.text
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				text: gettext.tr("A special thanks to Joan Cibersheep for the new logo")
 			}
 					
-			Text {
+			Label {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
-				color: colors.text
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				text: gettext.tr("A special thanks to Jeroen for support and a test device")
@@ -143,20 +138,18 @@ Page {
 				onClicked: Qt.openUrlExternally("https://paypal.me/emanuele42");
 			}
 			
-			Text {
+			Label {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
-				color: colors.text
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				text: "Copyright (C) 2018-2020 Emanuele Sorce (emanuele.sorce@hotmail.com)"
 
 			}
 				
-			Text {
+			Label {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
-				color: colors.text
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				text: "Copyright (C) 2015 Robert Schroll"

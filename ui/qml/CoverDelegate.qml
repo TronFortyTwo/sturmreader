@@ -42,7 +42,7 @@ Item {
 			sourceSize.height: height
 			asynchronous: true
 
-			Text {
+			Label {
 				x: ((model.cover == "ZZZerror") ? 0.09375 : 0.125)*parent.width
 				y: 0.0625*parent.width
 				width: 0.8125*parent.width
@@ -59,7 +59,7 @@ Item {
 				text: model.title
 			}
 
-			Text {
+			Label {
 				x: ((model.cover == "ZZZerror") ? 0.09375 : 0.125)*parent.width
 				y: parent.height/2 + 0.0625*parent.width
 				width: 0.8125*parent.width
