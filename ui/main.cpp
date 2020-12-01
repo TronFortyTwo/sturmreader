@@ -32,6 +32,7 @@
 
 #include "gettext.h"
 #include "units.h"
+#include "stylesetting.h"
 #include "fontlister.h"
 #include "filesystem.h"
 #include "qhttpserver/qhttpserver.h"
@@ -55,19 +56,21 @@ int main(int argc, char *argv[])
 	QString app_name = "sturmreader.emanuelesorce";
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName(app_name);
-	//app->setOrganizationName(QString("emanuelesorce"));
-	//app->setOrganizationDomain(QString("emanuelesorce.com"));
 	
-	auto styles = QQuickStyle::availableStyles();
-	if(styles.contains("Suru")) QQuickStyle::setStyle("Suru");
-	else if(styles.contains("Material")) QQuickStyle::setStyle("Material");
-	
+	// styling
+	StyleSetting styleSetting;
+	// localization
 	Gettext gt;
+	// device indipendent pixels
 	Units un;
+	// Qt available fonts
 	FontLister fl;
+	// file operations
 	FileSystem fs;
+	// http server
 	QHttpServer http_server;
 	FileServer file_server;
+	// book parsers
 	EpubReader epub;
 	PDFReader pdf;
 	CBZReader cbz;
@@ -85,6 +88,7 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("epubreader", &epub);
 	engine.rootContext()->setContextProperty("pdfreader", &pdf);
 	engine.rootContext()->setContextProperty("cbzreader", &cbz);
+	engine.rootContext()->setContextProperty("styleSetting", &styleSetting);
 	
 	// Test if we are on ubuntu touch
 	bool ubuntu_touch = false;

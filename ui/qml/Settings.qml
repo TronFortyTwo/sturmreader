@@ -161,6 +161,44 @@ Page {
 				onClicked: appsettings.legacypdf = checked
 				Component.onCompleted: checked = appsettings.legacypdf
 			}
+			
+			ItemDelegate {
+				width: parent.width
+				contentItem: RowLayout {
+					Column {
+						Label {
+							text: gettext.tr("Application Style")
+							elide: Text.ElideRight
+						}
+						Label {
+							id: restartNotice
+							text: gettext.tr("Requires a restart to take effect")
+							elide: Text.ElideRight
+							color: colors.negative
+						}
+					}
+					ComboBox {
+						model: ListModel{
+							id: stylesModel
+						}
+						onCurrentIndexChanged: {
+							styleSetting.setStyle(stylesModel.get(currentIndex).name);
+						}
+						
+						Component.onCompleted: {
+							var styles = styleSetting.availableStyles()
+							var currentStyle = styleSetting.currentStyle()
+							
+							for(var i=0; i<styles.length; i++)
+								stylesModel.append({"name": styles[i]})
+							
+							for(var i=0; i<count; i++)
+								if(stylesModel.get(i).name == currentStyle)
+									currentIndex = i
+						}
+					}
+				}
+			}
 		}
 	}
 }

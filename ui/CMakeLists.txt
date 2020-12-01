@@ -64,6 +64,7 @@ add_executable(sturmreader
 	fontlister.cpp
 	filesystem.cpp
 	mimetype.cpp
+	stylesetting.cpp
 	qhttpserver/qhttpserver.cpp
 	qhttpserver/fileserver.cpp
 	qhttpserver/qhttpconnection.cpp
