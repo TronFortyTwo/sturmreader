@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-12-01 23:33+0000\n"
+"POT-Creation-Date: 2020-12-01 23:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,7 +68,7 @@ msgid "Application Style"
 msgstr ""
 
 #: ui/qml/Settings.qml:175
-msgid "Requires restarting to take effect"
+msgid "Requires a restart to take effect"
 msgstr ""
 
 #: ui/qml/ImporterUT.qml:51

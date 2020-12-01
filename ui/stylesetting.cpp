@@ -20,7 +20,7 @@
 
 StyleSetting::StyleSetting():
 	field_name("qtquick2_style"),
-	store()
+	store("sturmreader.emanuelesorce", "sturmreader.emanuelesorce")
 {
 	auto styleList = availableStyles();
 	
