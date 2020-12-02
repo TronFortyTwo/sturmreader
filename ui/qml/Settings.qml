@@ -167,8 +167,9 @@ Page {
 				contentItem: RowLayout {
 					Column {
 						Label {
-							text: gettext.tr("Application Style")
+							text: gettext.tr("Application Style (experimental)")
 							elide: Text.ElideRight
+							Layout.fillWidth: true
 						}
 						Label {
 							id: restartNotice
@@ -178,6 +179,7 @@ Page {
 						}
 					}
 					ComboBox {
+						Layout.alignment: Qt.AlignRight
 						model: ListModel{
 							id: stylesModel
 						}
