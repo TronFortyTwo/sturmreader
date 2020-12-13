@@ -72,12 +72,12 @@ ApplicationWindow {
 			if(cwidth)
 				mainView.width = cwidth;
 			else
-				mainView.width = scaling.dp(800);
+				mainView.width = 800;
 			
 			if(cheight)
 				mainView.height = cheight;
 			else
-				mainView.height = scaling.dp(600);
+				mainView.height = 600;
 			
 			if(cx) mainView.x = cx;
 			if(cy) mainView.y = cy;
