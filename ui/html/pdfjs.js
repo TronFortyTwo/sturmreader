@@ -172,14 +172,16 @@ function tapPageTurn(ev) {
 		slow_canvas.style.left = "-100%";
 	} else {
 		moveToPageRelative(-1);
-// 		var fast_canvas = document.getElementById('fast-canvas');
-// 		var slow_canvas = document.getElementById('slow-canvas');
-// 		fast_canvas.style.left = "-100%";
-// 		slow_canvas.style.left = "-100%";
-// 		fast_canvas.classList.add("transitionPageOut");
-// 		slow_canvas.classList.add("transitionPageOut");
-// 		fast_canvas.style.left = "0%";
-// 		slow_canvas.style.left = "0%";
+		var fast_canvas = document.getElementById('fast-canvas');
+		var slow_canvas = document.getElementById('slow-canvas');
+		fast_canvas.style.left = "-100%";
+		slow_canvas.style.left = "-100%";
+		setTimeout( () => {
+			fast_canvas.classList.add("transitionPageOut");
+			slow_canvas.classList.add("transitionPageOut");
+			fast_canvas.style.left = "0px";
+			slow_canvas.style.left = "0px";
+		}, 50);
 	}
 }
 
