@@ -21,7 +21,7 @@ the GPL. See the file COPYING for full details.
 	
 	.transitionPageOut {
 		transition-property: left;
-		transition-duration: 1000ms;
+		transition-duration: 750ms;
 		transition-delay: 0s;
 	}
 	
@@ -36,6 +36,11 @@ the GPL. See the file COPYING for full details.
 		position: absolute;
 		left: 0px;
 	}
+	
+	.cache_element {
+		visibility: "hidden"
+	}
+	
 	body {
 		margin: 0px;
 	}
@@ -48,6 +53,8 @@ the GPL. See the file COPYING for full details.
 		<canvas class="page" id="fast-canvas"></canvas>
 		<canvas class="page" id="slow-canvas"></canvas>
 		<canvas class="page" id="back-canvas"></canvas>
+		
+		<canvas class="page cache_element" id="next-page-cache"></canvas>
 	</div>
 </body>
 

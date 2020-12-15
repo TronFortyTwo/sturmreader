@@ -88,7 +88,7 @@ function centerCanvas(){
 }
 
 function renderPage (num, fast) {
-    doc.getPage(num).then(
+	doc.getPage(num).then(
 		function(page) {
 		
 			var target_width = page_width;
@@ -96,7 +96,7 @@ function renderPage (num, fast) {
 			var scale = target_width / original_viewport.width;
 			
 			if(fast)
-				scale = Math.max(2, scale * 0.3);
+				scale = 1.5 //Math.max(1.5, scale * 0.3);
 			else
 				// 5 is quite a lot anyway, 3 is minimum 'high quality'
 				scale = Math.min(5, Math.max(3, scale));
@@ -167,36 +167,31 @@ function tapPageTurn(ev) {
 	let fast_canvas = document.getElementById('fast-canvas');
 	let slow_canvas = document.getElementById('slow-canvas');
 	let back_canvas = document.getElementById('back-canvas');
+	back_canvas.width = slow_canvas.width;
+	back_canvas.height = slow_canvas.height;
+	back_canvas.style.top = slow_canvas.style.top;
+	back_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
 	
 	if(ev.center.x > window.innerWidth * 0.4) {
+		// slide back canvas to simulate page turning
+		back_canvas.style.zIndex = "99";
+		
 		moveToPageRelative(1);
 		
-		// slide back canvas to simulate page turning
-		back_canvas.width = slow_canvas.width;
-		back_canvas.height = slow_canvas.height;
-		back_canvas.style.top = slow_canvas.style.top;
-		back_canvas.style.zIndex = "99";
-		back_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
 		back_canvas.classList.add("transitionPageOut");
 		back_canvas.style.left = "-100%";
 	} else {
-		moveToPageRelative(-1);
-		
-		// draw active canvas on background canvas
-		let background_context = back_canvas.getContext('2d');
-		if(fast_canvas.style.zIndex == "1")
-			background_context.drawImage(fast_canvas, 0, 0);
-		else
-			background_context.drawImage(slow_canvas, 0, 0);
-		
 		fast_canvas.style.left = "-100%";
 		slow_canvas.style.left = "-100%";
+		
+		moveToPageRelative(-1);
+		
 		setTimeout( () => {
 			fast_canvas.classList.add("transitionPageOut");
 			slow_canvas.classList.add("transitionPageOut");
 			fast_canvas.style.left = "0px";
 			slow_canvas.style.left = "0px";
-		}, 50);
+		}, 42);
 	}
 }
 
@@ -242,9 +237,12 @@ function transitionPageTurned() {
 }
 
 function transitionBackFinished() {
-	document.getElementById("back-canvas").classList.remove("transitionPageOut");
-	document.getElementById("back-canvas").style.zIndex = "-99";
-	document.getElementById("back-canvas").style.left = "0px";
+	// reset canvas for next time
+	let canvas = document.getElementById("back-canvas");
+	canvas.classList.remove("transitionPageOut");
+	canvas.style.zIndex = "-99";
+	canvas.style.left = "0px";
+	canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
 window.onload = function() {
