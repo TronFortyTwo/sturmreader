@@ -1,13 +1,25 @@
+// current page
 var pageNumber = 1;
+// if page is rendering
 var page_is_rendering = false;
+// if another page is pending for rendering
 var pageNumIsPending = null;
+// width of the page, always updated
 var page_width = window.innerWidth;
+// Aspet ratio of the book currently loaded
 var book_aspect_ratio = 1;
+// true until the first render is performed
 var first_render = true;
+// hammer manager
 var mc = undefined;
+// pdfjs document
 var doc = undefined;
+// outline points
 var outline = [];
+// total number of pages in the book
 var number_of_pages = 0;
+// scale to use for rendering when doing it the fast way
+var fast_scale = 1.5;
 
 // BOOK PAGE API
 
@@ -56,6 +68,12 @@ var styleManager = {
 }
 // END BOOK PAGE CALLS
 
+// this function clears the content of the canvas with name given
+function canvasClear(name) {
+	let cnv = document.getElementById(name);
+	cnv.getContext('2d').clearRect(0, 0, cnv.width, cnv.height);
+}
+
 function slowForeground(){
 	document.getElementById("slow-canvas").style.zIndex = "1";
 	document.getElementById("fast-canvas").style.zIndex = "0";
@@ -69,93 +87,89 @@ function fastForeground(){
 function centerCanvas(){
 	var slow_canvas = document.getElementById("slow-canvas");
 	var fast_canvas = document.getElementById("fast-canvas");
-	var back_canvas = document.getElementById("back-canvas");
+	var move_canvas = document.getElementById("move-canvas");
 	if(window.innerWidth / window.innerHeight < book_aspect_ratio) {
 		slow_canvas.style.top = "50%";
 		slow_canvas.style.transform = "translateY(-50%)";
 		fast_canvas.style.top = "50%";
 		fast_canvas.style.transform = "translateY(-50%)";
-		back_canvas.style.top = "50%";
-		back_canvas.style.transform = "translateY(-50%)";
+		move_canvas.style.top = "50%";
+		move_canvas.style.transform = "translateY(-50%)";
 	} else {
 		slow_canvas.style.top = "0px";
 		slow_canvas.style.transform = "translateY(-0px)";
 		fast_canvas.style.top = "0px";
 		fast_canvas.style.transform = "translateY(-0px)";
-		back_canvas.style.top = "0px";
-		back_canvas.style.transform = "translateY(-0px)";
+		move_canvas.style.top = "0px";
+		move_canvas.style.transform = "translateY(-0px)";
 	}
 }
 
-function renderPage (num, fast) {
-	doc.getPage(num).then(
+// renders the page at the given scale in the given canvas, you also give success and fail callbacks
+// note: scale -1 means automatic
+function renderPage(target_page, scale, canvas_name, success, fail) {
+	doc.getPage(target_page).then(
 		function(page) {
-		
-			var target_width = page_width;
-			var original_viewport = page.getViewport({ scale: 1 });
-			var scale = target_width / original_viewport.width;
-			
-			if(fast)
-				scale = 1.5 //Math.max(1.5, scale * 0.3);
-			else
-				// 5 is quite a lot anyway, 3 is minimum 'high quality'
-				scale = Math.min(5, Math.max(3, scale));
-			
-			var viewport = page.getViewport({ scale: scale });
-
-			var canvas = document.getElementById(fast ? 'fast-canvas' : 'slow-canvas');
-			var context = canvas.getContext('2d');
+			var sane_scale = scale;
+			if(scale == -1) sane_scale = Math.min(5, Math.max(3, page_width / page.getViewport({scale: 1}).width));
+			var viewport = page.getViewport({ scale: sane_scale });
+			if(first_render) book_aspect_ratio = viewport.width / viewport.height;
+			var canvas = document.getElementById(canvas_name);
 			canvas.height = viewport.height;
 			canvas.width = viewport.width;
-			
-			book_aspect_ratio = viewport.width / viewport.height;
-
 			var renderContext = {
-				canvasContext: context,
+				canvasContext: canvas.getContext('2d'),
 				viewport: viewport,
 				enableWebGL: true
 			}
-			pageNumber = num;
-
-			page.render(renderContext).promise.then(
-				function(){
-					// set up canvases
-					if(fast) fastForeground()
-					else slowForeground()
-					centerCanvas();
-					
-					if(first_render) {
-						console.log("Ready")
-						first_render = false;
-					}
-					
-					// avoid double status updates, since each page is rendered twice
-					if(fast)
-						console.log("status_requested");
-					
-					// if there is another page to render, render it
-					if (pageNumIsPending !== null) {
-						var temp_next_page = pageNumIsPending
-						pageNumIsPending = null;
-						renderPage(temp_next_page, true);
-					}
-					// or if this was the fast render, render it better
-					else if(fast)
-						renderPage(num, false);
-				},
-				(reason) => console.log("# page rendering failed " + reason)
-			)
-		},
-		(reason) => console.log("# page loading failed " + reason)
+			page.render(renderContext).promise.then(success, fail);
+		}, fail
 	)
 }
+
+// renders previous and next page (fast) in cache canvases
+function updateCache() {
+	// clear old cache
+	canvasClear("next-cache-canvas");
+	canvasClear("prev-cache-canvas");
+	
+	// find the pages to cache (next, previous) (relative values)
+	if(pageNumber > 1)
+		renderPage(pageNumber-1, fast_scale, "prev-cache-canvas", ()=>{}, (reason)=>console.log("# Failed to render cache: " + reason));
+	if(pageNumber < number_of_pages)
+		renderPage(pageNumber+1, fast_scale, "next-cache-canvas", ()=>{}, (reason)=>console.log("# Failed to render cache: " + reason));
+}
+
+// callback after rendering a page
+function renderCallback() {
+	// set up canvases
+	slowForeground();
+	centerCanvas();
+	
+	if(first_render) {
+		first_render = false;
+		console.log("Ready");
+	}
+	console.log("status_requested");
+	
+	// if there is another page to render, render it
+	if (pageNumIsPending !== null) {
+		var temp_next_page = pageNumIsPending;
+		pageNumIsPending = null;
+		pageNumber = temp_next_page;
+		renderPage(temp_next_page, -1, 'slow-canvas', renderCallback, renderFailCallback);
+	}
+	updateCache();
+}
+function renderFailCallback(reason) { console.log("page rendering failed: " + reason); }
 
 function queueRenderPage (num) {
     if (page_is_rendering) {
         pageNumIsPending = num;
     } else {
 		page_is_rendering = true;
-        renderPage(num, true);
+		pageNumber = num;
+        renderPage(num, -1, 'slow-canvas', renderCallback, renderFailCallback);
 		page_is_rendering = false;
     }
 };
@@ -166,20 +180,28 @@ function tapPageTurn(ev) {
 
 	let fast_canvas = document.getElementById('fast-canvas');
 	let slow_canvas = document.getElementById('slow-canvas');
-	let back_canvas = document.getElementById('back-canvas');
-	back_canvas.width = slow_canvas.width;
-	back_canvas.height = slow_canvas.height;
-	back_canvas.style.top = slow_canvas.style.top;
-	back_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+	let move_canvas = document.getElementById('move-canvas');
+	let next_canvas = document.getElementById('next-cache-canvas');
+	let prev_canvas = document.getElementById('prev-cache-canvas');
 	
 	if(ev.center.x > window.innerWidth * 0.4) {
-		// slide back canvas to simulate page turning
-		back_canvas.style.zIndex = "99";
+		next_canvas.width = slow_canvas.width;
+		next_canvas.height = slow_canvas.height;
+		fast_canvas.width = slow_canvas.width;
+		fast_canvas.height = slow_canvas.height;
+		fast_canvas.style.top = slow_canvas.style.top;
+		fast_canvas.getContext('2d').drawImage(next_canvas, 0, 0);
+		
+		fastForeground();
+		
+		move_canvas.width = slow_canvas.width;
+		move_canvas.height = slow_canvas.height;
+		move_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+		move_canvas.style.zIndex = 99;
+		move_canvas.classList.add("transitionPageOut");
+		move_canvas.style.left = "-100%";
 		
 		moveToPageRelative(1);
-		
-		back_canvas.classList.add("transitionPageOut");
-		back_canvas.style.left = "-100%";
 	} else {
 		fast_canvas.style.left = "-100%";
 		slow_canvas.style.left = "-100%";
@@ -230,25 +252,20 @@ async function parseOutlineNodeArray(ol, depth) {
 }
 
 function transitionPageTurned() {
-	document.getElementById("slow-canvas").classList.remove("transitionPageOut");
-	document.getElementById("fast-canvas").classList.remove("transitionPageOut");
-	document.getElementById("slow-canvas").style.left = "0px";
-	document.getElementById("fast-canvas").style.left = "0px";
-}
-
-function transitionBackFinished() {
-	// reset canvas for next time
-	let canvas = document.getElementById("back-canvas");
-	canvas.classList.remove("transitionPageOut");
-	canvas.style.zIndex = "-99";
-	canvas.style.left = "0px";
-	canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+	let move_canvas = document.getElementById("move-canvas");
+	move_canvas.classList.remove("transitionPageOut");
+	move_canvas.style.zIndex = "-99";
+	move_canvas.style.left = "0px";
+	canvasClear("fast-canvas");
+	canvasClear("move-canvas");
 }
 
 window.onload = function() {
 	
-	// initalize background canvas
-	document.getElementById("back-canvas").style.zIndex = "-99";
+	// initalize canvas
+	document.getElementById("next-cache-canvas").style.visibility = "hidden";
+	document.getElementById("prev-cache-canvas").style.visibility = "hidden";
+	document.getElementById("move-canvas").style.zIndex = "-99";
 	
 	// initialize gestures
 	mc = new Hammer.Manager(document.getElementById("container"));
@@ -260,8 +277,7 @@ window.onload = function() {
 	mc.on("tap press", (ev) => tapPageTurn(ev) );
 	
 	// initialize event listeners
-	document.getElementById("slow-canvas").addEventListener("transitionend", transitionPageTurned);
-	document.getElementById("back-canvas").addEventListener("transitionend", transitionBackFinished);
+	document.getElementById("move-canvas").addEventListener("transitionend", transitionPageTurned);
 	
 	// load saved page or open from the beginning
 	if(SAVED_PLACE && SAVED_PLACE.pageNumber)
@@ -283,14 +299,11 @@ window.onload = function() {
 				
 				parseOutlineNodeArray(ol, 0).then( () => console.log("setContent " + JSON.stringify(outline)), ()=> console.log("# Error 414234") );
 				
-			}, (reason) => console.log("# cannot fetch outline") );
+			}, (reason) => console.log("# cannot fetch outline: " + reason) );
 			
 			// render
 			queueRenderPage(pageNumber);
-		},
-		function(reason){
-			console.log("# file loading failed " + reason)
-		}
+		}, (reason) => console.log("# file loading failed: " + reason)
 	);
 }
 window.onresize = function() {

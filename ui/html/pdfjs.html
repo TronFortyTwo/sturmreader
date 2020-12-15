@@ -23,6 +23,7 @@ the GPL. See the file COPYING for full details.
 		transition-property: left;
 		transition-duration: 750ms;
 		transition-delay: 0s;
+		transition-timing-function: ease-in;
 	}
 	
 	.page {
@@ -37,10 +38,6 @@ the GPL. See the file COPYING for full details.
 		left: 0px;
 	}
 	
-	.cache_element {
-		visibility: "hidden"
-	}
-	
 	body {
 		margin: 0px;
 	}
@@ -52,9 +49,10 @@ the GPL. See the file COPYING for full details.
 	<div id="container">
 		<canvas class="page" id="fast-canvas"></canvas>
 		<canvas class="page" id="slow-canvas"></canvas>
-		<canvas class="page" id="back-canvas"></canvas>
+		<canvas class="page" id="move-canvas"></canvas>
 		
-		<canvas class="page cache_element" id="next-page-cache"></canvas>
+		<canvas class="page" id="next-cache-canvas"></canvas>
+		<canvas class="page" id="prev-cache-canvas"></canvas>
 	</div>
 </body>
 
