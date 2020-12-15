@@ -6,7 +6,7 @@ var book_aspect_ratio = 1;
 var first_render = true;
 var mc = undefined;
 var doc = undefined;
-var outline = undefined;
+var outline = [];
 var number_of_pages = 0;
 
 // BOOK PAGE API
@@ -57,28 +57,33 @@ var styleManager = {
 // END BOOK PAGE CALLS
 
 function slowForeground(){
-	document.getElementById("slow-canvas").style.visibility = "visible";
-	document.getElementById("fast-canvas").style.visibility = "hidden";
+	document.getElementById("slow-canvas").style.zIndex = "1";
+	document.getElementById("fast-canvas").style.zIndex = "0";
 }
 
 function fastForeground(){
-	document.getElementById("slow-canvas").style.visibility = "hidden";
-	document.getElementById("fast-canvas").style.visibility = "visible";
+	document.getElementById("slow-canvas").style.zIndex = "0";
+	document.getElementById("fast-canvas").style.zIndex = "1";
 }
 
 function centerCanvas(){
 	var slow_canvas = document.getElementById("slow-canvas");
 	var fast_canvas = document.getElementById("fast-canvas");
+	var back_canvas = document.getElementById("back-canvas");
 	if(window.innerWidth / window.innerHeight < book_aspect_ratio) {
 		slow_canvas.style.top = "50%";
 		slow_canvas.style.transform = "translateY(-50%)";
 		fast_canvas.style.top = "50%";
 		fast_canvas.style.transform = "translateY(-50%)";
+		back_canvas.style.top = "50%";
+		back_canvas.style.transform = "translateY(-50%)";
 	} else {
 		slow_canvas.style.top = "0px";
 		slow_canvas.style.transform = "translateY(-0px)";
 		fast_canvas.style.top = "0px";
 		fast_canvas.style.transform = "translateY(-0px)";
+		back_canvas.style.top = "0px";
+		back_canvas.style.transform = "translateY(-0px)";
 	}
 }
 
@@ -93,8 +98,8 @@ function renderPage (num, fast) {
 			if(fast)
 				scale = Math.max(2, scale * 0.3);
 			else
-				// 5 is quite a lot anyway
-				scale = Math.min(5, scale);
+				// 5 is quite a lot anyway, 3 is minimum 'high quality'
+				scale = Math.min(5, Math.max(3, scale));
 			
 			var viewport = page.getViewport({ scale: scale });
 
@@ -156,24 +161,34 @@ function queueRenderPage (num) {
 };
 
 function tapPageTurn(ev) {
-
 	// do not move if zoomed
-	if(window.visualViewport.scale > 1.001)
-		return;
+	if(window.visualViewport.scale > 1.001) return;
+
+	let fast_canvas = document.getElementById('fast-canvas');
+	let slow_canvas = document.getElementById('slow-canvas');
+	let back_canvas = document.getElementById('back-canvas');
 	
 	if(ev.center.x > window.innerWidth * 0.4) {
 		moveToPageRelative(1);
 		
-		var fast_canvas = document.getElementById('fast-canvas');
-		var slow_canvas = document.getElementById('slow-canvas');
-		fast_canvas.classList.add("transitionPageOut");
-		slow_canvas.classList.add("transitionPageOut");
-		fast_canvas.style.left = "-100%";
-		slow_canvas.style.left = "-100%";
+		// slide back canvas to simulate page turning
+		back_canvas.width = slow_canvas.width;
+		back_canvas.height = slow_canvas.height;
+		back_canvas.style.top = slow_canvas.style.top;
+		back_canvas.style.zIndex = "99";
+		back_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+		back_canvas.classList.add("transitionPageOut");
+		back_canvas.style.left = "-100%";
 	} else {
 		moveToPageRelative(-1);
-		var fast_canvas = document.getElementById('fast-canvas');
-		var slow_canvas = document.getElementById('slow-canvas');
+		
+		// draw active canvas on background canvas
+		let background_context = back_canvas.getContext('2d');
+		if(fast_canvas.style.zIndex == "1")
+			background_context.drawImage(fast_canvas, 0, 0);
+		else
+			background_context.drawImage(slow_canvas, 0, 0);
+		
 		fast_canvas.style.left = "-100%";
 		slow_canvas.style.left = "-100%";
 		setTimeout( () => {
@@ -226,26 +241,29 @@ function transitionPageTurned() {
 	document.getElementById("fast-canvas").style.left = "0px";
 }
 
+function transitionBackFinished() {
+	document.getElementById("back-canvas").classList.remove("transitionPageOut");
+	document.getElementById("back-canvas").style.zIndex = "-99";
+	document.getElementById("back-canvas").style.left = "0px";
+}
+
 window.onload = function() {
 	
-	// set the background
-	document.getElementById("next-canvas").style.zIndex = -1;
-	
-	outline = [];
-	
-	mc = new Hammer.Manager(document.getElementById("container"));
+	// initalize background canvas
+	document.getElementById("back-canvas").style.zIndex = "-99";
 	
 	// initialize gestures
+	mc = new Hammer.Manager(document.getElementById("container"));
 	var Tap = new Hammer.Tap();
 	var Press = new Hammer.Press();
-	
 	// Add the recognizer to the manager
 	mc.add(Press);
 	mc.add(Tap);
 	mc.on("tap press", (ev) => tapPageTurn(ev) );
 	
 	// initialize event listeners
-	document.getElementById("slow-canvas").addEventListener("transitionend", transitionPageTurned)
+	document.getElementById("slow-canvas").addEventListener("transitionend", transitionPageTurned);
+	document.getElementById("back-canvas").addEventListener("transitionend", transitionBackFinished);
 	
 	// load saved page or open from the beginning
 	if(SAVED_PLACE && SAVED_PLACE.pageNumber)
