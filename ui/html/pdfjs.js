@@ -47,7 +47,69 @@ function moveToPageRelative (num) {
 	if(target != pageNumber) {
 		if(Math.abs(target - pageNumber) > 1)
 			console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
-	
+		
+		// animation
+		let fast_canvas = document.getElementById('fast-canvas');
+		let slow_canvas = document.getElementById('slow-canvas');
+		let move_canvas = document.getElementById('move-canvas');
+			
+		if(num == 1) {
+			let next_canvas = document.getElementById('next-cache-canvas');
+			
+			next_canvas.width = slow_canvas.width;
+			next_canvas.height = slow_canvas.height;
+			
+			fast_canvas.width = slow_canvas.width;
+			fast_canvas.height = slow_canvas.height;
+			fast_canvas.style.top = slow_canvas.style.top;
+			fast_canvas.style.width = slow_canvas.style.width;
+			fast_canvas.style.height = slow_canvas.style.height;
+			fast_canvas.getContext('2d').drawImage(next_canvas, 0, 0);
+			
+			fastForeground();
+			
+			move_canvas.width = slow_canvas.width;
+			move_canvas.height = slow_canvas.height;
+			move_canvas.style.zIndex = 99;
+			move_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+			move_canvas.classList.add("transitionPageOut");
+			move_canvas.style.left = "-100%";
+		} else if (num == -1) {
+			let prev_canvas = document.getElementById('prev-cache-canvas');
+		
+			prev_canvas.width = slow_canvas.width;
+			prev_canvas.height = slow_canvas.height;
+			
+			move_canvas.width = slow_canvas.width;
+			move_canvas.height = slow_canvas.height;
+			move_canvas.style.top = slow_canvas.style.top;
+			move_canvas.style.width = slow_canvas.style.width;
+			move_canvas.style.height = slow_canvas.style.height;
+			move_canvas.style.left = "-100%";
+			move_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
+			move_canvas.style.zIndex = "99";
+			setTimeout (() => {
+				move_canvas.classList.add("transitionPageOut");
+				move_canvas.style.left = "0px";
+			}, 42);
+			
+			//fast_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
+			//fastForeground();
+			
+			
+			/*
+			fast_canvas.style.left = "-100%";
+			slow_canvas.style.left = "-100%";
+		
+			setTimeout( () => {
+				fast_canvas.classList.add("transitionPageOut");
+				slow_canvas.classList.add("transitionPageOut");
+				fast_canvas.style.left = "0px";
+				slow_canvas.style.left = "0px";
+			}, 42);
+			*/
+		}
+		
 		queueRenderPage(target);
 	}
 }
@@ -146,11 +208,14 @@ function renderCallback() {
 	slowForeground();
 	centerCanvas();
 	
+	// Communicate with QML stuff
 	if(first_render) {
 		first_render = false;
 		console.log("Ready");
 	}
 	console.log("status_requested");
+	
+	updateCache();
 	
 	// if there is another page to render, render it
 	if (pageNumIsPending !== null) {
@@ -159,7 +224,6 @@ function renderCallback() {
 		pageNumber = temp_next_page;
 		renderPage(temp_next_page, -1, 'slow-canvas', renderCallback, renderFailCallback);
 	}
-	updateCache();
 }
 function renderFailCallback(reason) { console.log("page rendering failed: " + reason); }
 
@@ -177,44 +241,11 @@ function queueRenderPage (num) {
 function tapPageTurn(ev) {
 	// do not move if zoomed
 	if(window.visualViewport.scale > 1.001) return;
-
-	let fast_canvas = document.getElementById('fast-canvas');
-	let slow_canvas = document.getElementById('slow-canvas');
-	let move_canvas = document.getElementById('move-canvas');
-	let next_canvas = document.getElementById('next-cache-canvas');
-	let prev_canvas = document.getElementById('prev-cache-canvas');
 	
-	if(ev.center.x > window.innerWidth * 0.4) {
-		next_canvas.width = slow_canvas.width;
-		next_canvas.height = slow_canvas.height;
-		fast_canvas.width = slow_canvas.width;
-		fast_canvas.height = slow_canvas.height;
-		fast_canvas.style.top = slow_canvas.style.top;
-		fast_canvas.getContext('2d').drawImage(next_canvas, 0, 0);
-		
-		fastForeground();
-		
-		move_canvas.width = slow_canvas.width;
-		move_canvas.height = slow_canvas.height;
-		move_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
-		move_canvas.style.zIndex = 99;
-		move_canvas.classList.add("transitionPageOut");
-		move_canvas.style.left = "-100%";
-		
+	if(ev.center.x > window.innerWidth * 0.4)
 		moveToPageRelative(1);
-	} else {
-		fast_canvas.style.left = "-100%";
-		slow_canvas.style.left = "-100%";
-		
+	else
 		moveToPageRelative(-1);
-		
-		setTimeout( () => {
-			fast_canvas.classList.add("transitionPageOut");
-			slow_canvas.classList.add("transitionPageOut");
-			fast_canvas.style.left = "0px";
-			slow_canvas.style.left = "0px";
-		}, 42);
-	}
 }
 
 async function parseOutlineNode(ol, depth) {
