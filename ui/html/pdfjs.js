@@ -87,27 +87,21 @@ function moveToPageRelative (num) {
 			move_canvas.style.height = slow_canvas.style.height;
 			move_canvas.style.left = "-100%";
 			move_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
-			move_canvas.style.zIndex = "99";
+			move_canvas.style.zIndex = 99;
+			
+			fast_canvas.width = slow_canvas.width;
+			fast_canvas.height = slow_canvas.height;
+			fast_canvas.style.top = slow_canvas.style.top;
+			fast_canvas.style.width = slow_canvas.style.width;
+			fast_canvas.style.height = slow_canvas.style.height;
+			fast_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+			
+			fastForeground();
+			
+			move_canvas.classList.add("transitionPageOut");
 			setTimeout (() => {
-				move_canvas.classList.add("transitionPageOut");
-				move_canvas.style.left = "0px";
+				move_canvas.style.left = "0%";
 			}, 42);
-			
-			//fast_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
-			//fastForeground();
-			
-			
-			/*
-			fast_canvas.style.left = "-100%";
-			slow_canvas.style.left = "-100%";
-		
-			setTimeout( () => {
-				fast_canvas.classList.add("transitionPageOut");
-				slow_canvas.classList.add("transitionPageOut");
-				fast_canvas.style.left = "0px";
-				slow_canvas.style.left = "0px";
-			}, 42);
-			*/
 		}
 		
 		queueRenderPage(target);
@@ -196,6 +190,7 @@ function updateCache() {
 	canvasClear("prev-cache-canvas");
 	
 	// find the pages to cache (next, previous) (relative values)
+	// TODO: optimize all this stuff
 	if(pageNumber > 1)
 		renderPage(pageNumber-1, fast_scale, "prev-cache-canvas", ()=>{}, (reason)=>console.log("# Failed to render cache: " + reason));
 	if(pageNumber < number_of_pages)
