@@ -51,11 +51,11 @@ ApplicationWindow {
 		onSortChanged: { setSetting( "appconfig_sort", appsettings.sort ); }
 		
 		property bool legacypdf
-		onLegacypdfChanged: { setSetting( "appconfig_legacypdf", appsettings.legacypdf ); }
+		onLegacypdfChanged: { setSetting( "appconfig_legacypdf2", appsettings.legacypdf ); }
 		
 		Component.onCompleted: {
 			var csort = getSetting("appconfig_sort");
-			var clegacypdf = getSetting("appconfig_legacypdf");
+			var clegacypdf = getSetting("appconfig_legacypdf2");
 			var cwidth = getSetting("appconfig_width");
 			var cheight = getSetting("appconfig_height");
 			var cx = getSetting("appconfig_x");
@@ -66,8 +66,8 @@ ApplicationWindow {
 				clegacypdf = clegacypdf == "true" ? true : false;
 				appsettings.legacypdf = clegacypdf;
 			}
-			// by default, use the legacy viewer
-			else appsettings.legacypdf = true;
+			// by default, use the new viewer
+			else appsettings.legacypdf = false;
 			
 			if(cwidth)
 				mainView.width = cwidth;
