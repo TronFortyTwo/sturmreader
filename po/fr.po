@@ -7,220 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: beru\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2020-11-06 18:17+0000\n"
-"PO-Revision-Date: 2020-11-07 14:52+0100\n"
+"POT-Creation-Date: 2020-12-25 19:40+0000\n"
+"PO-Revision-Date: 2020-12-25 20:11+0100\n"
 "Last-Translator: Anne017 <anneonyme017@openmailbox.org>\n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 
-#: ui/BookPage.qml:85
-msgid "Contents"
-msgstr "Contenus"
-
-#: ui/BookPage.qml:99
-msgid "Outline"
-msgstr "Aperçu"
-
-#: ui/BookPage.qml:107
-msgid "Pages"
-msgstr "Pages"
-
-#: ui/BookPage.qml:135 ui/BookPage.qml:185
-msgid "Page"
-msgstr "Page"
-
-#: ui/BookPage.qml:159
-msgid "No outline available"
-msgstr "Aucun aperçu disponible"
-
-#: ui/BookPage.qml:684
-msgid "Book Settings"
-msgstr "Paramètres des livres"
-
-#: ui/BookPage.qml:782 ui/BookPage.qml:790
-msgid "Default Font"
-msgstr "Police de caractères par défaut"
-
-#. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:803
-msgid "Font Scaling"
-msgstr "Taille de la police"
-
-#. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:828
-msgid "Line Height"
-msgstr "Hauteur des lignes"
-
-#. / Prefer string of < 16 characters /
-#: ui/BookPage.qml:853
-msgid "Margins"
-msgstr "Marges"
-
-#. / Prefer < 16 characters /
-#: ui/BookPage.qml:877
-msgid "Make Default"
-msgstr "Définir comme défaut"
-
-#. / Prefer < 16 characters /
-#: ui/BookPage.qml:885
-msgid "Load Defaults"
-msgstr "Charger les paramêtres par défauts"
-
-#: ui/BookPage.qml:893
-msgid "Close"
-msgstr "Fermer"
-
-#: ui/Reader.qml:33
-msgid ""
-"Could not determine file type.\n"
-"\n"
-"Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
-msgstr ""
-"Impossible de déterminer le type de fichier.\n"
-"\n"
-"Important : Sturm Reader ne peut ouvrir que les fichiers au format EPUB, PDF "
-"et CBZ sans DRM."
-
-#: ui/Reader.qml:36
-msgid ""
-"Could not parse file.\n"
-"\n"
-"Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
-msgstr ""
-"Le fichier ne peut pas être analysé.\n"
-"\n"
-"Bien qu'il semble s'agir d'un fichier %1, Sturm Reader ne peut pas "
-"l'analyser."
-
-#: ui/main.qml:89
-msgid "Error Opening File"
-msgstr "Erreur lors de l'ouverture du fichier"
-
-#: ui/LocalBooks.qml:50
-msgid "Library"
-msgstr "Bibliothèque"
-
-#: ui/LocalBooks.qml:98
-msgid "Recently Read"
-msgstr "Récents"
-
-#: ui/LocalBooks.qml:101
-msgid "Title"
-msgstr "Titre"
-
-#: ui/LocalBooks.qml:104
-msgid "Author"
-msgstr "Auteur"
-
-#: ui/LocalBooks.qml:123 ui/LocalBooks.qml:888
-msgid "Welcome to Sturm Reader!"
-msgstr "Bienvenue dans Sturm Reader !"
-
-#: ui/LocalBooks.qml:205
-msgid "Back"
-msgstr "Précédent"
-
-#: ui/LocalBooks.qml:260
-msgid "Could not open this book."
-msgstr "Impossible d'ouvrir ce livre."
-
-#: ui/LocalBooks.qml:625
-msgid "Unknown Author"
-msgstr "Auteur inconnu"
-
-#: ui/LocalBooks.qml:630
-msgid "%1 Book"
-msgid_plural "%1 Books"
-msgstr[0] "%1 livre"
-msgstr[1] "%1 livres"
-
-#: ui/LocalBooks.qml:729
-msgid "No Books in Library"
-msgstr "La bibliothèque est vide"
-
-#. / A path on the file system. /
-#: ui/LocalBooks.qml:738
-msgid ""
-"Sturm Reader could not find any books for your library, and will "
-"automatically find all epub files in <i>%1</i>.  Additionally, any book "
-"opened will be added to the library."
-msgstr ""
-"Sturm Reader n'a pas trouvé de livre dans votre bibliothèque et ira chercher "
-"automatiquement tous les fichiers EPUB sous <i>%1</i>. De plus, tous les "
-"livres ouverts avec Sturm Reader seront ajoutés à la bibliothèque."
-
-#: ui/LocalBooks.qml:748
-msgid "Get Books"
-msgstr "Obtenir des livres"
-
-#: ui/LocalBooks.qml:756
-msgid "Search Again"
-msgstr "Chercher à nouveau"
-
-#. / A control can be dragged to delete a file.  The deletion occurs /
-#. / when the user releases the control. /
-#: ui/LocalBooks.qml:858
-msgid "Release to Delete"
-msgstr "Relâcher pour supprimer"
-
-#. / A control can be dragged to delete a file. /
-#: ui/LocalBooks.qml:860
-msgid "Swipe to Delete"
-msgstr "Glisser pour supprimer"
-
-#: ui/LocalBooks.qml:888 ui/LocalBooks.qml:1011
-msgid "Default Book Location"
-msgstr "Emplacement par défaut des livres"
-
-#: ui/LocalBooks.qml:905
-msgid ""
-"Enter the folder in your home directory where your ebooks are or should be "
-"stored.\n"
-"\n"
-"Changing this value will not affect existing books in your library."
-msgstr ""
-"Saisissez le nom du dossier dans votre dossier personnel où vos livres "
-"numériques sont ou devraient être stockés.\n"
-"\n"
-"Changer cette valeur n'affectera pas les livres déjà présents dans votre "
-"bibliothèque."
-
-#. / Create a new directory from path given. /
-#: ui/LocalBooks.qml:922
-msgid "Create Directory"
-msgstr "Créer un répertoire"
-
-#. / File exists with path given. /
-#: ui/LocalBooks.qml:926
-msgid "File Exists"
-msgstr "Le fichier existe déjà"
-
-#. / Read the books in the given directory again. /
-#: ui/LocalBooks.qml:931 ui/LocalBooks.qml:1030
-msgid "Reload Directory"
-msgstr "Actualiser le répertoire"
-
-#. / Use directory specified to store books. /
-#: ui/LocalBooks.qml:934
-msgid "Use Directory"
-msgstr "Utiliser le répertoire"
-
-#: ui/LocalBooks.qml:949
-msgid "Please wait..."
-msgstr "Veuillez patienter..."
-
-#: ui/LocalBooks.qml:968
-msgid "Cancel"
-msgstr "Annuler"
-
-#: ui/LocalBooks.qml:984
+#: ui/qml/Settings.qml:33
 msgid "Settings"
 msgstr "Paramètres"
 
-#: ui/LocalBooks.qml:1018
+#: ui/qml/Settings.qml:64 ui/qml/Settings.qml:95
+msgid "Default Book Location"
+msgstr "Emplacement par défaut des livres"
+
+#: ui/qml/Settings.qml:68
 msgid ""
 "Sturm Reader seems to be operating under AppArmor restrictions that prevent "
 "it from accessing most of your home directory.  Ebooks should be put in <i>"
@@ -231,19 +36,223 @@ msgstr ""
 "livres numériques doivent être stockés sous <i>%1</i> pour que Sturm Reader "
 "puisse les lire."
 
-#: ui/LocalBooks.qml:1042
+#. / Read the books in the given directory again. /
+#: ui/qml/Settings.qml:76 ui/qml/Settings.qml:122
+msgid "Reload Directory"
+msgstr "Actualiser le répertoire"
+
+#: ui/qml/Settings.qml:99
+msgid ""
+"Enter the folder in your home directory where your ebooks are or should be "
+"stored. Changing this value will not affect existing books in your library."
+msgstr ""
+"Saisissez le nom du dossier dans votre dossier personnel où vos livres "
+"numériques sont ou devraient être stockés. Changer cette valeur n'affectera "
+"pas les livres déjà présents dans votre bibliothèque."
+
+#. / Create a new directory from path given. /
+#: ui/qml/Settings.qml:113
+msgid "Create Directory"
+msgstr "Créer un répertoire"
+
+#. / File exists with path given. /
+#: ui/qml/Settings.qml:117
+msgid "File Exists"
+msgstr "Le fichier existe déjà"
+
+#. / Use directory specified to store books. /
+#: ui/qml/Settings.qml:125
+msgid "Use Directory"
+msgstr "Utiliser le répertoire"
+
+#: ui/qml/Settings.qml:159
 msgid "Use legacy PDF viewer"
 msgstr "Utiliser l'ancienne visionneuse de fichiers PDF"
 
-#: ui/About.qml:36
+#: ui/qml/Settings.qml:170
+msgid "Application Style (experimental)"
+msgstr "Style de l'application (expérimental)"
+
+#: ui/qml/Settings.qml:176
+msgid "Requires a restart to take effect"
+msgstr "Nécessite un redémarrage pour prendre effet"
+
+#: ui/qml/ImporterUT.qml:51
+msgid "Import books from"
+msgstr "Importer des livres depuis"
+
+#: ui/qml/BookPage.qml:81
+msgid "Contents"
+msgstr "Contenus"
+
+#: ui/qml/BookPage.qml:94
+msgid "Outline"
+msgstr "Aperçu"
+
+#: ui/qml/BookPage.qml:102
+msgid "Pages"
+msgstr "Pages"
+
+#: ui/qml/BookPage.qml:130 ui/qml/BookPage.qml:180
+msgid "Page"
+msgstr "Page"
+
+#: ui/qml/BookPage.qml:154
+msgid "No outline available"
+msgstr "Aucun aperçu disponible"
+
+#: ui/qml/BookPage.qml:680
+msgid "Book Settings"
+msgstr "Paramètres des livres"
+
+#: ui/qml/BookPage.qml:777 ui/qml/BookPage.qml:786
+msgid "Default Font"
+msgstr "Police de caractères par défaut"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:799
+msgid "Font Scaling"
+msgstr "Taille de la police"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:824
+msgid "Line Height"
+msgstr "Hauteur des lignes"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:849
+msgid "Margins"
+msgstr "Marges"
+
+#. / Prefer < 16 characters /
+#: ui/qml/BookPage.qml:873
+msgid "Make Default"
+msgstr "Définir comme défaut"
+
+#. / Prefer < 16 characters /
+#: ui/qml/BookPage.qml:881
+msgid "Load Defaults"
+msgstr "Charger les paramêtres par défauts"
+
+#: ui/qml/BookPage.qml:889
+msgid "Close"
+msgstr "Fermer"
+
+#: ui/qml/Reader.qml:21
+msgid ""
+"Could not determine file type.\n"
+"\n"
+"Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
+msgstr ""
+"Impossible de déterminer le type de fichier.\n"
+"\n"
+"Important : Sturm Reader ne peut ouvrir que les fichiers au format EPUB, PDF "
+"et CBZ sans DRM."
+
+#: ui/qml/Reader.qml:22
+msgid ""
+"Could not parse file.\n"
+"\n"
+"Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
+msgstr ""
+"Le fichier ne peut pas être analysé.\n"
+"\n"
+"Bien qu'il semble s'agir d'un fichier %1, Sturm Reader ne peut pas "
+"l'analyser."
+
+#: ui/qml/ImporterPortable.qml:23
+msgid "Choose the books to import"
+msgstr "Choisissez les livres à importer"
+
+#: ui/qml/LocalBooks.qml:41
+msgid "Library"
+msgstr "Bibliothèque"
+
+#: ui/qml/LocalBooks.qml:84
+msgid "Recently Read"
+msgstr "Récents"
+
+#: ui/qml/LocalBooks.qml:87
+msgid "Title"
+msgstr "Titre"
+
+#: ui/qml/LocalBooks.qml:90
+msgid "Author"
+msgstr "Auteur"
+
+#: ui/qml/LocalBooks.qml:111
+msgid "Loading library..."
+msgstr "Chargement de la bibliothèque..."
+
+#: ui/qml/LocalBooks.qml:111
+msgid "Processing books data..."
+msgstr "Traitement des données des livres..."
+
+#: ui/qml/LocalBooks.qml:131
+msgid "Welcome to Sturm Reader!"
+msgstr "Bienvenue dans Sturm Reader !"
+
+#: ui/qml/LocalBooks.qml:243
+msgid "Could not open this book."
+msgstr "Impossible d'ouvrir ce livre."
+
+#: ui/qml/LocalBooks.qml:522
+msgid "Back"
+msgstr "Précédent"
+
+#: ui/qml/LocalBooks.qml:607
+msgid "Unknown Author"
+msgstr "Auteur inconnu"
+
+#: ui/qml/LocalBooks.qml:608
+msgid "%1 Book"
+msgid_plural "%1 Books"
+msgstr[0] "%1 livre"
+msgstr[1] "%1 livres"
+
+#: ui/qml/LocalBooks.qml:696
+msgid "No Books in Library"
+msgstr "La bibliothèque est vide"
+
+#. / A path on the file system. /
+#: ui/qml/LocalBooks.qml:705
+msgid ""
+"Sturm Reader could not find any books for your library, and will "
+"automatically find all epub files in <i>%1</i>.  Additionally, any book "
+"opened will be added to the library."
+msgstr ""
+"Sturm Reader n'a pas trouvé de livre dans votre bibliothèque et ira chercher "
+"automatiquement tous les fichiers EPUB sous <i>%1</i>. De plus, tous les "
+"livres ouverts avec Sturm Reader seront ajoutés à la bibliothèque."
+
+#: ui/qml/LocalBooks.qml:715
+msgid "Get Books"
+msgstr "Obtenir des livres"
+
+#: ui/qml/LocalBooks.qml:723
+msgid "Search Again"
+msgstr "Chercher à nouveau"
+
+#. / A control can be dragged to delete a file.  The deletion occurs /
+#. / when the user releases the control. /
+#: ui/qml/LocalBooks.qml:801
+msgid "Release to Delete"
+msgstr "Relâcher pour supprimer"
+
+#. / A control can be dragged to delete a file. /
+#: ui/qml/LocalBooks.qml:803
+msgid "Swipe to Delete"
+msgstr "Glisser pour supprimer"
+
+#: ui/qml/About.qml:30
 msgid "About"
 msgstr "À propos"
 
-#: ui/About.qml:81
+#: ui/qml/About.qml:75
 msgid "Sturm Reader"
-msgstr "Livres"
+msgstr "Sturm Reader"
 
-#: ui/About.qml:91
+#: ui/qml/About.qml:83
 msgid ""
 "Sturm (und Drang) Reader is an open source Ebook reader.<br>Community is "
 "what makes this app possible, so pull requests, translations, feedback and "
@@ -258,7 +267,7 @@ msgstr ""
 "Rshcroll, merci à lui !<br>Cette application utilise le code d'autres "
 "projets libres, consultez le code source pour les détails sur les licences."
 
-#: ui/About.qml:100
+#: ui/qml/About.qml:91
 msgid ""
 "A big thanks to all translators, beta-testers, and users<br/>in general who "
 "improve this app with their work and feedback"
@@ -267,70 +276,79 @@ msgstr ""
 "> en général qui améliorent cette application avec leur travail et leurs "
 "retours"
 
-#: ui/About.qml:109
+#: ui/qml/About.qml:99
 msgid "A special thanks to Joan Cibersheep for the new logo"
 msgstr "Un remerciement particulier à Joan Cibersheep pour le nouveau logo"
 
-#: ui/About.qml:118
+#: ui/qml/About.qml:107
 msgid "A special thanks to Jeroen for support and a test device"
 msgstr ""
 "Un remerciement particulier à Jeroen pour son aide et le prêt d'un appareil "
 "de test"
 
-#: ui/About.qml:123
+#: ui/qml/About.qml:112
 msgid "See source on Github"
 msgstr "Voir le code source sur Github"
 
-#: ui/About.qml:131
+#: ui/qml/About.qml:120
 msgid "Report bug or feature request"
 msgstr "Signaler un problème ou demander une fonctionnalité"
 
-#: ui/About.qml:139
+#: ui/qml/About.qml:128
 msgid "See License (GNU GPL v3)"
 msgstr "Consultez la licence (GNU GPL v3)"
 
-#: ui/About.qml:146
+#: ui/qml/About.qml:135
 msgid "❤Donate❤"
 msgstr "❤Faire un don❤"
 
-#: ui/ImportPage.qml:38
+#: ui/qml/ImportPage.qml:42
 msgid "Importing books..."
 msgstr "Importation des livres..."
 
-#: ui/ImportPage.qml:88
+#: ui/qml/ImportPage.qml:92
 msgid "Waiting"
 msgstr "En attente"
 
-#: ui/ImportPage.qml:90
+#: ui/qml/ImportPage.qml:94
 msgid "Processing"
 msgstr "Traitement"
 
-#: ui/ImportPage.qml:92
+#: ui/qml/ImportPage.qml:96
 msgid "Imported to %1"
 msgstr "Importé dans %1"
 
-#: ui/ImportPage.qml:94
+#: ui/qml/ImportPage.qml:98
 msgid "Already in library: %1"
 msgstr "Déja disponible dans la bibliothèque : %1"
 
-#: ui/ImportPage.qml:96
+#: ui/qml/ImportPage.qml:100
 msgid "Error: %1"
 msgstr "Erreur : %1"
 
-#~ msgid "Pages read today: %1"
-#~ msgstr "Nombre de pages lues aujourd'hui : %1"
+#: ui/qml/Main.qml:101
+msgid "Error Opening File"
+msgstr "Erreur lors de l'ouverture du fichier"
 
-#~ msgid "No pages read today"
-#~ msgstr "Aucune page lue aujourd'hui"
+#: ui/qml/MetricsUT.qml:13
+msgid "Pages read today: %1"
+msgstr "Nombre de pages lues aujourd'hui : %1"
+
+#: ui/qml/MetricsUT.qml:14
+msgid "No pages read today"
+msgstr "Aucune page lue aujourd'hui"
+
+#~ msgid "Please wait..."
+#~ msgstr "Veuillez patienter..."
+
+#~ msgid "Cancel"
+#~ msgstr "Annuler"
 
 #~ msgid "Auto"
 #~ msgstr "Automatique"
 
 #~ msgid "Import from Content Hub"
 #~ msgstr "Importer depuis le centre de contenus"
-
-#~ msgid "Import books from"
-#~ msgstr "Importer des livres depuis"
 
 #~ msgid "Books"
 #~ msgstr "Livres"
