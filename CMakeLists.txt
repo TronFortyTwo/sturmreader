@@ -67,10 +67,10 @@ if(CLICK_MODE)
 else(CLICK_MODE)
     set(DATA_DIR /usr/share/${PROJECT_NAME})
     set(DESKTOP_DIR /usr/share/applications)
-    set(EXEC "${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/sturmreader --appargs=%f")
-    set(ICON ${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/${ICON_FILE})
-    install(CODE "file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/sturmreader.in
-        \"${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/sturmreader\")")
+    set(EXEC "${DATA_DIR}/sturmreader --appargs=%f")
+    set(ICON ${DATA_DIR}/${ICON_FILE})
+    #install(CODE "file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/sturmreader.in
+    #    \"${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/sturmreader\")")
     #install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/sturmreader.in DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME sturmreader)
 endif(CLICK_MODE)
 
