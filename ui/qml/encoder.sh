@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "import QtQuick 2.4
 Item {"

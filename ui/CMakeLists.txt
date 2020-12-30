@@ -54,7 +54,7 @@ if(${OUT_OF_TREE_BUILD})
 endif(${OUT_OF_TREE_BUILD})
 
 set(IMAGE_SRC
-    qml/images/stainedpaper_tiled.jpg
+    ${CMAKE_CURRENT_SOURCE_DIR}/qml/images/stainedpaper_tiled.jpg
 )
 
 add_executable(sturmreader
