@@ -10,7 +10,7 @@ license="GNU-GPL-3-OR-ABOVE"
 depends="musl qt5-qtdeclarative qt5-qtbase qt5-qtwebengine qt5-qtbase-x11 qt5-qtquickcontrols2 poppler-qt5 gettext zlib libstdc++"
 makedepends="cmake qt5-qtdeclarative-dev qt5-qtquickcontrols2-dev unzip poppler-qt5-dev gettext-dev libintl"
 install=""
-subpackages=""
+subpackages="$pkgname-lang"
 source="https://codeload.github.com/tronfortytwo/sturmreader/zip/master"
 builddir="$srcdir/$pkgname-$pkgver"
 
@@ -35,4 +35,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="c4283cbf96a02252444f6da6af537ae893b3c45838e03ee45ea91e2db139b08de5357700ae62a166f6145753e519f0b54d4fd5f51ec9ad7a99a3919ef3449e77  master"
+sha512sums="dfa95636c28b4969dd7516147ad4d1230ecf90a909ab692d311a4eb900728234e1c42de2ed354aa0e0797508655376d2eb5f40eee392b82c4a03d0affa20b8bc  master"
