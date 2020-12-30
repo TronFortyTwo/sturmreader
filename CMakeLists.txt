@@ -67,11 +67,11 @@ if(CLICK_MODE)
 else(CLICK_MODE)
     set(DATA_DIR ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME})
     set(DESKTOP_DIR ${CMAKE_INSTALL_DATADIR}/applications)
-    set(EXEC "${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/sturmreader %f")
+    set(EXEC "${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/sturmreader --appargs=%f")
     set(ICON ${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/${ICON_FILE})
     install(CODE "file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/sturmreader.in
         \"${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/sturmreader\")")
-    install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/sturmreader.in DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME sturmreader)
+    #install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/sturmreader.in DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME sturmreader)
 endif(CLICK_MODE)
 
 #Copies specific individual files into the build directory
@@ -112,7 +112,7 @@ add_executable(sturmreader
 	ui/reader/quazip/zip.c
 	${QT_RESOURCES} )
 target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Quick Qt5::QuickControls2)
-install(TARGETS sturmreader RUNTIME DESTINATION "/")
+install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
 # Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory
 add_subdirectory(ui)
