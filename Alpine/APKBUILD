@@ -1,0 +1,40 @@
+# Contributor: Emanuele Sorce <emanuele.sorce@hotmail.com>
+# Maintainer: Emanuele Sorce <emanuele.sorce@hotmail.com>
+pkgname=sturmreader
+pkgver=3.2.2
+pkgrel=0
+pkgdesc="E-Book reader optimized for mobile linux"
+url="https://github.com/tronfortytwo/sturmreader"
+arch="x86_64"
+license="GNU-GPL-3-OR-ABOVE"
+depends="qt5-qtdeclarative qt5-qtquickcontrols2 poppler-qt5"
+makedepends="cmake qt5-qtdeclarative-dev qt5-qtquickcontrols2-dev unzip poppler-qt5-dev"
+install=""
+subpackages=""
+source="https://codeload.github.com/tronfortytwo/sturmreader/zip/master"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+	cd "$srcdir"
+	unzip -x master
+	#cd "$pkgname-$pkgver"
+	#cd "$pkgname-master"
+	cd "$pkgname-master"
+	chmod +x ui/qml/encoder.sh
+	mkdir "build"
+	cd build
+	cmake ..
+	make -j1
+}
+
+check() {
+	# Replace with proper check command(s)
+	:
+}
+
+package() {
+	# Replace with proper package command(s)
+	:
+}
+
+sha512sums="3f69a6ccf55d095931ffbad248c3cfee440a5dd4d0005ad3f5f28ebb020b402c0c90767f69338efa5e39c98934a31fee68b1c2889afb8b8d143578cb04277134  master"
