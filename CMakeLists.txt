@@ -1,5 +1,5 @@
 project(sturmreader C CXX)
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.2.0)
 
 set(PROJECT_NAME sturmreader.emanuelesorce)
 set(APPARMOR_FILE apparmor/sturmreader.json)
@@ -38,6 +38,7 @@ find_package(Qt5Xml REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
 find_package(ZLIB REQUIRED)
+find_package(Intl REQUIRED)
 
 file(GLOB I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
