@@ -7,8 +7,8 @@ pkgdesc="E-Book reader optimized for mobile linux"
 url="https://github.com/tronfortytwo/sturmreader"
 arch="x86_64"
 license="GNU-GPL-3-OR-ABOVE"
-depends="qt5-qtdeclarative qt5-qtquickcontrols2 poppler-qt5"
-makedepends="cmake qt5-qtdeclarative-dev qt5-qtquickcontrols2-dev unzip poppler-qt5-dev"
+depends="qt5-qtdeclarative qt5-qtquickcontrols2 poppler-qt5 gettext"
+makedepends="cmake qt5-qtdeclarative-dev qt5-qtquickcontrols2-dev unzip poppler-qt5-dev gettext-dev libintl"
 install=""
 subpackages=""
 source="https://codeload.github.com/tronfortytwo/sturmreader/zip/master"
@@ -24,17 +24,18 @@ build() {
 	mkdir "build"
 	cd build
 	cmake ..
-	make -j1
+	make
 }
 
 check() {
-	# Replace with proper check command(s)
+	# Sturm reader has no testing :|
+	#default_check()
 	:
 }
 
 package() {
-	# Replace with proper package command(s)
-	:
+	cd "$srcdir"/"$pkgname-master"/build/
+	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="3f69a6ccf55d095931ffbad248c3cfee440a5dd4d0005ad3f5f28ebb020b402c0c90767f69338efa5e39c98934a31fee68b1c2889afb8b8d143578cb04277134  master"
+sha512sums="1d35181c3b42f984f180aa048fa6dc54a3056f0c81cf815454efb0c9e0cf1c0e755794904ab3ac4fbf2a7b8aefc678c2e6e6fc5ef58c00b89b2c3498be7cf8e8  master"
