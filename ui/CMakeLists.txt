@@ -92,8 +92,8 @@ target_link_libraries(sturmreader poppler-qt5 ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5:
 
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
-add_custom_command(OUTPUT qml/Textures.qml
-    COMMAND ./qml/encoder.sh ${IMAGE_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/qml/Textures.qml
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qml/Textures.qml
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/qml/encoder.sh ${IMAGE_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/qml/Textures.qml
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS ${IMAGE_SRC}
 )
