@@ -47,6 +47,7 @@ file(GLOB I18N_SRC_FILES
 # DefaultCover.qml doesn't have any translatable strings, but it does confuse xgettext.
 list(REMOVE_ITEM I18N_SRC_FILES ui/qml/DefaultCover.qml)
 
+set(EXEC "./sturmreader --appargs=\"%f\"")
 if(CLICK_MODE)
     # Find out the architecture for package building
     # to determine the plugin's installation path
@@ -60,14 +61,14 @@ if(CLICK_MODE)
     set(DATA_DIR /)
     set(DESKTOP_DIR ${DATA_DIR})
     set(ICON ${ICON_FILE})
-    set(EXEC "./sturmreader --appargs=\"%f\"")
+    set(EXEC_CWD ".")
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/manifest.json DESTINATION ${DATA_DIR})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/contenthub.json DESTINATION ${DATA_DIR})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/sturmreader.json DESTINATION ${DATA_DIR})
 else(CLICK_MODE)
     set(DATA_DIR /usr/share/${PROJECT_NAME})
     set(DESKTOP_DIR /usr/share/applications)
-    set(EXEC "${DATA_DIR}/sturmreader --appargs=%f")
+    set(EXEC_CWD "${DATA_DIR}")
     set(ICON ${DATA_DIR}/${ICON_FILE})
     #install(CODE "file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/sturmreader.in
     #    \"${CMAKE_INSTALL_PREFIX}/${DATA_DIR}/sturmreader\")")
