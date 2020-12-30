@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.0.0)
 set(CMAKE_AUTOMOC ON)
 
 set(UI_SRC_FILES
-
 	qml/About.qml
 	qml/BookPage.qml
 	qml/DefaultCover.qml
@@ -56,41 +55,6 @@ endif(${OUT_OF_TREE_BUILD})
 set(IMAGE_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/qml/images/stainedpaper_tiled.jpg
 )
-
-add_executable(sturmreader
-	main.cpp
-	gettext.cpp
-	units.cpp
-	fontlister.cpp
-	filesystem.cpp
-	mimetype.cpp
-	stylesetting.cpp
-	qhttpserver/qhttpserver.cpp
-	qhttpserver/fileserver.cpp
-	qhttpserver/qhttpconnection.cpp
-	qhttpserver/qhttprequest.cpp
-	qhttpserver/qhttpresponse.cpp
-	qhttpserver/http-parser/http_parser.c
-	reader/epubreader.cpp
-	reader/cbzreader.cpp
-	reader/pdfreader.cpp
-	reader/quazip/JlCompress.cpp
-	reader/quazip/qioapi.cpp
-	reader/quazip/quacrc32.cpp
-	reader/quazip/quaadler32.cpp
-	reader/quazip/quazip.cpp
-	reader/quazip/quazipfile.cpp
-	reader/quazip/quagzipfile.cpp
-	reader/quazip/quazipfileinfo.cpp
-	reader/quazip/quaziodevice.cpp
-	reader/quazip/quazipnewinfo.cpp
-	reader/quazip/unzip.c
-	reader/quazip/zip.c
-	${QT_RESOURCES} )
-
-target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Quick Qt5::QuickControls2)
-
-install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qml/Textures.qml
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/qml/encoder.sh ${IMAGE_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/qml/Textures.qml

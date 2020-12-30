@@ -80,6 +80,40 @@ endif(CLICK_MODE)
 configure_file(${DESKTOP_FILE}.in ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_DIR})
 
+# compiles the main EXEC
+add_executable(sturmreader
+	ui/main.cpp
+	ui/gettext.cpp
+	ui/units.cpp
+	ui/fontlister.cpp
+	ui/filesystem.cpp
+	ui/mimetype.cpp
+	ui/stylesetting.cpp
+	ui/qhttpserver/qhttpserver.cpp
+	ui/qhttpserver/fileserver.cpp
+	ui/qhttpserver/qhttpconnection.cpp
+	ui/qhttpserver/qhttprequest.cpp
+	ui/qhttpserver/qhttpresponse.cpp
+	ui/qhttpserver/http-parser/http_parser.c
+	ui/reader/epubreader.cpp
+	ui/reader/cbzreader.cpp
+	ui/reader/pdfreader.cpp
+	ui/reader/quazip/JlCompress.cpp
+	ui/reader/quazip/qioapi.cpp
+	ui/reader/quazip/quacrc32.cpp
+	ui/reader/quazip/quaadler32.cpp
+	ui/reader/quazip/quazip.cpp
+	ui/reader/quazip/quazipfile.cpp
+	ui/reader/quazip/quagzipfile.cpp
+	ui/reader/quazip/quazipfileinfo.cpp
+	ui/reader/quazip/quaziodevice.cpp
+	ui/reader/quazip/quazipnewinfo.cpp
+	ui/reader/quazip/unzip.c
+	ui/reader/quazip/zip.c
+	${QT_RESOURCES} )
+target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Quick Qt5::QuickControls2)
+install(TARGETS sturmreader RUNTIME DESTINATION "/")
+
 # Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory
 add_subdirectory(ui)
 add_subdirectory(po)
