@@ -27,7 +27,11 @@ add_custom_target(${POT_FILE} ALL
 foreach(PO_FILE ${PO_FILES})
     get_filename_component(LANG ${PO_FILE} NAME_WE)
     gettext_process_po_files(${LANG} ALL PO_FILES ${PO_FILE})
-    set(INSTALL_DIR ${CMAKE_INSTALL_LOCALEDIR}/${LANG}/LC_MESSAGES)
+    if(CLICK_MODE)
+		set(INSTALL_DIR ${CMAKE_INSTALL_LOCALEDIR}/${LANG}/LC_MESSAGES)
+    else(CLICK_MODE)
+		set(INSTALL_DIR /usr/share/locale/${LANG}/LC_MESSAGES)
+    endif(CLICK_MODE)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${LANG}.gmo
             DESTINATION ${INSTALL_DIR}
 			RENAME ${PROJECT_NAME}.mo)
