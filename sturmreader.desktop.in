@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=@DESKTOP_NAME@
 Comment=@DESKTOP_COMMENT@
-Exec=cd @EXEC_CWD@ && @EXEC@
+Exec=@EXEC@
 Icon=@ICON@
 Terminal=false
 Type=Application

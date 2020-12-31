@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Launch sturmreader making sure we are in the right cwd
+cd /usr/share/sturmreader.emanuelesorce/
+./sturmreader
