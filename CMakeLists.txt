@@ -69,7 +69,7 @@ else(CLICK_MODE)
     set(DESKTOP_DIR /usr/share/applications)
     set(EXEC "${DATA_DIR}/sturmreader-launch")
     set(ICON ${DATA_DIR}/${ICON_FILE})
-    install(TARGETS ${CMAKE_CURRENT_SOURCE_DIR}/sturmreader-launch RUNTIME DESTINATION ${DATA_DIR})
+    install(PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/sturmreader-launch DESTINATION ${DATA_DIR})
 endif(CLICK_MODE)
 
 #Copies specific individual files into the build directory
