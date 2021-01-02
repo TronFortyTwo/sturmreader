@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=@DESKTOP_NAME@
 Comment=@DESKTOP_COMMENT@
+Categories=Graphics;Office;Viewer;Qt
 Exec=@EXEC@
 Icon=@ICON@
 Terminal=false

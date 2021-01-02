@@ -18,7 +18,7 @@ include(FindPkgConfig)
 option(CLICK_MODE "Installs to a contained locaton" on)
 option(FS_ACCESS "Gets filesystem access through apparmor" off)
 
-set(SUFFIX "")
+set(DESKTOP_COMMENT "E-Book reader designed for mobile devices")
 
 set(DESKTOP_FILE "sturmreader.desktop")
 set(APP_HARDCODE sturmreader)
