@@ -688,7 +688,7 @@ Page {
         Column {
             anchors.centerIn: parent
             spacing: scaling.dp(16)
-            width: Math.min(scaling.dp(400), parent.width - scaling.dp(8))
+            width: Math.min(scaling.dp(600), parent.width - scaling.dp(8))
 
             Label {
                 id: noBooksLabel
