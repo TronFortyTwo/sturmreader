@@ -3,7 +3,7 @@
 pkgname=sturmreader
 pkgver=3.2.3
 pkgrel=0
-pkgdesc="E-Book reader optimized for mobile linux"
+pkgdesc="E-Book reader for mobile devices"
 url="https://github.com/tronfortytwo/sturmreader"
 arch="all"
 license="GPL-3.0-or-later"
