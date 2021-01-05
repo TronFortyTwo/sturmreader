@@ -67,7 +67,7 @@ Item {
 							}
 							width: parent.width * 0.6
 							height: parent.height * 0.6
-							color: colors.textOver
+							color: colors.item
 							name: modelData.iconName
 							opacity: modelData.enabled ? 1.0 : 0.35
 						}

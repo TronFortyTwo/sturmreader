@@ -18,8 +18,6 @@ QtObject {
 	property string background: "#FFFFFF"
 	property string foreground: "#F7F7F7"
 	property string item: "black"
-	property string textFore: "black"
-	property string textOver: "black"
 	property string overlay: "white"
 	property string shadow: "black"
 	property string itemDetail: "black"
@@ -35,24 +33,21 @@ QtObject {
 			
 			background = Theme.palette.normal.background;
 			item = Theme.palette.normal.baseText;
-			textFore = Theme.palette.normal.foregroundText;
 			overlay = Theme.palette.normal.overlay;
 			shadow = Theme.palette.normal.base;
 			itemDetail = Theme.palette.normal.base;
-			textOver = Theme.palette.normal.overlayText;
 			negative = Theme.palette.normal.negative;
 			positive = Theme.palette.normal.positive;
 		}
+		// Material style
 		else if(styleSetting.currentStyle() == "Material") {
 			console.log("Color palette: Material");
 			
 			background = Material.background;
 			item = Material.foreground;
-			textFore = Material.foreground;
 			overlay = Material.primary;
 			shadow = Material.accent;
 			itemDetail = Material.accent;
-			textOver = Material.foreground;
 			negative = Material.Red;
 			positive = Material.Green;
 		}

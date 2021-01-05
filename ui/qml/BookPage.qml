@@ -152,7 +152,6 @@ Page {
 				anchors.centerIn: parent
 				visible: contentsListModel.count == 0
 				text: gettext.tr("No outline available")
-				color: colors.textFore
 			}
 		}
 		
@@ -179,7 +178,6 @@ Page {
 					horizontalAlignment: Text.AlignHCenter
 					text: gettext.tr("Page") + " " + pagesLoader.slider.value + "/" + (pdf_numberOfPages)
 					font.pointSize: 19
-					color: colors.textFore
 				}
 				RowLayout {
 					width: parent.width
@@ -198,7 +196,6 @@ Page {
 						delegate: Label {
 							text: model.num
 							rotation: 90
-							color: colors.textFore
 							font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
 							font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
 							width: scaling.dp(60)
@@ -239,7 +236,6 @@ Page {
 				Label {
 					width: scaling.dp(50)
 					text: Math.floor(100 * pageSlider.value / pdf_numberOfPages) + "%"
-					color: colors.textFore
 				}
 			}
 		}
@@ -775,7 +771,6 @@ Page {
 							verticalAlignment: Text.AlignVCenter
 							text: (modelData == "Default") ? gettext.tr("Default Font") : modelData
 							font.family: modelData
-							color: colors.textFore
 						}
 					}
 				}
@@ -787,7 +782,6 @@ Page {
 					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Font Scaling")
-						color: colors.textFore
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
 						width: stylesDialog.labelwidth
@@ -812,7 +806,6 @@ Page {
 					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Line Height")
-						color: colors.textFore
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
 						width: stylesDialog.labelwidth
@@ -837,7 +830,6 @@ Page {
 					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Margins")
-						color: colors.textFore
 						verticalAlignment: Text.AlignVCenter
 						wrapMode: Text.Wrap
 						width: stylesDialog.labelwidth
