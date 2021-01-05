@@ -14,6 +14,8 @@ import QtQuick.Window 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
+import QtQuick.Controls.Material 2.2
+
 import Importer 1.0
 
 ApplicationWindow {
@@ -33,7 +35,9 @@ ApplicationWindow {
 	}
 	property var bookPage: null
     
-	// portable palette
+	// portable palette and default material theme colors
+	Material.primary: Material.Cyan;
+	Material.accent: Material.Red;
 	Colors { id: colors }
 	
 	// for dp scaling support

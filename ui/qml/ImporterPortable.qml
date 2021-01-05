@@ -13,7 +13,7 @@ Item {
 	id: importer
 	property Item importPage: null
 	
-	function pick(){
+	function pick() {
 		picker.open();
 	}
 	

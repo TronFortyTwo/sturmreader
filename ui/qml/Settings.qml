@@ -188,8 +188,8 @@ Page {
 						}
 						
 						Component.onCompleted: {
-							var styles = styleSetting.availableStyles()
-							var currentStyle = styleSetting.currentStyle()
+							var styles = styleSetting.availableStyles();
+							var currentStyle = styleSetting.currentStyle();
 							
 							for(var i=0; i<styles.length; i++)
 								stylesModel.append({"name": styles[i]})

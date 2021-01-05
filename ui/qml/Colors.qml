@@ -5,6 +5,7 @@
  */ 
 
 // Style indipendent portable color palette
+//	This also customize the theme we use for the app
 
 import QtQuick 2.9
 
@@ -14,26 +15,22 @@ QtObject {
 	
 	// TODO: this is really bad actually
 	
-	property color background: "#FFFFFF"
-	property color foreground: "#F7F7F7"
-	property color item: "black"
-	property color textFore: "black"
-	property color textOver: "black"
-	property color overlay: "white"
-	property color shadow: "black"
-	property color itemDetail: "black"
-	property color negative: "#C7162B"
-	property color positive: "#0E8420"
+	property string background: "#FFFFFF"
+	property string foreground: "#F7F7F7"
+	property string item: "black"
+	property string textFore: "black"
+	property string textOver: "black"
+	property string overlay: "white"
+	property string shadow: "black"
+	property string itemDetail: "black"
+	property string negative: "#C7162B"
+	property string positive: "#0E8420"
 	
 	Component.onCompleted: {
-		
-		// Try to guess what theme we are on and use its palette
+		// Set colors relevant to the current theme
 		
 		// Suru style
-		if( typeof Theme !== 'undefined' &&
-			typeof Theme.palette !== 'undefined' &&
-			typeof Theme.palette.normal !== 'undefined') {
-			
+		if(styleSetting.currentStyle() == "Suru") {
 			console.log("Color palette: Suru");
 			
 			background = Theme.palette.normal.background;
@@ -46,8 +43,21 @@ QtObject {
 			negative = Theme.palette.normal.negative;
 			positive = Theme.palette.normal.positive;
 		}
+		else if(styleSetting.currentStyle() == "Material") {
+			console.log("Color palette: Material");
+			
+			background = Material.background;
+			item = Material.foreground;
+			textFore = Material.foreground;
+			overlay = Material.primary;
+			shadow = Material.accent;
+			itemDetail = Material.accent;
+			textOver = Material.foreground;
+			negative = Material.Red;
+			positive = Material.Green;
+		}
 		else
-			console.log("Color palette: Portable");
+			console.log("Color palette: Generic");
 		
 	}
 }
