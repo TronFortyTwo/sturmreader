@@ -574,18 +574,8 @@ Page {
 			
 			bookLoadingStart()
 			
-            //Messaging.sendMessage("Styles", asObject())
             // this one below should be improved
-			bookWebView.runJavaScript("if(styleManager) styleManager.updateStyles({" +
-				"'textColor':'" + textColor +
-				"','fontFamily':'" + fontFamily +
-				"','lineHeight':'" + lineHeight +
-				"','fontScale':'" + fontScale +
-				"','background':'" + background +
-				"','margin':'" + margin +
-				"','marginv':'" + marginv +
-				"','bumper':'" + bumper +
-			"'});");
+			bookWebView.runJavaScript("if(styleManager) styleManager.updateStyles(" + JSON.stringify(asObject()) + ");");
 			setBookSetting("styles", asObject());
 			atdefault = (JSON.stringify(asObject()) == JSON.stringify(defaults));
         }
@@ -910,20 +900,17 @@ Page {
 			lineHeightSlider.value = bookStyles.lineHeight
 			marginSlider.value = bookStyles.margin
 		}
-		
-		function onLoadingChanged() {
+		/* function onLoadingChanged() {
 			if (bookStyles.loading == false)
 				setValues()
 		}
-
 		Component.onCompleted: {
 			setValues()
 			bookStyles.onLoadingChanged.connect(onLoadingChanged)
 		}
-
 		Component.onDestruction: {
 			bookStyles.onLoadingChanged.disconnect(onLoadingChanged)
-		}
+		}*/
     }
 
     function updateNavButtons(back, forward) {

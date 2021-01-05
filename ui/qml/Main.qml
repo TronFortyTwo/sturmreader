@@ -36,8 +36,8 @@ ApplicationWindow {
 	property var bookPage: null
     
 	// portable palette and default material theme colors
-	Material.primary: Material.Cyan;
-	Material.accent: Material.Red;
+	Material.primary: Material.Red;
+	Material.accent: Material.DeepOrange;
 	Colors { id: colors }
 	
 	// for dp scaling support
