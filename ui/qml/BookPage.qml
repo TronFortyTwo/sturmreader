@@ -198,8 +198,8 @@ Page {
 							rotation: 90
 							font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
 							font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
-							width: scaling.dp(60)
-							height: scaling.dp(60)
+							width: contentWidth
+							height: contentHeight
 							horizontalAlignment: Text.AlignHCenter
 							verticalAlignment: Text.AlignVCenter
 						}
@@ -388,6 +388,8 @@ Page {
 
     BusyIndicator {
         id: loadingIndicator
+        width: scaling.dp(50)
+        height: scaling.dp(50)
         anchors.centerIn: parent
         opacity: 1
         running: opacity != 0

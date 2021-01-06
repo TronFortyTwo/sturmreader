@@ -48,7 +48,7 @@ Page {
 		Column {
 			id: layout
 
-			spacing: scaling.dp(40)
+			spacing: scaling.dp(35)
 			anchors.top: parent.top
 			anchors.left: parent.left
 			anchors.right: parent.right

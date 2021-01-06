@@ -165,11 +165,16 @@ Page {
 			ItemDelegate {
 				width: parent.width
 				contentItem: RowLayout {
+					spacing: scaling.dp(50)
 					Column {
+						spacing: scaling.dp(4)
 						Label {
 							text: gettext.tr("Application Style (experimental)")
 							elide: Text.ElideRight
-							Layout.fillWidth: true
+						}
+						Label {
+							text: gettext.tr("Supported styles: ") + "Suru, Material"
+							elide: Text.ElideRight
 						}
 						Label {
 							id: restartNotice
@@ -180,6 +185,7 @@ Page {
 					}
 					ComboBox {
 						Layout.alignment: Qt.AlignRight
+						Layout.fillWidth: true
 						model: ListModel{
 							id: stylesModel
 						}
