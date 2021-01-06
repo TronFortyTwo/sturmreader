@@ -56,12 +56,8 @@ function moveToPageRelative (num) {
 		if(num == 1) {
 			let next_canvas = document.getElementById('next-cache-canvas');
 			
-			next_canvas.width = slow_canvas.width;
-			next_canvas.height = slow_canvas.height;
-			
-			fast_canvas.width = slow_canvas.width;
-			fast_canvas.height = slow_canvas.height;
-			fast_canvas.style.top = slow_canvas.style.top;
+			fast_canvas.width = next_canvas.width;
+			fast_canvas.height = next_canvas.height;
 			fast_canvas.style.width = slow_canvas.style.width;
 			fast_canvas.style.height = slow_canvas.style.height;
 			fast_canvas.getContext('2d').drawImage(next_canvas, 0, 0);
@@ -77,12 +73,8 @@ function moveToPageRelative (num) {
 		} else if (num == -1) {
 			let prev_canvas = document.getElementById('prev-cache-canvas');
 			
-			prev_canvas.width = slow_canvas.width;
-			prev_canvas.height = slow_canvas.height;
-			
-			fast_canvas.width = slow_canvas.width;
-			fast_canvas.height = slow_canvas.height;
-			fast_canvas.style.top = slow_canvas.style.top;
+			fast_canvas.width = prev_canvas.width;
+			fast_canvas.height = prev_canvas.height;
 			fast_canvas.style.width = slow_canvas.style.width;
 			fast_canvas.style.height = slow_canvas.style.height;
 			fast_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
@@ -108,7 +100,6 @@ function moveToChapter(chap) {
 	queueRenderPage(Number(chap));
 }
 var styleManager = {
-
 	updateStyles: function(style){
 		if(style.background)
 			document.body.style.background = style.background;
@@ -137,6 +128,8 @@ function centerCanvas(){
 	var slow_canvas = document.getElementById("slow-canvas");
 	var fast_canvas = document.getElementById("fast-canvas");
 	var move_canvas = document.getElementById("move-canvas");
+	var next_canvas = document.getElementById("next-cache-canvas");
+	var prev_canvas = document.getElementById("prev-cache-canvas");
 	if(window.innerWidth / window.innerHeight < book_aspect_ratio) {
 		slow_canvas.style.top = "50%";
 		slow_canvas.style.transform = "translateY(-50%)";
@@ -144,6 +137,10 @@ function centerCanvas(){
 		fast_canvas.style.transform = "translateY(-50%)";
 		move_canvas.style.top = "50%";
 		move_canvas.style.transform = "translateY(-50%)";
+		next_canvas.style.top = "50%";
+		next_canvas.style.transform = "translateY(-50%)";
+		prev_canvas.style.top = "50%";
+		prev_canvas.style.transform = "translateY(-50%)";
 	} else {
 		slow_canvas.style.top = "0px";
 		slow_canvas.style.transform = "translateY(-0px)";
@@ -151,6 +148,10 @@ function centerCanvas(){
 		fast_canvas.style.transform = "translateY(-0px)";
 		move_canvas.style.top = "0px";
 		move_canvas.style.transform = "translateY(-0px)";
+		next_canvas.style.top = "0px";
+		next_canvas.style.transform = "translateY(-0px)";
+		prev_canvas.style.top = "0px";
+		prev_canvas.style.transform = "translateY(-0px)";
 	}
 }
 
@@ -193,7 +194,6 @@ function updateCache() {
 // callback after rendering a page
 function renderCallback() {
 	// set up canvases
-	slowForeground();
 	centerCanvas();
 	
 	// Communicate with QML stuff
@@ -204,6 +204,9 @@ function renderCallback() {
 	console.log("status_requested");
 	
 	updateCache();
+	
+	// show
+	slowForeground();
 	
 	// if there is another page to render, render it
 	if (pageNumIsPending !== null) {
