@@ -19,7 +19,12 @@ var outline = [];
 // total number of pages in the book
 var number_of_pages = 0;
 // scale to use for rendering when doing it the fast way
-var fast_scale = 1.5;
+//var fast_scale = 1.5;
+var next_canvas_ready = true;
+var prev_canvas_ready = true;
+
+// helper function, pause execution for s milliseconds
+function sleep(s){ var now = new Date().getTime(); while(new Date().getTime() < now + (s)){} }
 
 // BOOK PAGE API
 
@@ -45,51 +50,78 @@ function moveToPageRelative (num) {
 	
 	// Don't trigger turning if it's the same page
 	if(target != pageNumber) {
+		
 		if(Math.abs(target - pageNumber) > 1)
 			console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
 		
 		// animation
-		let fast_canvas = document.getElementById('fast-canvas');
 		let slow_canvas = document.getElementById('slow-canvas');
 		let move_canvas = document.getElementById('move-canvas');
-			
+		let next_canvas = document.getElementById('next-cache-canvas');
+		let prev_canvas = document.getElementById('prev-cache-canvas');
+		
 		if(num == 1) {
-			let next_canvas = document.getElementById('next-cache-canvas');
-			
-			fast_canvas.width = next_canvas.width;
-			fast_canvas.height = next_canvas.height;
-			fast_canvas.style.width = slow_canvas.style.width;
-			fast_canvas.style.height = slow_canvas.style.height;
-			fast_canvas.getContext('2d').drawImage(next_canvas, 0, 0);
-			
-			fastForeground();
-			
+			// moving canvas will display old page
 			move_canvas.width = slow_canvas.width;
 			move_canvas.height = slow_canvas.height;
-			move_canvas.style.zIndex = 99;
+			move_canvas.getContext('2d').clearRect(0, 0, move_canvas.width, move_canvas.height);
 			move_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+			
+			// prev page will be current one
+			prev_canvas.width = slow_canvas.width;
+			prev_canvas.height = slow_canvas.height;
+			prev_canvas.getContext('2d').clearRect(0, 0, prev_canvas.width, prev_canvas.height);
+			prev_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+			
+			// slow canvas will display new page
+			slow_canvas.width = next_canvas.width;
+			slow_canvas.height = next_canvas.height;
+			slow_canvas.getContext('2d').clearRect(0, 0, slow_canvas.width, slow_canvas.height);
+			while(!next_canvas_ready) {}// sleep(20);
+			slow_canvas.getContext('2d').drawImage(next_canvas, 0, 0);
+			
+			// move canvas
+			move_canvas.style.zIndex = 99;
 			move_canvas.classList.add("transitionPageOut");
 			move_canvas.style.left = "-100%";
+			
+			// render new next page
+			next_canvas_ready = false;
+			renderPage(pageNumber+1, -1, "next-cache-canvas", function(){ next_canvas_ready = true }, (reason)=>console.log("# Failed to render cache: " + reason));
+			
 		} else if (num == -1) {
-			let prev_canvas = document.getElementById('prev-cache-canvas');
 			
-			fast_canvas.width = prev_canvas.width;
-			fast_canvas.height = prev_canvas.height;
-			fast_canvas.style.width = slow_canvas.style.width;
-			fast_canvas.style.height = slow_canvas.style.height;
-			fast_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
-			
-			fastForeground();
-			
+			// moving canvas will display old page
 			move_canvas.width = slow_canvas.width;
 			move_canvas.height = slow_canvas.height;
-			move_canvas.style.zIndex = 99;
+			move_canvas.getContext('2d').clearRect(0, 0, move_canvas.width, move_canvas.height);
 			move_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+			
+			// next page will be current one
+			next_canvas.width = slow_canvas.width;
+			next_canvas.height = slow_canvas.height;
+			next_canvas.getContext('2d').clearRect(0, 0, next_canvas.width, next_canvas.height);
+			next_canvas.getContext('2d').drawImage(slow_canvas, 0, 0);
+			
+			// slow canvas display new page
+			slow_canvas.width = prev_canvas.width;
+			slow_canvas.height = prev_canvas.height;
+			slow_canvas.getContext('2d').clearRect(0, 0, slow_canvas.width, slow_canvas.height);
+			while(!prev_canvas_ready) {}//sleep(20);
+			slow_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
+			
+			// move canvas
+			move_canvas.style.zIndex = 99;
 			move_canvas.classList.add("transitionPageOut");
 			move_canvas.style.left = "+100%";
+			
+			// render new prev page
+			prev_canvas_ready = false;
+			renderPage(pageNumber+1, -1, "prev-cache-canvas", function(){ prev_canvas_ready = true }, (reason)=>console.log("# Failed to render cache: " + reason));
 		}
-		
-		queueRenderPage(target);
+		// finalize stuff
+		pageNumber = target;
+		renderCallback();
 	}
 }
 function moveToLocus(locus) {
@@ -108,33 +140,30 @@ var styleManager = {
 }
 // END BOOK PAGE CALLS
 
-// this function clears the content of the canvas with name given
+/* this function clears the content of the canvas with name given
 function canvasClear(name) {
 	let cnv = document.getElementById(name);
 	cnv.getContext('2d').clearRect(0, 0, cnv.width, cnv.height);
-}
+}*/
 
+/*
 function slowForeground(){
 	document.getElementById("slow-canvas").style.zIndex = "1";
 	document.getElementById("fast-canvas").style.zIndex = "0";
 }
-
 function fastForeground(){
 	document.getElementById("slow-canvas").style.zIndex = "0";
 	document.getElementById("fast-canvas").style.zIndex = "1";
-}
+}*/
 
 function centerCanvas(){
 	var slow_canvas = document.getElementById("slow-canvas");
-	var fast_canvas = document.getElementById("fast-canvas");
 	var move_canvas = document.getElementById("move-canvas");
 	var next_canvas = document.getElementById("next-cache-canvas");
 	var prev_canvas = document.getElementById("prev-cache-canvas");
 	if(window.innerWidth / window.innerHeight < book_aspect_ratio) {
 		slow_canvas.style.top = "50%";
 		slow_canvas.style.transform = "translateY(-50%)";
-		fast_canvas.style.top = "50%";
-		fast_canvas.style.transform = "translateY(-50%)";
 		move_canvas.style.top = "50%";
 		move_canvas.style.transform = "translateY(-50%)";
 		next_canvas.style.top = "50%";
@@ -144,8 +173,6 @@ function centerCanvas(){
 	} else {
 		slow_canvas.style.top = "0px";
 		slow_canvas.style.transform = "translateY(-0px)";
-		fast_canvas.style.top = "0px";
-		fast_canvas.style.transform = "translateY(-0px)";
 		move_canvas.style.top = "0px";
 		move_canvas.style.transform = "translateY(-0px)";
 		next_canvas.style.top = "0px";
@@ -178,6 +205,7 @@ function renderPage(target_page, scale, canvas_name, success, fail) {
 }
 
 // renders previous and next page (fast) in cache canvases
+/*
 function updateCache() {
 	// clear old cache
 	canvasClear("next-cache-canvas");
@@ -189,7 +217,7 @@ function updateCache() {
 		renderPage(pageNumber-1, fast_scale, "prev-cache-canvas", ()=>{}, (reason)=>console.log("# Failed to render cache: " + reason));
 	if(pageNumber < number_of_pages)
 		renderPage(pageNumber+1, fast_scale, "next-cache-canvas", ()=>{}, (reason)=>console.log("# Failed to render cache: " + reason));
-}
+}*/
 
 // callback after rendering a page
 function renderCallback() {
@@ -203,10 +231,10 @@ function renderCallback() {
 	}
 	console.log("status_requested");
 	
-	updateCache();
+	//updateCache();
 	
 	// show
-	slowForeground();
+	//slowForeground();
 	
 	// if there is another page to render, render it
 	if (pageNumIsPending !== null) {
@@ -278,8 +306,8 @@ function transitionPageTurned() {
 	move_canvas.classList.remove("transitionPageOut");
 	move_canvas.style.zIndex = "-99";
 	move_canvas.style.left = "0px";
-	canvasClear("fast-canvas");
-	canvasClear("move-canvas");
+	//canvasClear("fast-canvas");
+	//canvasClear("move-canvas");
 }
 
 window.onload = function() {
