@@ -20,12 +20,6 @@ var prev_canvas_ready = false;
 // if a page turning is already ongoing, and we ignore other turns
 var ignore_page_turning = false;
 
-// helper function, pause execution for s milliseconds
-function sleep(s){
-	var now = new Date().getTime();
-	while( new Date().getTime() < now + (s) ) {}
-}
-
 // BOOK PAGE API
 
 function statusUpdate() {
@@ -161,10 +155,10 @@ function moveToPage(target, force_and_silent) {
 		}
 		// bigger jump - no animation - reset cache
 		else {
-			renderPage(pageNumber, -1, "slow-canvas", function(){ afterRendering(); ignore_page_turning = false; }, renderFailCallback);
 			//TODO: two page jump would preserve one page of cache actually
 			prev_canvas_ready = false;
 			next_canvas_ready = false;
+			renderPage(pageNumber, -1, "slow-canvas", function(){ afterRendering(); ignore_page_turning = false; }, renderFailCallback);
 		}
 	}
 }

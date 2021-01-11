@@ -198,8 +198,8 @@ Page {
 							rotation: 90
 							font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
 							font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
-							width: contentWidth
-							height: contentHeight
+							width: scaling.dp(60)
+							height: scaling.dp(60)
 							horizontalAlignment: Text.AlignHCenter
 							verticalAlignment: Text.AlignVCenter
 						}
