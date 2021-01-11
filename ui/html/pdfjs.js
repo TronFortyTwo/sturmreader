@@ -1,9 +1,5 @@
 // current page
 var pageNumber = 1;
-// if page is rendering
-var page_is_rendering = false;
-// if another page is pending for rendering
-var pageNumIsPending = null;
 // width of the page, always updated
 var page_width = window.innerWidth;
 // Aspet ratio of the book currently loaded
@@ -18,13 +14,17 @@ var doc = undefined;
 var outline = [];
 // total number of pages in the book
 var number_of_pages = 0;
-// scale to use for rendering when doing it the fast way
-//var fast_scale = 1.5;
-var next_canvas_ready = true;
-var prev_canvas_ready = true;
+// if next page and previous one are ready
+var next_canvas_ready = false;
+var prev_canvas_ready = false;
+// if a page turning is already ongoing, and we ignore other turns
+var ignore_page_turning = false;
 
 // helper function, pause execution for s milliseconds
-function sleep(s){ var now = new Date().getTime(); while(new Date().getTime() < now + (s)){} }
+function sleep(s){
+	var now = new Date().getTime();
+	while( new Date().getTime() < now + (s) ) {}
+}
 
 // BOOK PAGE API
 
@@ -41,26 +41,53 @@ function statusUpdate() {
 	console.log("pageNumber " + pageNumber);
 	console.log("UpdatePage");
 }
-function moveToPageRelative (num) {
-	let target = pageNumber + Number(num);
+function moveToPageRelative(num) {
+	moveToPage(pageNumber + Number(num), false);
+}
+function moveToLocus(locus) {
+	moveToPage(locus.pageNumber, false);
+}
+function moveToChapter(chap) {
+	moveToPage(Number(chap), false);
+}
+var styleManager = {
+	updateStyles: function(style){
+		if(style.background)
+			document.body.style.background = style.background;
+		console.log("ok");
+	}
+}
+// END BOOK PAGE CALLS
+
+function moveToPage(target, force_and_silent) {
+	// sanitize
 	if(target < 1)
 		target = 1;
 	else if(target > number_of_pages)
 		target = number_of_pages;
 	
 	// Don't trigger turning if it's the same page
-	if(target != pageNumber) {
+	// In theory ignore_page_turning and force_and_silent should never conflict
+	if((target != pageNumber && !ignore_page_turning) || force_and_silent) {
 		
-		if(Math.abs(target - pageNumber) > 1)
+		ignore_page_turning = true;
+		
+		let delta = target - pageNumber;
+		
+		if(Math.abs(delta) > 1 && !force_and_silent)
 			console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
 		
-		// animation
+		// update page number
+		pageNumber = target;
+		
+		// our canvases
 		let slow_canvas = document.getElementById('slow-canvas');
 		let move_canvas = document.getElementById('move-canvas');
 		let next_canvas = document.getElementById('next-cache-canvas');
 		let prev_canvas = document.getElementById('prev-cache-canvas');
 		
-		if(num == 1) {
+		// one page forward
+		if(delta == 1) {
 			// moving canvas will display old page
 			move_canvas.width = slow_canvas.width;
 			move_canvas.height = slow_canvas.height;
@@ -76,21 +103,28 @@ function moveToPageRelative (num) {
 			// slow canvas will display new page
 			slow_canvas.width = next_canvas.width;
 			slow_canvas.height = next_canvas.height;
-			slow_canvas.getContext('2d').clearRect(0, 0, slow_canvas.width, slow_canvas.height);
-			while(!next_canvas_ready) {}// sleep(20);
-			slow_canvas.getContext('2d').drawImage(next_canvas, 0, 0);
 			
-			// move canvas
-			move_canvas.style.zIndex = 99;
-			move_canvas.classList.add("transitionPageOut");
-			move_canvas.style.left = "-100%";
+			function whenNextCanvasReady() {
+				if(next_canvas_ready) {
+					slow_canvas.getContext('2d').clearRect(0, 0, slow_canvas.width, slow_canvas.height);
+					slow_canvas.getContext('2d').drawImage(next_canvas, 0, 0);
 			
-			// render new next page
-			next_canvas_ready = false;
-			renderPage(pageNumber+1, -1, "next-cache-canvas", function(){ next_canvas_ready = true }, (reason)=>console.log("# Failed to render cache: " + reason));
+					// move canvas
+					move_canvas.style.zIndex = 99;
+					move_canvas.classList.add("transitionPageOut");
+					move_canvas.style.left = "-100%";
 			
-		} else if (num == -1) {
+					// render new next page
+					next_canvas_ready = false;
 			
+					afterRendering();
+				}
+				else setTimeout(whenNextCanvasReady, 20 );
+			}
+			whenNextCanvasReady();
+		}
+		// one page back
+		else if (delta == -1) {
 			// moving canvas will display old page
 			move_canvas.width = slow_canvas.width;
 			move_canvas.height = slow_canvas.height;
@@ -106,55 +140,51 @@ function moveToPageRelative (num) {
 			// slow canvas display new page
 			slow_canvas.width = prev_canvas.width;
 			slow_canvas.height = prev_canvas.height;
-			slow_canvas.getContext('2d').clearRect(0, 0, slow_canvas.width, slow_canvas.height);
-			while(!prev_canvas_ready) {}//sleep(20);
-			slow_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
 			
-			// move canvas
-			move_canvas.style.zIndex = 99;
-			move_canvas.classList.add("transitionPageOut");
-			move_canvas.style.left = "+100%";
+			function whenPrevCanvasReady() {
+				if(prev_canvas_ready) {
+					slow_canvas.getContext('2d').clearRect(0, 0, slow_canvas.width, slow_canvas.height);
+					slow_canvas.getContext('2d').drawImage(prev_canvas, 0, 0);
 			
-			// render new prev page
-			prev_canvas_ready = false;
-			renderPage(pageNumber+1, -1, "prev-cache-canvas", function(){ prev_canvas_ready = true }, (reason)=>console.log("# Failed to render cache: " + reason));
+					// move canvas
+					move_canvas.style.zIndex = 99;
+					move_canvas.classList.add("transitionPageOut");
+					move_canvas.style.left = "+100%";
+			
+					// render new prev page
+					prev_canvas_ready = false;
+			
+					afterRendering();
+				} else setTimeout( whenPrevCanvasReady, 20 );
+			}
+			whenPrevCanvasReady();
 		}
-		// finalize stuff
-		pageNumber = target;
-		renderCallback();
+		// bigger jump - no animation - reset cache
+		else {
+			renderPage(pageNumber, -1, "slow-canvas", function(){ afterRendering(); ignore_page_turning = false; }, renderFailCallback);
+			//TODO: two page jump would preserve one page of cache actually
+			prev_canvas_ready = false;
+			next_canvas_ready = false;
+		}
 	}
 }
-function moveToLocus(locus) {
-	queueRenderPage(locus.pageNumber);
-}
-function moveToChapter(chap) {
-	console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({c: Number(chap)}));
-	queueRenderPage(Number(chap));
-}
-var styleManager = {
-	updateStyles: function(style){
-		if(style.background)
-			document.body.style.background = style.background;
-		console.log("ok");
+function afterRendering() {
+	// finalize stuff
+	centerCanvas();
+	
+	// Communicate with QML
+	if(first_render) {
+		first_render = false;
+		console.log("Ready");
 	}
+	console.log("status_requested");
+	
+	// update cache
+	if(!prev_canvas_ready)
+		renderPage(pageNumber-1, -1, "prev-cache-canvas", function(){ prev_canvas_ready = true; }, renderFailCallback);
+	if(!next_canvas_ready)
+		renderPage(pageNumber+1, -1, "next-cache-canvas", function(){ next_canvas_ready = true; }, renderFailCallback);
 }
-// END BOOK PAGE CALLS
-
-/* this function clears the content of the canvas with name given
-function canvasClear(name) {
-	let cnv = document.getElementById(name);
-	cnv.getContext('2d').clearRect(0, 0, cnv.width, cnv.height);
-}*/
-
-/*
-function slowForeground(){
-	document.getElementById("slow-canvas").style.zIndex = "1";
-	document.getElementById("fast-canvas").style.zIndex = "0";
-}
-function fastForeground(){
-	document.getElementById("slow-canvas").style.zIndex = "0";
-	document.getElementById("fast-canvas").style.zIndex = "1";
-}*/
 
 function centerCanvas(){
 	var slow_canvas = document.getElementById("slow-canvas");
@@ -203,59 +233,7 @@ function renderPage(target_page, scale, canvas_name, success, fail) {
 		}, fail
 	)
 }
-
-// renders previous and next page (fast) in cache canvases
-/*
-function updateCache() {
-	// clear old cache
-	canvasClear("next-cache-canvas");
-	canvasClear("prev-cache-canvas");
-	
-	// find the pages to cache (next, previous) (relative values)
-	// TODO: optimize all this stuff
-	if(pageNumber > 1)
-		renderPage(pageNumber-1, fast_scale, "prev-cache-canvas", ()=>{}, (reason)=>console.log("# Failed to render cache: " + reason));
-	if(pageNumber < number_of_pages)
-		renderPage(pageNumber+1, fast_scale, "next-cache-canvas", ()=>{}, (reason)=>console.log("# Failed to render cache: " + reason));
-}*/
-
-// callback after rendering a page
-function renderCallback() {
-	// set up canvases
-	centerCanvas();
-	
-	// Communicate with QML stuff
-	if(first_render) {
-		first_render = false;
-		console.log("Ready");
-	}
-	console.log("status_requested");
-	
-	//updateCache();
-	
-	// show
-	//slowForeground();
-	
-	// if there is another page to render, render it
-	if (pageNumIsPending !== null) {
-		var temp_next_page = pageNumIsPending;
-		pageNumIsPending = null;
-		pageNumber = temp_next_page;
-		renderPage(temp_next_page, -1, 'slow-canvas', renderCallback, renderFailCallback);
-	}
-}
 function renderFailCallback(reason) { console.log("page rendering failed: " + reason); }
-
-function queueRenderPage (num) {
-    if (page_is_rendering) {
-        pageNumIsPending = num;
-    } else {
-		page_is_rendering = true;
-		pageNumber = num;
-        renderPage(num, -1, 'slow-canvas', renderCallback, renderFailCallback);
-		page_is_rendering = false;
-    }
-};
 
 function tapPageTurn(ev) {
 	// do not move if zoomed
@@ -306,12 +284,10 @@ function transitionPageTurned() {
 	move_canvas.classList.remove("transitionPageOut");
 	move_canvas.style.zIndex = "-99";
 	move_canvas.style.left = "0px";
-	//canvasClear("fast-canvas");
-	//canvasClear("move-canvas");
+	ignore_page_turning = false;
 }
 
 window.onload = function() {
-	
 	// initalize canvas
 	document.getElementById("next-cache-canvas").style.visibility = "hidden";
 	document.getElementById("prev-cache-canvas").style.visibility = "hidden";
@@ -352,7 +328,7 @@ window.onload = function() {
 			}, (reason) => console.log("# cannot fetch outline: " + reason) );
 			
 			// render
-			queueRenderPage(pageNumber);
+			moveToPage(pageNumber, true);
 		}, (reason) => console.log("# file loading failed: " + reason)
 	);
 }
@@ -366,5 +342,5 @@ window.onresize = function() {
 	
 	// trigger a background rendering if resolution increase
 	if(window.innerWidth > past_width)
-		queueRenderPage(pageNumber);
+		moveToPage(pageNumber, true);
 }
