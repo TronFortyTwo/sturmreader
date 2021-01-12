@@ -34,5 +34,6 @@ QtObject {
 			return;
 		}
 		console.log("Scaling implementation: Portable");
+		console.log("scaling.dp(100) = " + scaling.dp(100) );
 	}
 }
