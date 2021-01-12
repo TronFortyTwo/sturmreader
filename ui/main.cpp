@@ -25,6 +25,7 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QLoggingCategory>
+#include <QIcon>
 
 #include <string>
 #include <locale>
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
 	QString app_name = "sturmreader.emanuelesorce";
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName(app_name);
+	app->setWindowIcon(QIcon("ui/sturmreader.svg"));
 	
 	// styling
 	StyleSetting styleSetting;
