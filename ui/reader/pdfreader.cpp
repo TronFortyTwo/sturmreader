@@ -12,8 +12,6 @@
 #include <QBuffer>
 #include <QDir>
 #include <QCryptographicHash>
-#include "quazip/quazip.h"
-#include "quazip/quazipfile.h"
 #include "../qhttpserver/qhttpresponse.h"
 
 QString guessMimeType(const QString &filename);

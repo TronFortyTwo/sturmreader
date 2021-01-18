@@ -10,7 +10,8 @@
 #include <QObject>
 #include <QDomDocument>
 #include <QVariant>
-#include "quazip/quazip.h"
+#include <QuaZip-Qt5-1.1/quazip/quazip.h>
+#include <QuaZip-Qt5-1.1/quazip/quazipfile.h>
 #include "../qhttpserver/qhttpresponse.h"
 
 class EpubReader : public QObject

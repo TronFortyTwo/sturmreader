@@ -39,6 +39,7 @@ find_package(Qt5Gui REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(Intl REQUIRED)
+find_package(QuaZip-Qt5 REQUIRED)
 
 file(GLOB I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
@@ -96,20 +97,8 @@ add_executable(sturmreader
 	ui/reader/epubreader.cpp
 	ui/reader/cbzreader.cpp
 	ui/reader/pdfreader.cpp
-	ui/reader/quazip/JlCompress.cpp
-	ui/reader/quazip/qioapi.cpp
-	ui/reader/quazip/quacrc32.cpp
-	ui/reader/quazip/quaadler32.cpp
-	ui/reader/quazip/quazip.cpp
-	ui/reader/quazip/quazipfile.cpp
-	ui/reader/quazip/quagzipfile.cpp
-	ui/reader/quazip/quazipfileinfo.cpp
-	ui/reader/quazip/quaziodevice.cpp
-	ui/reader/quazip/quazipnewinfo.cpp
-	ui/reader/quazip/unzip.c
-	ui/reader/quazip/zip.c
 	${QT_RESOURCES} )
-target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Quick Qt5::QuickControls2)
+target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} QuaZip::QuaZip ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Quick Qt5::QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
 # Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory
