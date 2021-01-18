@@ -246,10 +246,11 @@ Page {
                 fullcover = ""
                 hash = ""
             }
+            
             tx.executeSql("UPDATE LocalBooks SET title=?, author=?, authorsort=?, cover=?, " +
                           "fullcover=?, hash=? WHERE filename=?",
                           [title, author, authorsort, cover, fullcover, hash, res.rows.item(0).filename])
-
+			
 			// Search the book on all the views and update its data
             if (localBooks.visible) {
 				for (var i=0; i<gridModel.count; i++) {
@@ -451,7 +452,7 @@ Page {
 					var item = res.rows.item(i)
 					if (filesystem.exists(item.filename))
 						append({filename: item.filename, title: item.title,
-							author: item.author, cover: item.cover, fullcover: item.fullcover,
+							author: item.author, cover: item.cover, fullcover: item.fullcover || "ZZZnull",
 							authorsort: item.authorsort, count: item["count(*)"]})
 				}
 			})
@@ -474,7 +475,7 @@ Page {
 					var item = res.rows.item(i)
 					if (filesystem.exists(item.filename))
 						append({filename: item.filename, title: item.title,
-							author: item.author, cover: item.cover, fullcover: item.fullcover,
+							author: item.author, cover: item.cover, fullcover: item.fullcover || "ZZZnull",
 							authorsort: item.authorsort, count: item["count(*)"]})
 				}
 			})
@@ -495,7 +496,7 @@ Page {
 					var item = res.rows.item(i)
 					if (filesystem.exists(item.filename))
 						append({filename: item.filename, title: item.title,
-							author: item.author, cover: item.cover, fullcover: item.fullcover,
+							author: item.author, cover: item.cover, fullcover: item.fullcover || "ZZZnull",
 							authorsort: item.authorsort, count: item["count(*)"]})
 				}
 			})

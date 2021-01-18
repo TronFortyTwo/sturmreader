@@ -34,7 +34,7 @@ Item {
 			source: {
 				if (model.cover == "ZZZerror")
 					return defaultCover.errorCover(model)
-				if (!model.fullcover)
+				if (!model.fullcover || model.fullcover == "ZZZnull")
 					return defaultCover.missingCover(model)
 				return model.fullcover
 			}
@@ -55,7 +55,7 @@ Item {
 				style: Text.Raised
 				styleColor: defaultCover.highlightColor(model, defaultCover.hue(model))
 				font.family: "URW Bookman L"
-				visible: !model.fullcover
+				visible: !model.fullcover || model.fullcover == "ZZZnull"
 				text: model.title
 			}
 
@@ -72,7 +72,7 @@ Item {
 				style: Text.Raised
 				styleColor: defaultCover.highlightColor(model, defaultCover.hue(model))
 				font.family: "URW Bookman L"
-				visible: !model.fullcover
+				visible: !model.fullcover || model.fullcover == "ZZZnull"
 				text: model.author
 			}
 		}
