@@ -11,17 +11,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 
-QtObject {
-	
-	// See Main.qml - should be the same
- 	Material.theme: Material.Dark
- 	Material.primary: Material.Red
- 	Material.accent: Material.DeepOrange
- 	
-	// TODO: better fallback colors
-	
-	// TODO: this is really bad actually
-	
+Item {
 	property color background: "#FFFFFF"
 	property color foreground: "#F7F7F7"
 	property color item: "black"
