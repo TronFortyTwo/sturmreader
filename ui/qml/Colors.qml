@@ -45,8 +45,8 @@ Item {
 			overlay = Material.primary;
 			shadow = Material.foreground;
 			itemDetail = Material.accent;
-			negative = Material.Red;
-			positive = Material.Green;
+			negative = Material.color(Material.Red)
+			positive = Material.color(Material.Green);
 		}
 		else
 			console.log("Color palette: Generic");
