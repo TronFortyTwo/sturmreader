@@ -33,6 +33,7 @@ Q_OBJECT
 public:
 	StyleSetting();
 	
+	// Those do exactly what you expect them to do
 	Q_INVOKABLE
 	QStringList availableStyles();
 	

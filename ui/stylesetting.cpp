@@ -24,16 +24,22 @@ StyleSetting::StyleSetting():
 {
 	auto styleList = availableStyles();
 	
-	QString style = "Suru";
-	// If Suru (ubuntu touch) is not available, fallback to Material
+	QString default_style = "Suru";
+	// If Suru style is not available, fallback to Material
 	if(!styleList.contains("Suru"))
-		style = "Material";
+		default_style = "Material";
 	
 	// update from settings
-	store.setValue(field_name, store.value(field_name, style));
-	style = store.value(field_name).toString();
+	store.setValue(field_name, store.value(field_name, default_style));
+	QString final_style = store.value(field_name).toString();
 	
-	QQuickStyle::setStyle(style);
+	// check that saved style is available, if not fallback to default
+	if(!styleList.contains(final_style)) {
+		final_style = default_style;
+		store.setValue(field_name, final_style);
+	}
+	
+	QQuickStyle::setStyle(final_style);
 }
 
 QStringList StyleSetting::availableStyles() {
