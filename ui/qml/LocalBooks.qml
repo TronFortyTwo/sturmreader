@@ -336,7 +336,7 @@ Page {
     }
 
     function loadBookDir() {
-        if (filesystem.readableHome()) {
+        if (readablehome) {
             readablehome = true
             var storeddir = getSetting("bookdir")
             bookdir = (storeddir == null) ? filesystem.getDataDir(defaultdirname) : storeddir
@@ -402,14 +402,14 @@ Page {
 				loadBookDir()
 				readBookDir()
 			} else {
-				readablehome = filesystem.readableHome()
-				if (readablehome) {
-					setBookDir(filesystem.homePath() + "/" + defaultdirname)
-					settingsDialog.open()
-				} else {
+                //readablehome = filesystem.readableHome()
+                //if (readablehome) {
+                //	setBookDir(filesystem.homePath() + "/" + defaultdirname)
+                //	settingsDialog.open()
+                //} else {
 					setBookDir(filesystem.getDataDir(defaultdirname))
-					readBookDir()
-				}
+                    readBookDir()
+                //}
 			}
 		}
 	}
