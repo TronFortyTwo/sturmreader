@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-01-18 20:15+0100\n"
+"POT-Creation-Date: 2021-01-18 20:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,36 +89,46 @@ msgstr ""
 msgid "Book Settings"
 msgstr ""
 
-#: ui/qml/BookPage.qml:765 ui/qml/BookPage.qml:774
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:713
+msgid "Color scheme"
+msgstr ""
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:780
+msgid "Font"
+msgstr ""
+
+#: ui/qml/BookPage.qml:790 ui/qml/BookPage.qml:800
 msgid "Default Font"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:786
+#: ui/qml/BookPage.qml:813
 msgid "Font Scaling"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:810
+#: ui/qml/BookPage.qml:837
 msgid "Line Height"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:834
+#: ui/qml/BookPage.qml:861
 msgid "Margins"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:857
+#: ui/qml/BookPage.qml:884
 msgid "Make Default"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:865
+#: ui/qml/BookPage.qml:892
 msgid "Load Defaults"
 msgstr ""
 
-#: ui/qml/BookPage.qml:873
+#: ui/qml/BookPage.qml:900
 msgid "Close"
 msgstr ""
 

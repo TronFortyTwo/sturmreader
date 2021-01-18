@@ -704,75 +704,102 @@ Page {
 				
 				spacing: scaling.dp(20)
 				
-				ComboBox {
+				Row {
 					anchors.horizontalCenter: parent.horizontalCenter
-					width: parent.width * 0.8
-					id: colorSelector
-					displayText: styleModel.get(currentIndex).stext
-					model: ListModel {
-						id: styleModel
-						ListElement {
-							stext: "Black on White"
-							back: "white"
-							fore: "black"
-							comboboxback: "white"
-							comboboxfore: "black"
-						}
-						ListElement {
-							stext: "Dark on Texture"
-							back: "url(.background_paper@30.png)"
-							fore: "#222"
-							comboboxback: "#dddddd"
-							comboboxfore: "#222222"
-						}
-						ListElement {
-							stext: "Light on Texture"
-							back: "url(.background_paper_invert@30.png)"
-							fore: "#999"
-							comboboxback: "#222222"
-							comboboxfore: "#dddddd"
-						}
-						ListElement {
-							stext: "White on Black"
-							back: "black"
-							fore: "white"
-							comboboxback: "black"
-							comboboxfore: "white"
-						}
+					width: parent.width * 0.9
+					
+					Label {
+						/*/ Prefer string of < 16 characters /*/
+						text: gettext.tr("Color scheme")
+						verticalAlignment: Text.AlignVCenter
+						wrapMode: Text.Wrap
+						width: stylesDialog.labelwidth
+						height: fontSelector.height
 					}
-					onCurrentIndexChanged: {
-						bookStyles.textColor = styleModel.get(currentIndex).fore
-						bookStyles.background = styleModel.get(currentIndex).back
-					}
-					delegate: ItemDelegate {
-						highlighted: colorSelector.highlightedIndex === index
-						width: parent.width
-						contentItem: Label {
-							text: stext
-							color: comboboxfore
+					
+					ComboBox {
+						id: colorSelector
+						displayText: styleModel.get(currentIndex).stext
+						width: parent.width - stylesDialog.labelwidth
+						model: ListModel {
+							id: styleModel
+							ListElement {
+								stext: "Black on White"
+								back: "white"
+								fore: "black"
+								comboboxback: "white"
+								comboboxfore: "black"
+							}
+							ListElement {
+								stext: "Dark on Texture"
+								back: "url(.background_paper@30.png)"
+								fore: "#222"
+								comboboxback: "#dddddd"
+								comboboxfore: "#222222"
+							}
+							ListElement {
+								stext: "Light on Texture"
+								back: "url(.background_paper_invert@30.png)"
+								fore: "#999"
+								comboboxback: "#222222"
+								comboboxfore: "#dddddd"
+							}
+							ListElement {
+								stext: "White on Black"
+								back: "black"
+								fore: "white"
+								comboboxback: "black"
+								comboboxfore: "white"
+							}
 						}
-						background: Rectangle {
-							color: comboboxback
+						onCurrentIndexChanged: {
+							bookStyles.textColor = styleModel.get(currentIndex).fore
+							bookStyles.background = styleModel.get(currentIndex).back
+						}
+						delegate: ItemDelegate {
+							highlighted: colorSelector.highlightedIndex === index
+							width: parent.width
+							contentItem: Label {
+								text: stext
+								color: comboboxfore
+							}
+							background: Rectangle {
+								color: comboboxback
+							}
 						}
 					}
 				}
-				ComboBox {
+				
+				Row {
 					anchors.horizontalCenter: parent.horizontalCenter
-					width: parent.width * 0.8
-					id: fontSelector
+					width: parent.width * 0.9
 					visible: !server.reader.pictureBook
-					onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
-					displayText: (model[currentIndex] == "Default") ? gettext.tr("Default Font") : model[currentIndex]
 					
-					model: fontLister.fontList
+					Label {
+						/*/ Prefer string of < 16 characters /*/
+						text: gettext.tr("Font")
+						verticalAlignment: Text.AlignVCenter
+						wrapMode: Text.Wrap
+						width: stylesDialog.labelwidth
+						height: fontSelector.height
+					}
 					
-					delegate: ItemDelegate {
-						highlighted: fontSelector.highlightedIndex === index
-						width: parent.width
-						contentItem: Label {
-							verticalAlignment: Text.AlignVCenter
-							text: (modelData == "Default") ? gettext.tr("Default Font") : modelData
-							font.family: modelData
+					ComboBox {
+						id: fontSelector
+						onCurrentIndexChanged: bookStyles.fontFamily = model[currentIndex]
+						displayText: (model[currentIndex] == "Default") ? gettext.tr("Default Font") : model[currentIndex]
+						width: parent.width - stylesDialog.labelwidth
+						
+						model: fontLister.fontList
+						
+						delegate: ItemDelegate {
+							highlighted: fontSelector.highlightedIndex === index
+							width: parent.width
+							contentItem: Label {
+								verticalAlignment: Text.AlignVCenter
+								text: (modelData == "Default") ? gettext.tr("Default Font") : modelData
+								font.family: modelData
+							}
 						}
 					}
 				}
