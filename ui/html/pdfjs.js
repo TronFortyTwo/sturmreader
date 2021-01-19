@@ -282,6 +282,10 @@ function transitionPageTurned() {
 }
 
 window.onload = function() {
+	
+	// set up QML
+	console.log("pictureBook");
+	
 	// initalize canvas
 	document.getElementById("next-cache-canvas").style.visibility = "hidden";
 	document.getElementById("prev-cache-canvas").style.visibility = "hidden";

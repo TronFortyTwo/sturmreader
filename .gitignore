@@ -5,9 +5,10 @@ tmp
 click
 *.click
 *.tar.gz
-ui/Textures.qml
+/ui/Textures.qml
 .excludes
 *~
-buil*
-.clickable/
+/build2/
+/build/
+/.clickable/
 CMake*

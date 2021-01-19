@@ -32,6 +32,9 @@ Page {
 	property string book_componentId;
 	property real book_percent;
 	
+	// picture (i.e. pdf) has limited options
+	property bool pictureBook: false;
+	
 	property int pdf_pageNumber: 0;
 	property int pdf_numberOfPages: 0;
     
@@ -100,7 +103,7 @@ Page {
 				}
 				TabButton {
 					text: gettext.tr("Pages")
-					visible: server.reader.pictureBook && !appsettings.legacypdf
+					visible: pictureBook && !appsettings.legacypdf
 					onClicked: {
 						outlineLoader.visible = false;
 						pagesLoader.visible = true;
@@ -466,6 +469,8 @@ Page {
 			} else if(msg[0] == "monocle:link:external") {
 				var comp_id = msg[1].split("127.0.0.1:" + server.port + "/")[1];
 				runJavaScript("moveToChapter('" + comp_id + "')");
+			} else if(msg[0] == "pictureBook") {
+				pictureBook = true;
 			// debug messages
 			} else if(msg[0] == "#") {}
 			// not handled messages
@@ -538,9 +543,9 @@ Page {
             lineHeight = styles.lineHeight || defaults.lineHeight
             fontScale = styles.fontScale || defaults.fontScale
             background = styles.background || defaults.background
-            margin = styles.margin || (server.reader.pictureBook ? 0 : defaults.margin)
-            marginv = styles.marginv || (server.reader.pictureBook ? 0 : defaults.marginv)
-            bumper = server.reader.pictureBook ? 0 : 1
+            margin = styles.margin || (pictureBook ? 0 : defaults.margin)
+            marginv = styles.marginv || (pictureBook ? 0 : defaults.marginv)
+            bumper = pictureBook ? 0 : 1
             loading = false
         }
 
@@ -773,7 +778,7 @@ Page {
 				Row {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
-					visible: !server.reader.pictureBook
+					visible: !pictureBook
 					
 					Label {
 						/*/ Prefer string of < 16 characters /*/
@@ -807,7 +812,7 @@ Page {
 				Row {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
-					visible: !server.reader.pictureBook
+					visible: !pictureBook
 					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Font Scaling")
@@ -831,7 +836,7 @@ Page {
 				Row {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
-					visible: !server.reader.pictureBook
+					visible: !pictureBook
 					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Line Height")
@@ -855,7 +860,7 @@ Page {
 				Row {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
-					visible: !server.reader.pictureBook
+					visible: !pictureBook
 					Label {
 						/*/ Prefer string of < 16 characters /*/
 						text: gettext.tr("Margins")

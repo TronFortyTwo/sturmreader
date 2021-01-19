@@ -16,7 +16,6 @@ Item {
     property var currentReader: undefined
 	
     property string filename: ""
-    property bool pictureBook: currentReader !== epubreader
 	property string error: currentReader === undefined ?
 		gettext.tr("Could not determine file type.\n\nRemember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."):
 		gettext.tr("Could not parse file.\n\nAlthough it appears to be a %1 file, it could not be parsed by Sturm Reader.").arg(fileType)

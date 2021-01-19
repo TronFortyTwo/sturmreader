@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-01-19 21:34+0100\n"
+"POT-Creation-Date: 2021-01-19 23:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,150 +18,150 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ui/qml/About.qml:30
-msgid "About"
+#: ui/qml/Settings.qml:33
+msgid "Settings"
 msgstr ""
 
-#: ui/qml/About.qml:75
-msgid "Sturm Reader"
+#: ui/qml/Settings.qml:64 ui/qml/Settings.qml:95
+msgid "Default Book Location"
 msgstr ""
 
-#: ui/qml/About.qml:83
+#: ui/qml/Settings.qml:68
 msgid ""
-"Sturm (und Drang) Reader is an open source Ebook reader.<br>Community is "
-"what makes this app possible, so pull requests, translations, feedback and "
-"donations are very appreciated :)<br>This app Is a fork of the Beru app by "
-"Rshcroll, Thanks!<br>This app stands on the shoulder of various Open Source "
-"projects, see source code for licensing details"
+"Sturm Reader seems to be operating under AppArmor restrictions that prevent "
+"it from accessing most of your home directory.  Ebooks should be put in <i>"
+"%1</i> for Sturm Reader to read them."
 msgstr ""
 
-#: ui/qml/About.qml:91
+#. / Read the books in the given directory again. /
+#: ui/qml/Settings.qml:76 ui/qml/Settings.qml:122
+msgid "Reload Directory"
+msgstr ""
+
+#: ui/qml/Settings.qml:99
 msgid ""
-"A big thanks to all translators, beta-testers, and users<br/>in general who "
-"improve this app with their work and feedback"
+"Enter the folder in your home directory where your ebooks are or should be "
+"stored. Changing this value will not affect existing books in your library."
 msgstr ""
 
-#: ui/qml/About.qml:99
-msgid "A special thanks to Joan Cibersheep for the new logo"
+#. / Create a new directory from path given. /
+#: ui/qml/Settings.qml:113
+msgid "Create Directory"
 msgstr ""
 
-#: ui/qml/About.qml:107
-msgid "A special thanks to Jeroen for support and a test device"
+#. / File exists with path given. /
+#: ui/qml/Settings.qml:117
+msgid "File Exists"
 msgstr ""
 
-#: ui/qml/About.qml:112
-msgid "See source on Github"
+#. / Use directory specified to store books. /
+#: ui/qml/Settings.qml:125
+msgid "Use Directory"
 msgstr ""
 
-#: ui/qml/About.qml:120
-msgid "Report bug or feature request"
+#: ui/qml/Settings.qml:159
+msgid "Use legacy PDF viewer"
 msgstr ""
 
-#: ui/qml/About.qml:128
-msgid "See License (GNU GPL v3)"
+#: ui/qml/Settings.qml:172
+msgid "Application Style (experimental)"
 msgstr ""
 
-#: ui/qml/About.qml:135
-msgid "❤Donate❤"
+#: ui/qml/Settings.qml:176
+msgid "Supported styles: "
 msgstr ""
 
-#: ui/qml/BookPage.qml:81
-msgid "Contents"
-msgstr ""
-
-#: ui/qml/BookPage.qml:94
-msgid "Outline"
-msgstr ""
-
-#: ui/qml/BookPage.qml:102
-msgid "Pages"
-msgstr ""
-
-#: ui/qml/BookPage.qml:130 ui/qml/BookPage.qml:179
-msgid "Page"
-msgstr ""
-
-#: ui/qml/BookPage.qml:154
-msgid "No outline available"
-msgstr ""
-
-#: ui/qml/BookPage.qml:668
-msgid "Book Settings"
-msgstr ""
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:713
-msgid "Color scheme"
-msgstr ""
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:780
-msgid "Font"
-msgstr ""
-
-#: ui/qml/BookPage.qml:790 ui/qml/BookPage.qml:800
-msgid "Default Font"
-msgstr ""
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:813
-msgid "Font Scaling"
-msgstr ""
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:837
-msgid "Line Height"
-msgstr ""
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:861
-msgid "Margins"
-msgstr ""
-
-#. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:884
-msgid "Make Default"
-msgstr ""
-
-#. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:892
-msgid "Load Defaults"
-msgstr ""
-
-#: ui/qml/BookPage.qml:900
-msgid "Close"
-msgstr ""
-
-#: ui/qml/ImportPage.qml:42
-msgid "Importing books..."
-msgstr ""
-
-#: ui/qml/ImportPage.qml:92
-msgid "Waiting"
-msgstr ""
-
-#: ui/qml/ImportPage.qml:94
-msgid "Processing"
-msgstr ""
-
-#: ui/qml/ImportPage.qml:96
-msgid "Imported to %1"
-msgstr ""
-
-#: ui/qml/ImportPage.qml:98
-msgid "Already in library: %1"
-msgstr ""
-
-#: ui/qml/ImportPage.qml:100
-msgid "Error: %1"
-msgstr ""
-
-#: ui/qml/ImporterPortable.qml:23
-msgid "Choose the books to import"
+#: ui/qml/Settings.qml:181
+msgid "Requires a restart to take effect"
 msgstr ""
 
 #: ui/qml/ImporterUT.qml:51
 msgid "Import books from"
+msgstr ""
+
+#: ui/qml/BookPage.qml:84
+msgid "Contents"
+msgstr ""
+
+#: ui/qml/BookPage.qml:97
+msgid "Outline"
+msgstr ""
+
+#: ui/qml/BookPage.qml:105
+msgid "Pages"
+msgstr ""
+
+#: ui/qml/BookPage.qml:133 ui/qml/BookPage.qml:182
+msgid "Page"
+msgstr ""
+
+#: ui/qml/BookPage.qml:157
+msgid "No outline available"
+msgstr ""
+
+#: ui/qml/BookPage.qml:673
+msgid "Book Settings"
+msgstr ""
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:718
+msgid "Color scheme"
+msgstr ""
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:785
+msgid "Font"
+msgstr ""
+
+#: ui/qml/BookPage.qml:795 ui/qml/BookPage.qml:805
+msgid "Default Font"
+msgstr ""
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:818
+msgid "Font Scaling"
+msgstr ""
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:842
+msgid "Line Height"
+msgstr ""
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookPage.qml:866
+msgid "Margins"
+msgstr ""
+
+#. / Prefer < 16 characters /
+#: ui/qml/BookPage.qml:889
+msgid "Make Default"
+msgstr ""
+
+#. / Prefer < 16 characters /
+#: ui/qml/BookPage.qml:897
+msgid "Load Defaults"
+msgstr ""
+
+#: ui/qml/BookPage.qml:905
+msgid "Close"
+msgstr ""
+
+#: ui/qml/Reader.qml:20
+msgid ""
+"Could not determine file type.\n"
+"\n"
+"Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
+msgstr ""
+
+#: ui/qml/Reader.qml:21
+msgid ""
+"Could not parse file.\n"
+"\n"
+"Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
+msgstr ""
+
+#: ui/qml/ImporterPortable.qml:23
+msgid "Choose the books to import"
 msgstr ""
 
 #: ui/qml/LocalBooks.qml:41
@@ -241,6 +241,77 @@ msgstr ""
 msgid "Swipe to Delete"
 msgstr ""
 
+#: ui/qml/About.qml:30
+msgid "About"
+msgstr ""
+
+#: ui/qml/About.qml:75
+msgid "Sturm Reader"
+msgstr ""
+
+#: ui/qml/About.qml:83
+msgid ""
+"Sturm (und Drang) Reader is an open source Ebook reader.<br>Community is "
+"what makes this app possible, so pull requests, translations, feedback and "
+"donations are very appreciated :)<br>This app Is a fork of the Beru app by "
+"Rshcroll, Thanks!<br>This app stands on the shoulder of various Open Source "
+"projects, see source code for licensing details"
+msgstr ""
+
+#: ui/qml/About.qml:91
+msgid ""
+"A big thanks to all translators, beta-testers, and users<br/>in general who "
+"improve this app with their work and feedback"
+msgstr ""
+
+#: ui/qml/About.qml:99
+msgid "A special thanks to Joan Cibersheep for the new logo"
+msgstr ""
+
+#: ui/qml/About.qml:107
+msgid "A special thanks to Jeroen for support and a test device"
+msgstr ""
+
+#: ui/qml/About.qml:112
+msgid "See source on Github"
+msgstr ""
+
+#: ui/qml/About.qml:120
+msgid "Report bug or feature request"
+msgstr ""
+
+#: ui/qml/About.qml:128
+msgid "See License (GNU GPL v3)"
+msgstr ""
+
+#: ui/qml/About.qml:135
+msgid "❤Donate❤"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:42
+msgid "Importing books..."
+msgstr ""
+
+#: ui/qml/ImportPage.qml:92
+msgid "Waiting"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:94
+msgid "Processing"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:96
+msgid "Imported to %1"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:98
+msgid "Already in library: %1"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:100
+msgid "Error: %1"
+msgstr ""
+
 #: ui/qml/Main.qml:106
 msgid "Error Opening File"
 msgstr ""
@@ -251,75 +322,4 @@ msgstr ""
 
 #: ui/qml/MetricsUT.qml:14
 msgid "No pages read today"
-msgstr ""
-
-#: ui/qml/Reader.qml:21
-msgid ""
-"Could not determine file type.\n"
-"\n"
-"Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
-msgstr ""
-
-#: ui/qml/Reader.qml:22
-msgid ""
-"Could not parse file.\n"
-"\n"
-"Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
-msgstr ""
-
-#: ui/qml/Settings.qml:33
-msgid "Settings"
-msgstr ""
-
-#: ui/qml/Settings.qml:64 ui/qml/Settings.qml:95
-msgid "Default Book Location"
-msgstr ""
-
-#: ui/qml/Settings.qml:68
-msgid ""
-"Sturm Reader seems to be operating under AppArmor restrictions that prevent "
-"it from accessing most of your home directory.  Ebooks should be put in <i>"
-"%1</i> for Sturm Reader to read them."
-msgstr ""
-
-#. / Read the books in the given directory again. /
-#: ui/qml/Settings.qml:76 ui/qml/Settings.qml:122
-msgid "Reload Directory"
-msgstr ""
-
-#: ui/qml/Settings.qml:99
-msgid ""
-"Enter the folder in your home directory where your ebooks are or should be "
-"stored. Changing this value will not affect existing books in your library."
-msgstr ""
-
-#. / Create a new directory from path given. /
-#: ui/qml/Settings.qml:113
-msgid "Create Directory"
-msgstr ""
-
-#. / File exists with path given. /
-#: ui/qml/Settings.qml:117
-msgid "File Exists"
-msgstr ""
-
-#. / Use directory specified to store books. /
-#: ui/qml/Settings.qml:125
-msgid "Use Directory"
-msgstr ""
-
-#: ui/qml/Settings.qml:159
-msgid "Use legacy PDF viewer"
-msgstr ""
-
-#: ui/qml/Settings.qml:172
-msgid "Application Style (experimental)"
-msgstr ""
-
-#: ui/qml/Settings.qml:176
-msgid "Supported styles: "
-msgstr ""
-
-#: ui/qml/Settings.qml:181
-msgid "Requires a restart to take effect"
 msgstr ""
