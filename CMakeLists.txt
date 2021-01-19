@@ -30,16 +30,19 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
     set(OUT_OF_TREE_BUILD false)
 endif(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
 
-# Scan the default include directories to find packages that will be needed for building plugins
+# Scan the default include directories to find packages that will be needed for building
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
 find_package(Qt5Qml REQUIRED)
 find_package(Qt5Xml REQUIRED)
+find_package(Qt5Svg REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(Intl REQUIRED)
-find_package(QuaZip-Qt5 REQUIRED)
+find_package(QuaZip REQUIRED)
 
 file(GLOB I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
@@ -98,7 +101,8 @@ add_executable(sturmreader
 	ui/reader/cbzreader.cpp
 	ui/reader/pdfreader.cpp
 	${QT_RESOURCES} )
-target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} QuaZip::QuaZip ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Quick Qt5::QuickControls2)
+target_include_directories(sturmreader SYSTEM PRIVATE ${QUAZIP_INCLUDE_DIR})
+target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ${QUAZIP_LIBRARIES} ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Svg Qt5::Quick Qt5::QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
 # Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory

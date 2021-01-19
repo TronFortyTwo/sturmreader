@@ -3,14 +3,14 @@
 	"builder": "cmake",
 	"dependencies_target": [
 		"intltool",
-		"qtdeclarative5-usermetrics0.1",
-		"qtdeclarative5-ubuntu-content1",
 		"libpoppler-qt5-dev",
-		"qtdeclarative5-dev",
-		"qml-module-qtquick-controls2"
+		"libquazip5-dev"
 	],
 	"dependencies_host": [
 		"gettext"
+	],
+	"install_lib": [
+		"/usr/lib/${ARCH_TRIPLET}/libquazip5.so.*"
 	],
 	"default": "clean build install launch logs"
 }

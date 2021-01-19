@@ -184,7 +184,9 @@ ApplicationWindow {
     function setBookSetting(key, value) {
         if (server.reader.hash() == "")
             return false
-
+		
+		var settings = JSON.parse(getSetting("book_" + server.reader.hash()));
+		
         if (databaseTimer.hash != null &&
                 (databaseTimer.hash != server.reader.hash() || databaseTimer.key != key))
             databaseTimer.triggered()
@@ -194,8 +196,8 @@ ApplicationWindow {
         databaseTimer.key = key
         databaseTimer.value = value
         databaseTimer.start()
-
-        return true
+        
+		return true
     }
 
     Timer {
