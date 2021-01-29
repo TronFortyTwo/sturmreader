@@ -11,6 +11,7 @@
 #include <QtGui/QImage>
 #include <QBuffer>
 #include <QDir>
+#include <QDebug>
 #include <QCryptographicHash>
 #include "../qhttpserver/qhttpresponse.h"
 #include "../mimetype.h"
@@ -25,32 +26,33 @@ QString resolveRelativePath(QString relto, QString path)
 EpubReader::EpubReader(QObject *parent) :
     QObject(parent)
 {
-    this->zip = NULL;
+    zip = NULL;
 }
 
 bool EpubReader::load(const QString &filename)
 {
-    if (this->zip != NULL) {
-        delete this->zip;
-        this->zip = NULL;
+    if (zip != NULL) {
+        delete zip;
+        zip = NULL;
     }
-    this->_hash = "";
-    this->navhref = "";
-    this->ncxhref = "";
-    this->coverhtml = "";
-    this->spine.clear();
-    this->metadata.clear();
-    this->sortmetadata.clear();
+    _hash = "";
+    navhref = "";
+    ncxhref = "";
+    coverhtml = "";
+    spine.clear();
+    metadata.clear();
+    sortmetadata.clear();
 
-    this->zip = new QuaZip(filename);
-    if (!this->zip->open(QuaZip::mdUnzip)) {
-        delete this->zip;
-        this->zip = NULL;
+    zip = new QuaZip(filename);
+    if (!zip->open(QuaZip::mdUnzip)) {
+		qDebug() << "EpubReader: zip->open() failed";
+        delete zip;
+        zip = NULL;
         return false;
     }
-    if (!this->parseOPF()) {
-        delete this->zip;
-        this->zip = NULL;
+    if (!parseOPF()) {
+        delete zip;
+        zip = NULL;
         return false;
     }
     return true;
@@ -79,10 +81,10 @@ QString EpubReader::title() {
 
 QDomDocument* EpubReader::getFileAsDom(const QString &filename)
 {
-    if (!this->zip || !this->zip->isOpen())
+    if (!zip || !zip->isOpen())
         return NULL;
 
-    this->zip->setCurrentFile(filename);
+    zip->setCurrentFile(filename);
     QuaZipFile zfile(this->zip);
     if (!zfile.open(QIODevice::ReadOnly))
         return NULL;
@@ -124,9 +126,11 @@ void EpubReader::serveComponent(const QString &filename, QHttpResponse *response
 bool EpubReader::parseOPF()
 {
     // Get the container.xml file.
-    QDomDocument* container = this->getFileAsDom("META-INF/container.xml");
-    if (container == NULL)
-        return false;
+    QDomDocument* container = getFileAsDom("META-INF/container.xml");
+    if (container == NULL) {
+		qDebug() << "Epubreader: couldn't find META-INF/container.xml";
+		return false;
+	}
 
     // Find out where the OPF file lives.
     QString contentsfn;
@@ -138,16 +142,24 @@ bool EpubReader::parseOPF()
             break;
         }
     }
+    if (contentsfn == "") {
+		qDebug() << "Epubreader: META-INF/container.xml doesn't contain a valid OPF file";
+		return false;
+	}
 
     // Open the OPF file.
-    QDomDocument* contents = this->getFileAsDom(contentsfn);
-    if (contents == NULL)
-        return false;
+    QDomDocument* contents = getFileAsDom(contentsfn);
+    if (contents == NULL) {
+		qDebug() << "Epubreader: Can't find OPF file: " << contentsfn;
+		return false;
+	}
 
     // Read the manifest.
     nodes = contents->elementsByTagName("manifest");
-    if (nodes.isEmpty())
-        return false;
+    if (nodes.isEmpty()) {
+		qDebug() << "Epubreader: there is no manifest";
+		return false;
+	}
     QDomElement manifest = nodes.item(0).toElement();
     QHash<QString, QString> idmap;
     nodes = manifest.elementsByTagName("item");
@@ -160,8 +172,10 @@ bool EpubReader::parseOPF()
 
     // Read the spine.
     nodes = contents->elementsByTagName("spine");
-    if (nodes.isEmpty())
-        return false;
+    if (nodes.isEmpty()) {
+		qDebug() << "Epubreader: spine empty";
+		return false;
+	}
     QDomElement spine = nodes.item(0).toElement();
     nodes = spine.elementsByTagName("itemref");
     for (int i=0; i<nodes.length(); i++) {
@@ -171,8 +185,16 @@ bool EpubReader::parseOPF()
 
     // Read the metadata.
     nodes = contents->elementsByTagName("metadata");
-    if (nodes.isEmpty())
-        return false;
+    if (nodes.isEmpty()) {
+		// some ebooks use "opf:" prefix for metadata
+		// the reason, I ignore it
+		nodes = contents->elementsByTagName("opf:metadata");
+		
+		if(nodes.isEmpty()) {
+			qDebug() << "Epubreader: metadata empty";
+			return false;
+		}
+	}
     QDomElement metadata = nodes.item(0).toElement();
     nodes = metadata.childNodes();
     for (int i=0; i<nodes.length(); i++) {
