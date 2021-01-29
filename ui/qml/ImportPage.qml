@@ -71,37 +71,22 @@ Page {
 		anchors.fill: parent
 
 		model: itemList
-		delegate: ItemDelegate {
-			width: parent.width
-			contentItem: Item {
-				implicitWidth: parent.width
-				implicitHeight: scaling.dp(42)
-				Column {
-					anchors.left: parent.left
-					anchors.right: parent.right
-					anchors.verticalCenter: parent.verticalCenter
-					spacing: scaling.dp(5)
-					Label {
-						text: model.item.url.toString().split("/").pop()
-						font.pixelSize: scaling.dp(14)
-					}
-					Label {
-						text: {
-							switch (model.state) {
-								case importState.new:
-									return gettext.tr("Waiting")
-								case importState.processing:
-									return gettext.tr("Processing")
-								case importState.imported:
-									return gettext.tr("Imported to %1").arg(model.importName)
-								case importState.exists:
-									return gettext.tr("Already in library: %1").arg(model.importName)
-								case importState.error:
-									return gettext.tr("Error: %1").arg(model.error.split("\n\n")[0])
-							}
-						}
-						font.pixelSize: scaling.dp(11)
-					}
+		delegate: SuperDelegate {
+			width: sourcesView.width
+			
+			main_text: model.item.url.toString().split("/").pop()
+			sub_text: {
+				switch (model.state) {
+					case importState.new:
+						return gettext.tr("Waiting")
+					case importState.processing:
+						return gettext.tr("Processing")
+					case importState.imported:
+						return gettext.tr("Imported to %1").arg(model.importName)
+					case importState.exists:
+						return gettext.tr("Already in library: %1").arg(model.importName)
+					case importState.error:
+						return gettext.tr("Error: %1").arg(model.error.split("\n\n")[0])
 				}
 			}
 			onClicked: {

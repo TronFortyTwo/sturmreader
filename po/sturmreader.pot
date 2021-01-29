@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-01-29 15:53+0000\n"
+"POT-Creation-Date: 2021-01-29 16:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -292,23 +292,23 @@ msgstr ""
 msgid "Importing books..."
 msgstr ""
 
-#: ui/qml/ImportPage.qml:92
+#: ui/qml/ImportPage.qml:81
 msgid "Waiting"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:94
+#: ui/qml/ImportPage.qml:83
 msgid "Processing"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:96
+#: ui/qml/ImportPage.qml:85
 msgid "Imported to %1"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:98
+#: ui/qml/ImportPage.qml:87
 msgid "Already in library: %1"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:100
+#: ui/qml/ImportPage.qml:89
 msgid "Error: %1"
 msgstr ""
 

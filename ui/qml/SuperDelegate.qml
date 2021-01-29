@@ -27,6 +27,7 @@ ItemDelegate {
 		implicitHeight: superColumn.height
 		Image {
 			id: superImage
+			visible: image_source !== ""
 			anchors.left: parent.left
 			anchors.verticalCenter: parent.verticalCenter
 			source: image_source
@@ -39,7 +40,7 @@ ItemDelegate {
 			id: superColumn
 			anchors.verticalCenter: parent.verticalCenter
 			anchors.left: parent.left
-			anchors.leftMargin: parent.height * 1.5
+			anchors.leftMargin: image_source === "" ? 0 : parent.height * 1.5
 			anchors.right: parent.right
 			spacing: scaling.dp(5)
 			Label {
