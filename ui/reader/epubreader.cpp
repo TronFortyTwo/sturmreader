@@ -1,5 +1,7 @@
 /* Copyright 2013-2014 Robert Schroll
  *
+ * Copyright 2021 Emanuele Sorce
+ * 
  * This file is part of Beru and is distributed under the terms of
  * the GPL. See the file COPYING for full details.
  */
@@ -135,6 +137,10 @@ bool EpubReader::parseOPF()
     // Find out where the OPF file lives.
     QString contentsfn;
     QDomNodeList nodes = container->elementsByTagName("rootfile");
+	// Some ebooks have "odfc:" prefix. I don't know why. It's not in the EPUB standard
+	// https://github.com/TronFortyTwo/sturmreader/issues/41
+	if(nodes.length() == 0) nodes = container->elementsByTagName("odfc:rootfile");
+	
     for (int i=0; i<nodes.length(); i++) {
         QDomElement element = nodes.item(i).toElement();
         if (element.attribute("media-type") == "application/oebps-package+xml") {
