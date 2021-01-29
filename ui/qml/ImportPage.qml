@@ -33,13 +33,13 @@ Page {
 			anchors.fill: parent
 			
 			BusyIndicator {
-				running: importing
+				visible: importing
 				height: parent.height * 0.9
 				width: height
 			}
 			
 			Label {
-				text: gettext.tr("Importing books...")
+				text: importing ? gettext.tr("Importing books...") : gettext.tr("Books imported")
 				font.pixelSize: headerTextSize()
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft

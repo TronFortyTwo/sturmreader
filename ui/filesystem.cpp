@@ -12,6 +12,7 @@
 #include <QDirIterator>
 #include <QStandardPaths>
 #include <QTemporaryFile>
+#include <QDebug>
 
 /*
  * Return 0 if file does not exist, 2 if file is directory, 1 otherwise.
@@ -84,6 +85,7 @@ QStringList FileSystem::listDir(const QString &dirname, const QStringList &filte
 
 /*
  * Guess at the type of a file from its magic number.
+ * see https://en.wikipedia.org/wiki/List_of_file_signatures
  */
 QString FileSystem::fileType(const QString &filename) {
 	
@@ -96,13 +98,20 @@ QString FileSystem::fileType(const QString &filename) {
     if (!file.open(QIODevice::ReadOnly))
         return "unreadable";
 
-    QByteArray bytes = file.read(60);
-    if (bytes.left(4) == "%PDF") {
-        return "PDF";
-    } else if (bytes.left(2) == "PK") {
-        if (bytes.mid(30, 28) == "mimetypeapplication/epub+zip")
-            return "EPUB";
-        return "CBZ";
+	QByteArray bytes = file.read(64);
+	if (bytes.left(4) == "%PDF") {
+		return "PDF";
+	} else if (bytes.left(2) == "PK") {
+		if (bytes.mid(30, 28) == "mimetypeapplication/epub+zip")
+			return "EPUB";
+		
+		// not sure - use file name extension before fallbacking to CBZ
+		QFileInfo fileInfo(filename);
+		
+		if(fileInfo.suffix().toLower() == "epub")
+			return "EPUB";
+		
+		return "CBZ";
     }
     return "unknown";
 }
@@ -111,21 +120,7 @@ bool FileSystem::remove(const QString &filename) {
     return QFile::remove(filename);
 }
 
-#include <QDebug>
-//#include <filesystem>
-
 bool FileSystem::copy(const QString& source, const QString& dest) {
-	
-// 	bool success = std::filesystem::copy_file(source.toStdString(), dest.toStdString(), std::filesystem::copy_options::update_existing);
-// 	
-// 	if (!success) {
-// 		//qDebug() << "Copy error: " << source_file.error();
-// 		qDebug() << "Source: " << source;
-// 		qDebug() << "Dest: " << dest;
-// 		return false;
-// 	}
-// 	return success;
-// 	
 	QFile source_file(source);
 	
 	if (!source_file.copy(dest)) {
