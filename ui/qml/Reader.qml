@@ -17,8 +17,8 @@ Item {
 	
     property string filename: ""
 	property string error: currentReader === undefined ?
-		gettext.tr("Could not determine file type.\n\nRemember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."):
-		gettext.tr("Could not parse file.\n\nAlthough it appears to be a %1 file, it could not be parsed by Sturm Reader.").arg(fileType)
+		gettext.tr("Could not determine file type.") + " " + gettext.tr("Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."):
+		gettext.tr("Could not parse file.") + " " + gettext.tr("Although it appears to be a %1 file, it could not be parsed by Sturm Reader.").arg(fileType)
 
 	Connections {
 		target: epubreader

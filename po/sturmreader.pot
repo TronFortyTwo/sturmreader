@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-01-29 17:32+0000\n"
+"POT-Creation-Date: 2021-01-29 17:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,16 +143,20 @@ msgid "Close"
 msgstr ""
 
 #: ui/qml/Reader.qml:20
+msgid "Could not determine file type."
+msgstr ""
+
+#: ui/qml/Reader.qml:20
 msgid ""
-"Could not determine file type.\n"
-"\n"
 "Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
 msgstr ""
 
 #: ui/qml/Reader.qml:21
+msgid "Could not parse file."
+msgstr ""
+
+#: ui/qml/Reader.qml:21
 msgid ""
-"Could not parse file.\n"
-"\n"
 "Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
 msgstr ""
 
