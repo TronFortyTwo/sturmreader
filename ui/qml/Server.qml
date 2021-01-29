@@ -53,9 +53,9 @@ Item {
 		onNewRequest: {
 			// new pdf reader
 			if (request.path == "/PDF") {
-				if(appsettings.legacypdf)
-					return static_file("../html/monocle.html", response)
-				else
+// 				if(appsettings.legacypdf)
+// 					return static_file("../html/monocle.html", response)
+// 				else
 					return static_file("../html/pdfjs.html", response)
 			}
 			// the monocle reader

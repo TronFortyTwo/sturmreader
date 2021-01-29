@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-01-29 16:17+0000\n"
+"POT-Creation-Date: 2021-01-29 16:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,10 +57,6 @@ msgstr ""
 #. / Use directory specified to store books. /
 #: ui/qml/Settings.qml:125
 msgid "Use Directory"
-msgstr ""
-
-#: ui/qml/Settings.qml:159
-msgid "Use legacy PDF viewer"
 msgstr ""
 
 #: ui/qml/Settings.qml:172

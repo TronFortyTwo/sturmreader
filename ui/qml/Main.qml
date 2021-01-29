@@ -61,8 +61,8 @@ ApplicationWindow {
 		property alias sort: localBooks.sort
 		onSortChanged: { setSetting( "appconfig_sort", appsettings.sort ); }
 		
-		property bool legacypdf
-		onLegacypdfChanged: { setSetting( "appconfig_legacypdf2", appsettings.legacypdf ); }
+		//property bool legacypdf
+		//onLegacypdfChanged: { setSetting( "appconfig_legacypdf2", appsettings.legacypdf ); }
 		
 		Component.onCompleted: {
 			var csort = getSetting("appconfig_sort");
@@ -73,12 +73,12 @@ ApplicationWindow {
 			var cy = getSetting("appconfig_y");
 			
 			if(csort) appsettings.sort = csort;
-			if(clegacypdf) {
-				clegacypdf = clegacypdf == "true" ? true : false;
-				appsettings.legacypdf = clegacypdf;
-			}
-			// by default, use the new viewer
-			else appsettings.legacypdf = false;
+// 			if(clegacypdf) {
+// 				clegacypdf = clegacypdf == "true" ? true : false;
+// 				appsettings.legacypdf = clegacypdf;
+// 			}
+// 			// by default, use the new viewer
+// 			else appsettings.legacypdf = false;
 			
 			if(cwidth)
 				mainView.width = cwidth;

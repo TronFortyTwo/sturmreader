@@ -153,7 +153,7 @@ Page {
 					}
 				}
 			}
-			
+			/*
 			SwitchDelegate {
 				width: parent.width
 				text: gettext.tr("Use legacy PDF viewer")
@@ -161,7 +161,7 @@ Page {
 				onClicked: appsettings.legacypdf = checked
 				Component.onCompleted: checked = appsettings.legacypdf
 			}
-			
+			*/
 			ItemDelegate {
 				width: parent.width
 				contentItem: RowLayout {
