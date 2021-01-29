@@ -39,7 +39,7 @@ Page {
 				
 				Label {
 					text: gettext.tr("Library")
-					font.pointSize: 22
+					font.pixelSize: headerTextSize()
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignLeft
 					verticalAlignment: Qt.AlignVCenter
@@ -695,7 +695,7 @@ Page {
                 id: noBooksLabel
 				anchors.horizontalCenter: parent.horizontalCenter
                 text: gettext.tr("No Books in Library")
-                font.pointSize: 30
+				font.pixelSize: scaling.dp(25)
 				horizontalAlignment: Text.AlignHCenter
 				width: parent.width
 				wrapMode: Text.Wrap
@@ -752,7 +752,7 @@ Page {
 				width: parent.width
 				anchors.verticalCenter: parent.verticalCenter
 				id: titleLabel
-				font.pointSize: 27
+				font.pixelSize: scaling.dp(24)
 				wrapMode: Text.Wrap
 				horizontalAlignment: Qt.AlignHCenter
 				verticalAlignment: Qt.AlignVCenter
@@ -791,7 +791,7 @@ Page {
 					id: filenameLabel
 					width: parent.width
 					horizontalAlignment: Text.AlignLeft
-					font.pointSize: 12
+					font.pixelSize: scaling.dp(12)
 					wrapMode: Text.WrapAnywhere
 				}
 				SwipeControl {

@@ -28,7 +28,7 @@ Page {
 			
 			Label {
 				text: gettext.tr("About")
-				font.pointSize: 22
+				font.pixelSize: headerTextSize()
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
@@ -68,7 +68,7 @@ Page {
 			Label {
 				anchors.horizontalCenter: parent.horizontalCenter
 				width: parent.width * 4 / 5
-				font.pointSize: 30
+				font.pixelSize: scaling.dp(25)
 				font.bold: true
 				horizontalAlignment: Text.AlignHCenter
 				wrapMode: Text.WordWrap

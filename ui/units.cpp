@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Emanuele Sorce emanuele.sorce@hotmail.com
+ * Copyright (C) 2020-2021 Emanuele Sorce emanuele.sorce@hotmail.com
  * Copyright (C) 2018 Rodney Dawes
  *
  * This program is free software: you can redistribute it and/or modify

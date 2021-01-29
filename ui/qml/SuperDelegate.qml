@@ -45,13 +45,13 @@ ItemDelegate {
 			Label {
 				width: parent.width
 				text: main_text
-				font.pointSize: 16
+				font.pixelSize: scaling.dp(14)
 				elide: Text.ElideRight
 			}
 			Label {
 				width: parent.width
 				text: sub_text
-				font.pointSize: 13
+				font.pixelSize: scaling.dp(11)
 				elide: Text.ElideRight
 			}
 		}

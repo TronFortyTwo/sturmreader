@@ -8,7 +8,6 @@ click
 /ui/Textures.qml
 .excludes
 *~
-/build2/
-/build/
+/buil*
 /.clickable/
 CMake*

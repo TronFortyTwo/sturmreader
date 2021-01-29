@@ -35,6 +35,12 @@ ApplicationWindow {
 	}
 	property var bookPage: null
     
+	// UTILS
+	function headerTextSize() {
+		return scaling.dp(19);
+	}
+	
+	
 	// portable palette and default material theme colors
 	Material.theme: Material.Dark
 	Material.primary: Material.Red

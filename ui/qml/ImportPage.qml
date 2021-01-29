@@ -40,7 +40,7 @@ Page {
 			
 			Label {
 				text: gettext.tr("Importing books...")
-				font.pointSize: 22
+				font.pixelSize: headerTextSize()
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
@@ -83,7 +83,7 @@ Page {
 					spacing: scaling.dp(5)
 					Label {
 						text: model.item.url.toString().split("/").pop()
-						font.pointSize: 16
+						font.pixelSize: scaling.dp(14)
 					}
 					Label {
 						text: {
@@ -100,7 +100,7 @@ Page {
 									return gettext.tr("Error: %1").arg(model.error.split("\n\n")[0])
 							}
 						}
-						font.pointSize: 13
+						font.pixelSize: scaling.dp(11)
 					}
 				}
 			}

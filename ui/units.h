@@ -23,6 +23,7 @@ Q_OBJECT
 
 public:
 	
-	Q_INVOKABLE
-	int dp(double value) const;
+	// Returns the number of real device pixel for the pixel value
+	Q_INVOKABLE int dp(double value) const;
+	
 };

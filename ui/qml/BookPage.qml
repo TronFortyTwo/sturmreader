@@ -82,7 +82,7 @@ Page {
 					anchors.fill: parent
 					Label {
 						text: gettext.tr("Contents")
-						font.pixelSize: scaling.dp(27)
+						font.pixelSize: headerTextSize()
 						elide: Label.ElideRight
 						horizontalAlignment: Qt.AlignHCenter
 						verticalAlignment: Qt.AlignVCenter
@@ -180,14 +180,14 @@ Page {
 					width: parent.width
 					horizontalAlignment: Text.AlignHCenter
 					text: gettext.tr("Page") + " " + pagesLoader.slider.value + "/" + (pdf_numberOfPages)
-					font.pointSize: 19
+					font.pixelSize: scaling.dp(16)
 				}
 				RowLayout {
 					width: parent.width
 					Button {
 						Layout.alignment: Qt.AlignLeft
 						text: "-"
-						font.pointSize: 19
+						font.pixelSize: scaling.dp(16)
 						onClicked: pagesTumbler.currentIndex -= 1
 					}
 					Tumbler {
@@ -200,7 +200,7 @@ Page {
 							text: model.num
 							rotation: 90
 							font.weight: (model.num == pagesTumbler.currentIndex+1) ? Font.Bold : Font.Normal
-							font.pointSize: (model.num == pagesTumbler.currentIndex+1) ? 18 : 16
+							font.pixelSize: (model.num == pagesTumbler.currentIndex+1) ? scaling.dp(16) : scaling.dp(13)
 							width: scaling.dp(60)
 							height: scaling.dp(60)
 							horizontalAlignment: Text.AlignHCenter
@@ -214,7 +214,7 @@ Page {
 					Button {
 						Layout.alignment: Qt.AlignRight
 						text: "+"
-						font.pointSize: 19
+						font.pixelSize: scaling.dp(16)
 						onClicked: pagesTumbler.currentIndex += 1
 					}
 				}
@@ -671,7 +671,7 @@ Page {
 				anchors.fill: parent
 				Label {
 					text: gettext.tr("Book Settings")
-					font.pixelSize: scaling.dp(27)
+					font.pixelSize: headerTextSize()
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
