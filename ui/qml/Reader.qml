@@ -6,6 +6,8 @@
  */
 
 import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
 
 Item {
     id: reader
@@ -24,7 +26,7 @@ Item {
 		target: epubreader
 		onContentsReady: { reader.contentsReady(contents) }
 	}
-
+	
 	Item {
 		id: cbzreader
 		
@@ -35,9 +37,19 @@ Item {
 			hash = filename;
 			return true;
 		}
-		function serveBookData(response) {}
+		function serveBookData(response) {
+			convertDialog.open();
+		}
 		function serveComponent(filename, response) {}
-		function getCoverInfo(thumbsize, fullsize) {}
+		function getCoverInfo(thumbsize, fullsize) {
+			return {
+				title: title,
+				author: "",
+				authorsort: "zzznone",
+				cover: "",
+				fullcover: ""
+			};
+		}
 		
 		signal contentsReady
 	}

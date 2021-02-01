@@ -61,9 +61,9 @@ Item {
 			// the monocle reader
 			if (request.path == "/EPUB")
 				return static_file("../html/monocle.html", response)
-			// TODO: CBZ is more pdf than epub, use somehow the pdfjs reader
 			if (request.path == "/CBZ")
-				return static_file("../html/monocle.html", response)
+				reader.serveBookData();
+				//return static_file("../html/monocle.html", response)
 			
 			if (request.path == "/book.pdf")
 				return static_file(reader.filename, response)

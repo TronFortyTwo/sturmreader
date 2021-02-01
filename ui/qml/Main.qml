@@ -107,6 +107,7 @@ ApplicationWindow {
 		visible: false
 	}
 
+	// Error
     Dialog {
 		id: errorOpenDialog
 		title: gettext.tr("Error Opening File")
@@ -124,6 +125,67 @@ ApplicationWindow {
 		standardButtons: Dialog.Ok
 	}
 
+	// This dialog appears when we have to convert a file in our library
+	Dialog {
+		id: convertDialog
+		visible: false	
+		x: 0
+        y: 0
+		width: parent.width
+		height: parent.height
+		
+		modal: true
+		
+		header: ToolBar {
+			width: parent.width
+			height: titleLabel.height + scaling.dp(10)
+			Label {
+				id: titleLabel
+				width: parent.width
+				anchors.verticalCenter: parent.verticalCenter
+				text: "Conversion required"
+				font.pixelSize: headerTextSize()
+				wrapMode: Text.Wrap
+				horizontalAlignment: Qt.AlignHCenter
+				verticalAlignment: Qt.AlignVCenter
+				Layout.fillWidth: true
+			}
+		}
+		
+		Column {
+			width: parent.width
+			Label {
+				width: parent.width * 0.8
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: gettext.tr("The file that you tried to open needs to be converted to a format supported by Sturm Reader to be opened.") +
+					gettext.tr("This process is automatic and the book will be then available in your library.") + '\n' +
+					gettext.tr("Press the button to start the process");
+				wrapMode: Text.Wrap
+			}
+			
+			BusyIndicator {
+				id: converting_indicator
+				width: scaling.dp(50)
+				height: scaling.dp(50)
+				anchors.horizontalCenter: parent.horizontalCenter
+				running: false
+			}
+			
+			Button {
+				/* As in convert ebook format (e.g. CBZ to PDF) */
+				text: gettext.tr("Convert")
+				width: parent.width * 0.5
+				anchors.horizontalCenter: parent.horizontalCenter
+				onClicked: {
+					converting_indicator.running = true;
+					
+					//filesystem.convertCbz2Pdf(book.importName, new_newfilename);
+					//localBooks.addFile(book.importName, true);
+				}
+			}
+		}
+	}
+	
     Server {
         id: server
     }

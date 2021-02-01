@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-01 18:36+0000\n"
+"POT-Creation-Date: 2021-02-01 19:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,20 +142,20 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: ui/qml/Reader.qml:20
+#: ui/qml/Reader.qml:22
 msgid "Could not determine file type."
 msgstr ""
 
-#: ui/qml/Reader.qml:20
+#: ui/qml/Reader.qml:22
 msgid ""
 "Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
 msgstr ""
 
-#: ui/qml/Reader.qml:21
+#: ui/qml/Reader.qml:23
 msgid "Could not parse file."
 msgstr ""
 
-#: ui/qml/Reader.qml:21
+#: ui/qml/Reader.qml:23
 msgid ""
 "Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
 msgstr ""
@@ -316,8 +316,28 @@ msgstr ""
 msgid "Error: %1"
 msgstr ""
 
-#: ui/qml/Main.qml:112
+#: ui/qml/Main.qml:113
 msgid "Error Opening File"
+msgstr ""
+
+#: ui/qml/Main.qml:160
+msgid ""
+"The file that you tried to open needs to be converted to a format supported "
+"by Sturm Reader to be opened."
+msgstr ""
+
+#: ui/qml/Main.qml:161
+msgid ""
+"This process is automatic and the book will be then available in your "
+"library."
+msgstr ""
+
+#: ui/qml/Main.qml:162
+msgid "Press the button to start the process"
+msgstr ""
+
+#: ui/qml/Main.qml:176
+msgid "Convert"
 msgstr ""
 
 #: ui/qml/MetricsUT.qml:13
