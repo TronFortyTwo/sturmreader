@@ -25,9 +25,21 @@ Item {
 		onContentsReady: { reader.contentsReady(contents) }
 	}
 
-	Connections {
-		target: cbzreader
-		onContentsReady: { reader.contentsReady(contents) }
+	Item {
+		id: cbzreader
+		
+		property string hash: "CBZ hash"
+		property string title: "CBZ title"
+		function load(filename) {
+			title = filename;
+			hash = filename;
+			return true;
+		}
+		function serveBookData(response) {}
+		function serveComponent(filename, response) {}
+		function getCoverInfo(thumbsize, fullsize) {}
+		
+		signal contentsReady
 	}
 
 	Connections {

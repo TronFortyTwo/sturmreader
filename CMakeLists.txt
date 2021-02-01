@@ -98,7 +98,7 @@ add_executable(sturmreader
 	ui/qhttpserver/qhttpresponse.cpp
 	ui/qhttpserver/http-parser/http_parser.c
 	ui/reader/epubreader.cpp
-	ui/reader/cbzreader.cpp
+	#ui/reader/cbzreader.cpp
 	ui/reader/pdfreader.cpp
 	${QT_RESOURCES} )
 target_include_directories(sturmreader SYSTEM PRIVATE ${QUAZIP_INCLUDE_DIR})

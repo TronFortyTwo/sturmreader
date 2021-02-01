@@ -42,7 +42,7 @@
 #include "qhttpserver/qhttprequest.h"
 #include "qhttpserver/qhttpresponse.h"
 #include "reader/epubreader.h"
-#include "reader/cbzreader.h"
+//#include "reader/cbzreader.h"
 #include "reader/pdfreader.h"
 
 // =================
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 	// book parsers
 	EpubReader epub;
 	PDFReader pdf;
-	CBZReader cbz;
+	//CBZReader cbz;
 
 	QQmlApplicationEngine engine;
 	
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	qmlRegisterUncreatableType<QHttpResponse>("HttpUtils", 1, 0, "HttpResponse", "Do not create HttpResponse directly");
 	engine.rootContext()->setContextProperty("epubreader", &epub);
 	engine.rootContext()->setContextProperty("pdfreader", &pdf);
-	engine.rootContext()->setContextProperty("cbzreader", &cbz);
+	//engine.rootContext()->setContextProperty("cbzreader", &cbz);
 	engine.rootContext()->setContextProperty("styleSetting", &styleSetting);
 	
 	// Test if we are on ubuntu touch
