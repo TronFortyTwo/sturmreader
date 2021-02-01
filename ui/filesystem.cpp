@@ -131,3 +131,61 @@ bool FileSystem::copy(const QString& source, const QString& dest) {
 	}
 	return true;
 }
+
+#include <quazip.h>
+#include <quazipfile.h>
+#include <QProcess>
+#include <QFile>
+#include <QFileDevice>
+#include <JlCompress.h>
+
+bool FileSystem::convertCbz2Pdf(const QString& cbzfile, const QString& pdffile) {
+	
+	// Destination must be clear - temp directory must not exist - source must exist
+	if(exists(pdffile)) {
+		qDebug() << "Pdf file already exists";
+		return false;
+	}
+	if(!exists(cbzfile)){
+		qDebug() << "CBZ file already exists";
+		return false;
+	}
+	
+	
+	// extract to temp directory
+	QString temp_dir = cbzfile + "_TEMP";
+	if(!makeDir(temp_dir)) {
+		qDebug() << "Can't create temp directory" << temp_dir;
+		return false;
+	}
+	
+	QStringList files = JlCompress::extractDir(cbzfile, temp_dir);
+	if(files.length() == 0) {
+		qDebug() << "extraction failed";
+		return false;
+	}
+	
+	// build pdf using podofoimg2pdf
+	QStringList conv_args;
+	conv_args << pdffile;
+	conv_args << files;
+	
+	int result = QProcess::execute("podofoimg2pdf", conv_args);
+	
+	if(result == -2)
+		qDebug() << "podofoimg2pdf process cannot be started";
+	else if(result == -1)
+		qDebug() << "podofoimg2pdf process crashed";
+	else if(result > 0)
+		qDebug() << "podofoimg2pdf process returned error: " << result;
+	
+	// clean up directory
+	if(!QDir(temp_dir).removeRecursively())
+		qDebug() << "cannot remove temp files";
+	
+	// if successfull, remove CBZ file
+	if(result == 0 && !QFile(cbzfile).remove())
+		qDebug() << "cannot remove old CBZ file";
+	
+	return result == 0;
+}

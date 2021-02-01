@@ -170,14 +170,27 @@ Page {
             else
 				var copy_success = filesystem.copy(book.item.url.toString().slice(7), book.importName);
 			
-			if(copy_success) {
-				book.item.url = book.importName;
-				localBooks.addFile(book.importName, true);
-				book.state = importState.imported;
-			} else {
+			// copy failed
+			if(!copy_success) {
 				console.log("importing file '" + book.item.url + "' failed");
 				book.state = importState.error;
+				return;
 			}
+			
+			// if it's a CBZ, convert to a pdf
+			if(ext.toLowerCase() == "cbz") {
+				var new_newfilename = dir + "/" + basename + "(" + i + ").pdf";
+				if(!filesystem.convertCbz2Pdf(book.importName, new_newfilename)){
+					console.log("error converting");
+					book.state = importState.error;
+					return;
+				}
+				book.importName = new_newfilename;
+			}
+			
+			book.item.url = book.importName;
+			localBooks.addFile(book.importName, true);
+			book.state = importState.imported;
         }
     }
 }

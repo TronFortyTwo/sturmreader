@@ -4,13 +4,18 @@
 	"dependencies_target": [
 		"intltool",
 		"libpoppler-qt5-dev",
-		"libquazip5-dev"
+		"libquazip5-dev",
+		"libpodofo-utils"
 	],
 	"dependencies_host": [
 		"gettext"
 	],
+	"install_bin": [
+		"/usr/bin/podofoimg2pdf"
+	],
 	"install_lib": [
-		"/usr/lib/${ARCH_TRIPLET}/libquazip5.so.*"
+		"/usr/lib/${ARCH_TRIPLET}/libquazip5.so.*",
+		"/usr/lib/libpodofo.so.*"
 	],
 	"default": "clean build install launch logs"
 }

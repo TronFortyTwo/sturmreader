@@ -26,6 +26,7 @@
 #include <QQmlContext>
 #include <QLoggingCategory>
 #include <QIcon>
+//#include <QDir>
 
 #include <string>
 #include <locale>
@@ -94,12 +95,13 @@ int main(int argc, char *argv[])
 	
 	// Test if we are on ubuntu touch
 	bool ubuntu_touch = false;
+	QString ubuntu_touch_prefix = "/opt/click.ubuntu.com/";
 	
 	QStringList import_path_list = engine.importPathList();
 	for (int i = 0; i < import_path_list.size(); ++i) {
 		QString import_path = import_path_list.at(i);
 		
-		if( import_path.contains("/opt/click.ubuntu.com/" + app_name) ) {
+		if( import_path.contains(ubuntu_touch_prefix + app_name) ) {
 			ubuntu_touch = true;
 			break;
 		}
@@ -110,6 +112,28 @@ int main(int argc, char *argv[])
 	if(ubuntu_touch) {
 		qmlRegisterType(QUrl("file:./ui/qml/ImporterUT.qml"), "Importer", 1, 0, "Importer");
 		qmlRegisterType(QUrl("file:./ui/qml/MetricsUT.qml"), "Metrics", 1, 0, "Metrics");
+		// Set ImageMagick env vars
+		/*
+		QString magick_configure_path = ubuntu_touch_prefix + app_name + "/current/ImageMagick-Configure/";
+		QString magick_coder_module_path = ubuntu_touch_prefix + app_name + "/current/ImageMagick-Coders/";
+		QString magick_filter_module_path = ubuntu_touch_prefix + app_name + "/current/ImageMagick-Filters/";
+		// TODO: Use XDG_CACHE_HOME
+		QString magick_temp = "~/.cache/" + app_name + "Magick-tmp/";
+		
+		qputenv("MAGICK_CONFIGURE_PATH", magick_configure_path.toLocal8Bit());
+		qputenv("MAGICK_CODER_MODULE_PATH", magick_coder_module_path.toLocal8Bit());
+		qputenv("MAGICK_CODER_FILTER_PATH", magick_filter_module_path.toLocal8Bit());
+		qputenv("MAGICK_TEMPORARY_PATH", magick_temp.toLocal8Bit());
+		
+		// limit memory to avoid OOM killer
+		qputenv("MAGICK_MEMORY_LIMIT", "25MB");
+		qputenv("MAGICK_MAP_LIMIT", "25MB");
+		qputenv("MAGICK_DEBUG", "All");
+		
+		// create dirs
+		QDir dir("");
+		dir.mkpath("magick_temp");*/
+		
 	} else { // portable
 		qmlRegisterType(QUrl("file:./ui/qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
 		qmlRegisterType(QUrl("file:./ui/qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");

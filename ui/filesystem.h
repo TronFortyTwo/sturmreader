@@ -27,6 +27,10 @@ public:
     Q_INVOKABLE QString fileType(const QString &filename);
     Q_INVOKABLE bool remove(const QString &filename);
 	Q_INVOKABLE bool copy(const QString& source, const QString& dest);
+	
+	// TODO: maybe move to better place?
+	// convert the cbz file named cbzfile to a pdf file named pdffile
+	Q_INVOKABLE bool convertCbz2Pdf(const QString& cbzfile, const QString& pdffile);
 };
 
 #endif // FILESYSTEM_H

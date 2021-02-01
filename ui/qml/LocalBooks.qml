@@ -752,7 +752,7 @@ Page {
 				width: parent.width
 				anchors.verticalCenter: parent.verticalCenter
 				id: titleLabel
-				font.pixelSize: scaling.dp(24)
+				font.pixelSize: headerTextSize()
 				wrapMode: Text.Wrap
 				horizontalAlignment: Qt.AlignHCenter
 				verticalAlignment: Qt.AlignVCenter

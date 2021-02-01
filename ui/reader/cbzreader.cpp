@@ -24,22 +24,22 @@ CBZReader::CBZReader(QObject *parent) :
 
 bool CBZReader::load(const QString &filename)
 {
-    if (this->zip != NULL) {
-        delete this->zip;
-        this->zip = NULL;
+    if (zip != NULL) {
+        delete zip;
+        zip = NULL;
     }
-    this->_hash = "";
-    this->spine.clear();
+    _hash = "";
+    spine.clear();
 
-    this->zip = new QuaZip(filename);
-    if (!this->zip->open(QuaZip::mdUnzip)) {
-        delete this->zip;
-        this->zip = NULL;
+    zip = new QuaZip(filename);
+    if (!zip->open(QuaZip::mdUnzip)) {
+        delete zip;
+        zip = NULL;
         return false;
     }
-    if (!this->parse()) {
-        delete this->zip;
-        this->zip = NULL;
+    if (!parse()) {
+        delete zip;
+        zip = NULL;
         return false;
     }
     return true;
