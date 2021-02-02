@@ -5,7 +5,7 @@ Ebook Reader for Mobile Devices
 ===============================
 Sturm reader is an ebook reader for Linux focused on touch and portable devices.  It's built now for Ubuntu Touch and Alpine Linux (so postmarketOS).
 It has features to style the book.
-It features full support for Epub and PDF files and preliminary support for CBZ files.
+It features full support for Epub, PDF and CBZ files.
 
 It's a fork of Beru from Rschroll (http://rschroll.github.io/beru), thanks!
 
