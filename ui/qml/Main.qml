@@ -213,40 +213,35 @@ ApplicationWindow {
         if (server.reader.hash() == "")
             return false
 		
-		var settings = JSON.parse(getSetting("book_" + server.reader.hash()));
-		
-        if (databaseTimer.hash != null &&
-                (databaseTimer.hash != server.reader.hash() || databaseTimer.key != key))
-            databaseTimer.triggered()
-
-        databaseTimer.stop()
-        databaseTimer.hash = server.reader.hash()
-        databaseTimer.key = key
-        databaseTimer.value = value
-        databaseTimer.start()
-        
-		return true
+		databaseTimer.stack.push({
+			hash: server.reader.hash(),
+			key: key,
+			value: value
+		});
+		databaseTimer.start();
+		return true;
     }
 
-    Timer {
-        id: databaseTimer
-        interval: 1000
-        repeat: false
-        running: false
-        triggeredOnStart: false
-        property var hash: null
-        property var key
-        property var value
-        onTriggered: {
-            if (hash == null)
-                return
-
-            var settings = JSON.parse(getSetting("book_" + server.reader.hash()))
-            if (settings == undefined)
-                settings = {}
-            settings[key] = value
-            setSetting("book_" + server.reader.hash(), JSON.stringify(settings))
-            hash = null
+	Timer {
+		id: databaseTimer
+		interval: 200
+		repeat: true
+		running: false
+		triggeredOnStart: false
+		property var stack: []
+		onTriggered: {
+			
+			var last = stack.pop();
+			
+			if (last != null) {
+				var settings = JSON.parse(getSetting("book_" + last.hash))
+				if (settings == undefined)
+					settings = {}
+				settings[last.key] = last.value;
+				setSetting("book_" + last.hash, JSON.stringify(settings))
+			} else
+				// pause timer until we have more settings to store
+				running = false;
         }
     }
 

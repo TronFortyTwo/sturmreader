@@ -52,7 +52,7 @@ Page {
 	
 	Timer {
 		id: convertTimer
-		interval: 1000
+		interval: 15
 		repeat: false
 		running: false
 		triggeredOnStart: false
