@@ -384,11 +384,6 @@ Page {
         }
 	}
 
-    onVisibleChanged: {
-		if(visible)
-			bookStyles.loadForBook();
-    }
-
     BusyIndicator {
         id: loadingIndicator
         width: scaling.dp(50)
@@ -551,6 +546,7 @@ Page {
 
         function loadForBook() {
             var saved = getBookSetting("styles") || {}
+            console.log(JSON.stringify(saved));
             load(saved)
         }
 
@@ -602,9 +598,10 @@ Page {
                 // Set the margins to give us the target width, but no more than 30%.
                 defaults.margin = Math.round(Math.min(50 * (1 - targetwidth/widthgu), 30))
 
+			// load defaults
             var saveddefault = getSetting("defaultBookStyle")
             var savedvals = {}
-            if (saveddefault != null)
+            if (saveddefault)
                 savedvals = JSON.parse(saveddefault)
             for (var prop in savedvals)
                 if (prop in defaults)
@@ -915,17 +912,9 @@ Page {
 			lineHeightSlider.value = bookStyles.lineHeight
 			marginSlider.value = bookStyles.margin
 		}
-		/* function onLoadingChanged() {
-			if (bookStyles.loading == false)
-				setValues()
-		}
 		Component.onCompleted: {
 			setValues()
-			bookStyles.onLoadingChanged.connect(onLoadingChanged)
 		}
-		Component.onDestruction: {
-			bookStyles.onLoadingChanged.disconnect(onLoadingChanged)
-		}*/
     }
 
     function updateNavButtons(back, forward) {
@@ -967,5 +956,7 @@ Page {
 
 	Component.onCompleted: {
 		server.reader.contentsReady.connect(parseContents)
+		bookStyles.loadForBook();
+		bookStyles.update();
 	}
 }
