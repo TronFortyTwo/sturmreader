@@ -618,18 +618,6 @@ Page {
     function getBookStyles() {
         return bookStyles.asObject()
     }
-    
-    FontLoader {
-        source: Qt.resolvedUrl("../html/fonts/Bitstream Charter.ttf")
-    }
-
-    FontLoader {
-        source: Qt.resolvedUrl("../html/fonts/URW Bookman L.ttf")
-    }
-
-    FontLoader {
-        source: Qt.resolvedUrl("../html/fonts/URW Gothic L.ttf")
-    }
 
     QtObject {
         id: fontLister

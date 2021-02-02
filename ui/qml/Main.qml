@@ -233,7 +233,7 @@ ApplicationWindow {
 			
 			var last = stack.pop();
 			
-			if (last != null) {
+			if (last != undefined) {
 				var settings = JSON.parse(getSetting("book_" + last.hash))
 				if (settings == undefined)
 					settings = {}
@@ -245,6 +245,20 @@ ApplicationWindow {
         }
     }
 
+    // Fonts
+	FontLoader {
+		source: Qt.resolvedUrl("../html/fonts/Bitstream Charter.ttf")
+	}
+
+	FontLoader {
+		source: Qt.resolvedUrl("../html/fonts/URW Bookman L.ttf")
+	}
+
+	FontLoader {
+		source: Qt.resolvedUrl("../html/fonts/URW Gothic L.ttf")
+	}
+    
+    
     Component.onCompleted: {
 		
 		var db = openSettingsDatabase()
