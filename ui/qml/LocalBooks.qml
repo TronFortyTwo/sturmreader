@@ -755,7 +755,7 @@ Page {
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
 		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, scaling.dp(300)))
-		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + scaling.dp(100))
+		height: Math.min(parent.height*0.9, Math.max(infoCover.height, infoColumn.height) + swipe.height + infoToolBar.height + scaling.dp(10))
 		
 		modal: true
 		standardButtons: Dialog.Close
@@ -768,6 +768,7 @@ Page {
 		property alias author: infoCover.author
 		
 		header: ToolBar {
+			id: infoToolBar
 			width: parent.width
 			height: titleLabel.height + scaling.dp(10)
 			Label {
