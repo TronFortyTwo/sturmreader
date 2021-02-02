@@ -62,7 +62,7 @@ Item {
 			if (request.path == "/EPUB")
 				return static_file("../html/monocle.html", response)
 			if (request.path == "/CBZ")
-				reader.serveBookData();
+				openConverter(reader.filename);
 				//return static_file("../html/monocle.html", response)
 			
 			if (request.path == "/book.pdf")

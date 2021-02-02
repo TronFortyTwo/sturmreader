@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-01 19:23+0000\n"
+"POT-Creation-Date: 2021-02-02 00:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -241,6 +241,36 @@ msgstr ""
 msgid "Swipe to Delete"
 msgstr ""
 
+#: ui/qml/Converter.qml:43
+msgid "Conversion required"
+msgstr ""
+
+#: ui/qml/Converter.qml:83
+msgid ""
+"The file that you tried to open needs to be converted to a format supported "
+"by Sturm Reader to be opened."
+msgstr ""
+
+#: ui/qml/Converter.qml:84
+msgid ""
+"This process is automatic and the book will be then available in your "
+"library."
+msgstr ""
+
+#: ui/qml/Converter.qml:85
+msgid "Press the button to start the process"
+msgstr ""
+
+#: ui/qml/Converter.qml:100
+msgid "Convert"
+msgstr ""
+
+#: ui/qml/Converter.qml:117
+msgid ""
+"Conversion failed: you can try importing the book again. You may check the "
+"logs for more details, or open an issue for support"
+msgstr ""
+
 #: ui/qml/About.qml:30
 msgid "About"
 msgstr ""
@@ -318,26 +348,6 @@ msgstr ""
 
 #: ui/qml/Main.qml:113
 msgid "Error Opening File"
-msgstr ""
-
-#: ui/qml/Main.qml:160
-msgid ""
-"The file that you tried to open needs to be converted to a format supported "
-"by Sturm Reader to be opened."
-msgstr ""
-
-#: ui/qml/Main.qml:161
-msgid ""
-"This process is automatic and the book will be then available in your "
-"library."
-msgstr ""
-
-#: ui/qml/Main.qml:162
-msgid "Press the button to start the process"
-msgstr ""
-
-#: ui/qml/Main.qml:176
-msgid "Convert"
 msgstr ""
 
 #: ui/qml/MetricsUT.qml:13

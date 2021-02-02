@@ -37,16 +37,15 @@ Item {
 			hash = filename;
 			return true;
 		}
-		function serveBookData(response) {
-			convertDialog.open();
-		}
+		function serveBookData(response) {}
 		function serveComponent(filename, response) {}
 		function getCoverInfo(thumbsize, fullsize) {
 			return {
-				title: title,
+				filename: title,
+				title: "ZZZnone",
 				author: "",
 				authorsort: "zzznone",
-				cover: "",
+				cover: "ZZZerror",
 				fullcover: ""
 			};
 		}
