@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-02 16:35+0000\n"
+"POT-Creation-Date: 2021-02-02 17:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,50 +95,50 @@ msgstr ""
 msgid "No outline available"
 msgstr ""
 
-#: ui/qml/BookPage.qml:663
+#: ui/qml/BookPage.qml:662
 msgid "Book Settings"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:708
+#: ui/qml/BookPage.qml:707
 msgid "Color scheme"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:775
+#: ui/qml/BookPage.qml:774
 msgid "Font"
 msgstr ""
 
-#: ui/qml/BookPage.qml:785 ui/qml/BookPage.qml:795
+#: ui/qml/BookPage.qml:784 ui/qml/BookPage.qml:794
 msgid "Default Font"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:808
+#: ui/qml/BookPage.qml:807
 msgid "Font Scaling"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:832
+#: ui/qml/BookPage.qml:831
 msgid "Line Height"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:856
+#: ui/qml/BookPage.qml:855
 msgid "Margins"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:879
+#: ui/qml/BookPage.qml:878
 msgid "Make Default"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:887
+#: ui/qml/BookPage.qml:886
 msgid "Load Defaults"
 msgstr ""
 
-#: ui/qml/BookPage.qml:895
+#: ui/qml/BookPage.qml:894
 msgid "Close"
 msgstr ""
 
@@ -196,48 +196,48 @@ msgstr ""
 msgid "Could not open this book."
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:523
+#: ui/qml/LocalBooks.qml:520
 msgid "Back"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:608
+#: ui/qml/LocalBooks.qml:628
 msgid "Unknown Author"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:609
+#: ui/qml/LocalBooks.qml:629
 msgid "%1 Book"
 msgid_plural "%1 Books"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ui/qml/LocalBooks.qml:697
+#: ui/qml/LocalBooks.qml:717
 msgid "No Books in Library"
 msgstr ""
 
 #. / A path on the file system. /
-#: ui/qml/LocalBooks.qml:706
+#: ui/qml/LocalBooks.qml:726
 msgid ""
 "Sturm Reader could not find any books for your library, and will "
 "automatically find all epub files in <i>%1</i>.  Additionally, any book "
 "opened will be added to the library."
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:716
+#: ui/qml/LocalBooks.qml:736
 msgid "Get Books"
 msgstr ""
 
-#: ui/qml/LocalBooks.qml:724
+#: ui/qml/LocalBooks.qml:744
 msgid "Search Again"
 msgstr ""
 
 #. / A control can be dragged to delete a file.  The deletion occurs /
 #. / when the user releases the control. /
-#: ui/qml/LocalBooks.qml:802
+#: ui/qml/LocalBooks.qml:821
 msgid "Release to Delete"
 msgstr ""
 
 #. / A control can be dragged to delete a file. /
-#: ui/qml/LocalBooks.qml:804
+#: ui/qml/LocalBooks.qml:823
 msgid "Swipe to Delete"
 msgstr ""
 

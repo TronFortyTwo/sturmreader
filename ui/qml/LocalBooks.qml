@@ -302,12 +302,9 @@ Page {
                 break
             }
         }
-        if (book.cover == "ZZZerror")
-            infoDialog.coverSource = defaultCover.errorCover(book)
-        else if (!book.fullcover)
-            infoDialog.coverSource = defaultCover.missingCover(book)
-        else
-            infoDialog.coverSource = book.fullcover
+        infoDialog.cover = book.cover
+        infoDialog.fullcover = book.fullcover
+        infoDialog.author = book.author
     }
 
     function refreshCover(filename) {
@@ -551,7 +548,30 @@ Page {
 				cellHeight: cellWidth*1.5
 
 				model: gridModel
-				delegate: CoverDelegate { }
+				delegate: CoverDelegate {
+					width: gridview.cellWidth
+					height: gridview.cellHeight
+					
+					cover: model.cover
+					fullcover: model.fullcover
+					title: model.title
+					author: model.author
+					coverMargin: gridmargin
+					
+					MouseArea {
+						anchors.fill: parent
+						onClicked: {
+							// Save copies now, since these get cleared by loadFile (somehow...)
+							var filename = model.filename
+							var pasterror = model.cover == "ZZZerror"
+							if (loadFile(filename) && pasterror)
+								refreshCover(filename)
+						}
+						onPressAndHold: {
+							openInfoDialog(model);
+						}
+					}
+				}
         
 				ScrollBar.vertical: ScrollBar { }
 			}
@@ -731,7 +751,7 @@ Page {
     
     Dialog {
 		id: infoDialog
-		visible: false	
+		visible: false
 		x: Math.round((parent.width - width) / 2)
         y: Math.round((parent.height - height) / 2)
 		width: Math.min(parent.width*0.9, Math.max(parent.width * 0.5, scaling.dp(300)))
@@ -740,10 +760,12 @@ Page {
 		modal: true
 		standardButtons: Dialog.Close
 		
-		property alias coverSource: infoCover.source
 		property alias bookTitle: titleLabel.text
 		property alias filename: filenameLabel.text
 		property alias allowDelete: swipe.visible
+		property alias cover: infoCover.cover
+		property alias fullcover: infoCover.fullcover
+		property alias author: infoCover.author
 		
 		header: ToolBar {
 			width: parent.width
@@ -764,18 +786,15 @@ Page {
 			id: dialogitem
 			anchors.fill: parent
 
-			Image {
+			CoverDelegate {
 				id: infoCover
+				
+				anchors.left: parent.left
+				anchors.top: parent.top
+				
 				width: parent.width / 3
 				height: parent.width / 2
-				anchors {
-					left: parent.left
-					top: parent.top
-				}
-				fillMode: Image.PreserveAspectFit
-				// Prevent blurry SVGs
-				sourceSize.width: 2*localBooks.mingridwidth
-				sourceSize.height: 3*localBooks.mingridwidth
+				title: infoDialog.bookTitle
 			}
 
 			Column {

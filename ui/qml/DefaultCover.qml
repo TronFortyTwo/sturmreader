@@ -84,12 +84,12 @@ Item {
         return s;
     }
 
-    function hue(model) {
-        return parseInt(Qt.md5(model.title).slice(0,2), 16) / 256
+    function hue(seed) {
+        return parseInt(Qt.md5(seed).slice(0,2), 16) / 256
     }
 
-    function textColor(model) {
-        if (model.cover == "ZZZerror")
+    function textColor(cover) {
+        if (cover == "ZZZerror")
             return "black"
         return hcy(0.167, 0.051, 0.051)
     }
@@ -98,8 +98,8 @@ Item {
         return hcy(hue, 0.25, 0.25)
     }
 
-    function highlightColor(model, hue) {
-        if (model.cover === "ZZZerror")
+    function highlightColor(cover, hue) {
+        if (cover === "ZZZerror")
             return "white"
         return hcy(hue, 0.35, 0.39)
     }
@@ -108,9 +108,9 @@ Item {
         return hcyrel(hue, 0.5, 0.03)
     }
 
-    function missingCover(model) {
-        var md5 = Qt.md5(model.title),
-                hue_ = hue(model),
+    function missingCover(seed, cover) {
+        var md5 = Qt.md5(seed),
+                hue_ = hue(seed),
                 angle = parseInt(md5.slice(2,4), 16) / 256 * 2*Math.PI,
                 cos = Math.cos(angle),
                 sin = Math.sin(angle),
@@ -118,14 +118,14 @@ Item {
                 y = parseInt(md5.slice(6,8), 16) / 256 * 540;
         return "data:image/svg+xml," +
                 (svg.replace("$bgColor", bgColor(hue_))
-                 .replace("$textColor", textColor(model))
-                 .replace("$highlightColor", highlightColor(model, hue_))
+                 .replace("$textColor", textColor(cover))
+                 .replace("$highlightColor", highlightColor(cover, hue_))
                  .replace(/\$bindColor/g, bindColor(hue_))
                  .replace("$matrix", [cos, sin, -sin, cos, x, y].join(","))
                  .replace("$texture", textures.stainedpaper_tiled))
     }
 
-    function errorCover(model) {
+    function errorCover() {
         return Qt.resolvedUrl("images/error_cover_full.svg")
     }
 
