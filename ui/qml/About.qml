@@ -109,8 +109,16 @@ Page {
 			
 			Button {
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: gettext.tr("See source on Github")
+				text: gettext.tr("❤Donate❤")
 				highlighted: true
+				width: parent.width * 4 / 5
+				onClicked: Qt.openUrlExternally("https://paypal.me/emanuele42");
+			}
+			
+			Button {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: gettext.tr("See source on Github")
+				highlighted: false
 				width: parent.width * 4 / 5
 				onClicked: Qt.openUrlExternally("https://github.com/tronfortytwo/sturmreader");
 			}
@@ -128,14 +136,6 @@ Page {
 				text: gettext.tr("See License (GNU GPL v3)")
 				width: parent.width * 4 / 5
 				onClicked: Qt.openUrlExternally("https://github.com/TronFortyTwo/sturmreader/blob/master/LICENSE");
-			}
-			
-			Button {
-				anchors.horizontalCenter: parent.horizontalCenter
-				text: gettext.tr("❤Donate❤")
-				highlighted: true
-				width: parent.width * 4 / 5
-				onClicked: Qt.openUrlExternally("https://paypal.me/emanuele42");
 			}
 			
 			Label {

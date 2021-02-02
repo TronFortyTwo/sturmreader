@@ -579,7 +579,8 @@ Page {
 			
             // this one below should be improved
 			bookWebView.runJavaScript("if(styleManager) styleManager.updateStyles(" + JSON.stringify(asObject()) + ");");
-			setBookSetting("styles", asObject());
+			if(!setBookSetting("styles", asObject()))
+				console.log("Warning! Saving of book styles failed");
 			atdefault = (JSON.stringify(asObject()) == JSON.stringify(defaults));
         }
 

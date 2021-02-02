@@ -73,12 +73,6 @@ ApplicationWindow {
 			var cy = getSetting("appconfig_y");
 			
 			if(csort) appsettings.sort = csort;
-// 			if(clegacypdf) {
-// 				clegacypdf = clegacypdf == "true" ? true : false;
-// 				appsettings.legacypdf = clegacypdf;
-// 			}
-// 			// by default, use the new viewer
-// 			else appsettings.legacypdf = false;
 			
 			if(cwidth)
 				mainView.width = cwidth;
@@ -200,8 +194,10 @@ ApplicationWindow {
     }
 
     function getBookSetting(key) {
-        if (server.reader.hash() == "")
-            return undefined
+		if (server.reader.hash() == "") {
+			console.log("Can't fetch key '" + key + "', hash is empty.");
+			return undefined;
+		}
 
 		var settings = JSON.parse(mainView.getSetting("book_" + server.reader.hash()))
         if (settings == undefined)
@@ -231,14 +227,14 @@ ApplicationWindow {
 		property var stack: []
 		onTriggered: {
 			
-			var last = stack.pop();
+			var first = stack.shift();
 			
-			if (last != undefined) {
-				var settings = JSON.parse(getSetting("book_" + last.hash))
+			if (first != undefined) {
+				var settings = JSON.parse(getSetting("book_" + first.hash))
 				if (settings == undefined)
 					settings = {}
-				settings[last.key] = last.value;
-				setSetting("book_" + last.hash, JSON.stringify(settings))
+				settings[first.key] = first.value;
+				setSetting("book_" + first.hash, JSON.stringify(settings))
 			} else
 				// pause timer until we have more settings to store
 				running = false;
@@ -249,11 +245,9 @@ ApplicationWindow {
 	FontLoader {
 		source: Qt.resolvedUrl("../html/fonts/Bitstream Charter.ttf")
 	}
-
 	FontLoader {
 		source: Qt.resolvedUrl("../html/fonts/URW Bookman L.ttf")
 	}
-
 	FontLoader {
 		source: Qt.resolvedUrl("../html/fonts/URW Gothic L.ttf")
 	}

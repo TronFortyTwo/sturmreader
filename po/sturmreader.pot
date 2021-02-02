@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-02 11:57+0000\n"
+"POT-Creation-Date: 2021-02-02 16:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,50 +95,50 @@ msgstr ""
 msgid "No outline available"
 msgstr ""
 
-#: ui/qml/BookPage.qml:661
+#: ui/qml/BookPage.qml:663
 msgid "Book Settings"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:706
+#: ui/qml/BookPage.qml:708
 msgid "Color scheme"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:773
+#: ui/qml/BookPage.qml:775
 msgid "Font"
 msgstr ""
 
-#: ui/qml/BookPage.qml:783 ui/qml/BookPage.qml:793
+#: ui/qml/BookPage.qml:785 ui/qml/BookPage.qml:795
 msgid "Default Font"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:806
+#: ui/qml/BookPage.qml:808
 msgid "Font Scaling"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:830
+#: ui/qml/BookPage.qml:832
 msgid "Line Height"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:854
+#: ui/qml/BookPage.qml:856
 msgid "Margins"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:877
+#: ui/qml/BookPage.qml:879
 msgid "Make Default"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:885
+#: ui/qml/BookPage.qml:887
 msgid "Load Defaults"
 msgstr ""
 
-#: ui/qml/BookPage.qml:893
+#: ui/qml/BookPage.qml:895
 msgid "Close"
 msgstr ""
 
@@ -303,19 +303,19 @@ msgid "A special thanks to Jeroen for support and a test device"
 msgstr ""
 
 #: ui/qml/About.qml:112
-msgid "See source on Github"
+msgid "❤Donate❤"
 msgstr ""
 
 #: ui/qml/About.qml:120
-msgid "Report bug or feature request"
+msgid "See source on Github"
 msgstr ""
 
 #: ui/qml/About.qml:128
-msgid "See License (GNU GPL v3)"
+msgid "Report bug or feature request"
 msgstr ""
 
-#: ui/qml/About.qml:135
-msgid "❤Donate❤"
+#: ui/qml/About.qml:136
+msgid "See License (GNU GPL v3)"
 msgstr ""
 
 #: ui/qml/ImportPage.qml:42
@@ -346,7 +346,7 @@ msgstr ""
 msgid "Error: %1"
 msgstr ""
 
-#: ui/qml/Main.qml:113
+#: ui/qml/Main.qml:107
 msgid "Error Opening File"
 msgstr ""
 
