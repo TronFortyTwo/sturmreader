@@ -303,10 +303,6 @@ window.onload = function() {
 	// initialize event listeners
 	document.getElementById("move-canvas").addEventListener("transitionend", transitionPageTurned);
 	
-	// load saved page or open from the beginning
-	if(SAVED_PLACE && SAVED_PLACE.pageNumber)
-		pageNumber = SAVED_PLACE.pageNumber;
-	
 	// load file and render first page
 	pdfjsLib.GlobalWorkerOptions.workerSrc = '.pdfjs/build/pdf.worker.js';
 	pdfjsLib.getDocument("book.pdf").promise.then(
@@ -316,6 +312,10 @@ window.onload = function() {
 			first_render = true;
 			number_of_pages = doc.numPages;
 			console.log("numberOfPages " + number_of_pages);
+			
+			// load saved page or open from the beginning
+			if(SAVED_PLACE && SAVED_PLACE.pageNumber && SAVED_PLACE.pageNumber > 0 && SAVED_PLACE.pageNumber <= pageNumber)
+				pageNumber = SAVED_PLACE.pageNumber;
 			
 			// populate content
 			doc.getOutline().then( function(ol) {
