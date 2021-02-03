@@ -94,9 +94,9 @@ QString FileSystem::fileType(const QString &filename) {
 	if(file_status == 2) return "directory";
 	else if(file_status == 0) return "not existent";
 	
-    QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly))
-        return "unreadable";
+	QFile file(filename);
+	if(!file.open(QIODevice::ReadOnly))
+		return "unreadable";
 
 	QByteArray bytes = file.read(64);
 	if (bytes.left(4) == "%PDF") {
@@ -165,10 +165,54 @@ bool FileSystem::convertCbz2Pdf(const QString& cbzfile, const QString& pdffile) 
 		return false;
 	}
 	
+	// pick only the files of supported format
+	QStringList pages;
+	for(int i=0; i<files.length(); i++) {
+		
+		bool accepted = false;
+		// pages
+		QStringList supported_extensions = {
+			// https://www.mankier.com/1/podofoimg2pdf
+			".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi",	// JPEG
+			".png",												// PNG
+			".tiff", ".tif"										// TIFF
+		};
+		// config files and metadata - ignored but don't fail
+		// See https://wiki.mobileread.com/wiki/CBR_and_CBZ
+		QStringList ignored_extensions = {
+			".xml", ".config", ".json", ".acbf"
+		};
+		
+		for(int e=0; e<supported_extensions.length(); e++){
+			if(files[i].endsWith(supported_extensions[e], Qt::CaseInsensitive)){
+				accepted = true;
+				break;
+			}
+		}
+		
+		if(accepted)
+			pages << files[i];
+		else {
+			bool ignore = false;
+			for(int e=0; e<ignored_extensions.length(); e++){
+				if(files[i].endsWith(ignored_extensions[e], Qt::CaseInsensitive)){
+					ignore = true;
+					break;
+				}
+			}
+			if(!ignore){
+				qDebug() << "unsupported image file: " << files[i];
+				if(!QDir(temp_dir).removeRecursively())
+					qDebug() << "cannot remove temp files";
+				return false;
+			}
+		}
+	}
+	
 	// build pdf using podofoimg2pdf
 	QStringList conv_args;
 	conv_args << pdffile;
-	conv_args << files;
+	conv_args << pages;
 	
 	int result = QProcess::execute("podofoimg2pdf", conv_args);
 	
