@@ -300,6 +300,10 @@ window.onload = function() {
 	mc.add(Tap);
 	mc.on("tap press", (ev) => tapPageTurn(ev) );
 	
+	// load saved page or open from the beginning
+	if(SAVED_PLACE && SAVED_PLACE.pageNumber && Number(SAVED_PLACE.pageNumber) > 0)
+		pageNumber = SAVED_PLACE.pageNumber;
+	
 	// initialize event listeners
 	document.getElementById("move-canvas").addEventListener("transitionend", transitionPageTurned);
 	
@@ -312,10 +316,8 @@ window.onload = function() {
 			first_render = true;
 			number_of_pages = doc.numPages;
 			console.log("numberOfPages " + number_of_pages);
-			
-			// load saved page or open from the beginning
-			if(SAVED_PLACE && SAVED_PLACE.pageNumber && SAVED_PLACE.pageNumber > 0 && SAVED_PLACE.pageNumber <= pageNumber)
-				pageNumber = SAVED_PLACE.pageNumber;
+			// sanitize number of pages related to current new knowledge
+			pageNumber = Math.min(number_of_pages, pageNumber);
 			
 			// populate content
 			doc.getOutline().then( function(ol) {
