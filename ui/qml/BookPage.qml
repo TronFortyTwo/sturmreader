@@ -514,6 +514,8 @@ Page {
         property real marginv
         property real bumper
 		property string pdfBackground
+		// real number coefficent that affects pdf quality scale (higher the better)
+		property real pdfQuality
         
         property var defaults: ({
             textColor: "#222",
@@ -523,7 +525,8 @@ Page {
             background: "url(.background_paper@30.png)",
 			pdfBackground: "url(.background_paper@30.png)",
             margin: 0,
-            marginv: 0
+            marginv: 0,
+			pdfQuality: 1
         })
 
         //onTextColorChanged: update()  // This is always updated with background
@@ -533,6 +536,7 @@ Page {
         onBackgroundChanged: update()
 		onPdfBackgroundChanged: update()
         onMarginChanged: update()
+		onPdfQualityChanged: update()
 
         function load(styles) {
             loading = true
@@ -545,6 +549,7 @@ Page {
             margin = styles.margin || (pictureBook ? 0 : defaults.margin)
             marginv = styles.marginv || (pictureBook ? 0 : defaults.marginv)
             bumper = pictureBook ? 0 : 1
+            pdfQuality = styles.pdfQuality || defaults.pdfQuality
             loading = false
         }
 
@@ -564,7 +569,8 @@ Page {
 				pdfBackground: pdfBackground,
                 margin: margin,
                 marginv: marginv,
-                bumper: bumper
+                bumper: bumper,
+				pdfQuality: pdfQuality
             }
         }
 
@@ -833,6 +839,30 @@ Page {
 				Row {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
+					visible: pictureBook
+					Label {
+						/*/ Prefer string of < 16 characters /*/
+						text: gettext.tr("Quality")
+						verticalAlignment: Text.AlignVCenter
+						wrapMode: Text.Wrap
+						width: stylesDialog.labelwidth
+						height: qualitySlider.height
+					}
+
+					Slider {
+						id: qualitySlider
+						width: parent.width - stylesDialog.labelwidth
+						from: 0.4
+						to: 1.6
+						stepSize: 0.3
+						snapMode: Slider.SnapAlways
+						onMoved: bookStyles.pdfQuality = value
+					}
+				}
+				
+				Row {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.9
 					visible: !pictureBook
 					
 					Label {
@@ -976,10 +1006,17 @@ Page {
 					break
 				}
 			}
+			for (var i=0; i<comicStyleModel.count; i++) {
+				if (comicStyleModel.get(i).back == bookStyles.pdfBackground) {
+					comicColorSelector.currentIndex = i
+					break
+				}
+			}
 			fontSelector.currentIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
 			fontScaleSlider.value = bookStyles.fontScale
 			lineHeightSlider.value = bookStyles.lineHeight
 			marginSlider.value = bookStyles.margin
+			qualitySlider.value = bookStyles.pdfQuality
 		}
 		Component.onCompleted: {
 			setValues()

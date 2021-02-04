@@ -19,6 +19,8 @@ var next_canvas_ready = false;
 var prev_canvas_ready = false;
 // if a page turning is already ongoing, and we ignore other turns
 var ignore_page_turning = false;
+// quality coefficent
+var quality = 1;
 
 // BOOK PAGE API
 
@@ -48,6 +50,8 @@ var styleManager = {
 	updateStyles: function(style){
 		if(style.pdfBackground)
 			document.body.style.background = style.pdfBackground;
+		if(style.pdfQuality)
+			quality = style.pdfQuality;
 		console.log("ok");
 	}
 }
@@ -213,6 +217,7 @@ function renderPage(target_page, scale, canvas_name, success, fail) {
 		function(page) {
 			var sane_scale = scale;
 			if(scale == -1) sane_scale = Math.min(5, Math.max(3, page_width / page.getViewport({scale: 1}).width));
+			sane_scale = sane_scale * quality;
 			var viewport = page.getViewport({ scale: sane_scale });
 			if(first_render) book_aspect_ratio = viewport.width / viewport.height;
 			var canvas = document.getElementById(canvas_name);
