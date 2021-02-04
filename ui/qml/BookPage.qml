@@ -513,13 +513,15 @@ Page {
         property real margin
         property real marginv
         property real bumper
-
+		property string pdfBackground
+        
         property var defaults: ({
             textColor: "#222",
             fontFamily: "Default",
             lineHeight: 1,
             fontScale: 1,
             background: "url(.background_paper@30.png)",
+			pdfBackground: "url(.background_paper@30.png)",
             margin: 0,
             marginv: 0
         })
@@ -529,6 +531,7 @@ Page {
         onLineHeightChanged: update()
         onFontScaleChanged: update()
         onBackgroundChanged: update()
+		onPdfBackgroundChanged: update()
         onMarginChanged: update()
 
         function load(styles) {
@@ -538,6 +541,7 @@ Page {
             lineHeight = styles.lineHeight || defaults.lineHeight
             fontScale = styles.fontScale || defaults.fontScale
             background = styles.background || defaults.background
+			pdfBackground = styles.pdfBackground || defaults.pdfBackground
             margin = styles.margin || (pictureBook ? 0 : defaults.margin)
             marginv = styles.marginv || (pictureBook ? 0 : defaults.marginv)
             bumper = pictureBook ? 0 : 1
@@ -557,6 +561,7 @@ Page {
                 lineHeight: lineHeight,
                 fontScale: fontScale,
                 background: background,
+				pdfBackground: pdfBackground,
                 margin: margin,
                 marginv: marginv,
                 bumper: bumper
@@ -695,9 +700,73 @@ Page {
 				
 				spacing: scaling.dp(20)
 				
+				// This background is specific to comicBooks
 				Row {
 					anchors.horizontalCenter: parent.horizontalCenter
 					width: parent.width * 0.9
+					visible: pictureBook
+					
+					Label {
+						/*/ Prefer string of < 16 characters /*/
+						text: gettext.tr("Background color")
+						verticalAlignment: Text.AlignVCenter
+						wrapMode: Text.Wrap
+						width: stylesDialog.labelwidth
+						height: fontSelector.height
+					}
+					
+					ComboBox {
+						id: comicColorSelector
+						displayText: comicStyleModel.get(currentIndex).stext
+						width: parent.width - stylesDialog.labelwidth
+						model: ListModel {
+							id: comicStyleModel
+							ListElement {
+								stext: "White"
+								back: "white"
+								comboboxback: "white"
+								comboboxfore: "black"
+							}
+							ListElement {
+								stext: "Light"
+								back: "url(.background_paper@30.png)"
+								comboboxback: "#dddddd"
+								comboboxfore: "#222222"
+							}
+							ListElement {
+								stext: "Dark"
+								back: "url(.background_paper_invert@30.png)"
+								comboboxback: "#222222"
+								comboboxfore: "#dddddd"
+							}
+							ListElement {
+								stext: "Black"
+								back: "black"
+								comboboxback: "black"
+								comboboxfore: "white"
+							}
+						}
+						onCurrentIndexChanged: {
+							bookStyles.pdfBackground = styleModel.get(currentIndex).back
+						}
+						delegate: ItemDelegate {
+							highlighted: colorSelector.highlightedIndex === index
+							width: parent.width
+							contentItem: Label {
+								text: stext
+								color: comboboxfore
+							}
+							background: Rectangle {
+								color: comboboxback
+							}
+						}
+					}
+				}
+				
+				Row {
+					anchors.horizontalCenter: parent.horizontalCenter
+					width: parent.width * 0.9
+					visible: !pictureBook
 					
 					Label {
 						/*/ Prefer string of < 16 characters /*/

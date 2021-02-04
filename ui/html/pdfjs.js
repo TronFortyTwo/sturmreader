@@ -46,8 +46,8 @@ function moveToChapter(chap) {
 }
 var styleManager = {
 	updateStyles: function(style){
-		if(style.background)
-			document.body.style.background = style.background;
+		if(style.pdfBackground)
+			document.body.style.background = style.pdfBackground;
 		console.log("ok");
 	}
 }
