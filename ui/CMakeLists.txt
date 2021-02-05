@@ -27,5 +27,3 @@ add_custom_target(MakeTextures ALL DEPENDS qml/Textures.qml)
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${DATA_DIR}
     PATTERN "[Cc][Mm]ake*" EXCLUDE)
-
-#add_subdirectory(html)

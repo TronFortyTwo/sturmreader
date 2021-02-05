@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-05 17:40+0000\n"
+"POT-Creation-Date: 2021-02-05 18:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,212 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#: ui/qml/Settings.qml:33
-msgid "Settings"
-msgstr ""
-
-#: ui/qml/Settings.qml:64 ui/qml/Settings.qml:95
-msgid "Default Book Location"
-msgstr ""
-
-#: ui/qml/Settings.qml:68
-msgid ""
-"Sturm Reader seems to be operating under AppArmor restrictions that prevent "
-"it from accessing most of your home directory.  Ebooks should be put in <i>"
-"%1</i> for Sturm Reader to read them."
-msgstr ""
-
-#. / Read the books in the given directory again. /
-#: ui/qml/Settings.qml:76 ui/qml/Settings.qml:122
-msgid "Reload Directory"
-msgstr ""
-
-#: ui/qml/Settings.qml:99
-msgid ""
-"Enter the folder in your home directory where your ebooks are or should be "
-"stored. Changing this value will not affect existing books in your library."
-msgstr ""
-
-#. / Create a new directory from path given. /
-#: ui/qml/Settings.qml:113
-msgid "Create Directory"
-msgstr ""
-
-#. / File exists with path given. /
-#: ui/qml/Settings.qml:117
-msgid "File Exists"
-msgstr ""
-
-#. / Use directory specified to store books. /
-#: ui/qml/Settings.qml:125
-msgid "Use Directory"
-msgstr ""
-
-#: ui/qml/Settings.qml:172
-msgid "Application Style (experimental)"
-msgstr ""
-
-#: ui/qml/Settings.qml:176
-msgid "Supported styles: "
-msgstr ""
-
-#: ui/qml/Settings.qml:181
-msgid "Requires a restart to take effect"
-msgstr ""
-
-#: ui/qml/ImporterUT.qml:51
-msgid "Import books from"
-msgstr ""
-
-#: ui/qml/BookPage.qml:84
-msgid "Contents"
-msgstr ""
-
-#: ui/qml/BookPage.qml:97
-msgid "Outline"
-msgstr ""
-
-#: ui/qml/BookPage.qml:105
-msgid "Pages"
-msgstr ""
-
-#: ui/qml/BookPage.qml:133 ui/qml/BookPage.qml:182
-msgid "Page"
-msgstr ""
-
-#: ui/qml/BookPage.qml:157
-msgid "No outline available"
-msgstr ""
-
-#: ui/qml/Reader.qml:22
-msgid "Could not determine file type."
-msgstr ""
-
-#: ui/qml/Reader.qml:22
-msgid ""
-"Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
-msgstr ""
-
-#: ui/qml/Reader.qml:23
-msgid "Could not parse file."
-msgstr ""
-
-#: ui/qml/Reader.qml:23
-msgid ""
-"Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
-msgstr ""
-
-#: ui/qml/ImporterPortable.qml:23
-msgid "Choose the books to import"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:41
-msgid "Library"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:84
-msgid "Recently Read"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:87
-msgid "Title"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:90
-msgid "Author"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:111
-msgid "Loading library..."
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:111
-msgid "Processing books data..."
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:131
-msgid "Welcome to Sturm Reader!"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:243
-msgid "Could not open this book."
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:520
-msgid "Back"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:628
-msgid "Unknown Author"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:629
-msgid "%1 Book"
-msgid_plural "%1 Books"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ui/qml/LocalBooks.qml:717
-msgid "No Books in Library"
-msgstr ""
-
-#. / A path on the file system. /
-#: ui/qml/LocalBooks.qml:726
-msgid ""
-"Sturm Reader could not find any books for your library, and will "
-"automatically find all epub files in <i>%1</i>.  Additionally, any book "
-"opened will be added to the library."
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:736
-msgid "Get Books"
-msgstr ""
-
-#: ui/qml/LocalBooks.qml:744
-msgid "Search Again"
-msgstr ""
-
-#. / A control can be dragged to delete a file.  The deletion occurs /
-#. / when the user releases the control. /
-#: ui/qml/LocalBooks.qml:822
-msgid "Release to Delete"
-msgstr ""
-
-#. / A control can be dragged to delete a file. /
-#: ui/qml/LocalBooks.qml:824
-msgid "Swipe to Delete"
-msgstr ""
-
-#: ui/qml/Converter.qml:43
-msgid "Conversion required"
-msgstr ""
-
-#: ui/qml/Converter.qml:81
-msgid ""
-"The file that you tried to open needs to be converted to a format supported "
-"by Sturm Reader to be opened."
-msgstr ""
-
-#: ui/qml/Converter.qml:82
-msgid ""
-"This process is automatic and the book will be then available in your "
-"library."
-msgstr ""
-
-#: ui/qml/Converter.qml:83
-msgid "Press the button to start the process"
-msgstr ""
-
-#: ui/qml/Converter.qml:98
-msgid "Convert"
-msgstr ""
-
-#: ui/qml/Converter.qml:115
-msgid ""
-"Conversion failed: you can try importing the book again. You may check the "
-"logs for more details, or open an issue for support"
-msgstr ""
 
 #: ui/qml/About.qml:30
 msgid "About"
@@ -271,44 +65,24 @@ msgstr ""
 msgid "See License (GNU GPL v3)"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:42
-msgid "Importing books..."
+#: ui/qml/BookPage.qml:84
+msgid "Contents"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:42
-msgid "Books imported"
+#: ui/qml/BookPage.qml:97
+msgid "Outline"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:81
-msgid "Waiting"
+#: ui/qml/BookPage.qml:105
+msgid "Pages"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:83
-msgid "Processing"
+#: ui/qml/BookPage.qml:133 ui/qml/BookPage.qml:182
+msgid "Page"
 msgstr ""
 
-#: ui/qml/ImportPage.qml:85
-msgid "Imported to %1"
-msgstr ""
-
-#: ui/qml/ImportPage.qml:87
-msgid "Already in library: %1"
-msgstr ""
-
-#: ui/qml/ImportPage.qml:89
-msgid "Error: %1"
-msgstr ""
-
-#: ui/qml/Main.qml:108
-msgid "Error Opening File"
-msgstr ""
-
-#: ui/qml/MetricsUT.qml:13
-msgid "Pages read today: %1"
-msgstr ""
-
-#: ui/qml/MetricsUT.qml:14
-msgid "No pages read today"
+#: ui/qml/BookPage.qml:157
+msgid "No outline available"
 msgstr ""
 
 #: ui/qml/BookSettingsDialog.qml:40
@@ -394,4 +168,230 @@ msgstr ""
 #. / Prefer < 16 characters /
 #: ui/qml/BookSettingsDialog.qml:353
 msgid "Load Defaults"
+msgstr ""
+
+#: ui/qml/Converter.qml:43
+msgid "Conversion required"
+msgstr ""
+
+#: ui/qml/Converter.qml:81
+msgid ""
+"The file that you tried to open needs to be converted to a format supported "
+"by Sturm Reader to be opened."
+msgstr ""
+
+#: ui/qml/Converter.qml:82
+msgid ""
+"This process is automatic and the book will be then available in your "
+"library."
+msgstr ""
+
+#: ui/qml/Converter.qml:83
+msgid "Press the button to start the process"
+msgstr ""
+
+#: ui/qml/Converter.qml:98
+msgid "Convert"
+msgstr ""
+
+#: ui/qml/Converter.qml:115
+msgid ""
+"Conversion failed: you can try importing the book again. You may check the "
+"logs for more details, or open an issue for support"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:42
+msgid "Importing books..."
+msgstr ""
+
+#: ui/qml/ImportPage.qml:42
+msgid "Books imported"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:81
+msgid "Waiting"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:83
+msgid "Processing"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:85
+msgid "Imported to %1"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:87
+msgid "Already in library: %1"
+msgstr ""
+
+#: ui/qml/ImportPage.qml:89
+msgid "Error: %1"
+msgstr ""
+
+#: ui/qml/ImporterPortable.qml:23
+msgid "Choose the books to import"
+msgstr ""
+
+#: ui/qml/ImporterUT.qml:51
+msgid "Import books from"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:41
+msgid "Library"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:84
+msgid "Recently Read"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:87
+msgid "Title"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:90
+msgid "Author"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:111
+msgid "Loading library..."
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:111
+msgid "Processing books data..."
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:131
+msgid "Welcome to Sturm Reader!"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:243
+msgid "Could not open this book."
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:520
+msgid "Back"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:628
+msgid "Unknown Author"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:629
+msgid "%1 Book"
+msgid_plural "%1 Books"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ui/qml/LocalBooks.qml:717
+msgid "No Books in Library"
+msgstr ""
+
+#. / A path on the file system. /
+#: ui/qml/LocalBooks.qml:726
+msgid ""
+"Sturm Reader could not find any books for your library, and will "
+"automatically find all epub files in <i>%1</i>.  Additionally, any book "
+"opened will be added to the library."
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:736
+msgid "Get Books"
+msgstr ""
+
+#: ui/qml/LocalBooks.qml:744
+msgid "Search Again"
+msgstr ""
+
+#. / A control can be dragged to delete a file.  The deletion occurs /
+#. / when the user releases the control. /
+#: ui/qml/LocalBooks.qml:822
+msgid "Release to Delete"
+msgstr ""
+
+#. / A control can be dragged to delete a file. /
+#: ui/qml/LocalBooks.qml:824
+msgid "Swipe to Delete"
+msgstr ""
+
+#: ui/qml/Main.qml:108
+msgid "Error Opening File"
+msgstr ""
+
+#: ui/qml/MetricsUT.qml:13
+msgid "Pages read today: %1"
+msgstr ""
+
+#: ui/qml/MetricsUT.qml:14
+msgid "No pages read today"
+msgstr ""
+
+#: ui/qml/Reader.qml:22
+msgid "Could not determine file type."
+msgstr ""
+
+#: ui/qml/Reader.qml:22
+msgid ""
+"Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
+msgstr ""
+
+#: ui/qml/Reader.qml:23
+msgid "Could not parse file."
+msgstr ""
+
+#: ui/qml/Reader.qml:23
+msgid ""
+"Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
+msgstr ""
+
+#: ui/qml/Settings.qml:33
+msgid "Settings"
+msgstr ""
+
+#: ui/qml/Settings.qml:64 ui/qml/Settings.qml:95
+msgid "Default Book Location"
+msgstr ""
+
+#: ui/qml/Settings.qml:68
+msgid ""
+"Sturm Reader seems to be operating under AppArmor restrictions that prevent "
+"it from accessing most of your home directory.  Ebooks should be put in <i>"
+"%1</i> for Sturm Reader to read them."
+msgstr ""
+
+#. / Read the books in the given directory again. /
+#: ui/qml/Settings.qml:76 ui/qml/Settings.qml:122
+msgid "Reload Directory"
+msgstr ""
+
+#: ui/qml/Settings.qml:99
+msgid ""
+"Enter the folder in your home directory where your ebooks are or should be "
+"stored. Changing this value will not affect existing books in your library."
+msgstr ""
+
+#. / Create a new directory from path given. /
+#: ui/qml/Settings.qml:113
+msgid "Create Directory"
+msgstr ""
+
+#. / File exists with path given. /
+#: ui/qml/Settings.qml:117
+msgid "File Exists"
+msgstr ""
+
+#. / Use directory specified to store books. /
+#: ui/qml/Settings.qml:125
+msgid "Use Directory"
+msgstr ""
+
+#: ui/qml/Settings.qml:172
+msgid "Application Style (experimental)"
+msgstr ""
+
+#: ui/qml/Settings.qml:176
+msgid "Supported styles: "
+msgstr ""
+
+#: ui/qml/Settings.qml:181
+msgid "Requires a restart to take effect"
 msgstr ""
