@@ -6,10 +6,13 @@ set(APPARMOR_FILE apparmor/sturmreader.json)
 set(DESKTOP_NAME "Sturm Reader")
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fno-permissive -pedantic -Wall -Wextra -fPIC")
 
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+if(CMAKE_VERSION VERSION_LESS "3.7.0")
+	set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
 
 # Standard install paths
 include(GNUInstallDirs)
@@ -82,6 +85,8 @@ endif(CLICK_MODE)
 configure_file(${DESKTOP_FILE}.in ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_DIR})
 
+add_subdirectory(ui)
+
 # compiles the main EXEC
 add_executable(sturmreader
 	ui/main.cpp
@@ -98,13 +103,12 @@ add_executable(sturmreader
 	ui/qhttpserver/qhttpresponse.cpp
 	ui/qhttpserver/http-parser/http_parser.c
 	ui/reader/epubreader.cpp
-	#ui/reader/cbzreader.cpp
 	ui/reader/pdfreader.cpp
+	ui/resources.qrc
 	${QT_RESOURCES} )
 target_include_directories(sturmreader SYSTEM PRIVATE ${QUAZIP_INCLUDE_DIR})
 target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ${QUAZIP_LIBRARIES} ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Svg Qt5::Quick Qt5::QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
-# Add the needed subdirectories to be built and look for a CMakeLists.txt file in each directory
-add_subdirectory(ui)
+# localization
 add_subdirectory(po)

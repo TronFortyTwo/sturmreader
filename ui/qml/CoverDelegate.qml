@@ -13,9 +13,7 @@ import QtQuick.LocalStorage 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
-
 Item {
-	
 	property string cover
 	property string fullcover
 	property string title: ""

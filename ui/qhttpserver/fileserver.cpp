@@ -6,12 +6,14 @@
 
 #include "fileserver.h"
 #include <QFile>
+#include <QDebug>
 #include "../mimetype.h"
 
 void FileServer::serve(const QString &filename, QHttpResponse *response)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly)) {
+		qDebug() << "404 - file not found: " << filename;
         response->writeHead(404);
         response->end("File not found");
         return;

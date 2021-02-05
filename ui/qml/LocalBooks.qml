@@ -521,8 +521,8 @@ Page {
 		}
     }
 
-    DefaultCover {
-        id: defaultCover
+	DefaultCover {
+		id: defaultCover
 	}
 	
     SwipeView {

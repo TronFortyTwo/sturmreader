@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 	QString app_name = "sturmreader.emanuelesorce";
 	QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
 	app->setApplicationName(app_name);
-	app->setWindowIcon(QIcon("ui/sturmreader.svg"));
+	app->setWindowIcon(QIcon("qrc:///sturmreader.svg"));
 	
 	// styling
 	StyleSetting styleSetting;
@@ -76,7 +76,6 @@ int main(int argc, char *argv[])
 	// book parsers
 	EpubReader epub;
 	PDFReader pdf;
-	//CBZReader cbz;
 
 	QQmlApplicationEngine engine;
 	
@@ -110,36 +109,14 @@ int main(int argc, char *argv[])
 	qDebug() << "Ubuntu Touch imports found: " << (ubuntu_touch ? "Yes" : "No");
 	
 	if(ubuntu_touch) {
-		qmlRegisterType(QUrl("file:./ui/qml/ImporterUT.qml"), "Importer", 1, 0, "Importer");
-		qmlRegisterType(QUrl("file:./ui/qml/MetricsUT.qml"), "Metrics", 1, 0, "Metrics");
-		// Set ImageMagick env vars
-		/*
-		QString magick_configure_path = ubuntu_touch_prefix + app_name + "/current/ImageMagick-Configure/";
-		QString magick_coder_module_path = ubuntu_touch_prefix + app_name + "/current/ImageMagick-Coders/";
-		QString magick_filter_module_path = ubuntu_touch_prefix + app_name + "/current/ImageMagick-Filters/";
-		// TODO: Use XDG_CACHE_HOME
-		QString magick_temp = "~/.cache/" + app_name + "Magick-tmp/";
-		
-		qputenv("MAGICK_CONFIGURE_PATH", magick_configure_path.toLocal8Bit());
-		qputenv("MAGICK_CODER_MODULE_PATH", magick_coder_module_path.toLocal8Bit());
-		qputenv("MAGICK_CODER_FILTER_PATH", magick_filter_module_path.toLocal8Bit());
-		qputenv("MAGICK_TEMPORARY_PATH", magick_temp.toLocal8Bit());
-		
-		// limit memory to avoid OOM killer
-		qputenv("MAGICK_MEMORY_LIMIT", "25MB");
-		qputenv("MAGICK_MAP_LIMIT", "25MB");
-		qputenv("MAGICK_DEBUG", "All");
-		
-		// create dirs
-		QDir dir("");
-		dir.mkpath("magick_temp");*/
-		
+		qmlRegisterType(QUrl("qrc:///qml/ImporterUT.qml"), "Importer", 1, 0, "Importer");
+		qmlRegisterType(QUrl("qrc:///qml/MetricsUT.qml"), "Metrics", 1, 0, "Metrics");
 	} else { // portable
-		qmlRegisterType(QUrl("file:./ui/qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
-		qmlRegisterType(QUrl("file:./ui/qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");
+		qmlRegisterType(QUrl("qrc:///qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
+		qmlRegisterType(QUrl("qrc:///qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");
 	}
 
-	engine.load("ui/qml/Main.qml");
+	engine.load("qrc:///qml/Main.qml");
 	
 	return app->exec();
 }

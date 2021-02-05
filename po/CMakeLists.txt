@@ -12,13 +12,13 @@ file(GLOB PO_FILES *.po)
 add_custom_target(${POT_FILE} ALL
     COMMENT "Generating translation template"
     COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} -o ${POT_FILE}
-        -D ${CMAKE_BINARY_DIR}
+        -D ${CMAKE_SOURCE_DIR}
         --from-code=UTF-8
         -L javascript --qt --add-comments=/
         --keyword=tr --keyword=tr:1,2
         --package-name='${PROJECT_NAME}'
-        --copyright-holder='Robert Schroll - Emanuele Sorce'
-        --msgid-bugs-address='rschroll@gmail.com - emanuele.sorce@hotmail.com'
+        --copyright-holder='Emanuele Sorce, Robert Schroll and others'
+        --msgid-bugs-address='emanuele.sorce@hotmail.com'
         ${I18N_SRC_FILES}
     COMMAND ${CMAKE_COMMAND} -E copy ${POT_FILE} ${CMAKE_CURRENT_SOURCE_DIR})
     
