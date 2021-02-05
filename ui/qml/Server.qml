@@ -36,7 +36,7 @@ Item {
         response.setHeader("Content-Type", "application/javascript")
         response.writeHead(200)
 
-        var styles = bookPage.getBookStyles()
+        var styles = bookPage.bookSettings.asObject()
         response.write("DEFAULT_STYLES = " + JSON.stringify(styles) + ";\n")
 
         var locus = getBookSetting("locus")

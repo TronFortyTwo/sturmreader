@@ -19,7 +19,7 @@ Dialog {
 	x: Math.round((bookPage.width - width) / 2)
 	y: Math.round((bookPage.height - height) / 2)
 	width: Math.min(bookPage.width, Math.max(bookPage.width * 0.5, scaling.dp(450)))
-	height: Math.min(bookPage.height*0.9, stylesFlickable.contentHeight + stylesToolbar.height + scaling.dp(100))
+	height: Math.min(bookPage.height * 0.9, stylesFlickable.contentHeight + stylesToolbar.height + scaling.dp(100))
 	
 	modal: true
 	

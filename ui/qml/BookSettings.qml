@@ -32,7 +32,7 @@ Item {
 		textColor: "#222",
 		fontFamily: "Default",
 		lineHeight: 1,
-		fontScale: 1,
+		fontScale: 2,
 		background: "url(.background_paper@30.png)",
 		pdfBackground: "url(.background_paper@30.png)",
 		margin: 0,

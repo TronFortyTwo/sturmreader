@@ -36,7 +36,13 @@ Page {
 	property int pdf_pageNumber: 0;
 	property int pdf_numberOfPages: 0;
     
-    signal contentOpened()
+	// book settings manager
+	property BookSettings bookSettings: BookSettings { parent: bookPage }
+	// outline
+	property ListModel contentsListModel: ListModel {}
+	property ListModel pagesTumblerModel: ListModel {}
+	
+	signal contentOpened()
 
 	function openContent() {
 		content.open();
@@ -56,10 +62,6 @@ Page {
 	}
 	function turnControlsOff() {
 		controls.interactive = false;
-	}
-    
-	ListModel {
-		id: pagesTumblerModel
 	}
     
 	Dialog {
@@ -490,18 +492,6 @@ Page {
 			}
 		}
 	}
-
-    ListModel {
-        id: contentsListModel
-    }
-
-	BookSettings {
-		id: bookSettings
-	}
-	// TODO: remove this function?
-    function getBookStyles() {
-        return bookSettings.asObject()
-    }
 
     function updateNavButtons(back, forward) {
         canBack = back
