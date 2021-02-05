@@ -16,6 +16,7 @@ import QtQuick.Layouts 1.3
 
 import QtQuick.Controls.Material 2.2
 
+import Metrics 1.0
 import Importer 1.0
 
 ApplicationWindow {
@@ -131,6 +132,10 @@ ApplicationWindow {
 	ImportPage {
 		id: import_page
 		visible: false
+	}
+	
+	Metrics {
+		id: pageMetric
 	}
 
 	function openConverter( file ) {
@@ -250,6 +255,26 @@ ApplicationWindow {
 	}
 	FontLoader {
 		source: Qt.resolvedUrl("../html/fonts/URW Gothic L.ttf")
+	}
+	QtObject {
+		id: fontLister
+
+		property var fontList: ["Default", "Bitstream Charter", "Ubuntu", "URW Bookman L", "URW Gothic L"]
+		
+		Component.onCompleted: {
+			var familyList = qtfontlist.families()
+			
+			var possibleFamilies = [["Droid Serif", "Nimbus Roman No9 L", "FreeSerif"],
+									["Droid Sans", "Nimbus Sans L", "FreeSans"]]
+			for (var j=0; j<possibleFamilies.length; j++) {
+				for (var i=0; i<possibleFamilies[j].length; i++) {
+					if (familyList.indexOf(possibleFamilies[j][i]) >= 0) {
+						fontList.splice(2, 0, possibleFamilies[j][i])
+						break
+					}
+				}
+			}
+		}
 	}
     
     

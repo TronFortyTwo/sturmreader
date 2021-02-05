@@ -63,7 +63,6 @@ Item {
 				return static_file("../html/monocle.html", response)
 			if (request.path == "/CBZ")
 				openConverter(reader.filename);
-				//return static_file("../html/monocle.html", response)
 			
 			if (request.path == "/book.pdf")
 				return static_file(reader.filename, response)

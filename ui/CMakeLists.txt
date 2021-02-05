@@ -26,6 +26,8 @@ set(UI_SRC_FILES
 	qml/CoverDelegate.qml
 	qml/SuperDelegate.qml
 	qml/Converter.qml
+	qml/BookSettings.qml
+	qml/BookSettingsDialog.qml
 
 	qml/images/error_cover.svg
 	qml/images/error_cover_full.svg
