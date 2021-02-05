@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-05 13:02+0000\n"
+"POT-Creation-Date: 2021-02-05 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -311,91 +311,87 @@ msgstr ""
 msgid "No pages read today"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:32
+#: ui/qml/BookSettingsDialog.qml:34
 msgid "Book Settings"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:79
+#: ui/qml/BookSettingsDialog.qml:81
 msgid "Background color"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:95
+#: ui/qml/BookSettingsDialog.qml:97
 msgid "White"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:101
+#: ui/qml/BookSettingsDialog.qml:103
 msgid "Light"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:107
+#: ui/qml/BookSettingsDialog.qml:109
 msgid "Dark"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:112
+#: ui/qml/BookSettingsDialog.qml:114
 msgid "Black"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:145
+#: ui/qml/BookSettingsDialog.qml:147
 msgid "Color scheme"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:161
+#: ui/qml/BookSettingsDialog.qml:163
 msgid "Black on White"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:167
+#: ui/qml/BookSettingsDialog.qml:169
 msgid "Dark on Texture"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:173
+#: ui/qml/BookSettingsDialog.qml:175
 msgid "Light on Texture"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:179
+#: ui/qml/BookSettingsDialog.qml:181
 msgid "White on Black"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:213
+#: ui/qml/BookSettingsDialog.qml:215
 msgid "Quality"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:238
+#: ui/qml/BookSettingsDialog.qml:240
 msgid "Font"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:248 ui/qml/BookSettingsDialog.qml:258
+#: ui/qml/BookSettingsDialog.qml:250 ui/qml/BookSettingsDialog.qml:260
 msgid "Default Font"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:271
+#: ui/qml/BookSettingsDialog.qml:273
 msgid "Font Scaling"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:295
+#: ui/qml/BookSettingsDialog.qml:297
 msgid "Line Height"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:319
+#: ui/qml/BookSettingsDialog.qml:321
 msgid "Margins"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:342
+#: ui/qml/BookSettingsDialog.qml:344
 msgid "Make Default"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:350
+#: ui/qml/BookSettingsDialog.qml:352
 msgid "Load Defaults"
-msgstr ""
-
-#: ui/qml/BookSettingsDialog.qml:358
-msgid "Close"
 msgstr ""

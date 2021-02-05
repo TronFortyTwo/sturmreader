@@ -19,9 +19,11 @@ Dialog {
 	x: Math.round((bookPage.width - width) / 2)
 	y: Math.round((bookPage.height - height) / 2)
 	width: Math.min(bookPage.width, Math.max(bookPage.width * 0.5, scaling.dp(450)))
-	height: Math.min(bookPage.height*0.9, stylesFlickable.contentHeight + stylesToolbar.height + scaling.dp(50))
+	height: Math.min(bookPage.height*0.9, stylesFlickable.contentHeight + stylesToolbar.height + scaling.dp(100))
 	
 	modal: true
+	
+	standardButtons: Dialog.Close
 	
 	header: ToolBar {
 		id: stylesToolbar
@@ -340,7 +342,7 @@ Dialog {
 				width: parent.width * 0.8
 				/*/ Prefer < 16 characters /*/
 				text: gettext.tr("Make Default")
-				enabled: !bookStyles.atdefault
+				visible: !bookStyles.atdefault
 				onClicked: bookStyles.saveAsDefault()
 			}
 			Button {
@@ -348,18 +350,14 @@ Dialog {
 				width: parent.width * 0.8
 				/*/ Prefer < 16 characters /*/
 				text: gettext.tr("Load Defaults")
-				enabled: !bookStyles.atdefault
+				visible: !bookStyles.atdefault
 				onClicked: bookStyles.resetToDefaults()
 			}
-			
-			Button {
-				anchors.horizontalCenter: parent.horizontalCenter
-				width: parent.width * 0.8
-				text: gettext.tr("Close")
-				highlighted: true
-				onClicked: stylesDialog.close()
-			}
 		}
+	}
+	
+	onRejected: {
+		stylesDialog.close();
 	}
 	
 	onOpened: {

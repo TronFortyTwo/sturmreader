@@ -379,7 +379,7 @@ Page {
 					}
 				]
 			}
-        }
+		}
 	}
 
     BusyIndicator {
