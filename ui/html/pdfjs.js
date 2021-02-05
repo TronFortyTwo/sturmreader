@@ -305,6 +305,10 @@ window.onload = function() {
 	mc.add(Tap);
 	mc.on("tap press", (ev) => tapPageTurn(ev) );
 	
+	// set saved styles
+	if(DEFAULT_STYLES)
+		styleManager.updateStyles(DEFAULT_STYLES);
+	
 	// load saved page or open from the beginning
 	if(SAVED_PLACE && SAVED_PLACE.pageNumber && Number(SAVED_PLACE.pageNumber) > 0)
 		pageNumber = SAVED_PLACE.pageNumber;
@@ -321,7 +325,7 @@ window.onload = function() {
 			first_render = true;
 			number_of_pages = doc.numPages;
 			console.log("numberOfPages " + number_of_pages);
-			// sanitize number of pages related to current new knowledge
+			// sanitize pageNumber accordingly to current new knowledge
 			pageNumber = Math.min(number_of_pages, pageNumber);
 			
 			// populate content
