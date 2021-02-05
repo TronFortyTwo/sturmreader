@@ -25,6 +25,12 @@ Dialog {
 	
 	standardButtons: Dialog.Close
 	
+	// settings
+	property alias margin: marginSlider.value
+	property alias lineHeight: lineHeightSlider.value
+	property alias fontScale: fontScaleSlider.value
+	property alias pdfQuality: qualitySlider.value
+	
 	header: ToolBar {
 		id: stylesToolbar
 		width: parent.width
@@ -226,7 +232,6 @@ Dialog {
 					to: 1.6
 					stepSize: 0.3
 					snapMode: Slider.SnapAlways
-					onMoved: bookStyles.pdfQuality = value
 				}
 			}
 			
@@ -284,7 +289,6 @@ Dialog {
 					to: 4
 					stepSize: 0.25
 					snapMode: Slider.SnapAlways
-					onMoved: bookStyles.fontScale = value
 				}
 			}
 
@@ -308,7 +312,6 @@ Dialog {
 					to: 2
 					stepSize: 0.2
 					snapMode: Slider.SnapAlways
-					onMoved: bookStyles.lineHeight = value
 				}
 			}
 
@@ -332,8 +335,6 @@ Dialog {
 					to: 24
 					stepSize: 2
 					snapMode: Slider.SnapAlways
-					function formatValue(v) { return Math.round(v) + "%" }
-					onValueChanged: bookStyles.margin = value
 				}
 			}
 
@@ -360,11 +361,11 @@ Dialog {
 		stylesDialog.close();
 	}
 	
+	// TODO: remove all the stuff here below, somehow aliasing it to values in BookSettings. KISS
 	onOpened: {
 		if (bookStyles.loading == false)
 			setValues()
 	}
-		
 	function setValues() {
 		for (var i=0; i<styleModel.count; i++) {
 			if (styleModel.get(i).fore == bookStyles.textColor) {
@@ -379,11 +380,8 @@ Dialog {
 			}
 		}
 		fontSelector.currentIndex = fontSelector.model.indexOf(bookStyles.fontFamily)
-		fontScaleSlider.value = bookStyles.fontScale
-		lineHeightSlider.value = bookStyles.lineHeight
-		marginSlider.value = bookStyles.margin
-		qualitySlider.value = bookStyles.pdfQuality
 	}
+	
 	Component.onCompleted: {
 		setValues()
 	}

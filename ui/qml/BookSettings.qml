@@ -13,20 +13,25 @@ import QtQuick.Layouts 1.3
 
 Item {
 	id: bookStyles
+	
 	property bool loading: false
 	property bool atdefault: false
 
 	property string textColor
 	property string fontFamily
-	property real lineHeight
-	property real fontScale
+	property alias lineHeight: settingsDialog.lineHeight
+	property alias fontScale: settingsDialog.fontScale
 	property string background
-	property real margin
-	property real marginv
+	property alias margin: settingsDialog.margin
+	property real marginv: Math.min(margin, 5)
 	property real bumper
 	property string pdfBackground
 	// real number coefficent that affects pdf quality scale (higher the better)
-	property real pdfQuality
+	property alias pdfQuality: settingsDialog.pdfQuality
+	
+	BookSettingsDialog {
+		id: settingsDialog
+	}
 	
 	property var defaults: ({
 		textColor: "#222",
@@ -39,7 +44,7 @@ Item {
 		marginv: 0,
 		pdfQuality: 1
 	})
-
+	
 	//onTextColorChanged: update()  // This is always updated with background
 	onFontFamilyChanged: update()
 	onLineHeightChanged: update()
@@ -49,9 +54,6 @@ Item {
 	onMarginChanged: update()
 	onPdfQualityChanged: update()
 
-	BookSettingsDialog {
-		id: settingsDialog
-	}
 	function openDialog() {
 		settingsDialog.open();
 	}
@@ -64,8 +66,8 @@ Item {
 		fontScale = styles.fontScale || defaults.fontScale
 		background = styles.background || defaults.background
 		pdfBackground = styles.pdfBackground || defaults.pdfBackground
-		margin = styles.margin || (pictureBook ? 0 : defaults.margin)
-		marginv = styles.marginv || (pictureBook ? 0 : defaults.marginv)
+		margin = styles.margin || defaults.margin
+		marginv = styles.marginv || defaults.marginv
 		bumper = pictureBook ? 0 : 1
 		pdfQuality = styles.pdfQuality || defaults.pdfQuality
 		loading = false
@@ -136,8 +138,9 @@ Item {
 			if (prop in defaults)
 				defaults[prop] = savedvals[prop]
 
-		if (savedvals.marginv == undefined && widthgu > targetwidth)
+		// Not sure what this does - probabl we don't need it
+		//if (savedvals.marginv == undefined && widthgu > targetwidth)
 			// Set the vertical margins to be the same as the horizontal, but no more than 5%.
-			defaults.marginv = Math.min(defaults.margin, 5)
+			//defaults.marginv = Math.min(defaults.margin, 5)
 	}
 }
