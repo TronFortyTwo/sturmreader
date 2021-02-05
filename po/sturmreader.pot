@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-05 12:26+0000\n"
+"POT-Creation-Date: 2021-02-05 13:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -320,50 +320,82 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:141
-msgid "Color scheme"
+#: ui/qml/BookSettingsDialog.qml:95
+msgid "White"
+msgstr ""
+
+#: ui/qml/BookSettingsDialog.qml:101
+msgid "Light"
+msgstr ""
+
+#: ui/qml/BookSettingsDialog.qml:107
+msgid "Dark"
+msgstr ""
+
+#: ui/qml/BookSettingsDialog.qml:112
+msgid "Black"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:207
+#: ui/qml/BookSettingsDialog.qml:145
+msgid "Color scheme"
+msgstr ""
+
+#: ui/qml/BookSettingsDialog.qml:161
+msgid "Black on White"
+msgstr ""
+
+#: ui/qml/BookSettingsDialog.qml:167
+msgid "Dark on Texture"
+msgstr ""
+
+#: ui/qml/BookSettingsDialog.qml:173
+msgid "Light on Texture"
+msgstr ""
+
+#: ui/qml/BookSettingsDialog.qml:179
+msgid "White on Black"
+msgstr ""
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:213
 msgid "Quality"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:232
+#: ui/qml/BookSettingsDialog.qml:238
 msgid "Font"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:242 ui/qml/BookSettingsDialog.qml:252
+#: ui/qml/BookSettingsDialog.qml:248 ui/qml/BookSettingsDialog.qml:258
 msgid "Default Font"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:265
+#: ui/qml/BookSettingsDialog.qml:271
 msgid "Font Scaling"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:289
+#: ui/qml/BookSettingsDialog.qml:295
 msgid "Line Height"
 msgstr ""
 
 #. / Prefer string of < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:313
+#: ui/qml/BookSettingsDialog.qml:319
 msgid "Margins"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:336
+#: ui/qml/BookSettingsDialog.qml:342
 msgid "Make Default"
 msgstr ""
 
 #. / Prefer < 16 characters /
-#: ui/qml/BookSettingsDialog.qml:344
+#: ui/qml/BookSettingsDialog.qml:350
 msgid "Load Defaults"
 msgstr ""
 
-#: ui/qml/BookSettingsDialog.qml:352
+#: ui/qml/BookSettingsDialog.qml:358
 msgid "Close"
 msgstr ""

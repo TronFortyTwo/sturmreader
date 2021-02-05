@@ -89,29 +89,33 @@ Dialog {
 					width: parent.width - stylesDialog.labelwidth
 					model: ListModel {
 						id: comicStyleModel
-						ListElement {
-							stext: "White"
-							back: "white"
-							comboboxback: "white"
-							comboboxfore: "black"
-						}
-						ListElement {
-							stext: "Light"
-							back: "url(.background_paper@30.png)"
-							comboboxback: "#dddddd"
-							comboboxfore: "#222222"
-						}
-						ListElement {
-							stext: "Dark"
-							back: "url(.background_paper_invert@30.png)"
-							comboboxback: "#222222"
-							comboboxfore: "#dddddd"
-						}
-						ListElement {
-							stext: "Black"
-							back: "black"
-							comboboxback: "black"
-							comboboxfore: "white"
+						Component.onCompleted: {
+							// we populate it this way so that it can get localized
+							var combolist = [{
+									stext: gettext.tr("White"),
+									back: "white",
+									comboboxback: "white",
+									comboboxfore: "black"
+								},{
+									/* Light as in light color */
+									stext: gettext.tr("Light"),
+									back: "url(.background_paper@30.png)",
+									comboboxback: "#dddddd",
+									comboboxfore: "#222222"
+								},{
+									/* Dark as in dark color */
+									stext: gettext.tr("Dark"),
+									back: "url(.background_paper_invert@30.png)",
+									comboboxback: "#222222",
+									comboboxfore: "#dddddd"
+								},{
+									stext: gettext.tr("Black"),
+									back: "black",
+									comboboxback: "black",
+									comboboxfore: "white"
+								}];
+							for(var i=0; i<combolist.length; i++)
+								append(combolist[i]);
 						}
 					}
 					onCurrentIndexChanged: {
@@ -151,33 +155,35 @@ Dialog {
 					width: parent.width - stylesDialog.labelwidth
 					model: ListModel {
 						id: styleModel
-						ListElement {
-							stext: "Black on White"
-							back: "white"
-							fore: "black"
-							comboboxback: "white"
-							comboboxfore: "black"
-						}
-						ListElement {
-							stext: "Dark on Texture"
-							back: "url(.background_paper@30.png)"
-							fore: "#222"
-							comboboxback: "#dddddd"
-							comboboxfore: "#222222"
-						}
-						ListElement {
-							stext: "Light on Texture"
-							back: "url(.background_paper_invert@30.png)"
-							fore: "#999"
-							comboboxback: "#222222"
-							comboboxfore: "#dddddd"
-						}
-						ListElement {
-							stext: "White on Black"
-							back: "black"
-							fore: "white"
-							comboboxback: "black"
-							comboboxfore: "white"
+						Component.onCompleted: {
+							// we populate it this way so that we can localize strings
+							var combolist = [{
+									stext: gettext.tr("Black on White"),
+									back: "white",
+									fore: "black",
+									comboboxback: "white",
+									comboboxfore: "black"
+								}, {
+									stext: gettext.tr("Dark on Texture"),
+									back: "url(.background_paper@30.png)",
+									fore: "#222",
+									comboboxback: "#dddddd",
+									comboboxfore: "#222222"
+								}, {
+									stext: gettext.tr("Light on Texture"),
+									back: "url(.background_paper_invert@30.png)",
+									fore: "#999",
+									comboboxback: "#222222",
+									comboboxfore: "#dddddd"
+								}, {
+									stext: gettext.tr("White on Black"),
+									back: "black",
+									fore: "white",
+									comboboxback: "black",
+									comboboxfore: "white"
+								}]
+							for(var i=0; i<combolist.length; i++)
+								append(combolist[i]);
 						}
 					}
 					onCurrentIndexChanged: {
