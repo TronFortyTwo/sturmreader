@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: beru\n"
-"Report-Msgid-Bugs-To: rschroll@gmail.com - emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-01-19 23:27+0000\n"
-"PO-Revision-Date: 2021-01-21 20:53+0100\n"
+"Report-Msgid-Bugs-To: emanuele.sorce@hotmail.com\n"
+"POT-Creation-Date: 2021-02-05 18:46+0100\n"
+"PO-Revision-Date: 2021-02-06 21:13+0100\n"
 "Last-Translator: Anne017 <anneonyme017@openmailbox.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -16,6 +16,356 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#: ui/qml/About.qml:30
+msgid "About"
+msgstr "À propos"
+
+#: ui/qml/About.qml:75
+msgid "Sturm Reader"
+msgstr "Sturm Reader"
+
+#: ui/qml/About.qml:83
+msgid ""
+"Sturm (und Drang) Reader is an open source Ebook reader.<br>Community is "
+"what makes this app possible, so pull requests, translations, feedback and "
+"donations are very appreciated :)<br>This app Is a fork of the Beru app by "
+"Rshcroll, Thanks!<br>This app stands on the shoulder of various Open Source "
+"projects, see source code for licensing details"
+msgstr ""
+"Sturm (und Drang) Reader est une liseuse libre de livres électroniques, sous "
+"licence GNU GPLv3 et sous copyright 2018 Emanuele Sorce.<br>Les "
+"contributions, les traductions, les retours et les dons sont très "
+"appréciés :)<br>Cette application est issue de l'application Beru par "
+"Rshcroll, merci à lui !<br>Cette application utilise le code d'autres "
+"projets libres, consultez le code source pour les détails sur les licences."
+
+#: ui/qml/About.qml:91
+msgid ""
+"A big thanks to all translators, beta-testers, and users<br/>in general who "
+"improve this app with their work and feedback"
+msgstr ""
+"Un très grand merci à tous les traducteurs, béta-testeurs et utilisateurs<br/"
+"> en général qui améliorent cette application avec leur travail et leurs "
+"retours"
+
+#: ui/qml/About.qml:99
+msgid "A special thanks to Joan Cibersheep for the new logo"
+msgstr "Un remerciement particulier à Joan Cibersheep pour le nouveau logo"
+
+#: ui/qml/About.qml:107
+msgid "A special thanks to Jeroen for support and a test device"
+msgstr ""
+"Un remerciement particulier à Jeroen pour son aide et le prêt d'un appareil "
+"de test"
+
+#: ui/qml/About.qml:112
+msgid "❤Donate❤"
+msgstr "❤Faire un don❤"
+
+#: ui/qml/About.qml:120
+msgid "See source on Github"
+msgstr "Voir le code source sur Github"
+
+#: ui/qml/About.qml:128
+msgid "Report bug or feature request"
+msgstr "Signaler un problème ou demander une fonctionnalité"
+
+#: ui/qml/About.qml:136
+msgid "See License (GNU GPL v3)"
+msgstr "Consultez la licence (GNU GPL v3)"
+
+#: ui/qml/BookPage.qml:84
+msgid "Contents"
+msgstr "Contenus"
+
+#: ui/qml/BookPage.qml:97
+msgid "Outline"
+msgstr "Aperçu"
+
+#: ui/qml/BookPage.qml:105
+msgid "Pages"
+msgstr "Pages"
+
+#: ui/qml/BookPage.qml:133 ui/qml/BookPage.qml:182
+msgid "Page"
+msgstr "Page"
+
+#: ui/qml/BookPage.qml:157
+msgid "No outline available"
+msgstr "Aucun aperçu disponible"
+
+#: ui/qml/BookSettingsDialog.qml:40
+msgid "Book Settings"
+msgstr "Paramètres des livres"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:87
+msgid "Background color"
+msgstr "Couleur d'arrière-plan"
+
+#: ui/qml/BookSettingsDialog.qml:103
+msgid "White"
+msgstr "Blanc"
+
+#: ui/qml/BookSettingsDialog.qml:109
+msgid "Light"
+msgstr "Clair"
+
+#: ui/qml/BookSettingsDialog.qml:115
+msgid "Dark"
+msgstr "Sombre"
+
+#: ui/qml/BookSettingsDialog.qml:120
+msgid "Black"
+msgstr "Noir"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:153
+msgid "Color scheme"
+msgstr "Schéma de couleurs"
+
+#: ui/qml/BookSettingsDialog.qml:169
+msgid "Black on White"
+msgstr "Noir sur blanc"
+
+#: ui/qml/BookSettingsDialog.qml:175
+msgid "Dark on Texture"
+msgstr "Sombre sur texture"
+
+#: ui/qml/BookSettingsDialog.qml:181
+msgid "Light on Texture"
+msgstr "Clair sur texture"
+
+#: ui/qml/BookSettingsDialog.qml:187
+msgid "White on Black"
+msgstr "Blanc sur noir"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:221
+msgid "Quality"
+msgstr "Qualité"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:245
+msgid "Font"
+msgstr "Police"
+
+#: ui/qml/BookSettingsDialog.qml:255 ui/qml/BookSettingsDialog.qml:265
+msgid "Default Font"
+msgstr "Police de caractères par défaut"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:278
+msgid "Font Scaling"
+msgstr "Taille de la police"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:301
+msgid "Line Height"
+msgstr "Hauteur des lignes"
+
+#. / Prefer string of < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:324
+msgid "Margins"
+msgstr "Marges"
+
+#. / Prefer < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:345
+msgid "Make Default"
+msgstr "Définir comme défaut"
+
+#. / Prefer < 16 characters /
+#: ui/qml/BookSettingsDialog.qml:353
+msgid "Load Defaults"
+msgstr "Charger les paramêtres par défauts"
+
+#: ui/qml/Converter.qml:43
+msgid "Conversion required"
+msgstr "Conversion nécessaire"
+
+#: ui/qml/Converter.qml:81
+msgid ""
+"The file that you tried to open needs to be converted to a format supported "
+"by Sturm Reader to be opened."
+msgstr ""
+"Le fichier que vous avez essayé d'ouvrir doit être converti dans un format "
+"pris en charge par Sturm Reader pour pouvoir être ouvert."
+
+#: ui/qml/Converter.qml:82
+msgid ""
+"This process is automatic and the book will be then available in your "
+"library."
+msgstr ""
+"Ce processus est automatique et le livre sera alors disponible dans votre "
+"bibliothèque."
+
+#: ui/qml/Converter.qml:83
+msgid "Press the button to start the process"
+msgstr "Appuyez sur le bouton pour démarrer le processus"
+
+#: ui/qml/Converter.qml:98
+msgid "Convert"
+msgstr "Convertir"
+
+#: ui/qml/Converter.qml:115
+msgid ""
+"Conversion failed: you can try importing the book again. You may check the "
+"logs for more details, or open an issue for support"
+msgstr ""
+"La conversion a échoué : vous pouvez réessayer d'importer le livre. Vous "
+"pouvez consulter les journaux pour plus de détails ou signaler un problème "
+"pour obtenir de l'aide."
+
+#: ui/qml/ImportPage.qml:42
+msgid "Importing books..."
+msgstr "Importation des livres..."
+
+#: ui/qml/ImportPage.qml:42
+msgid "Books imported"
+msgstr "Livres importés"
+
+#: ui/qml/ImportPage.qml:81
+msgid "Waiting"
+msgstr "En attente"
+
+#: ui/qml/ImportPage.qml:83
+msgid "Processing"
+msgstr "Traitement"
+
+#: ui/qml/ImportPage.qml:85
+msgid "Imported to %1"
+msgstr "Importé dans %1"
+
+#: ui/qml/ImportPage.qml:87
+msgid "Already in library: %1"
+msgstr "Déja disponible dans la bibliothèque : %1"
+
+#: ui/qml/ImportPage.qml:89
+msgid "Error: %1"
+msgstr "Erreur : %1"
+
+#: ui/qml/ImporterPortable.qml:23
+msgid "Choose the books to import"
+msgstr "Choisissez les livres à importer"
+
+#: ui/qml/ImporterUT.qml:51
+msgid "Import books from"
+msgstr "Importer des livres depuis"
+
+#: ui/qml/LocalBooks.qml:41
+msgid "Library"
+msgstr "Bibliothèque"
+
+#: ui/qml/LocalBooks.qml:84
+msgid "Recently Read"
+msgstr "Récents"
+
+#: ui/qml/LocalBooks.qml:87
+msgid "Title"
+msgstr "Titre"
+
+#: ui/qml/LocalBooks.qml:90
+msgid "Author"
+msgstr "Auteur"
+
+#: ui/qml/LocalBooks.qml:111
+msgid "Loading library..."
+msgstr "Chargement de la bibliothèque..."
+
+#: ui/qml/LocalBooks.qml:111
+msgid "Processing books data..."
+msgstr "Traitement des données des livres..."
+
+#: ui/qml/LocalBooks.qml:131
+msgid "Welcome to Sturm Reader!"
+msgstr "Bienvenue dans Sturm Reader !"
+
+#: ui/qml/LocalBooks.qml:243
+msgid "Could not open this book."
+msgstr "Impossible d'ouvrir ce livre."
+
+#: ui/qml/LocalBooks.qml:520
+msgid "Back"
+msgstr "Précédent"
+
+#: ui/qml/LocalBooks.qml:628
+msgid "Unknown Author"
+msgstr "Auteur inconnu"
+
+#: ui/qml/LocalBooks.qml:629
+msgid "%1 Book"
+msgid_plural "%1 Books"
+msgstr[0] "%1 livre"
+msgstr[1] "%1 livres"
+
+#: ui/qml/LocalBooks.qml:717
+msgid "No Books in Library"
+msgstr "La bibliothèque est vide"
+
+#. / A path on the file system. /
+#: ui/qml/LocalBooks.qml:726
+msgid ""
+"Sturm Reader could not find any books for your library, and will "
+"automatically find all epub files in <i>%1</i>.  Additionally, any book "
+"opened will be added to the library."
+msgstr ""
+"Sturm Reader n'a pas trouvé de livre dans votre bibliothèque et ira chercher "
+"automatiquement tous les fichiers EPUB sous <i>%1</i>. De plus, tous les "
+"livres ouverts avec Sturm Reader seront ajoutés à la bibliothèque."
+
+#: ui/qml/LocalBooks.qml:736
+msgid "Get Books"
+msgstr "Obtenir des livres"
+
+#: ui/qml/LocalBooks.qml:744
+msgid "Search Again"
+msgstr "Chercher à nouveau"
+
+#. / A control can be dragged to delete a file.  The deletion occurs /
+#. / when the user releases the control. /
+#: ui/qml/LocalBooks.qml:822
+msgid "Release to Delete"
+msgstr "Relâcher pour supprimer"
+
+#. / A control can be dragged to delete a file. /
+#: ui/qml/LocalBooks.qml:824
+msgid "Swipe to Delete"
+msgstr "Glisser pour supprimer"
+
+#: ui/qml/Main.qml:108
+msgid "Error Opening File"
+msgstr "Erreur lors de l'ouverture du fichier"
+
+#: ui/qml/MetricsUT.qml:13
+msgid "Pages read today: %1"
+msgstr "Nombre de pages lues aujourd'hui : %1"
+
+#: ui/qml/MetricsUT.qml:14
+msgid "No pages read today"
+msgstr "Aucune page lue aujourd'hui"
+
+#: ui/qml/Reader.qml:22
+msgid "Could not determine file type."
+msgstr "Impossible de déterminer le type de fichier."
+
+#: ui/qml/Reader.qml:22
+msgid ""
+"Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
+msgstr ""
+"N'oubliez pas que Sturm Reader ne peut ouvrir que les fichiers EPUB, PDF et "
+"CBZ sans DRM."
+
+#: ui/qml/Reader.qml:23
+msgid "Could not parse file."
+msgstr "Impossible d'analyser le fichier."
+
+#: ui/qml/Reader.qml:23
+msgid ""
+"Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
+msgstr ""
+"Bien qu'il semble s'agir d'un fichier %1, Sturm Reader ne peut pas "
+"l'analyser."
 
 #: ui/qml/Settings.qml:33
 msgid "Settings"
@@ -65,10 +415,6 @@ msgstr "Le fichier existe déjà"
 msgid "Use Directory"
 msgstr "Utiliser le répertoire"
 
-#: ui/qml/Settings.qml:159
-msgid "Use legacy PDF viewer"
-msgstr "Utiliser l'ancienne visionneuse de fichiers PDF"
-
 #: ui/qml/Settings.qml:172
 msgid "Application Style (experimental)"
 msgstr "Style de l'application (expérimental)"
@@ -81,276 +427,11 @@ msgstr "Styles pris en charge :"
 msgid "Requires a restart to take effect"
 msgstr "Nécessite un redémarrage pour prendre effet"
 
-#: ui/qml/ImporterUT.qml:51
-msgid "Import books from"
-msgstr "Importer des livres depuis"
+#~ msgid "Use legacy PDF viewer"
+#~ msgstr "Utiliser l'ancienne visionneuse de fichiers PDF"
 
-#: ui/qml/BookPage.qml:84
-msgid "Contents"
-msgstr "Contenus"
-
-#: ui/qml/BookPage.qml:97
-msgid "Outline"
-msgstr "Aperçu"
-
-#: ui/qml/BookPage.qml:105
-msgid "Pages"
-msgstr "Pages"
-
-#: ui/qml/BookPage.qml:133 ui/qml/BookPage.qml:182
-msgid "Page"
-msgstr "Page"
-
-#: ui/qml/BookPage.qml:157
-msgid "No outline available"
-msgstr "Aucun aperçu disponible"
-
-#: ui/qml/BookPage.qml:673
-msgid "Book Settings"
-msgstr "Paramètres des livres"
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:718
-msgid "Color scheme"
-msgstr "Schéma de couleurs"
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:785
-msgid "Font"
-msgstr "Police"
-
-#: ui/qml/BookPage.qml:795 ui/qml/BookPage.qml:805
-msgid "Default Font"
-msgstr "Police de caractères par défaut"
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:818
-msgid "Font Scaling"
-msgstr "Taille de la police"
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:842
-msgid "Line Height"
-msgstr "Hauteur des lignes"
-
-#. / Prefer string of < 16 characters /
-#: ui/qml/BookPage.qml:866
-msgid "Margins"
-msgstr "Marges"
-
-#. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:889
-msgid "Make Default"
-msgstr "Définir comme défaut"
-
-#. / Prefer < 16 characters /
-#: ui/qml/BookPage.qml:897
-msgid "Load Defaults"
-msgstr "Charger les paramêtres par défauts"
-
-#: ui/qml/BookPage.qml:905
-msgid "Close"
-msgstr "Fermer"
-
-#: ui/qml/Reader.qml:20
-msgid ""
-"Could not determine file type.\n"
-"\n"
-"Remember, Sturm Reader can only open EPUB, PDF, and CBZ files without DRM."
-msgstr ""
-"Impossible de déterminer le type de fichier.\n"
-"\n"
-"Important : Sturm Reader ne peut ouvrir que les fichiers au format EPUB, PDF "
-"et CBZ sans DRM."
-
-#: ui/qml/Reader.qml:21
-msgid ""
-"Could not parse file.\n"
-"\n"
-"Although it appears to be a %1 file, it could not be parsed by Sturm Reader."
-msgstr ""
-"Le fichier ne peut pas être analysé.\n"
-"\n"
-"Bien qu'il semble s'agir d'un fichier %1, Sturm Reader ne peut pas "
-"l'analyser."
-
-#: ui/qml/ImporterPortable.qml:23
-msgid "Choose the books to import"
-msgstr "Choisissez les livres à importer"
-
-#: ui/qml/LocalBooks.qml:41
-msgid "Library"
-msgstr "Bibliothèque"
-
-#: ui/qml/LocalBooks.qml:84
-msgid "Recently Read"
-msgstr "Récents"
-
-#: ui/qml/LocalBooks.qml:87
-msgid "Title"
-msgstr "Titre"
-
-#: ui/qml/LocalBooks.qml:90
-msgid "Author"
-msgstr "Auteur"
-
-#: ui/qml/LocalBooks.qml:111
-msgid "Loading library..."
-msgstr "Chargement de la bibliothèque..."
-
-#: ui/qml/LocalBooks.qml:111
-msgid "Processing books data..."
-msgstr "Traitement des données des livres..."
-
-#: ui/qml/LocalBooks.qml:131
-msgid "Welcome to Sturm Reader!"
-msgstr "Bienvenue dans Sturm Reader !"
-
-#: ui/qml/LocalBooks.qml:243
-msgid "Could not open this book."
-msgstr "Impossible d'ouvrir ce livre."
-
-#: ui/qml/LocalBooks.qml:523
-msgid "Back"
-msgstr "Précédent"
-
-#: ui/qml/LocalBooks.qml:608
-msgid "Unknown Author"
-msgstr "Auteur inconnu"
-
-#: ui/qml/LocalBooks.qml:609
-msgid "%1 Book"
-msgid_plural "%1 Books"
-msgstr[0] "%1 livre"
-msgstr[1] "%1 livres"
-
-#: ui/qml/LocalBooks.qml:697
-msgid "No Books in Library"
-msgstr "La bibliothèque est vide"
-
-#. / A path on the file system. /
-#: ui/qml/LocalBooks.qml:706
-msgid ""
-"Sturm Reader could not find any books for your library, and will "
-"automatically find all epub files in <i>%1</i>.  Additionally, any book "
-"opened will be added to the library."
-msgstr ""
-"Sturm Reader n'a pas trouvé de livre dans votre bibliothèque et ira chercher "
-"automatiquement tous les fichiers EPUB sous <i>%1</i>. De plus, tous les "
-"livres ouverts avec Sturm Reader seront ajoutés à la bibliothèque."
-
-#: ui/qml/LocalBooks.qml:716
-msgid "Get Books"
-msgstr "Obtenir des livres"
-
-#: ui/qml/LocalBooks.qml:724
-msgid "Search Again"
-msgstr "Chercher à nouveau"
-
-#. / A control can be dragged to delete a file.  The deletion occurs /
-#. / when the user releases the control. /
-#: ui/qml/LocalBooks.qml:802
-msgid "Release to Delete"
-msgstr "Relâcher pour supprimer"
-
-#. / A control can be dragged to delete a file. /
-#: ui/qml/LocalBooks.qml:804
-msgid "Swipe to Delete"
-msgstr "Glisser pour supprimer"
-
-#: ui/qml/About.qml:30
-msgid "About"
-msgstr "À propos"
-
-#: ui/qml/About.qml:75
-msgid "Sturm Reader"
-msgstr "Sturm Reader"
-
-#: ui/qml/About.qml:83
-msgid ""
-"Sturm (und Drang) Reader is an open source Ebook reader.<br>Community is "
-"what makes this app possible, so pull requests, translations, feedback and "
-"donations are very appreciated :)<br>This app Is a fork of the Beru app by "
-"Rshcroll, Thanks!<br>This app stands on the shoulder of various Open Source "
-"projects, see source code for licensing details"
-msgstr ""
-"Sturm (und Drang) Reader est une liseuse libre de livres électroniques, sous "
-"licence GNU GPLv3 et sous copyright 2018 Emanuele Sorce.<br>Les "
-"contributions, les traductions, les retours et les dons sont très "
-"appréciés :)<br>Cette application est issue de l'application Beru par "
-"Rshcroll, merci à lui !<br>Cette application utilise le code d'autres "
-"projets libres, consultez le code source pour les détails sur les licences."
-
-#: ui/qml/About.qml:91
-msgid ""
-"A big thanks to all translators, beta-testers, and users<br/>in general who "
-"improve this app with their work and feedback"
-msgstr ""
-"Un très grand merci à tous les traducteurs, béta-testeurs et utilisateurs<br/"
-"> en général qui améliorent cette application avec leur travail et leurs "
-"retours"
-
-#: ui/qml/About.qml:99
-msgid "A special thanks to Joan Cibersheep for the new logo"
-msgstr "Un remerciement particulier à Joan Cibersheep pour le nouveau logo"
-
-#: ui/qml/About.qml:107
-msgid "A special thanks to Jeroen for support and a test device"
-msgstr ""
-"Un remerciement particulier à Jeroen pour son aide et le prêt d'un appareil "
-"de test"
-
-#: ui/qml/About.qml:112
-msgid "See source on Github"
-msgstr "Voir le code source sur Github"
-
-#: ui/qml/About.qml:120
-msgid "Report bug or feature request"
-msgstr "Signaler un problème ou demander une fonctionnalité"
-
-#: ui/qml/About.qml:128
-msgid "See License (GNU GPL v3)"
-msgstr "Consultez la licence (GNU GPL v3)"
-
-#: ui/qml/About.qml:135
-msgid "❤Donate❤"
-msgstr "❤Faire un don❤"
-
-#: ui/qml/ImportPage.qml:42
-msgid "Importing books..."
-msgstr "Importation des livres..."
-
-#: ui/qml/ImportPage.qml:92
-msgid "Waiting"
-msgstr "En attente"
-
-#: ui/qml/ImportPage.qml:94
-msgid "Processing"
-msgstr "Traitement"
-
-#: ui/qml/ImportPage.qml:96
-msgid "Imported to %1"
-msgstr "Importé dans %1"
-
-#: ui/qml/ImportPage.qml:98
-msgid "Already in library: %1"
-msgstr "Déja disponible dans la bibliothèque : %1"
-
-#: ui/qml/ImportPage.qml:100
-msgid "Error: %1"
-msgstr "Erreur : %1"
-
-#: ui/qml/Main.qml:106
-msgid "Error Opening File"
-msgstr "Erreur lors de l'ouverture du fichier"
-
-#: ui/qml/MetricsUT.qml:13
-msgid "Pages read today: %1"
-msgstr "Nombre de pages lues aujourd'hui : %1"
-
-#: ui/qml/MetricsUT.qml:14
-msgid "No pages read today"
-msgstr "Aucune page lue aujourd'hui"
+#~ msgid "Close"
+#~ msgstr "Fermer"
 
 #~ msgid "Please wait..."
 #~ msgstr "Veuillez patienter..."
