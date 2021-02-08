@@ -23,6 +23,8 @@
         <file>qml/SuperDelegate.qml</file>
         <file>qml/Converter.qml</file>
         <file>qml/BookSettings.qml</file>
+        <file>qml/WebViewPortable.qml</file>
+        <file>qml/WebViewAndroid.qml</file>
         <file>qml/BookSettingsDialog.qml</file>
         <file>qml/CoverDelegate.qml</file>
         <file>qml/Textures.qml</file>

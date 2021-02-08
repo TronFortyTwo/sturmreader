@@ -11,9 +11,10 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtWebEngine 1.10
 
 import "historystack.js" as History
+
+import Browser 1.0
 
 Page {
 	id: bookPage
@@ -401,17 +402,22 @@ Page {
 		bookWebView.opacity = 1;
 		loadingIndicator.opacity = 0;
 	}
-    
-	WebEngineView {
+	
+	Browser {
 		id: bookWebView
 		anchors.fill: parent
 		opacity: 0
 		
-		settings.showScrollBars: false
-		
 		onJavaScriptConsoleMessage: function(level, message, linen, sourceID) {
+		//onTitleChanged: {
+			//var jsmessage = title;
+			//if(jsmessage == "") return;
+			
+			
 			console.log("Book: " + message + " | level: " + level + " | line: " + linen + " | source: " + sourceID);
-		
+			//console.log("Book: " + jsmessage);
+			
+			//var msg = jsmessage.split(" ");
 			var msg = message.split(" ");
 			
 			if(msg[0] == "Jumping") {
@@ -433,12 +439,20 @@ Page {
 				}
 				bookLoadingCompleted();
 				openControls();
-			} else if(msg[0] == "setContent") {
+			} else if(msg[0] == "setOutlineSize") {
 				contentsListModel.clear();
-				if(msg.length > 2)
-					for(var i=2; i<msg.length; i++) msg[1] += " " + msg[i];
-				var con = JSON.parse(msg[1]);
-				for(var i=0; i<con.length; i++) contentsListModel.append(con[i]);
+				var num = Number(msg[0]);
+				for(var i=0; i<num; i++)
+					contentsListModel.append({});
+			} else if(msg[0] == "setOutlineNode") {
+				var index = Number(msg[1]);
+				var node = msg[2];
+				// append other strings in case there are spaces
+				if(msg.length > 3)
+					for(var i=3; i<msg.length; i++) node += " " + msg[i];
+				// parse
+				node = JSON.parse(node);
+				contentsListModel.insert(index, node);
 			} else if(msg[0] == "status_requested") {
 				bookWebView.runJavaScript("statusUpdate()");
 			} else if(msg[0] == "chapter") {
@@ -470,6 +484,10 @@ Page {
 			} else if(msg[0] == "#") {}
 			// not handled messages
 			else console.log("ignored");
+			
+			
+			// reset title asap so we can right now receive other calls and avoid problems
+			//runJavaScript("document.title = '# clear'");
 		}
 		
 		onActiveFocusChanged: {
@@ -491,6 +509,9 @@ Page {
 				event.accepted = true;
 			}
 		}
+		//Component.onCompleted: {
+			//runJavaScript("document.title = '# clear'");
+		//}
 	}
 
     function updateNavButtons(back, forward) {

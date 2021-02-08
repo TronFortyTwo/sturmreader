@@ -87,11 +87,24 @@ int main(int argc, char *argv[])
 	qmlRegisterUncreatableType<QHttpResponse>("HttpUtils", 1, 0, "HttpResponse", "Do not create HttpResponse directly");
 	engine.rootContext()->setContextProperty("epubreader", &epub);
 	engine.rootContext()->setContextProperty("pdfreader", &pdf);
-	//engine.rootContext()->setContextProperty("cbzreader", &cbz);
 	engine.rootContext()->setContextProperty("styleSetting", &styleSetting);
 	
-	// Test if we are on ubuntu touch
-	bool ubuntu_touch = false;
+	
+	// Test what platform we are in
+	const int PLATFORM_UT		= 0;	// Ubuntu Touch
+	const int PLATFORM_ANDROID	= 1;	// Android
+	// What is required to port Sturm Reader to Android
+	// 1) Using QRC (done)
+	// 2) Not depending on WebEngineView (partial)
+	//		- Find a way to communicate with WebView
+	// 3) Platform detection
+	// 4) Importing of files
+	// 5) CMake build configuration
+	// 6) Everything else that comes up
+	const int PLATFORM_GENERIC	= 2;	// None of the previous
+	int platform = PLATFORM_GENERIC;
+	
+	// check we are in ubuntu touch
 	QString ubuntu_touch_prefix = "/opt/click.ubuntu.com/";
 	
 	QStringList import_path_list = engine.importPathList();
@@ -99,21 +112,32 @@ int main(int argc, char *argv[])
 		QString import_path = import_path_list.at(i);
 		
 		if( import_path.contains(ubuntu_touch_prefix + app_name) ) {
-			ubuntu_touch = true;
+			platform = PLATFORM_UT;
 			break;
 		}
 	}
 	
-	qDebug() << "Ubuntu Touch imports found: " << (ubuntu_touch ? "Yes" : "No");
+	// check we are in Android
+	// platform = PLATFORM_ANDROID
 	
-	if(ubuntu_touch) {
+	qDebug() << "Platform detected: " << (PLATFORM_UT ? "Ubuntu Touch" :
+		PLATFORM_ANDROID ? "Android" : "Generic" );
+	
+	// Load right stuff
+	if(platform == PLATFORM_UT) {
 		qmlRegisterType(QUrl("qrc:///qml/ImporterUT.qml"), "Importer", 1, 0, "Importer");
 		qmlRegisterType(QUrl("qrc:///qml/MetricsUT.qml"), "Metrics", 1, 0, "Metrics");
-	} else { // portable
+		qmlRegisterType(QUrl("qrc:///qml/WebViewPortable.qml"), "Browser", 1, 0, "Browser");
+	} else if(platform == PLATFORM_ANDROID){
 		qmlRegisterType(QUrl("qrc:///qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
 		qmlRegisterType(QUrl("qrc:///qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");
+		qmlRegisterType(QUrl("qrc:///qml/WebViewAndroid.qml"), "Browser", 1, 0, "Browser");
+	} else if(platform == PLATFORM_GENERIC){
+		qmlRegisterType(QUrl("qrc:///qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
+		qmlRegisterType(QUrl("qrc:///qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");
+		qmlRegisterType(QUrl("qrc:///qml/WebViewPortable.qml"), "Browser", 1, 0, "Browser");
 	}
-
+	
 	engine.load("qrc:///qml/Main.qml");
 	
 	return app->exec();

@@ -43,6 +43,7 @@ find_package(Qt5Xml REQUIRED)
 find_package(Qt5Svg REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
+
 find_package(ZLIB REQUIRED)
 find_package(Intl REQUIRED)
 find_package(QuaZip REQUIRED)

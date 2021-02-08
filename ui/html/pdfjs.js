@@ -22,6 +22,10 @@ var ignore_page_turning = false;
 // quality coefficent
 var quality = 1;
 
+
+var backend;
+
+
 // BOOK PAGE API
 
 function statusUpdate() {
@@ -33,9 +37,9 @@ function statusUpdate() {
 		else
 			break;
 	}
-	console.log("chapter " + JSON.stringify(chap));
-	console.log("pageNumber " + pageNumber);
-	console.log("UpdatePage");
+	sendMessage("chapter " + JSON.stringify(chap));
+	sendMessage("pageNumber " + pageNumber);
+	sendMessage("UpdatePage");
 }
 function moveToPageRelative(num) {
 	moveToPage(pageNumber + Number(num), false);
@@ -52,9 +56,14 @@ var styleManager = {
 			document.body.style.background = style.pdfBackground;
 		if(style.pdfQuality)
 			quality = style.pdfQuality;
-		console.log("ok");
+		sendMessage("ok");
 	}
 }
+// this is what we use to send data back
+function sendMessage( msg ){
+	console.log(msg)
+}
+
 // END BOOK PAGE CALLS
 
 function moveToPage(target, force_and_silent) {
@@ -73,7 +82,7 @@ function moveToPage(target, force_and_silent) {
 		let delta = target - pageNumber;
 		
 		if(Math.abs(delta) > 1 && !force_and_silent)
-			console.log("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
+			sendMessage("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
 		
 		// update page number
 		pageNumber = target;
@@ -173,9 +182,9 @@ function afterRendering() {
 	// Communicate with QML
 	if(first_render) {
 		first_render = false;
-		console.log("Ready");
+		sendMessage("Ready");
 	}
-	console.log("status_requested");
+	sendMessage("status_requested");
 	
 	// update cache
 	if(!prev_canvas_ready)
@@ -232,7 +241,7 @@ function renderPage(target_page, scale, canvas_name, success, fail) {
 		}, fail
 	)
 }
-function renderFailCallback(reason) { console.log("page rendering failed: " + reason); }
+function renderFailCallback(reason) { sendMessage("page rendering failed: " + reason); }
 
 function tapPageTurn(ev) {
 	// do not move if zoomed
@@ -256,14 +265,14 @@ async function parseOutlineNode(ol, depth) {
 			var destination = await doc.getDestination(dest);
 			ref = destination[0];
 		} catch(err) {
-			console.log("# getDestination error: " + err);
+			sendMessage("# getDestination error: " + err);
 		}
 	}
 	
 	try {
 		o_pageNumber = 1 + await doc.getPageIndex(ref);
 	} catch(err) {
-		console.log("# getPageIndex error: " + err);
+		sendMessage("# getPageIndex error: " + err);
 	}
 	
 	outline.push({title: o_title, src: o_pageNumber, level: depth});
@@ -287,9 +296,8 @@ function transitionPageTurned() {
 }
 
 window.onload = function() {
-	
 	// set up QML
-	console.log("pictureBook");
+	sendMessage("pictureBook");
 	
 	// initalize canvas
 	document.getElementById("next-cache-canvas").style.visibility = "hidden";
@@ -324,7 +332,7 @@ window.onload = function() {
 			doc = pdf_obj;
 			first_render = true;
 			number_of_pages = doc.numPages;
-			console.log("numberOfPages " + number_of_pages);
+			sendMessage("numberOfPages " + number_of_pages);
 			// sanitize pageNumber accordingly to current new knowledge
 			pageNumber = Math.min(number_of_pages, pageNumber);
 			
@@ -332,13 +340,17 @@ window.onload = function() {
 			doc.getOutline().then( function(ol) {
 				if(!ol) return;
 				
-				parseOutlineNodeArray(ol, 0).then( () => console.log("setContent " + JSON.stringify(outline)), ()=> console.log("# Error 414234") );
+				parseOutlineNodeArray(ol, 0).then( function() {
+					sendMessage("setOutlineSize " + outline.length);
+					for(var i=0; i<outline.length; i++)
+						sendMessage("setOutlineNode " + String(i) + " " + JSON.stringify(outline[i]));
+				}, ()=> sendMessage("# Error 414234") );
 				
-			}, (reason) => console.log("# cannot fetch outline: " + reason) );
+			}, (reason) => sendMessage("# cannot fetch outline: " + reason) );
 			
 			// render
 			moveToPage(pageNumber, true);
-		}, (reason) => console.log("# file loading failed: " + reason)
+		}, (reason) => sendMessage("# file loading failed: " + reason)
 	);
 }
 window.onresize = function() {

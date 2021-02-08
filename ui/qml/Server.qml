@@ -28,7 +28,7 @@ Item {
     }
 
     function static_file(path, response) {
-        // Need to strip off leading "file://" or "qrc://"
+        // Need to strip off leading "file://"
 		//fileserver.serve(Qt.resolvedUrl(path).slice(7), response)
 		
 		fileserver.serve(path, response)
@@ -61,19 +61,19 @@ Item {
 					return static_file(":/html/pdfjs.html", response)
 			}
 			// the monocle reader
-			if (request.path == "/EPUB")
+			else if (request.path == "/EPUB")
 				return static_file(":/html/monocle.html", response)
-			if (request.path == "/CBZ")
+			else if (request.path == "/CBZ")
+				// FIXME: should we return?
 				openConverter(reader.filename);
-			
-			if (request.path == "/book.pdf")
+			// the pdf document
+			else if (request.path == "/book.pdf")
 				return static_file(reader.filename, response)
-				
-			if (request.path == "/.bookdata.js")
+			else if (request.path == "/.bookdata.js")
 				return reader.serveBookData(response)
-			if (request.path == "/.defaults.js")
+			else if (request.path == "/.defaults.js")
 				return defaults(response)
-			if (request.path[0] == "/" && request.path[1] == ".")
+			else if (request.path[0] == "/" && request.path[1] == ".")
 				return static_file(":/html/" + request.path.slice(2), response)
 			return reader.serveComponent(request.path.slice(1), response)
 		}
