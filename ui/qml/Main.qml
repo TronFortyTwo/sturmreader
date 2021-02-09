@@ -169,7 +169,7 @@ ApplicationWindow {
             pageStack.push(bookPage)
             mainView.title = server.reader.title()
             localBooks.updateRead(filename)
-			bookPage.turnControlsOn()
+			//bookPage.turnControlsOn()
             return true
         }
         errorOpenDialog.open()

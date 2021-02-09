@@ -45,26 +45,6 @@ Page {
 	
 	signal contentOpened()
 
-	function openContent() {
-		content.open();
-		contentOpened();
-	}
-    function closeContent() {
-        content.close();
-    }
-	function closeControls() {
-		controls.close();
-	}
-	function openControls() {
-		controls.open();
-	}
-	function turnControlsOn() {
-		controls.interactive = true;
-	}
-	function turnControlsOff() {
-		controls.interactive = false;
-	}
-    
 	Dialog {
 		id: content
 		width: Math.min(parent.width, scaling.dp(750))
@@ -135,7 +115,7 @@ Page {
 					onClicked: {
 						bookLoadingStart();
 						bookWebView.runJavaScript('moveToChapter("' + model.src + '")');
-						closeContent();
+						content.close();
 					}
 				}
 
@@ -257,11 +237,7 @@ Page {
 		edge: Qt.BottomEdge
 		modal: false
 		
-		// is turned on by turnControlsOn()
-		interactive: false
-		
 		Rectangle {
-			
 			id: controlRect
 			
 			antialiasing: false
@@ -291,9 +267,9 @@ Page {
 						iconName: "go-home"
 						onTriggered: {
 							// turn stuff off and exit
-							closeContent()
-							closeControls()
-							turnControlsOff()
+							content.close();
+							controls.close();
+							controls.interactive = false;
 							pageStack.pop()
 							mainView.title = mainView.defaultTitle
 						}
@@ -362,8 +338,9 @@ Page {
 					Action {
 						iconName: "book"
 						onTriggered: {
-							openContent()
-							closeControls()
+							content.open();
+							contentOpened();
+							controls.close();
 						}
 					}
 				]
@@ -377,7 +354,7 @@ Page {
 						iconName: "settings"
 						onTriggered: {
 							bookSettings.openDialog()
-							closeControls()
+							controls.close();
 						}
 					}
 				]
@@ -438,7 +415,7 @@ Page {
 					doPageChangeAsSoonAsReady = false;
 				}
 				bookLoadingCompleted();
-				openControls();
+				controls.open();
 			} else if(msg[0] == "setOutlineSize") {
 				contentsListModel.clear();
 				var num = Number(msg[0]);
@@ -492,7 +469,7 @@ Page {
 		
 		onActiveFocusChanged: {
 			if(activeFocus)
-				closeControls()
+				controls.close();
 		}
 		
 		// TODO: doesn't seem to work

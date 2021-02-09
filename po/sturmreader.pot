@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-09 19:08+0000\n"
+"POT-Creation-Date: 2021-02-09 19:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,23 +75,23 @@ msgstr ""
 msgid "Import books from"
 msgstr ""
 
-#: ui/qml/BookPage.qml:85
+#: ui/qml/BookPage.qml:65
 msgid "Contents"
 msgstr ""
 
-#: ui/qml/BookPage.qml:98
+#: ui/qml/BookPage.qml:78
 msgid "Outline"
 msgstr ""
 
-#: ui/qml/BookPage.qml:106
+#: ui/qml/BookPage.qml:86
 msgid "Pages"
 msgstr ""
 
-#: ui/qml/BookPage.qml:134 ui/qml/BookPage.qml:183
+#: ui/qml/BookPage.qml:114 ui/qml/BookPage.qml:163
 msgid "Page"
 msgstr ""
 
-#: ui/qml/BookPage.qml:158
+#: ui/qml/BookPage.qml:138
 msgid "No outline available"
 msgstr ""
 

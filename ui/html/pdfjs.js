@@ -22,10 +22,6 @@ var ignore_page_turning = false;
 // quality coefficent
 var quality = 1;
 
-
-var backend;
-
-
 // BOOK PAGE API
 
 function statusUpdate() {
