@@ -28,6 +28,9 @@ Item {
 	property string pdfBackground
 	// real number coefficent that affects pdf quality scale (higher the better)
 	property alias pdfQuality: settingsDialog.pdfQuality
+	// color of items such as page number
+	property string infoColor: (pdfBackground == "url(.background_paper_invert@30.png)" || pdfBackground == "black") ? "white" : "black"
+	
 	
 	BookSettingsDialog {
 		id: settingsDialog
