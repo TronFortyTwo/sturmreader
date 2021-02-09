@@ -56,7 +56,9 @@ var styleManager = {
 			document.body.style.background = style.pdfBackground;
 		if(style.pdfQuality)
 			quality = style.pdfQuality;
-		sendMessage("ok");
+		
+		if(!first_render)
+			sendMessage("ok");
 	}
 }
 // this is what we use to send data back
