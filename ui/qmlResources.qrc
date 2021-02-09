@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/About.qml</file>
+        <file>qml/BookPage.qml</file>
+        <file>qml/DefaultCover.qml</file>
+        <file>qml/historystack.js</file>
+        <file>qml/ImportPage.qml</file>
+        <file>qml/LocalBooks.qml</file>
+        <file>qml/Main.qml</file>
+        <file>qml/Reader.qml</file>
+        <file>qml/Server.qml</file>
+        <file>qml/Scaling.qml</file>
+        <file>qml/FloatingButton.qml</file>
+        <file>qml/SwipeControl.qml</file>
+        <file>qml/Action.qml</file>
+        <file>qml/Icon.qml</file>
+        <file>qml/ImporterUT.qml</file>
+        <file>qml/ImporterPortable.qml</file>
+        <file>qml/MetricsUT.qml</file>
+        <file>qml/MetricsPortable.qml</file>
+        <file>qml/Colors.qml</file>
+        <file>qml/Settings.qml</file>
+        <file>qml/SuperDelegate.qml</file>
+        <file>qml/Converter.qml</file>
+        <file>qml/BookSettings.qml</file>
+        <file>qml/WebViewPortable.qml</file>
+        <file>qml/WebViewAndroid.qml</file>
+        <file>qml/BookSettingsDialog.qml</file>
+        <file>qml/CoverDelegate.qml</file>
+        <file>qml/Textures.qml</file>
+    </qresource>
+</RCC>

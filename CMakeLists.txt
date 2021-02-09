@@ -45,6 +45,7 @@ find_package(Qt5QuickControls2 REQUIRED)
 find_package(Qt5Positioning REQUIRED)
 find_package(Qt5WebChannel REQUIRED)
 find_package(Qt5WebEngine REQUIRED)
+find_package(Qt5QuickCompiler REQUIRED)
 
 find_package(ZLIB REQUIRED)
 find_package(Intl REQUIRED)
@@ -84,6 +85,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} DESTINATION ${DESKTOP_
 add_subdirectory(ui)
 
 # compiles the main EXEC
+qtquick_compiler_add_resources(QML_COMPILED_RES ui/qmlResources.qrc)
 add_executable(sturmreader
 	ui/main.cpp
 	ui/gettext.cpp
@@ -101,6 +103,7 @@ add_executable(sturmreader
 	ui/reader/epubreader.cpp
 	ui/reader/pdfreader.cpp
 	ui/resources.qrc
+	${QML_COMPILED_RES}
 	${QT_RESOURCES} )
 target_include_directories(sturmreader SYSTEM PRIVATE ${QUAZIP_INCLUDE_DIR})
 target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ${QUAZIP_LIBRARIES} ZLIB::ZLIB Qt5::WebEngine Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Svg Qt5::Quick Qt5::QuickControls2)

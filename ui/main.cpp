@@ -131,11 +131,11 @@ int main(int argc, char *argv[])
 		qmlRegisterType(QUrl("qrc:///qml/ImporterUT.qml"), "Importer", 1, 0, "Importer");
 		qmlRegisterType(QUrl("qrc:///qml/MetricsUT.qml"), "Metrics", 1, 0, "Metrics");
 		qmlRegisterType(QUrl("qrc:///qml/WebViewPortable.qml"), "Browser", 1, 0, "Browser");
-	} else if(platform == PLATFORM_ANDROID){
+	} else if(platform == PLATFORM_ANDROID) {
 		qmlRegisterType(QUrl("qrc:///qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
 		qmlRegisterType(QUrl("qrc:///qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");
 		qmlRegisterType(QUrl("qrc:///qml/WebViewAndroid.qml"), "Browser", 1, 0, "Browser");
-	} else if(platform == PLATFORM_GENERIC){
+	} else if(platform == PLATFORM_GENERIC) {
 		qmlRegisterType(QUrl("qrc:///qml/ImporterPortable.qml"), "Importer", 1, 0, "Importer");
 		qmlRegisterType(QUrl("qrc:///qml/MetricsPortable.qml"), "Metrics", 1, 0, "Metrics");
 		qmlRegisterType(QUrl("qrc:///qml/WebViewPortable.qml"), "Browser", 1, 0, "Browser");
