@@ -7,8 +7,7 @@
 		"libpoppler-qt5-dev",
 		"libquazip5-dev",
 		"libpodofo-utils",
-		"qtwebengine5-dev",
-		"qtwebengine5-dev-tools"
+		"qtwebengine5-dev"
 	],
 	"dependencies_host": [
 		"gettext"

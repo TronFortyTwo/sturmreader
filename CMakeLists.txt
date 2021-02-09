@@ -19,12 +19,11 @@ include(GNUInstallDirs)
 include(FindPkgConfig)
 
 option(CLICK_MODE "Installs to a contained locaton" on)
-option(FS_ACCESS "Gets filesystem access through apparmor" off)
 
 set(DESKTOP_COMMENT "E-Book reader designed for mobile devices")
 
 set(DESKTOP_FILE "sturmreader.desktop")
-set(APP_HARDCODE sturmreader)
+set(APP_HARDCODE "sturmreader")
 set(ICON_FILE "ui/sturmreader.svg")
 
 # Check if build is out of source tree and sets boolean value
@@ -50,13 +49,6 @@ find_package(Qt5WebEngine REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(Intl REQUIRED)
 find_package(QuaZip REQUIRED)
-
-file(GLOB I18N_SRC_FILES
-     RELATIVE ${CMAKE_SOURCE_DIR}
-     ui/qml/*.qml )
-#${DESKTOP_FILE}.tr)
-# DefaultCover.qml doesn't have any translatable strings, but it does confuse xgettext.
-list(REMOVE_ITEM I18N_SRC_FILES ui/qml/DefaultCover.qml)
 
 if(CLICK_MODE)
     # Find out the architecture for package building

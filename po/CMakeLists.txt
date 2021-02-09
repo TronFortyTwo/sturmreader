@@ -3,6 +3,12 @@
 include(FindGettext)
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
+file(GLOB I18N_SRC_FILES
+     RELATIVE ${CMAKE_SOURCE_DIR}
+     ${CMAKE_SOURCE_DIR}/ui/qml/*.qml )
+# DefaultCover.qml doesn't have any translatable strings, but it does confuse xgettext.
+list(REMOVE_ITEM I18N_SRC_FILES ${CMAKE_SOURCE_DIR}/ui/qml/DefaultCover.qml)
+
 set(POT_FILE ${APP_HARDCODE}.pot)
 file(GLOB PO_FILES *.po)
 

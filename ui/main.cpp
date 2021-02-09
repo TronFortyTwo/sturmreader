@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 	}
 	
 	// check we are in Android
-	// platform = PLATFORM_ANDROID
+	// if(we_are_in_android) platform = PLATFORM_ANDROID
 	
 	qDebug() << "Platform detected: " << (platform == PLATFORM_UT ? "Ubuntu Touch" :
 		platform == PLATFORM_ANDROID ? "Android" : "Generic" );
