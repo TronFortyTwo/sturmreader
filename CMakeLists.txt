@@ -43,6 +43,9 @@ find_package(Qt5Xml REQUIRED)
 find_package(Qt5Svg REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
+find_package(Qt5Positioning REQUIRED)
+find_package(Qt5WebChannel REQUIRED)
+find_package(Qt5WebEngine REQUIRED)
 
 find_package(ZLIB REQUIRED)
 find_package(Intl REQUIRED)
@@ -108,7 +111,7 @@ add_executable(sturmreader
 	ui/resources.qrc
 	${QT_RESOURCES} )
 target_include_directories(sturmreader SYSTEM PRIVATE ${QUAZIP_INCLUDE_DIR})
-target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ${QUAZIP_LIBRARIES} ZLIB::ZLIB Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Svg Qt5::Quick Qt5::QuickControls2)
+target_link_libraries(sturmreader poppler-qt5 ${Intl_LIBRARIES} ${QUAZIP_LIBRARIES} ZLIB::ZLIB Qt5::WebEngine Qt5::Core Qt5::Gui Qt5::Qml Qt5::Xml Qt5::Svg Qt5::Quick Qt5::QuickControls2)
 install(TARGETS sturmreader RUNTIME DESTINATION ${DATA_DIR})
 
 # localization

@@ -26,6 +26,7 @@
 #include <QQmlContext>
 #include <QLoggingCategory>
 #include <QIcon>
+#include <QtWebEngine>
 
 #include <string>
 #include <locale>
@@ -51,6 +52,9 @@ int main(int argc, char *argv[])
 	// This is to prevent deprecated connections sintax on 5.15,
 	// not yet supported on 5.9 or 5.12. When the minimum will be 5.15 we can remove this line
 	QLoggingCategory::setFilterRules("qt.qml.connections=false");
+	
+	// initialize WebEngine openGL
+	QtWebEngine::initialize();
 	
 	// Application
 	QString app_name = "sturmreader.emanuelesorce";
@@ -89,14 +93,13 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("pdfreader", &pdf);
 	engine.rootContext()->setContextProperty("styleSetting", &styleSetting);
 	
-	
 	// Test what platform we are in
 	const int PLATFORM_UT		= 0;	// Ubuntu Touch
 	const int PLATFORM_ANDROID	= 1;	// Android
 	// What is required to port Sturm Reader to Android
 	// 1) Using QRC (done)
 	// 2) Not depending on WebEngineView (partial)
-	//		- Find a way to communicate with WebView
+	//		- Find a way to communicate with not WebEngine WebView
 	// 3) Platform detection
 	// 4) Importing of files
 	// 5) CMake build configuration
@@ -120,8 +123,8 @@ int main(int argc, char *argv[])
 	// check we are in Android
 	// platform = PLATFORM_ANDROID
 	
-	qDebug() << "Platform detected: " << (PLATFORM_UT ? "Ubuntu Touch" :
-		PLATFORM_ANDROID ? "Android" : "Generic" );
+	qDebug() << "Platform detected: " << (platform == PLATFORM_UT ? "Ubuntu Touch" :
+		platform == PLATFORM_ANDROID ? "Android" : "Generic" );
 	
 	// Load right stuff
 	if(platform == PLATFORM_UT) {

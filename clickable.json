@@ -1,11 +1,14 @@
 {
 	"clickable_minimum_required": "6.12.2",
 	"builder": "cmake",
+	"qt_version": "5.12",
 	"dependencies_target": [
 		"intltool",
 		"libpoppler-qt5-dev",
 		"libquazip5-dev",
-		"libpodofo-utils"
+		"libpodofo-utils",
+		"qtwebengine5-dev",
+		"qtwebengine5-dev-tools"
 	],
 	"dependencies_host": [
 		"gettext"
