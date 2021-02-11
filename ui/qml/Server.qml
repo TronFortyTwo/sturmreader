@@ -49,7 +49,40 @@ Item {
         response.end()
     }
     
-    Connections {
+    function received(response) {
+		response.setHeader("Content-Type", "application/json");
+		response.writeHead(200);
+		response.write("{}");
+		response.end();
+	}
+    
+	property var partial_messages_store: ({})
+    
+	function manageApiCall(message, size, id) {
+		console.log("message: " + message);
+		console.log("size: " + size);
+		console.log("id: " + id);
+		
+		if(size > 1) {
+			// end of message
+			if(message == "END OF SPLITTED MESSAGE") {
+				manageApiCall(partial_messages_store[id], false, "");
+				partial_messages_store[id] = undefined;
+			}
+			// new part of message
+			else {
+				if(!partial_messages_store[id])
+					partial_messages_store[id] = message;
+				else
+					partial_messages_store[id] = partial_messages_store[id] + message;
+			}
+		} else {
+			if(mainView.bookPage)
+				mainView.bookPage.parseApiCall(message);
+		}
+	}
+    
+	Connections {
 		target: httpserver
 		
 		onNewRequest: {
@@ -73,6 +106,10 @@ Item {
 				return reader.serveBookData(response)
 			else if (request.path == "/.defaults.js")
 				return defaults(response)
+			else if (request.path == "/API" ) {
+				manageApiCall(decodeURI(request.header("message")), request.header("size"), decodeURI(request.header("id")));
+				return received(response);
+			}
 			else if (request.path[0] == "/" && request.path[1] == ".")
 				return static_file(":/html/" + request.path.slice(2), response)
 			return reader.serveComponent(request.path.slice(1), response)

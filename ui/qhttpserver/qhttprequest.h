@@ -29,6 +29,8 @@
 #include <QMetaType>
 #include <QUrl>
 
+#include <QDebug>
+
 class QTcpSocket;
 
 class QHttpConnection;
@@ -64,7 +66,7 @@ class QHttpRequest : public QObject
     Q_PROPERTY(QString path          READ path)
     Q_PROPERTY(QString httpVersion   READ httpVersion)
     Q_ENUMS(HttpMethod)
-
+	
 public:
     virtual ~QHttpRequest();
 
@@ -159,6 +161,7 @@ public:
      * \param field Name of the header field (lowercase).
      * \return Value of the header or null QString()
      */
+	Q_INVOKABLE
     QString header(const QString &field) { return m_headers[field]; };
 
     /*!

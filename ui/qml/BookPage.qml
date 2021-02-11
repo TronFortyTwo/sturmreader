@@ -370,102 +370,23 @@ Page {
         opacity: 1
         running: opacity != 0
     }
-    
-    function bookLoadingStart(){
-		bookWebView.opacity = 0;
-		loadingIndicator.opacity = 1;
-	}
-	function bookLoadingCompleted(){
-		bookWebView.opacity = 1;
-		loadingIndicator.opacity = 0;
+	
+	Label {
+		visible: pictureBook
+		text: "" + (pdf_pageNumber == 0 ? "-" : pdf_pageNumber) + "/" + (pdf_numberOfPages == 0 ? "-" : pdf_numberOfPages)
+		anchors.bottom: parent.bottom
+		anchors.bottomMargin: scaling.dp(5)
+		anchors.rightMargin: scaling.dp(5)
+		anchors.right: parent.right
+		font.pixelSize: scaling.dp(12)
+		// TODO: page number is not visible if pdf page is of the same color on landscape
+		color: bookSettings.infoColor
 	}
 	
 	Browser {
 		id: bookWebView
 		anchors.fill: parent
 		opacity: 0
-		
-		onJavaScriptConsoleMessage: function(level, message, linen, sourceID) {
-		//onTitleChanged: {
-			//var jsmessage = title;
-			//if(jsmessage == "") return;
-			
-			
-			console.log("Book: " + message + " | level: " + level + " | line: " + linen + " | source: " + sourceID);
-			//console.log("Book: " + jsmessage);
-			
-			//var msg = jsmessage.split(" ");
-			var msg = message.split(" ");
-			
-			if(msg[0] == "Jumping") {
-				bookPage.onJumping([msg[1], msg[2]]);
-			} else if(msg[0] == "UpdatePage") {
-				if(!isBookReady) {
-					doPageChangeAsSoonAsReady = true;
-				} else {
-					bookLoadingCompleted();
-					bookPage.updateSavedPage();
-				}
-			} else if(msg[0] == "startLoading") {
-				bookLoadingStart();
-			} else if(msg[0] == "Ready") {
-				isBookReady = true;
-				if(doPageChangeAsSoonAsReady) {
-					bookPage.updateSavedPage();
-					doPageChangeAsSoonAsReady = false;
-				}
-				bookLoadingCompleted();
-				controls.open();
-			} else if(msg[0] == "setOutlineSize") {
-				contentsListModel.clear();
-				var num = Number(msg[0]);
-				for(var i=0; i<num; i++)
-					contentsListModel.append({});
-			} else if(msg[0] == "setOutlineNode") {
-				var index = Number(msg[1]);
-				var node = msg[2];
-				// append other strings in case there are spaces
-				if(msg.length > 3)
-					for(var i=3; i<msg.length; i++) node += " " + msg[i];
-				// parse
-				node = JSON.parse(node);
-				contentsListModel.insert(index, node);
-			} else if(msg[0] == "status_requested") {
-				bookWebView.runJavaScript("statusUpdate()");
-			} else if(msg[0] == "chapter") {
-				if(msg.length > 2)
-					for(var i=2; i<msg.length; i++) msg[1] += " " + msg[i];
-				currentChapter = JSON.parse(msg[1]);
-			} else if(msg[0] == "percent") {
-				book_percent = Number(msg[1]);
-			} else if(msg[0] == "componentId") {
-				book_componentId = msg[1];
-			} else if(msg[0] == "pageNumber") {
-				pdf_pageNumber = Number(msg[1]);
-			} else if(msg[0] == "numberOfPages") {
-				pdf_numberOfPages = Number(msg[1]);
-				pagesTumblerModel.clear();
-				for (var i = 1; i <= pdf_numberOfPages; i += 1)
-					pagesTumblerModel.append({"num": (i)});
-			} else if(msg[0] == "ok") {
-				bookLoadingCompleted();
-			} else if(msg[0] == "monocle:notfound") {
-				// This is caused by some bug - we prevent the app from freeze in loading at least
-				bookLoadingCompleted()
-			} else if(msg[0] == "monocle:link:external") {
-				var comp_id = msg[1].split("127.0.0.1:" + server.port + "/")[1];
-				runJavaScript("moveToChapter('" + comp_id + "')");
-			} else if(msg[0] == "pictureBook") {
-				pictureBook = true;
-			// debug messages
-			} else if(msg[0] == "#") {}
-			// not handled messages
-			else console.log("ignored");
-			
-			
-			// reset title asap so we can right now receive other calls and avoid problems
-			//runJavaScript("document.title = '# clear'");
-		}
 		
 		onActiveFocusChanged: {
 			if(activeFocus)
@@ -486,21 +407,92 @@ Page {
 				event.accepted = true;
 			}
 		}
-		//Component.onCompleted: {
-			//runJavaScript("document.title = '# clear'");
-		//}
 	}
 	
-	Label {
-		visible: pictureBook
-		text: "" + (pdf_pageNumber == 0 ? "-" : pdf_pageNumber) + "/" + (pdf_numberOfPages == 0 ? "-" : pdf_numberOfPages)
-		anchors.bottom: parent.bottom
-		anchors.bottomMargin: scaling.dp(5)
-		anchors.rightMargin: scaling.dp(5)
-		anchors.right: parent.right
-		font.pixelSize: scaling.dp(12)
-		// TODO: page number is not visible if pdf page is of the same color on landscape
-		color: bookSettings.infoColor
+	function parseApiCall( message ) {
+		console.log("Book: " + message);
+		
+		var msg = message.split(" ");
+		
+		if(msg[0] == "Jumping") {
+			bookPage.onJumping([msg[1], msg[2]]);
+		} else if(msg[0] == "UpdatePage") {
+			if(!isBookReady) {
+				doPageChangeAsSoonAsReady = true;
+			} else {
+				bookLoadingCompleted();
+				bookPage.updateSavedPage();
+			}
+		} else if(msg[0] == "startLoading") {
+			bookLoadingStart();
+		} else if(msg[0] == "Ready") {
+			isBookReady = true;
+			if(doPageChangeAsSoonAsReady) {
+				bookPage.updateSavedPage();
+				doPageChangeAsSoonAsReady = false;
+			}
+			bookLoadingCompleted();
+			controls.open();
+		/* } else if(msg[0] == "setOutlineSize") {
+			contentsListModel.clear();
+			var num = Number(msg[0]);
+			for(var i=0; i<num; i++)
+				contentsListModel.append({});
+		} else if(msg[0] == "setOutlineNode") {
+			var index = Number(msg[1]);
+			var node = msg[2];
+			// append other strings in case there are spaces
+			if(msg.length > 3)
+				for(var i=3; i<msg.length; i++) node += " " + msg[i];
+			// parse
+			node = JSON.parse(node);
+			contentsListModel.insert(index, node); */
+		} else if(msg[0] == "setContent") {
+			contentsListModel.clear();
+			if(msg.length > 2)
+				for(var i=2; i<msg.length; i++) msg[1] += " " + msg[i];
+			var con = JSON.parse(msg[1]);
+			for(var i=0; i<con.length; i++) contentsListModel.append(con[i]);
+		} else if(msg[0] == "status_requested") {
+			bookWebView.runJavaScript("statusUpdate()");
+		} else if(msg[0] == "chapter") {
+			if(msg.length > 2)
+				for(var i=2; i<msg.length; i++) msg[1] += " " + msg[i];
+			currentChapter = JSON.parse(msg[1]);
+		} else if(msg[0] == "percent") {
+			book_percent = Number(msg[1]);
+		} else if(msg[0] == "componentId") {
+			book_componentId = msg[1];
+		} else if(msg[0] == "pageNumber") {
+			pdf_pageNumber = Number(msg[1]);
+		} else if(msg[0] == "numberOfPages") {
+			pdf_numberOfPages = Number(msg[1]);
+			pagesTumblerModel.clear();
+			for (var i = 1; i <= pdf_numberOfPages; i += 1)
+				pagesTumblerModel.append({"num": (i)});
+		} else if(msg[0] == "ok") {
+			bookLoadingCompleted();
+		} else if(msg[0] == "monocle:notfound") {
+			// This is caused by some bug - we prevent the app from freeze in loading at least
+			bookLoadingCompleted()
+		} else if(msg[0] == "monocle:link:external") {
+			var comp_id = msg[1].split("127.0.0.1:" + server.port + "/")[1];
+			runJavaScript("moveToChapter('" + comp_id + "')");
+		} else if(msg[0] == "pictureBook") {
+			pictureBook = true;
+		// debug messages
+		} else if(msg[0] == "#") {}
+		// not handled messages
+		else console.log("ignored");
+	}
+	
+	function bookLoadingStart(){
+		bookWebView.opacity = 0;
+		loadingIndicator.opacity = 1;
+	}
+	function bookLoadingCompleted(){
+		bookWebView.opacity = 1;
+		loadingIndicator.opacity = 0;
 	}
 
     function updateNavButtons(back, forward) {

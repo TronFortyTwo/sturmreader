@@ -10,4 +10,8 @@ import QtWebEngine 1.10
 
 WebEngineView {
 	settings.showScrollBars: false
+	
+	onJavaScriptConsoleMessage: {
+		console.log("WebEngine: " + message + " | line: " + lineNumber + " | source: " + sourceID);
+	}
 }
