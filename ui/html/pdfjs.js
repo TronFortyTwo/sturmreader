@@ -21,8 +21,6 @@ var prev_canvas_ready = false;
 var ignore_page_turning = false;
 // quality coefficent
 var quality = 1;
-// port for server communications
-var port = 5000;
 
 // BOOK PAGE API
 
@@ -35,9 +33,9 @@ function statusUpdate() {
 		else
 			break;
 	}
-	sendMessage("chapter " + JSON.stringify(chap));
-	sendMessage("pageNumber " + pageNumber);
-	sendMessage("UpdatePage");
+	messaging.send("chapter " + JSON.stringify(chap));
+	messaging.send("pageNumber " + pageNumber);
+	messaging.send("UpdatePage");
 }
 function moveToPageRelative(num) {
 	moveToPage(pageNumber + Number(num), false);
@@ -56,43 +54,7 @@ var styleManager = {
 			quality = style.pdfQuality;
 		
 		if(!first_render)
-			sendMessage("ok");
-	}
-}
-// this is what we use to send data back
-async function sendMessage(msg) {
-	
-	var chunk_size = 512;
-	var messages = [];
-	
-	let chunk = "";
-	while(true) {
-		let chunk = msg.substring(messages.length * chunk_size, (messages.length+1) * chunk_size);
-		
-		if(chunk.length > 0)
-			messages.push(chunk);
-		else
-			break;
-	}
-	
-	// if it's splitted append
-	if(messages.length > 1) {
-		messages.push("END OF SPLITTED MESSAGE");
-		console.log(JSON.stringify(messages))
-	}
-	
-	for(var i=0; i<messages.length; i++) {
-		let response = await fetch("http://127.0.0.1:" + port + "/API", {
-			headers: {
-				// if it's partial or not - big messages are divided in chucnks
-				// looks like i can't make POST request work
-				"size": messages.length,
-				// if it's splitted, identifier
-				"id": encodeURI(msg.substring(0, 15)),
-				// the message
-				"message": encodeURI(messages[i])
-			}
-		});
+			messaging.send("ok");
 	}
 }
 
@@ -114,7 +76,7 @@ function moveToPage(target, force_and_silent) {
 		let delta = target - pageNumber;
 		
 		if(Math.abs(delta) > 1 && !force_and_silent)
-			sendMessage("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
+			messaging.send("Jumping " + JSON.stringify({pageNumber: pageNumber}) + " " + JSON.stringify({pageNumber: target}))
 		
 		// update page number
 		pageNumber = target;
@@ -214,9 +176,9 @@ function afterRendering() {
 	// Communicate with QML
 	if(first_render) {
 		first_render = false;
-		sendMessage("Ready");
+		messaging.send("Ready");
 	}
-	sendMessage("status_requested");
+	messaging.send("status_requested");
 	
 	// update cache
 	if(!prev_canvas_ready)
@@ -273,7 +235,7 @@ function renderPage(target_page, scale, canvas_name, success, fail) {
 		}, fail
 	)
 }
-function renderFailCallback(reason) { sendMessage("page rendering failed: " + reason); }
+function renderFailCallback(reason) { messaging.send("page rendering failed: " + reason); }
 
 function tapPageTurn(ev) {
 	// do not move if zoomed
@@ -297,14 +259,14 @@ async function parseOutlineNode(ol, depth) {
 			var destination = await doc.getDestination(dest);
 			ref = destination[0];
 		} catch(err) {
-			sendMessage("# getDestination error: " + err);
+			messaging.send("# getDestination error: " + err);
 		}
 	}
 	
 	try {
 		o_pageNumber = 1 + await doc.getPageIndex(ref);
 	} catch(err) {
-		sendMessage("# getPageIndex error: " + err);
+		messaging.send("# getPageIndex error: " + err);
 	}
 	
 	outline.push({title: o_title, src: o_pageNumber, level: depth});
@@ -329,7 +291,7 @@ function transitionPageTurned() {
 
 window.onload = function() {
 	// set up QML
-	sendMessage("pictureBook");
+	messaging.send("pictureBook");
 	
 	// initalize canvas
 	document.getElementById("next-cache-canvas").style.visibility = "hidden";
@@ -364,7 +326,7 @@ window.onload = function() {
 			doc = pdf_obj;
 			first_render = true;
 			number_of_pages = doc.numPages;
-			sendMessage("numberOfPages " + number_of_pages);
+			messaging.send("numberOfPages " + number_of_pages);
 			// sanitize pageNumber accordingly to current new knowledge
 			pageNumber = Math.min(number_of_pages, pageNumber);
 			
@@ -373,17 +335,17 @@ window.onload = function() {
 				if(!ol) return;
 				
 				parseOutlineNodeArray(ol, 0).then( () => {
-					sendMessage("setContent " + JSON.stringify(outline));
+					messaging.send("setContent " + JSON.stringify(outline));
 					//sendMessage("setOutlineSize " + outline.length);
 					//for(var i=0; i<outline.length; i++)
 					//	sendMessage("setOutlineNode " + String(i) + " " + JSON.stringify(outline[i]));
-				}, ()=> sendMessage("# Error 414234") );
+				}, ()=> messaging.send("# Error 414234") );
 				
-			}, (reason) => sendMessage("# cannot fetch outline: " + reason) );
+			}, (reason) => messaging.send("# cannot fetch outline: " + reason) );
 			
 			// render
 			moveToPage(pageNumber, true);
-		}, (reason) => sendMessage("# file loading failed: " + reason)
+		}, (reason) => messaging.send("# file loading failed: " + reason)
 	);
 }
 window.onresize = function() {

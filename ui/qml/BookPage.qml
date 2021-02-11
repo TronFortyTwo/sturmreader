@@ -433,20 +433,6 @@ Page {
 			}
 			bookLoadingCompleted();
 			controls.open();
-		/* } else if(msg[0] == "setOutlineSize") {
-			contentsListModel.clear();
-			var num = Number(msg[0]);
-			for(var i=0; i<num; i++)
-				contentsListModel.append({});
-		} else if(msg[0] == "setOutlineNode") {
-			var index = Number(msg[1]);
-			var node = msg[2];
-			// append other strings in case there are spaces
-			if(msg.length > 3)
-				for(var i=3; i<msg.length; i++) node += " " + msg[i];
-			// parse
-			node = JSON.parse(node);
-			contentsListModel.insert(index, node); */
 		} else if(msg[0] == "setContent") {
 			contentsListModel.clear();
 			if(msg.length > 2)

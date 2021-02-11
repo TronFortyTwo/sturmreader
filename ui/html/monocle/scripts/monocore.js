@@ -870,9 +870,9 @@ Gala.dispatch = function (elem, evtType, data, cancelable) {
 	// launch events to the QML handler
 	// for some types of event we have special handlers
 	if(evtType == "monocle:link:external")
-		console.log(evtType + " " + data.link);
+		messaging.send(evtType + " " + data.link);
 	else
-		console.log(evtType);
+		messaging.send(evtType);
 		
   elem = Gala.$(elem);
   var evt;
@@ -2522,7 +2522,7 @@ Monocle.Reader = function (node, bookData, options, onLoadCallback) {
     if (!locus.direction) {
       dispatchEvent('monocle:turning');
       dispatchEvent('monocle:jumping', { locus: locus });
-	  console.log("Jumping " + JSON.stringify(getPlace().getLocus()) + " " + JSON.stringify(locus) );
+	  messaging.send("Jumping " + JSON.stringify(getPlace().getLocus()) + " " + JSON.stringify(locus) );
       fn = function () {
         dispatchEvent('monocle:jump', { locus: locus });
         if (callback) { callback(); }
@@ -2969,8 +2969,8 @@ Monocle.Book = function (dataSource, preloadWindow) {
           pageNumber: pageDiv.m.place.pageNumber(),
           componentId: locus.componentId
 		}
-		console.log("componentId " + locus.componentId);
-		console.log("status_requested")
+		messaging.send("componentId " + locus.componentId);
+		messaging.send("status_requested")
 		pageDiv.m.reader.dispatchEvent("monocle:pagechange", evtData);
       }
     }

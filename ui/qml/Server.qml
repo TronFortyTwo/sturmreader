@@ -59,10 +59,6 @@ Item {
 	property var partial_messages_store: ({})
     
 	function manageApiCall(message, size, id) {
-		console.log("message: " + message);
-		console.log("size: " + size);
-		console.log("id: " + id);
-		
 		if(size > 1) {
 			// end of message
 			if(message == "END OF SPLITTED MESSAGE") {

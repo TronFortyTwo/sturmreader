@@ -14,6 +14,7 @@ the GPL. See the file COPYING for full details.
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, user-scalable=no">
 
+<script src=".messaging.js"></script>
 <script src=".monocle/scripts/monocore.js"></script>
 <script src=".monocle/scripts/monoctrl.js"></script>
 <script src=".instantslider.js"></script>
@@ -35,9 +36,9 @@ function moveToPageRelative(num) {
 }
 
 function statusUpdate() {
-	console.log("chapter " + JSON.stringify( reader.getPlace().chapterSrc() ) );
-	console.log("percent " + JSON.stringify( reader.getPlace().percentageThrough() ) );
-	console.log("UpdatePage");
+	messaging.send("chapter " + JSON.stringify( reader.getPlace().chapterSrc() ) );
+	messaging.send("percent " + JSON.stringify( reader.getPlace().percentageThrough() ) );
+	messaging.send("UpdatePage");
 }
 function moveToChapter(chap){
 	reader.skipToChapter(chap);
@@ -53,14 +54,14 @@ window.onload = function () {
             var stencil = new Monocle.Controls.Stencil(reader);
             reader.addControl(stencil);
             styleManager.reader = reader;
-			console.log("Ready");
+			messaging.send("Ready");
         }
     );
 }
 
 window.onresize = function () {
 	if(reader) {
-		console.log("startLoading");
+		messaging.send("startLoading");
 		reader.resized();
 	}
 }
