@@ -12,7 +12,6 @@
         <file>qml/Scaling.qml</file>
         <file>qml/FloatingButton.qml</file>
         <file>qml/SwipeControl.qml</file>
-        <file>qml/Action.qml</file>
         <file>qml/Icon.qml</file>
         <file>qml/ImporterUT.qml</file>
         <file>qml/ImporterPortable.qml</file>

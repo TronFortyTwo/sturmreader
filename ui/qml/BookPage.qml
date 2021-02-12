@@ -9,7 +9,7 @@
  */
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 
 import "historystack.js" as History
@@ -264,7 +264,7 @@ Page {
 				max_size: controlRect.max_button_size
 				buttons: [
 					Action {
-						iconName: "go-home"
+						icon.name: "go-home"
 						onTriggered: {
 							// turn stuff off and exit
 							content.close();
@@ -282,7 +282,7 @@ Page {
 				max_size: controlRect.max_button_size
 				buttons: [
 					Action {
-						iconName: "undo"
+						icon.name: "undo"
 						enabled: canBack
 						onTriggered: {
 							var locus = history.goBackward()
@@ -294,7 +294,7 @@ Page {
 						}
 					},
 					Action {
-						iconName: "redo"
+						icon.name: "redo"
 						enabled: canForward
 						onTriggered: {
 							var locus = history.goForward()
@@ -315,14 +315,14 @@ Page {
 				
 				buttons: [
 					Action {
-						iconName: "go-previous"
+						icon.name: "go-previous"
 						onTriggered: {
 							bookLoadingStart()
 							bookWebView.runJavaScript("moveToPageRelative(-10)");
 						}
 					},
 					Action {
-						iconName: "go-next"
+						icon.name: "go-next"
 						onTriggered: {
 							bookLoadingStart()
 							bookWebView.runJavaScript("moveToPageRelative(10)");
@@ -336,7 +336,7 @@ Page {
 				max_size: controlRect.max_button_size
 				buttons: [
 					Action {
-						iconName: "book"
+						icon.name: "book"
 						onTriggered: {
 							content.open();
 							contentOpened();
@@ -351,7 +351,7 @@ Page {
 				max_size: controlRect.max_button_size
 				buttons: [
 					Action {
-						iconName: "settings"
+						icon.name: "settings"
 						onTriggered: {
 							bookSettings.openDialog()
 							controls.close();

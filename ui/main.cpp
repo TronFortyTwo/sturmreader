@@ -98,8 +98,7 @@ int main(int argc, char *argv[])
 	const int PLATFORM_ANDROID	= 1;	// Android
 	// What is required to port Sturm Reader to Android
 	// 1) Using QRC (done)
-	// 2) Not depending on WebEngineView (partial)
-	//		- Find a way to communicate with not WebEngine WebView
+	// 2) Not depending on WebEngineView (done)
 	// 3) Platform detection
 	// 4) Importing of files
 	// 5) CMake build configuration

@@ -9,7 +9,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.12
 
 
 Item {
@@ -58,17 +58,18 @@ Item {
                         width: size
                         height: size
 						
-						onClicked: modelData.triggered()
+						action: modelData
 						
 						Icon {
-							anchors {
-								verticalCenter: parent.verticalCenter
-								horizontalCenter: parent.horizontalCenter
-							}
+							anchors.verticalCenter: parent.verticalCenter
+							anchors.horizontalCenter: parent.horizontalCenter
+							
 							width: parent.width * 0.6
 							height: parent.height * 0.6
+							
+							name: modelData.icon.name
 							color: colors.item
-							name: modelData.iconName
+							
 							opacity: modelData.enabled ? 1.0 : 0.35
 						}
                     }
