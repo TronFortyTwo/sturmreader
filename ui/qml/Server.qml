@@ -93,8 +93,7 @@ Item {
 			else if (request.path == "/EPUB")
 				return static_file(":/html/monocle.html", response)
 			else if (request.path == "/CBZ")
-				// FIXME: should we return?
-				openConverter(reader.filename);
+				return openConverter(reader.filename);
 			// the pdf document
 			else if (request.path == "/book.pdf")
 				return static_file(reader.filename, response)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sturmreader.emanuelesorce\n"
 "Report-Msgid-Bugs-To: emanuele.sorce@hotmail.com\n"
-"POT-Creation-Date: 2021-02-12 17:39+0000\n"
+"POT-Creation-Date: 2021-02-25 15:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,27 +198,27 @@ msgstr ""
 msgid "Conversion required"
 msgstr ""
 
-#: ui/qml/Converter.qml:81
+#: ui/qml/Converter.qml:83
 msgid ""
 "The file that you tried to open needs to be converted to a format supported "
 "by Sturm Reader to be opened."
 msgstr ""
 
-#: ui/qml/Converter.qml:82
+#: ui/qml/Converter.qml:84
 msgid ""
 "This process is automatic and the book will be then available in your "
 "library."
 msgstr ""
 
-#: ui/qml/Converter.qml:83
+#: ui/qml/Converter.qml:85
 msgid "Press the button to start the process"
 msgstr ""
 
-#: ui/qml/Converter.qml:98
+#: ui/qml/Converter.qml:100
 msgid "Convert"
 msgstr ""
 
-#: ui/qml/Converter.qml:115
+#: ui/qml/Converter.qml:117
 msgid ""
 "Conversion failed: you can try importing the book again. You may check the "
 "logs for more details, or open an issue for support"

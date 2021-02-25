@@ -39,7 +39,6 @@ Page {
 			
 			Label {
 				width: parent.width
-				anchors.verticalCenter: parent.verticalCenter
 				text: gettext.tr("Conversion required")
 				font.pixelSize: headerTextSize()
 				wrapMode: Text.Wrap
@@ -68,6 +67,8 @@ Page {
 				conversionButton.visible = false;
 				converting_indicator.visible = false;
 			}
+			// update library
+			localBooks.readBookDir()
 		}
 	}
 	
