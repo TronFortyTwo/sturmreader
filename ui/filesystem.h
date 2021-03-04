@@ -28,9 +28,13 @@ public:
     Q_INVOKABLE bool remove(const QString &filename);
 	Q_INVOKABLE bool copy(const QString& source, const QString& dest);
 	
-	// TODO: maybe move to better place?
+	// TODO: maybe move next ones to better place? Is not very filesystemy
 	// convert the cbz file named cbzfile to a pdf file named pdffile
-	Q_INVOKABLE bool convertCbz2Pdf(const QString& cbzfile, const QString& pdffile);
+	Q_INVOKABLE
+	bool convertCbz2Pdf(const QString& cbzfile, const QString& pdffile);
+	// convert an extracted comic book to a pdf file
+	Q_INVOKABLE
+	bool convertComicDir2Pdf(const QString& comicdir, const QString& destpath, const QString& pdffile);
 };
 
 #endif // FILESYSTEM_H

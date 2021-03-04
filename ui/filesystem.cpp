@@ -99,8 +99,10 @@ QString FileSystem::fileType(const QString &filename) {
 		return "unreadable";
 
 	QByteArray bytes = file.read(64);
+	// PDF
 	if (bytes.left(4) == "%PDF") {
 		return "PDF";
+	// ZIP FILE (epub, cbz)
 	} else if (bytes.left(2) == "PK") {
 		if (bytes.mid(30, 28) == "mimetypeapplication/epub+zip")
 			return "EPUB";
@@ -136,21 +138,17 @@ bool FileSystem::copy(const QString& source, const QString& dest) {
 #include <quazipfile.h>
 #include <QProcess>
 #include <QFile>
+#include <QUrl>
 #include <QFileDevice>
 #include <JlCompress.h>
+#include <string>
 
 bool FileSystem::convertCbz2Pdf(const QString& cbzfile, const QString& pdffile) {
 	
-	// Destination must be clear - temp directory must not exist - source must exist
-	if(exists(pdffile)) {
-		qDebug() << "Pdf file already exists";
-		return false;
-	}
 	if(!exists(cbzfile)){
-		qDebug() << "CBZ file already exists";
+		qDebug() << "CBZ file doesn't exists";
 		return false;
 	}
-	
 	
 	// extract to temp directory
 	QString temp_dir = cbzfile + "_TEMP";
@@ -165,12 +163,51 @@ bool FileSystem::convertCbz2Pdf(const QString& cbzfile, const QString& pdffile) 
 		return false;
 	}
 	
+	if(exists(pdffile)) {
+		qDebug() << "Pdf file already exists";
+		return false;
+	}
+	
+	QStringList destpathlist = pdffile.split("/");
+	QString output_filename = destpathlist.takeLast();
+	QString destpath = destpathlist.join("/");
+	
+	int result = convertComicDir2Pdf(temp_dir, destpath, output_filename);
+	
+	// if successfull, remove CBZ file
+	if(result && !QFile(cbzfile).remove())
+		qDebug() << "cannot remove old CBZ file";
+	
+	return result;
+}
+
+bool FileSystem::convertComicDir2Pdf(const QString& comicdir, const QString& destpath, const QString& pdffile) {
+	qDebug() << "Converting comic dir " << comicdir << " in path " << destpath << " to file " << pdffile;
+	
+	QStringList files = QDir(comicdir).entryList(QDir::Files, QDir::Name);
+	QStringList dirs = QDir(comicdir).entryList(QDir::Dirs, QDir::Name);
+	
+	// if some conversion occurred
+	bool converted_something = false;
+	
+	// subfolders are other comics
+	for(int i=0; i<dirs.length(); i++) {
+		if(dirs[i] == "." || dirs[i] == "..") continue;
+		if(!convertComicDir2Pdf(comicdir + "/" + dirs[i], destpath, comicdir.split("/").takeLast() + " | " + dirs[i] + ".pdf")) {
+			qDebug() << "comic book subdirectory can't be turned in a book";
+			if(!QDir(comicdir).removeRecursively())
+				qDebug() << "cannot remove comic book directory";
+			return false;
+		}
+		else converted_something = true;
+	}
+	
 	// pick only the files of supported format
 	QStringList pages;
 	for(int i=0; i<files.length(); i++) {
-		
+		// this will store if it's a valid page
 		bool accepted = false;
-		// pages
+		
 		QStringList supported_extensions = {
 			// https://www.mankier.com/1/podofoimg2pdf
 			".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi",	// JPEG
@@ -183,6 +220,7 @@ bool FileSystem::convertCbz2Pdf(const QString& cbzfile, const QString& pdffile) 
 			".xml", ".config", ".json", ".acbf"
 		};
 		
+		// is a supported extension?
 		for(int e=0; e<supported_extensions.length(); e++){
 			if(files[i].endsWith(supported_extensions[e], Qt::CaseInsensitive)){
 				accepted = true;
@@ -191,8 +229,9 @@ bool FileSystem::convertCbz2Pdf(const QString& cbzfile, const QString& pdffile) 
 		}
 		
 		if(accepted)
-			pages << files[i];
+			pages << comicdir + "/" + files[i];
 		else {
+			// is an ignored extension?
 			bool ignore = false;
 			for(int e=0; e<ignored_extensions.length(); e++){
 				if(files[i].endsWith(ignored_extensions[e], Qt::CaseInsensitive)){
@@ -200,36 +239,44 @@ bool FileSystem::convertCbz2Pdf(const QString& cbzfile, const QString& pdffile) 
 					break;
 				}
 			}
-			if(!ignore){
+			// it is a fail!
+			if(!ignore) {
 				qDebug() << "unsupported image file: " << files[i];
-				if(!QDir(temp_dir).removeRecursively())
-					qDebug() << "cannot remove temp files";
+				if(!QDir(comicdir).removeRecursively())
+					qDebug() << "cannot remove comic book directory";
 				return false;
 			}
 		}
 	}
 	
-	// build pdf using podofoimg2pdf
-	QStringList conv_args;
-	conv_args << pdffile;
-	conv_args << pages;
+	if(!pages.empty()) {
+		// build pdf using podofoimg2pdf
+		QStringList conv_args;
+		conv_args << destpath + "/" + pdffile;
+		conv_args << pages;
 	
-	int result = QProcess::execute("podofoimg2pdf", conv_args);
+		qDebug() << "executing: podofoimg2pdf " << conv_args.join(" ");
+		int result = QProcess::execute("podofoimg2pdf", conv_args);
 	
-	if(result == -2)
-		qDebug() << "podofoimg2pdf process cannot be started";
-	else if(result == -1)
-		qDebug() << "podofoimg2pdf process crashed";
-	else if(result > 0)
-		qDebug() << "podofoimg2pdf process returned error: " << result;
+		if(result == -2)
+			qDebug() << "podofoimg2pdf process cannot be started";
+		else if(result == -1)
+			qDebug() << "podofoimg2pdf process crashed";
+		else if(result > 0)
+			qDebug() << "podofoimg2pdf process returned error: " << result;
 	
-	// clean up directory
-	if(!QDir(temp_dir).removeRecursively())
-		qDebug() << "cannot remove temp files";
+		// clean up directory
+		if(!QDir(comicdir).removeRecursively())
+			qDebug() << "cannot remove comic book directory";
 	
-	// if successfull, remove CBZ file
-	if(result == 0 && !QFile(cbzfile).remove())
-		qDebug() << "cannot remove old CBZ file";
-	
-	return result == 0;
+		return result == 0;
+	}
+	else {
+		if(!QDir(comicdir).removeRecursively())
+			qDebug() << "cannot remove comic book directory";
+		if(converted_something)
+			return true;
+		else
+			return false;
+	}
 }

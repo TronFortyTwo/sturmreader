@@ -92,8 +92,10 @@ Item {
 			// the monocle reader
 			else if (request.path == "/EPUB")
 				return static_file(":/html/monocle.html", response)
-			else if (request.path == "/CBZ")
-				return openConverter(reader.filename);
+			else if (request.path == "/CBZ") {
+				openConverter(reader.filename);
+				return received(response);
+			}
 			// the pdf document
 			else if (request.path == "/book.pdf")
 				return static_file(reader.filename, response)
