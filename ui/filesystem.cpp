@@ -182,8 +182,6 @@ bool FileSystem::convertCbz2Pdf(const QString& cbzfile, const QString& pdffile) 
 }
 
 bool FileSystem::convertComicDir2Pdf(const QString& comicdir, const QString& destpath, const QString& pdffile) {
-	qDebug() << "Converting comic dir " << comicdir << " in path " << destpath << " to file " << pdffile;
-	
 	QStringList files = QDir(comicdir).entryList(QDir::Files, QDir::Name);
 	QStringList dirs = QDir(comicdir).entryList(QDir::Dirs, QDir::Name);
 	
@@ -255,7 +253,6 @@ bool FileSystem::convertComicDir2Pdf(const QString& comicdir, const QString& des
 		conv_args << destpath + "/" + pdffile;
 		conv_args << pages;
 	
-		qDebug() << "executing: podofoimg2pdf " << conv_args.join(" ");
 		int result = QProcess::execute("podofoimg2pdf", conv_args);
 	
 		if(result == -2)

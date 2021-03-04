@@ -177,16 +177,17 @@ Page {
 				return;
 			}
 			
+			// DON'T Convert right now, but let the conversion been made at first opening
 			// if it's a CBZ, convert to a pdf
-			if(ext.toLowerCase() == "cbz") {
-				var new_newfilename = dir + "/" + basename + "(" + i + ").pdf";
-				if(!filesystem.convertCbz2Pdf(book.importName, new_newfilename)){
-					console.log("error converting");
-					book.state = importState.error;
-					return;
-				}
-				book.importName = new_newfilename;
-			}
+			//if(ext.toLowerCase() == "cbz") {
+				//var new_newfilename = dir + "/" + basename + "(" + i + ").pdf";
+				//if(!filesystem.convertCbz2Pdf(book.importName, new_newfilename)){
+					//console.log("error converting");
+					//book.state = importState.error;
+					//return;
+				//}
+				//book.importName = new_newfilename;
+			//}
 			
 			book.item.url = book.importName;
 			localBooks.addFile(book.importName, true);
