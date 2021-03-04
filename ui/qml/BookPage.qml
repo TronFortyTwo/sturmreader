@@ -266,12 +266,9 @@ Page {
 					Action {
 						icon.name: "go-home"
 						onTriggered: {
-							// turn stuff off and exit
 							content.close();
 							controls.close();
-							controls.interactive = false;
-							pageStack.pop()
-							mainView.title = mainView.defaultTitle
+							closeFile();
 						}
 					}
 				]

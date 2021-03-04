@@ -158,7 +158,15 @@ ApplicationWindow {
 		converter.converted_filename = dir + "/" + newfilename;
 	}
 	
+	// close file
+	function closeFile() {
+		while (pageStack.currentItem != localBooks)
+			pageStack.pop()
+		bookPage.destroy();
+		mainView.title = mainView.defaultTitle;
+	}
 	
+	// Open file
     function loadFile(filename) {
         if (server.reader.load(filename)) {
             while (pageStack.currentItem != localBooks)
