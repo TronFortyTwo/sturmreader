@@ -368,18 +368,6 @@ Page {
         running: opacity != 0
     }
 	
-	Label {
-		visible: pictureBook
-		text: "" + (pdf_pageNumber == 0 ? "-" : pdf_pageNumber) + "/" + (pdf_numberOfPages == 0 ? "-" : pdf_numberOfPages)
-		anchors.bottom: parent.bottom
-		anchors.bottomMargin: scaling.dp(5)
-		anchors.rightMargin: scaling.dp(5)
-		anchors.right: parent.right
-		font.pixelSize: scaling.dp(12)
-		// TODO: page number is not visible if pdf page is of the same color on landscape
-		color: bookSettings.infoColor
-	}
-	
 	Browser {
 		id: bookWebView
 		anchors.fill: parent
@@ -406,6 +394,20 @@ Page {
 		}
 	}
 	
+	// Below browser so that it get drawn over it
+	Label {
+		visible: pictureBook
+		text: "" + (pdf_pageNumber == 0 ? "-" : pdf_pageNumber) + "/" + (pdf_numberOfPages == 0 ? "-" : pdf_numberOfPages)
+		anchors.bottom: parent.bottom
+		anchors.bottomMargin: scaling.dp(5)
+		anchors.rightMargin: scaling.dp(5)
+		anchors.right: parent.right
+		font.pixelSize: scaling.dp(12)
+		// TODO: page number is not visible if pdf page is of the same color on landscape
+		color: bookSettings.infoColor
+	}
+	
+	// parse messages the html side running in the browser send us using the server.
 	function parseApiCall( message ) {
 		console.log("Book: " + message);
 		
