@@ -1,0 +1,114 @@
+3.3.3
+- Major performance improvements
+- cbz: added support for cbz containing multiple comics (#47)
+- pdf: added slider to tune render quality
+- pdf: added bottom page number label
+- Various fixes and improvements
+- Updated translations (Thanks!)
+
+3.3.0 - 3.3.2
+- CBZ comics now use the pdf reader for big improvements! 
+- Added support for some common non-standard EPUB variations
+- Fixed forgetting of book styles (#38)
+- Scaling and layout improvements
+- Translations updated
+- Minor fixes and improvements
+
+3.2.5 - Fixes and improvements
+
+3.2.4
+- Improved page caching and stability in pdf files
+- Various fix and improvements
+
+3.2.3
+- Ported to Alpine Linux (postmarketOS)!
+- Minor improvements
+
+3.2.2
+- Improved new pdf viewer, is now considered stable enough to be default
+- Fixes and improvements
+
+3.2.0 - 3.2.1
+- Improved home to be a lot faster and smoother, even with hundreds of books on low end devices
+- Huge backend code changes (will be useful later)
+- Minor fixes
+- Updated french translation (Thanks Anne017)
+
+3.1.4 - Implemented working links in .epub files
+
+3.1.3
+- Added page navigation for the new pdf reader
+- Lots of fixes
+
+3.1.2 - Fixed broken translations
+
+3.1.1 - Fixed layout issue on some devices, german translation (thanks Danfro!)
+
+3.1.0 - BRAND NEW PDF VIEWER! With zoom! (almost)
+- The most awaited feature is finally here! The pdf viewer has been rewritten from the ground up using fresh technologies. Since it's still in an early stage and some features are still missing (such as page turning animations) the old viewer is enabled by default but you can turn it off in the app settings. Stay tuned for more updates!
+- Minor fixes
+
+3.0.3 - UI fixes (following Ubuntu Touch HIG), and bug fixes
+
+3.0.2 - Fixed broken content navigation on some e-books
+
+3.0.1 - fixes
+
+3.0.0
+- Rewrote the whole user interface to use Qt Quick Controls 2 instead of the Ubuntu Touch UI Toolkit (Thanks Rodney Dawes for some code from the Ergo toolkit!), fixing many bugs in the process.
+- French translation updated (thanks Anne017!)
+
+2.2.3
+- fixed Load default style button
+- few theme changes
+
+2.2.2 - updated Dutch translation (thanks Heimen Stoffels!)
+
+2.2.1
+- Improved navigation bar
+- fixes
+
+2.2.0 - Moved database away from U1db 
+
+2.1.3 - Little fix on last page read saving
+
+2.1.2 - Hotfix for #22: Importing results in broken books
+
+2.1.1
+- Moved to QtWebEngine
+- Updated Monocle backend
+- Improved animations performance
+
+2.1.0 - Unstable preview of 2.1.1, published only for arm64 and amd64 to fix a critical bug.
+
+2.0.9
+- New icon! Thanks Joan Cibersheep!
+- Translations fix
+
+2.0.8
+- multiarch support
+- deprecated plus version
+
+2.0.7
+- Reworked build system
+- Fixed typo
+
+2.0.6.1 - Fixed #8: 'get books' button with empty library was not working
+
+2.0.6 - Xenial release
+
+2.0.5 - Updated catalan translation, thanks Cibersheep!
+
+2.0.4 - Translations hotfix!
+
+2.0.3 - Updated spanish translation, thanks Advocatux!
+
+2.0.2
+- Updated italian translation
+- Project links updated
+
+2.0.1
+- fixed icon
+- tiny fixes
+
+2.0.0 - Initial release
